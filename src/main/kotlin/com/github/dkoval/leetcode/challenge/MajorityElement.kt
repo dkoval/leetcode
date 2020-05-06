@@ -10,16 +10,21 @@ object MajorityElement {
 
     fun majorityElement(nums: IntArray): Int {
         val frequenciesByNum = frequencies(nums)
-        var majorityElement: Pair<Int, Int>? = null
+        var majorityElement: MajorityElement? = null
         for ((num, frequency) in frequenciesByNum.entries) {
             if (frequency > nums.size / 2) {
-                if (majorityElement == null || frequency > majorityElement.second) {
-                    majorityElement = num to frequency
+                if (majorityElement == null) {
+                    majorityElement = MajorityElement(num, frequency)
+                } else if (frequency > majorityElement.frequency) {
+                    majorityElement.num = num
+                    majorityElement.frequency = frequency
                 }
             }
         }
-        return majorityElement?.first ?: throw IllegalStateException("No majority element found")
+        return majorityElement?.num ?: throw IllegalStateException("No majority element found")
     }
+
+    private data class MajorityElement(var num: Int, var frequency: Int)
 
     private fun frequencies(nums: IntArray): Map<Int, Int> {
         val result = mutableMapOf<Int, Int>()
