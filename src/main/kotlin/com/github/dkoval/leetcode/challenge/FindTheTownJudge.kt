@@ -29,12 +29,7 @@ object FindTheTownJudge {
     private fun buildTrustTable(trust: Array<IntArray>): Map<Int, Set<Int>> {
         val result = mutableMapOf<Int, MutableSet<Int>>()
         for ((a, b) in trust) {
-            val trustsTo = result[a]
-            if (trustsTo != null) {
-                trustsTo.add(b)
-            } else {
-                result[a] = mutableSetOf(b)
-            }
+            result.getOrPut(a) { mutableSetOf() }.add(b)
         }
         return result
     }
