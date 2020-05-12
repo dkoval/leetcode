@@ -1,4 +1,4 @@
-package com.github.dkoval.leetcode.interview
+package com.github.dkoval.leetcode.interview.array
 
 /**
  * [Intersection of Two Arrays](https://leetcode.com/explore/featured/card/top-interview-questions-easy/92/array/674/)

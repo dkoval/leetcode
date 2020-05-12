@@ -1,4 +1,4 @@
-package com.github.dkoval.leetcode.interview
+package com.github.dkoval.leetcode.interview.array
 
 /**
  * [Move Zeros](https://leetcode.com/explore/interview/card/top-interview-questions-easy/92/array/567/)

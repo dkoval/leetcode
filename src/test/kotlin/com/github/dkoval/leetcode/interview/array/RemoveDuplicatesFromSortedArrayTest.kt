@@ -1,4 +1,4 @@
-package com.github.dkoval.leetcode.interview
+package com.github.dkoval.leetcode.interview.array
 
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
