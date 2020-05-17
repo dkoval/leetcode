@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import kotlin.math.max
+import kotlin.math.min
 
 /**
  * [Maximum Sum Circular Subarray](https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/536/week-3-may-15th-may-21st/3330/)
@@ -15,23 +16,20 @@ import kotlin.math.max
 object MaximumSumCircularSubarray {
 
     fun maxSubarraySumCircular(A: IntArray): Int {
-        val k = kadane(A)
-        var sum = 0
-        for (i in A.indices) {
-            sum += A[i]
-            A[i] = -A[i]
+        var totalSum = 0
+        var maxEndingAt = 0
+        var minEndingAt = 0
+        var maxSum = Int.MIN_VALUE
+        var minSum = Int.MAX_VALUE
+        for (x in A) {
+            totalSum += x
+            // Kadane's algorithm to find MAX sum subarray
+            maxEndingAt = max(maxEndingAt + x, x)
+            maxSum = max(maxEndingAt, maxSum)
+            // Kadane's algorith to find MIN sum subarray
+            minEndingAt = min(minEndingAt + x, x)
+            minSum = min(minEndingAt, minSum)
         }
-        val circularSum = sum + kadane(A)
-        return if (circularSum > k && circularSum != 0) circularSum else k
-    }
-
-    private fun kadane(A: IntArray): Int {
-        var curSum = A[0]
-        var maxSum = curSum
-        for (i in 1 until A.size) {
-            curSum = max(A[i], curSum + A[i])
-            maxSum = max(curSum, maxSum)
-        }
-        return maxSum
+        return if (maxSum > 0) max(maxSum, totalSum - minSum) else maxSum
     }
 }
