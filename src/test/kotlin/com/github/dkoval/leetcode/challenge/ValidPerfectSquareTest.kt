@@ -15,7 +15,8 @@ internal class ValidPerfectSquareTest {
             Arguments.of(4539, false),
             Arguments.of(5776, true),
             Arguments.of(808201, true),
-            Arguments.of(2147483647, false)
+            Arguments.of(2147483647, false),
+            Arguments.of(2147395600, true)
         )
     }
 

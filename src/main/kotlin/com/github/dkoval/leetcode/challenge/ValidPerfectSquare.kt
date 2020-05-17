@@ -1,5 +1,8 @@
 package com.github.dkoval.leetcode.challenge
 
+import kotlin.math.abs
+import kotlin.math.roundToInt
+
 /**
  * [Valid Perfect Square](https://leetcode.com/explore/featured/card/may-leetcoding-challenge/535/week-2-may-8th-may-14th/3324/)
  *
@@ -9,13 +12,17 @@ package com.github.dkoval.leetcode.challenge
 object ValidPerfectSquare {
 
     fun isPerfectSquare(num: Int): Boolean {
-        // Newton's Method modified for integer arithmetic
-        var x1 = num
-        var x2 = 1
-        while (x1 > x2) {
-            x1 = x2 + (x1 - x2) / 2 // prevents int overflow, is the same as (x1 + x2) / 2
-            x2 = num / x1
+        fun isGoodApproximation(estimate: Double): Boolean =
+            abs(estimate * estimate - num) / num < 1e-6
+
+        // Newton's Method https://en.wikipedia.org/wiki/Newton%27s_method
+        // x[n + 1] = x[n] - f(x[n]) / f'(x[n])
+        // In our case: f(x) = x^2 - n
+        var estimate = 1.0
+        while (!isGoodApproximation(estimate)) {
+            estimate = 0.5 * (estimate + num / estimate)
         }
-        return x1 == x2 && num % x1 == 0
+        val root = estimate.roundToInt()
+        return root * root == num
     }
 }
