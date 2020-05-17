@@ -17,8 +17,8 @@ object OddEvenLinkedList {
             return null
         }
 
-        val odd = ListNodeHeadAndCurrent()
-        val even = ListNodeHeadAndCurrent()
+        val odd = ListNodeExt()
+        val even = ListNodeExt()
 
         var current = head
         var count = 1
@@ -29,22 +29,23 @@ object OddEvenLinkedList {
             count++
         }
 
-        odd.current?.next = even.head
-        even.current?.next = null
+        odd.last?.next = even.head
+        even.last?.next = null
         return odd.head
     }
 
-    private class ListNodeHeadAndCurrent(
+    private class ListNodeExt(
         var head: ListNode? = null,
-        var current: ListNode? = head
+        var last: ListNode? = head
     ) {
-        fun append(node: ListNode): ListNodeHeadAndCurrent {
+
+        fun append(node: ListNode): ListNodeExt {
             if (head == null) {
                 head = node
-                current = head
+                last = head
             } else {
-                current?.next = node
-                current = node
+                last?.next = node
+                last = node
             }
             return this
         }
