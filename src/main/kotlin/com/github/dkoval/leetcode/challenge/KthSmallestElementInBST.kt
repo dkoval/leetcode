@@ -2,6 +2,14 @@ package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.TreeNode
 
+/**
+ * [Kth Smallest Element in a BST](https://leetcode.com/explore/featured/card/may-leetcoding-challenge/536/week-3-may-15th-may-21st/3335/)
+ *
+ * Given a binary search tree, write a function kthSmallest to find the kth smallest element in it.
+ *
+ * Note:
+ * You may assume k is always valid, 1 ≤ k ≤ BST's total elements.
+ */
 object KthSmallestElementInBST {
 
     fun kthSmallest(root: TreeNode?, k: Int): Int = doKthSmallest(root, k, MutableInt(0))
