@@ -18,8 +18,10 @@ internal class ReverseIntegerTest {
             Arguments.of(1, 1),
             Arguments.of(100, 1),
             Arguments.of(-100, -1),
+            // overflow scenarios
             Arguments.of(1534236469, 0),
-            Arguments.of(1563847412, 0)
+            Arguments.of(1563847412, 0),
+            Arguments.of(-2147483648, 0)
         )
     }
 

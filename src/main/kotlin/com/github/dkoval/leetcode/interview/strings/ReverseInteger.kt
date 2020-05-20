@@ -1,7 +1,5 @@
 package com.github.dkoval.leetcode.interview.strings
 
-import java.util.*
-
 /**
  * [Reverse Integer](https://leetcode.com/explore/featured/card/top-interview-questions-easy/127/strings/880/)
  *
@@ -9,59 +7,24 @@ import java.util.*
  */
 object ReverseInteger {
 
-    fun reverse(x: Int): Int = when {
-        x < 0 -> -reversePositiveInt(-x)
-        x > 0 -> reversePositiveInt(x)
-        else -> 0
-    }
-
-    private fun reversePositiveInt(x: Int): Int {
-        val digits = digitsInReverseOrder(x)
-        return convertToInt(digits)
-    }
-
-    private fun digitsInReverseOrder(x: Int): Deque<Int> {
+    fun reverse(x: Int): Int {
         var num = x
-        val digits = LinkedList<Int>()
-        var seenFirstNonZero = false
+        var result = 0
         while (num != 0) {
             val digit = num % 10
-            // ignore trailing zeros
-            if (digit > 0 && !seenFirstNonZero) {
-                seenFirstNonZero = true
-            }
-            if (seenFirstNonZero) {
-                digits.add(digit)
-            }
             num /= 10
-        }
-        return digits
-    }
-
-    private fun convertToInt(digits: Deque<Int>): Int {
-        // max 32-bit signed integer is 2147483647
-        if (digits.size > 10 || digits.size == 10 && digits.peekFirst() > 2) {
-            // handle overflow
-            return 0
-        }
-        var result = 0
-        for (i in digits.size - 1 downTo 0) {
-            result += digits.pop() * 10.pow(i)
-            if (result < 0) {
-                // handle overflow
+            // Handle overflow beforehand ([min; max] 32-bit signed integers are [-2147483648; 2147483647]):
+            // - if result > Int.MAX_VALUE / 10, then result * 10 + digit is guaranteed to overflow
+            // - if result == Int.MAX_VALUE / 10, then result * 10 + digit overflows IFF digit > 7, i.e. last digit of Int.MAX_VALUE
+            // - if result < Int.MIN_VALUE / 10, then result * 10 + digit is guaranteed to overflow
+            // - if result == Int.MIN_VALUE / 10, then result * 10 + digit overflows IFF digit < -8. i.e. last digit of Int.MIN_VALUE
+            if (result > Int.MAX_VALUE / 10 || (result == Int.MAX_VALUE / 10 && digit > Int.MAX_VALUE % 10)) {
                 return 0
             }
-        }
-        return result
-    }
-
-    private fun Int.pow(n: Int): Int {
-        if (n < 0) {
-            throw IllegalArgumentException("n must be a non-negative integer")
-        }
-        var result = 1
-        for (i in 1..n) {
-            result *= this
+            if (result < Int.MIN_VALUE / 10 || (result == Int.MAX_VALUE && digit < Int.MIN_VALUE % 10)) {
+                return 0
+            }
+            result = result * 10 + digit
         }
         return result
     }
