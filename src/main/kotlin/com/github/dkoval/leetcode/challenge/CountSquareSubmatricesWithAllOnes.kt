@@ -15,15 +15,17 @@ object CountSquareSubmatricesWithAllOnes {
     fun countSquares(matrix: Array<IntArray>): Int {
         val n = matrix.size
         val m = matrix[0].size
-        val dp = Array(n + 1) { IntArray(m + 1) }
+        val cache = Array(n) { IntArray(m) } // (i, j) pair denotes bottom-right corner of a square
         var count = 0
-        for (i in 1..n) {
-            for (j in 1..m) {
-                if (matrix[i - 1][j - 1] == 1) {
-                    // take min of (previous column, previous row, previous diagonal) + 1
-                    dp[i][j] = min(min(dp[i][j - 1], dp[i - 1][j]), dp[i - 1][j - 1]) + 1
-                    count += dp[i][j]
+        for (i in 0 until n) {
+            for (j in 0 until m) {
+                if (i == 0 || j == 0) {
+                    cache[i][j] = matrix[i][j]
+                } else if (matrix[i][j] == 1) {
+                    // explore previous column, previous row and previous diagonal
+                    cache[i][j] = 1 + min(min(cache[i][j - 1], cache[i - 1][j]), cache[i - 1][j - 1])
                 }
+                count += cache[i][j]
             }
         }
         return count
