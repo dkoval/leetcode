@@ -8,10 +8,7 @@ package com.github.dkoval.leetcode.challenge
 object SortCharactersByFrequency {
 
     fun frequencySort(s: String): String {
-        val frequencies = mutableMapOf<Char, Int>()
-        for (ch in s) {
-            frequencies[ch] = frequencies.getOrDefault(ch, 0) + 1
-        }
+        val frequencies = s.groupingBy { it }.eachCount()
         val sortedByFrequency = frequencies.entries.sortedByDescending { (_, frequency) -> frequency }
         val result = StringBuilder()
         for ((ch, frequency) in sortedByFrequency) {
