@@ -31,6 +31,24 @@ internal class IntervalListIntersectionsTest {
                     intArrayOf(24, 24),
                     intArrayOf(25, 25)
                 )
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(1, 5)
+                ),
+                arrayOf(
+                    intArrayOf(5, 7)
+                ),
+                arrayOf(intArrayOf(5, 5))
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(5, 7)
+                ),
+                arrayOf(
+                    intArrayOf(1, 5)
+                ),
+                arrayOf(intArrayOf(5, 5))
             )
         )
     }
