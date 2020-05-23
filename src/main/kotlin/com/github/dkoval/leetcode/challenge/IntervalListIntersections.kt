@@ -22,7 +22,7 @@ object IntervalListIntersections {
             if (start <= end) {
                 result.add(intArrayOf(start, end))
             }
-            // for the interval with smaller upper boundary, set the pointer to the next item in the list of intervals
+            // discard the interval with smaller upper boundary
             if (A[i][1] < B[j][1]) {
                 i++
             } else {
