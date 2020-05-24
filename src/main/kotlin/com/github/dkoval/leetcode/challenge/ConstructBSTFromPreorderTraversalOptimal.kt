@@ -7,11 +7,45 @@ import com.github.dkoval.leetcode.TreeNode
  *
  * Return the root node of a binary search tree that matches the given preorder traversal.
  */
-object ConstructBSTFromPreorderTraversal {
+interface ConstructBSTFromPreorderTraversal {
 
-    fun bstFromPreorder(preorder: IntArray): TreeNode? =
+    fun bstFromPreorder(preorder: IntArray): TreeNode?
+}
+
+// Time complexity - O(N^2)
+object ConstructBSTFromPreorderTraversalSimple: ConstructBSTFromPreorderTraversal {
+
+    override fun bstFromPreorder(preorder: IntArray): TreeNode? {
+        if (preorder.isEmpty()) {
+            return null
+        }
+        val root = TreeNode(preorder[0])
+        for (i in 1 until preorder.size) {
+            insertToBST(root, preorder[i])
+        }
+        return root
+    }
+
+    private fun insertToBST(root: TreeNode?, value: Int): TreeNode {
+        if (root == null) {
+            return TreeNode(value)
+        }
+        if (value < root.`val`) {
+            root.left = insertToBST(root.left, value)
+        } else {
+            root.right = insertToBST(root.right, value)
+        }
+        return root
+    }
+}
+
+// Time complexity - O(N)
+object ConstructBSTFromPreorderTraversalOptimal: ConstructBSTFromPreorderTraversal {
+
+    override fun bstFromPreorder(preorder: IntArray): TreeNode? =
         buildBSTFromPreorder(preorder, Index(0), Int.MIN_VALUE, Int.MAX_VALUE)
 
+    // Resource: https://www.youtube.com/watch?v=9sw8RRsBw6s
     private fun buildBSTFromPreorder(
         preorder: IntArray,
         index: Index,

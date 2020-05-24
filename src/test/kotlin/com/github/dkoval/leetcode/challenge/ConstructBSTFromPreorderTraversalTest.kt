@@ -12,7 +12,11 @@ internal class ConstructBSTFromPreorderTraversalTest {
     companion object {
         @JvmStatic
         fun input(): List<Arguments> = listOf(
-            Arguments.arguments(
+            Arguments.of(
+                intArrayOf(),
+                null
+            ),
+            Arguments.of(
                 intArrayOf(8, 5, 1, 7, 10, 12),
                 TreeNode(8).apply {
                     left = TreeNode(5).apply {
@@ -29,11 +33,28 @@ internal class ConstructBSTFromPreorderTraversalTest {
 
     @ParameterizedTest
     @MethodSource("input")
-    fun `should return the root node of a BST that matches the given preorder traversal`(
+    fun `simple solution should return the root node of a BST that matches the given preorder traversal`(
         preorder: IntArray,
         expected: TreeNode?
     ) {
-        val actual = ConstructBSTFromPreorderTraversal.bstFromPreorder(preorder)
+        testSolution(preorder, expected, ConstructBSTFromPreorderTraversalSimple)
+    }
+
+    @ParameterizedTest
+    @MethodSource("input")
+    fun `optimal solution should return the root node of a BST that matches the given preorder traversal`(
+        preorder: IntArray,
+        expected: TreeNode?
+    ) {
+       testSolution(preorder, expected, ConstructBSTFromPreorderTraversalOptimal)
+    }
+
+    private fun testSolution(
+        preorder: IntArray,
+        expected: TreeNode?,
+        solution: ConstructBSTFromPreorderTraversal
+    ) {
+        val actual = solution.bstFromPreorder(preorder)
         assertTrue(expected.equalsTo(actual))
     }
 }
