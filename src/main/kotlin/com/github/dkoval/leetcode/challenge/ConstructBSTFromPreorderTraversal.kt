@@ -9,8 +9,6 @@ import com.github.dkoval.leetcode.TreeNode
  */
 object ConstructBSTFromPreorderTraversal {
 
-    private class Index(var value: Int)
-
     fun bstFromPreorder(preorder: IntArray): TreeNode? =
         buildBSTFromPreorder(preorder, Index(0), Int.MIN_VALUE, Int.MAX_VALUE)
 
@@ -26,18 +24,20 @@ object ConstructBSTFromPreorderTraversal {
         }
 
         // check if the next element of preorder traversal is in [min; max] range
-        val key = preorder[index.value]
-        if (key < min || key > max) {
+        val value = preorder[index.value]
+        if (value < min || value > max) {
             return null
         }
 
-        val root = TreeNode(key)
+        val root = TreeNode(value)
         index.value++
 
-        // all keys in the left sub-tree of a BST must be less than the key of root node
-        root.left = buildBSTFromPreorder(preorder, index, min, key - 1)
-        // all keys in the right sub-tree of a BST must be greater than the key of root node
-        root.right = buildBSTFromPreorder(preorder, index, key + 1, max)
+        // all values in the left sub-tree of a BST must be less than the value of root node
+        root.left = buildBSTFromPreorder(preorder, index, min, value - 1)
+        // all values in the right sub-tree of a BST must be greater than the value of root node
+        root.right = buildBSTFromPreorder(preorder, index, value + 1, max)
         return root
     }
+
+    private class Index(var value: Int)
 }
