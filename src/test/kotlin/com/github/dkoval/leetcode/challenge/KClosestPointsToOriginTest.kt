@@ -37,12 +37,31 @@ internal class KClosestPointsToOriginTest {
 
     @ParameterizedTest
     @MethodSource("input")
-    fun `should find the K closest points to the origin (0, 0)`(
+    fun `should find the K closest points to the origin (0, 0) for solution using sorting`(
         points: Array<IntArray>,
         K: Int,
         expected: Array<IntArray>
     ) {
-        val actual = KClosestPointsToOrigin.kClosest(points, K)
+        testSolution(points, K, expected, KClosestPointsToOriginUsingSorting)
+    }
+
+    @ParameterizedTest
+    @MethodSource("input")
+    fun `should find the K closest points to the origin (0, 0) for solution using PriorityQueue`(
+        points: Array<IntArray>,
+        K: Int,
+        expected: Array<IntArray>
+    ) {
+        testSolution(points, K, expected, KClosestPointsToOriginUsingPriorityQueue)
+    }
+
+    private fun testSolution(
+        points: Array<IntArray>,
+        K: Int,
+        expected: Array<IntArray>,
+        solution: KClosestPointsToOrigin
+    ) {
+        val actual = solution.kClosest(points, K)
         assertThat(actual).containsExactly(*expected)
     }
 }
