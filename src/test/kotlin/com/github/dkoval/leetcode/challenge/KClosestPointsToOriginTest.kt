@@ -62,6 +62,6 @@ internal class KClosestPointsToOriginTest {
         solution: KClosestPointsToOrigin
     ) {
         val actual = solution.kClosest(points, K)
-        assertThat(actual).containsExactly(*expected)
+        assertThat(actual).containsExactlyInAnyOrder(*expected)
     }
 }
