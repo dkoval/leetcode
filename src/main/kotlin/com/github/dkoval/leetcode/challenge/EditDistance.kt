@@ -14,7 +14,9 @@ import kotlin.math.min
  */
 object EditDistance {
 
-    // Resource: https://www.gohired.in/2019/10/10/leetcode-edit-distance/
+    // Resources:
+    // https://www.youtube.com/watch?v=We3YDTzNXEk
+    // https://www.gohired.in/2019/10/10/leetcode-edit-distance/
     fun minDistance(word1: String, word2: String): Int {
         // DP solution, where
         // dp[i][j] is the min number of operations to make
