@@ -6,12 +6,23 @@ class ListNode(var `val`: Int) {
     var next: ListNode? = null
 }
 
+fun ListNode?.find(value: Int): ListNode? {
+    var curr = this
+    while (curr != null) {
+        if (curr.`val` == value) {
+            return curr
+        }
+        curr = curr.next
+    }
+    return null
+}
+
 fun ListNode?.toList(): List<Int> {
     val result = LinkedList<Int>()
-    var current = this
-    while (current != null) {
-        result.add(current.`val`)
-        current = current.next
+    var curr = this
+    while (curr != null) {
+        result.add(curr.`val`)
+        curr = curr.next
     }
     return result
 }
