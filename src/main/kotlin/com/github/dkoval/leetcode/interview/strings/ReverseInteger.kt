@@ -21,7 +21,7 @@ object ReverseInteger {
             if (result > Int.MAX_VALUE / 10 || (result == Int.MAX_VALUE / 10 && digit > Int.MAX_VALUE % 10)) {
                 return 0
             }
-            if (result < Int.MIN_VALUE / 10 || (result == Int.MAX_VALUE && digit < Int.MIN_VALUE % 10)) {
+            if (result < Int.MIN_VALUE / 10 || (result == Int.MIN_VALUE / 10 && digit < Int.MIN_VALUE % 10)) {
                 return 0
             }
             result = result * 10 + digit
