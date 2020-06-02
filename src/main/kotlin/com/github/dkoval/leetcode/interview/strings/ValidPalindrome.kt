@@ -24,7 +24,6 @@ object ValidPalindrome {
             i++
             j--
         }
-
         return true
     }
 }
