@@ -13,6 +13,7 @@ object CoinChange2 {
     // https://www.youtube.com/watch?v=Nvrhx4lbfLI
     fun change(amount: Int, coins: IntArray): Int {
         val dp = Array(coins.size + 1) { IntArray(amount + 1) }
+        // dp[i][j] denotes the number of ways amount j can be made with coins[0:i]
         // initializing 1st column of the `dp` 2D-array to 1
         // because zero-amount can be made in one possible way: {0}
         for (i in 0..coins.size) {
