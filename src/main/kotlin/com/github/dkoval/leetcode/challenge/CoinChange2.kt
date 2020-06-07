@@ -8,6 +8,9 @@ package com.github.dkoval.leetcode.challenge
  */
 object CoinChange2 {
 
+    // Resources:
+    // https://www.educative.io/edpresso/coin-change-problem-2-finding-the-number-of-ways-to-make-a-sum
+    // https://www.youtube.com/watch?v=Nvrhx4lbfLI
     fun change(amount: Int, coins: IntArray): Int {
         val dp = Array(coins.size + 1) { IntArray(amount + 1) }
         // initializing 1st column of the `dp` 2D-array to 1
@@ -17,14 +20,14 @@ object CoinChange2 {
         }
         // recursive solution
         for (i in 1..coins.size) {
-            for (currentAmount in 0..amount) {
-                dp[i][currentAmount] = if (coins[i - 1] > currentAmount) {
+            for (requiredAmount in 0..amount) {
+                dp[i][requiredAmount] = if (coins[i - 1] > requiredAmount) {
                     // can't pick the highest coin
-                    dp[i - 1][currentAmount]
+                    dp[i - 1][requiredAmount]
                 } else {
                     // pick the highest coin
-                    val remainingAmount = currentAmount - coins[i - 1]
-                    dp[i - 1][currentAmount] + dp[i][remainingAmount]
+                    val remainingAmount = requiredAmount - coins[i - 1]
+                    dp[i - 1][requiredAmount] + dp[i][remainingAmount]
                 }
             }
         }
