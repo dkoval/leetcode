@@ -8,9 +8,6 @@ package com.github.dkoval.leetcode.challenge
 object IsSubsequence {
 
     fun isSubsequence(s: String, t: String): Boolean {
-        if (s.length > t.length) {
-            return false
-        }
         var i = 0
         var j = 0
         while (i < s.length && j < t.length) {
