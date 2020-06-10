@@ -18,12 +18,18 @@ object SearchInsertPosition {
         }
         var l = 0
         var r = nums.lastIndex
-        while (l < r) {
+        while (l <= r) {
             val m = l + (r - l) / 2
-            if (target > nums[m]) {
-                l = m + 1
-            } else {
-                r = m
+            when {
+                target > nums[m] -> {
+                    l = m + 1
+                }
+                target < nums[m] -> {
+                    r = m - 1
+                }
+                else -> {
+                    return m
+                }
             }
         }
         return l
