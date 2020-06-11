@@ -18,23 +18,23 @@ object SortColors {
 
     fun sortColors(nums: IntArray) {
         var red = 0 // read area
-        var white = 0 // white area
+        var curr = 0 // white area
         var blue = nums.lastIndex // blue area
-        while (white <= blue) {
+        while (curr <= blue) {
             when {
-                nums[white] == Color.RED.code -> {
-                    nums[white] = nums[red]
+                nums[curr] == Color.RED.code -> {
+                    nums[curr] = nums[red]
                     nums[red] = Color.RED.code
                     red++
-                    white++
+                    curr++
                 }
-                nums[white] == Color.BLUE.code -> {
-                    nums[white] = nums[blue]
+                nums[curr] == Color.BLUE.code -> {
+                    nums[curr] = nums[blue]
                     nums[blue] = Color.BLUE.code
                     blue--
                 }
                 else -> {
-                    white++
+                    curr++
                 }
             }
         }
