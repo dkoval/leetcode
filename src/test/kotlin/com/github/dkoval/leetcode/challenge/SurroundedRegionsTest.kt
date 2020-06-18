@@ -51,6 +51,20 @@ internal class SurroundedRegionsTest {
                     charArrayOf('O', 'X', 'O', 'X'),
                     charArrayOf('X', 'O', 'O', 'X')
                 )
+            ),
+            Arguments.of(
+                arrayOf(
+                    charArrayOf('X', 'X', 'O', 'X'),
+                    charArrayOf('O', 'O', 'O', 'X'),
+                    charArrayOf('X', 'X', 'O', 'X'),
+                    charArrayOf('X', 'O', 'X', 'X')
+                ),
+                arrayOf(
+                    charArrayOf('X', 'X', 'O', 'X'),
+                    charArrayOf('O', 'O', 'O', 'X'),
+                    charArrayOf('X', 'X', 'O', 'X'),
+                    charArrayOf('X', 'O', 'X', 'X')
+                )
             )
         )
     }
