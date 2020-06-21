@@ -26,24 +26,24 @@ object DungeonGame {
     fun calculateMinimumHP(dungeon: Array<IntArray>): Int {
         val r = dungeon.size
         val c = dungeon[0].size
-        val solution = Array(r) { IntArray(c) }
+        val hp = Array(r) { IntArray(c) }
         // calculate min health point needed to reach the bottom-up cell
-        solution[r - 1][c - 1] = if (dungeon[r - 1][c - 1] > 0) 1 else 1 - dungeon[r - 1][c - 1]
+        hp[r - 1][c - 1] = if (dungeon[r - 1][c - 1] > 0) 1 else 1 - dungeon[r - 1][c - 1]
         // solve for the last column
         for (i in r - 2 downTo 0) {
-            solution[i][c - 1] = ensureMinHealthPoint(solution[i + 1][c - 1] - dungeon[i][c - 1])
+            hp[i][c - 1] = ensureMinHealthPoint(hp[i + 1][c - 1] - dungeon[i][c - 1])
         }
         // solve for the last row
         for (j in c - 2 downTo 0) {
-            solution[r - 1][j] = ensureMinHealthPoint(solution[r - 1][j + 1] - dungeon[r - 1][j])
+            hp[r - 1][j] = ensureMinHealthPoint(hp[r - 1][j + 1] - dungeon[r - 1][j])
         }
         // solve for remaining cells going bottom-up
         for (i in r - 2 downTo 0) {
             for (j in c - 2 downTo 0) {
-                solution[i][j] = ensureMinHealthPoint(min(solution[i][j + 1], solution[i + 1][j]) - dungeon[i][j])
+                hp[i][j] = ensureMinHealthPoint(min(hp[i][j + 1], hp[i + 1][j]) - dungeon[i][j])
             }
         }
-        return solution[0][0]
+        return hp[0][0]
     }
 
     private fun ensureMinHealthPoint(healthPoint: Int): Int = max(healthPoint, 1)
