@@ -27,7 +27,7 @@ object DungeonGame {
         val r = dungeon.size
         val c = dungeon[0].size
         val solution = Array(r) { IntArray(c) }
-        // min health points needed to reach the bottom-up cell
+        // calculate min health point needed to reach the bottom-up cell
         solution[r - 1][c - 1] = if (dungeon[r - 1][c - 1] > 0) 1 else 1 - dungeon[r - 1][c - 1]
         // solve for the last column
         for (i in r - 2 downTo 0) {
