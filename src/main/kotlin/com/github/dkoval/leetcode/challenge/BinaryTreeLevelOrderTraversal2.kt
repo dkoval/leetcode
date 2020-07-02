@@ -17,26 +17,15 @@ object BinaryTreeLevelOrderTraversal2 {
         }
         val result = LinkedList<List<Int>>()
         val queue: Queue<TreeNode> = LinkedList<TreeNode>().apply { add(root) }
-        var numNodesAtLevel = 1
         while (!queue.isEmpty()) {
             val values = LinkedList<Int>()
-            var count = 0
-            repeat(numNodesAtLevel) {
+            repeat(queue.size) {
                 val node = queue.poll()
                 values.add(node.`val`)
-                node.left?.also {
-                    queue.add(it)
-                    count++
-                }
-                node.right?.also {
-                    queue.add(it)
-                    count++
-                }
+                node.left?.also { queue.add(it) }
+                node.right?.also { queue.add(it) }
             }
-            if (!values.isEmpty()) {
-                result.addFirst(values)
-            }
-            numNodesAtLevel = count
+            result.addFirst(values)
         }
         return result
     }
