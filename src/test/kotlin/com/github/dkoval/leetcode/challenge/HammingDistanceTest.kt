@@ -10,7 +10,8 @@ internal class HammingDistanceTest {
     companion object {
         @JvmStatic
         fun input(): List<Arguments> = listOf(
-            Arguments.of(1, 4, 2)
+            Arguments.of(1, 4, 2),
+            Arguments.of(3, 5, 2)
         )
     }
 

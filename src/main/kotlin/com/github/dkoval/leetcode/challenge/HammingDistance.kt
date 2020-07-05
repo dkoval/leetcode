@@ -10,10 +10,11 @@ package com.github.dkoval.leetcode.challenge
 object HammingDistance {
 
     fun hammingDistance(x: Int, y: Int): Int {
-        val bits = x xor y
+        var r = x xor y
         var count = 0
-        for (i in 0..31) {
-            count += (bits shr i) and 1
+        while (r > 0) {
+            count += r and  1
+            r = r shr 1
         }
         return count
     }
