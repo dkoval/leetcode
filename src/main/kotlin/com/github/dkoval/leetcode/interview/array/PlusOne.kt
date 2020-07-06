@@ -19,7 +19,7 @@ object PlusOne {
             }
         }
         if (digits[0] == 0) {
-            return digits.copyInto(IntArray(digits.size + 1), 1, digits.size).also { it[0] = 1 }
+            return IntArray(digits.size + 1).also { it[0] = 1 }
         }
         return digits
     }
