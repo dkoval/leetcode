@@ -10,28 +10,17 @@ package com.github.dkoval.leetcode.interview.array
 object PlusOne {
 
     fun plusOne(digits: IntArray): IntArray {
-        val result = IntArray(digits.size)
-        var index = digits.lastIndex
-        var overflow: Boolean
-        do {
-            val i = digits[index] + 1
-            result[index] = i % 10
-            overflow = i == 10
-            index--
-        } while (index >= 0 && overflow)
-
-        if (index >= 0) {
-            digits.copyInto(result, startIndex = 0, endIndex = index + 1)
-            return result
+        for (i in digits.lastIndex downTo 0) {
+            if (digits[i] < 9) {
+                digits[i] += 1
+                return digits
+            } else {
+                digits[i] = 0
+            }
         }
-
-        if (overflow) {
-            val extResult = IntArray(result.size + 1)
-            extResult[0] = 1
-            result.copyInto(extResult, destinationOffset = 1)
-            return extResult
+        if (digits[0] == 0) {
+            return digits.copyInto(IntArray(digits.size + 1), 1, digits.size).also { it[0] = 1 }
         }
-
-        return result
+        return digits
     }
 }

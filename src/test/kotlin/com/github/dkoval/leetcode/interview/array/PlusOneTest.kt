@@ -12,6 +12,7 @@ internal class PlusOneTest {
         fun input(): List<Arguments> = listOf(
             Arguments.of(intArrayOf(1, 2, 3), intArrayOf(1, 2, 4)),
             Arguments.of(intArrayOf(4, 3, 2, 1), intArrayOf(4, 3, 2, 2)),
+            Arguments.of(intArrayOf(1, 2, 9, 9), intArrayOf(1, 3, 0, 0)),
             Arguments.of(intArrayOf(9), intArrayOf(1, 0)),
             Arguments.of(intArrayOf(9, 9), intArrayOf(1, 0, 0)),
             Arguments.of(intArrayOf(9, 9, 9), intArrayOf(1, 0, 0, 0))
