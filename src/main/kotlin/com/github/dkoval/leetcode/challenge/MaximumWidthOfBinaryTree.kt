@@ -25,11 +25,10 @@ object MaximumWidthOfBinaryTree {
         val queue: Deque<TreeNodeWithIndex> = LinkedList()
         queue.add(TreeNodeWithIndex(root, 0))
         while (!queue.isEmpty()) {
-            val count = queue.size
             val startIndex = queue.first.index
             val endIndex = queue.last.index
             result = max(result, endIndex - startIndex + 1)
-            repeat(count) {
+            repeat(queue.size) {
                 queue.poll().apply {
                     node.left?.also { queue.add(TreeNodeWithIndex(it, 2 * index + 1)) }
                     node.right?.also { queue.add(TreeNodeWithIndex(it, 2 * index + 2)) }
