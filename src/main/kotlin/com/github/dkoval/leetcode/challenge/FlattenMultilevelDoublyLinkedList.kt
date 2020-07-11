@@ -20,36 +20,27 @@ fun Node?.toList(): List<Int> {
 
 object FlattenMultilevelDoublyLinkedList {
 
-    fun flatten(root: Node?): Node? {
-        if (root != null) {
-            doFlatten(root)
-        }
-        return root
-    }
+    fun flatten(root: Node?): Node? = root?.also { flattenRecursive(it) }
 
     // Recursively flattens a list and returns its tail
-    private fun doFlatten(root: Node): Node {
+    private fun flattenRecursive(root: Node): Node {
         var curr: Node? = root
         var tail = root
         while (curr != null) {
             val child = curr.child
             val next = curr.next
-            if (child != null) {
-                val interimTail = doFlatten(child)
-                interimTail.next = next
-                if (next != null) {
-                    next.prev = interimTail
-                }
+            if (child == null) {
+                curr = next
+            } else {
                 curr.next = child
                 child.prev = curr
                 curr.child = null
+                tail = flattenRecursive(child)
+                tail.next = next
+                next?.also { it.prev = tail }
                 curr = tail
-            } else {
-                curr = next
             }
-            if (curr != null) {
-                tail = curr
-            }
+            curr?.also { tail = it } // make sure tail is never null while advancing curr
         }
         return tail
     }
