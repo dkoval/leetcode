@@ -29,7 +29,7 @@ object SameTreeRecursive: SameTree {
 object SameTreeIter: SameTree {
 
     override fun isSameTree(p: TreeNode?, q: TreeNode?): Boolean {
-        if (!p.equalTo(q)) return false
+        if (!p.sameAs(q)) return false
 
         val q1: Queue<TreeNode> = LinkedList()
         p?.also { q1.add(it) }
@@ -56,9 +56,9 @@ object SameTreeIter: SameTree {
     }
 
     private fun isSameNode(p: TreeNode?, q: TreeNode?): Boolean =
-        p.equalTo(q) && p?.left.equalTo(q?.left) && p?.right.equalTo(q?.right)
+        p.sameAs(q) && p?.left.sameAs(q?.left) && p?.right.sameAs(q?.right)
 
-    private fun TreeNode?.equalTo(that: TreeNode?): Boolean {
+    private fun TreeNode?.sameAs(that: TreeNode?): Boolean {
         if (this == null && that == null) return true
         if (this == null || that == null) return false
         return `val` == that.`val`
