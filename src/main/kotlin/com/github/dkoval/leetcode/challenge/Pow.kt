@@ -40,8 +40,8 @@ object PowIter: Pow {
         }
         if (n < 0) return 1 / myPowInternal(x, -n)
         var p = 1.0
-        var _n = n
         var _x = x
+        var _n = n
         while (_n > 0) {
             if (_n % 2 != 0L) {
                 p *= _x
