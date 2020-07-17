@@ -20,19 +20,18 @@ object TopKFrequentElements {
 
         val frequencies = mutableMapOf<Int, Int>()
         for (num in nums) {
-            val prevFrequency = frequencies.getOrPut(num) { 0 }
-            frequencies[num] = prevFrequency + 1
+            frequencies[num] = frequencies.getOrPut(num) { 0 } + 1
         }
 
-        val pq = PriorityQueue<Pair<Int, Int>>(compareByDescending { (_, frequency) -> frequency  })
-        for (entry in frequencies.entries) {
-            pq.add(entry.toPair())
+        val pq = PriorityQueue<Int>(compareByDescending { num -> frequencies[num]  })
+        for (num in frequencies.keys) {
+            pq.add(num)
         }
 
+        // k is always valid
         val result = IntArray(k)
-        var i = 0
-        while (i < k && !pq.isEmpty()) {
-            result[i++] = pq.poll().first
+        for (i in 0 until k) {
+            result[i] = pq.poll()
         }
         return result
     }
