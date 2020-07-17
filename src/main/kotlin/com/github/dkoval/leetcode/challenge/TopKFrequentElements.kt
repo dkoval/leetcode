@@ -16,6 +16,8 @@ import java.util.*
 object TopKFrequentElements {
 
     fun topKFrequent(nums: IntArray, k: Int): IntArray {
+        if (nums.size == k) return nums // all nums are unique
+
         val frequencies = mutableMapOf<Int, Int>()
         for (num in nums) {
             val prevFrequency = frequencies.getOrPut(num) { 0 }
