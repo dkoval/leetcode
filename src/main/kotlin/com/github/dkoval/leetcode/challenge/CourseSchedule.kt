@@ -52,7 +52,7 @@ object CourseSchedule {
         }
         // explore neighbours of vertex v
         visited[v] = VertexStatus.BEING_VISITED
-        graph[v]?.let { neighbours ->
+        graph[v]?.also { neighbours ->
             for (u in neighbours) {
                 if (hasCycleDFS(u, graph, visited)) {
                     return true
