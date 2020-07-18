@@ -46,38 +46,34 @@ object CourseSchedule2 {
                 return intArrayOf()
             }
         }
-        val result = IntArray(numCourses)
-        for (i in 0 until numCourses) {
-            result[i] = stack.pop()
-        }
-        return result
+        return stack.toIntArray()
     }
 
     private fun doFindOrderDFS(
-        v: Int,
+        u: Int,
         graph: Map<Int, List<Int>>,
         visited: Array<VertexStatus>,
         stack: Deque<Int>
     ): Boolean {
         // check for a back edge
-        if (visited[v] == VertexStatus.BEING_VISITED) {
+        if (visited[u] == VertexStatus.BEING_VISITED) {
             return false
         }
         // skip over COMPLETELY_VISITED vertices
-        if (visited[v] == VertexStatus.COMPLETELY_VISITED) {
+        if (visited[u] == VertexStatus.COMPLETELY_VISITED) {
             return true
         }
         // explore neighbours of vertex v
-        visited[v] = VertexStatus.BEING_VISITED
-        graph[v]?.also { neighbours ->
-            for (u in neighbours) {
-                if (!doFindOrderDFS(u, graph, visited, stack)) {
+        visited[u] = VertexStatus.BEING_VISITED
+        graph[u]?.also { neighbours ->
+            for (v in neighbours) {
+                if (!doFindOrderDFS(v, graph, visited, stack)) {
                     return false
                 }
             }
         }
-        visited[v] = VertexStatus.COMPLETELY_VISITED
-        stack.push(v)
+        visited[u] = VertexStatus.COMPLETELY_VISITED
+        stack.push(u)
         return true
     }
 }
