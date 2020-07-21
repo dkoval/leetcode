@@ -29,10 +29,6 @@ object WordSearch {
         }
 
         val ch = board[i][j]
-        if (ch == '#') {
-            return false // already visited
-        }
-
         board[i][j] = '#' // mark cell as visited
         val nextIdx = idx + 1
         val nextCh = word[nextIdx]
