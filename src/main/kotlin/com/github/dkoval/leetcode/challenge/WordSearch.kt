@@ -15,7 +15,7 @@ object WordSearch {
     fun exist(board: Array<CharArray>, word: String): Boolean {
         for (i in board.indices) {
             for (j in board[0].indices) {
-                if (existDFS(board, i, j, word, 0)) {
+                if (board[i][j] == word[0] && existDFS(board, i, j, word, 0)) {
                     return true
                 }
             }
@@ -24,10 +24,6 @@ object WordSearch {
     }
 
     private fun existDFS(board: Array<CharArray>, i: Int, j: Int, word: String, idx: Int): Boolean {
-        if (word[idx] != board[i][j]) {
-            return false
-        }
-
         if (idx == word.lastIndex) {
             return true
         }
@@ -38,10 +34,12 @@ object WordSearch {
         }
 
         board[i][j] = '#' // mark cell as visited
-        if (i > 0 && existDFS(board, i - 1, j, word, idx + 1) ||
-            j > 0 && existDFS(board, i, j - 1, word, idx + 1) ||
-            i < board.lastIndex && existDFS(board, i + 1, j, word, idx + 1) ||
-            j < board[0].lastIndex && existDFS(board, i, j + 1, word, idx + 1)
+        val nextIdx = idx + 1
+        val nextCh = word[nextIdx]
+        if (i > 0 && board[i - 1][j] == nextCh && existDFS(board, i - 1, j, word, nextIdx) ||
+            j > 0 && board[i][j - 1] == nextCh && existDFS(board, i, j - 1, word, nextIdx) ||
+            i < board.lastIndex && board[i + 1][j] == nextCh && existDFS(board, i + 1, j, word, nextIdx) ||
+            j < board[0].lastIndex && board[i][j + 1] == nextCh && existDFS(board, i, j + 1, word, nextIdx)
         ) {
             board[i][j] = ch // restore cell
             return true
