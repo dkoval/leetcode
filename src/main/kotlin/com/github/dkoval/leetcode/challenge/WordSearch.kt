@@ -40,8 +40,8 @@ object WordSearch {
         board[i][j] = '#' // mark cell as visited
         if (i > 0 && existDFS(board, i - 1, j, word, idx + 1) ||
             j > 0 && existDFS(board, i, j - 1, word, idx + 1) ||
-            j < board[0].lastIndex && existDFS(board, i, j + 1, word, idx + 1) ||
-            i < board.lastIndex && existDFS(board, i + 1, j, word, idx + 1)
+            i < board.lastIndex && existDFS(board, i + 1, j, word, idx + 1) ||
+            j < board[0].lastIndex && existDFS(board, i, j + 1, word, idx + 1)
         ) {
             board[i][j] = ch // restore cell
             return true
