@@ -11,8 +11,7 @@ object AllPathsFromSourceToTarget {
 
     fun allPathsSourceTarget(graph: Array<IntArray>): List<List<Int>> {
         val paths = mutableListOf<List<Int>>()
-        val path = mutableListOf<Int>()
-        dfs(graph, 0, graph.lastIndex, paths, path)
+        dfs(graph, 0, graph.lastIndex, mutableListOf(), paths)
         return paths
     }
 
@@ -20,8 +19,8 @@ object AllPathsFromSourceToTarget {
         graph: Array<IntArray>,
         source: Int,
         target: Int,
-        paths: MutableList<List<Int>>,
-        path: MutableList<Int>
+        path: MutableList<Int>,
+        paths: MutableList<List<Int>>
     ) {
         path.add(source)
         if (source == target) {
@@ -29,7 +28,7 @@ object AllPathsFromSourceToTarget {
             paths.add(copy)
         } else {
             for (v in graph[source]) {
-                dfs(graph, v, target, paths, path)
+                dfs(graph, v, target, path, paths)
             }
         }
         path.removeAt(path.lastIndex)
