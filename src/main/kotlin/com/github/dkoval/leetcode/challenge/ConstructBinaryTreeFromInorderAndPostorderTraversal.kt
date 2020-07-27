@@ -13,26 +13,40 @@ import com.github.dkoval.leetcode.TreeNode
 object ConstructBinaryTreeFromInorderAndPostorderTraversal {
 
     fun buildTree(inorder: IntArray, postorder: IntArray): TreeNode? {
-        val inorderIndex = inorder.asSequence().mapIndexed { index, value -> value to index }.toMap()
-        return doBuildTree(inorderIndex, postorder, 0, inorder.size, MutableInt(inorder.lastIndex))
+        if (inorder.isEmpty()) return null
+        val inorderIndex = inorder.asSequence().withIndex().associate { it.value to it.index }
+        return doBuildTree(inorderIndex, 0, inorder.size, postorder, 0, postorder.size)
     }
-
-    private class MutableInt(var value: Int)
 
     private fun doBuildTree(
         inorderIndex: Map<Int, Int>,
+        inorderStartIndex: Int,
+        inorderEndIndex: Int,
         postorder: IntArray,
-        startIndexInclusive: Int,
-        endIndexExclusive: Int,
-        idx: MutableInt
+        postorderStartIndex: Int,
+        postorderEndIndex: Int
     ): TreeNode? {
-        if (startIndexInclusive == endIndexExclusive) return null
-        val root = postorder[idx.value]
-        val indexOfRoot = inorderIndex[root] ?: return null
-        idx.value--
-        return TreeNode(root).apply {
-            right = doBuildTree(inorderIndex, postorder, indexOfRoot + 1, endIndexExclusive, idx)
-            left = doBuildTree(inorderIndex, postorder, startIndexInclusive, indexOfRoot, idx)
-        }
+        if (inorderStartIndex == inorderEndIndex || postorderStartIndex == postorderEndIndex) return null
+        val rootValue = postorder[postorderEndIndex - 1]
+        val rootIndex = inorderIndex[rootValue] ?: return null
+        val offset = rootIndex - inorderStartIndex
+        val root = TreeNode(rootValue)
+        root.left = doBuildTree(
+            inorderIndex,
+            inorderStartIndex,
+            rootIndex,
+            postorder,
+            postorderStartIndex,
+            postorderStartIndex + offset
+        )
+        root.right = doBuildTree(
+            inorderIndex,
+            rootIndex + 1,
+            inorderEndIndex,
+            postorder,
+            postorderStartIndex + offset,
+            postorderEndIndex - 1
+        )
+        return root
     }
 }
