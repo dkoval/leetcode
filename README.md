@@ -1,6 +1,6 @@
 # leetcode
 
 [![Build Status](https://travis-ci.org/dkoval/leetcode.svg?branch=master)](https://travis-ci.org/dkoval/leetcode)
-[![Coverage Status](https://img.shields.io/codecov/c/github/dkoval/leetcode.svg)](https://codecov.io/github/dkoval/leetcode)
+[![Code Coverage Status](https://codecov.io/gh/dkoval/leetcode/branch/master/graph/badge.svg)](https://codecov.io/gh/dkoval/leetcode)
 
 Solutions to [LeetCode](https://leetcode.com/) algorithmic problems mostly written in Kotlin
