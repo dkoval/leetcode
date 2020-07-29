@@ -27,6 +27,6 @@ object BestTimeToBuyAndSellStockWithCooldown {
             profitInState2 = max(profitInState2, prevProfitInState1 - prices[i])
             profitInState3 = prevProfitInState2 + prices[i]
         }
-        return max(profitInState1, max(profitInState2, profitInState3))
+        return max(profitInState1, profitInState3)
     }
 }
