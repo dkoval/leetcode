@@ -17,16 +17,16 @@ object BestTimeToBuyAndSellStockWithCooldown {
     // Resource: https://www.youtube.com/watch?v=pkiJyNijgBw
     fun maxProfit(prices: IntArray): Int {
         if (prices.size <= 1) return 0
-        var state1 = 0
-        var state2 = -prices[0]
-        var state3 = 0
+        var profitInState1 = 0
+        var profitInState2 = -prices[0]
+        var profitInState3 = 0
         for (i in 1 until prices.size) {
-            val prevState1 = state1
-            val prevState2 = state2
-            state1 = max(state1, state3)
-            state2 = max(state2, prevState1 - prices[i])
-            state3 = prevState2 + prices[i]
+            val prevProfitInState1 = profitInState1
+            val prevProfitInState2 = profitInState2
+            profitInState1 = max(profitInState1, profitInState3)
+            profitInState2 = max(profitInState2, prevProfitInState1 - prices[i])
+            profitInState3 = prevProfitInState2 + prices[i]
         }
-        return max(state1, max(state2, state3))
+        return max(profitInState1, max(profitInState2, profitInState3))
     }
 }
