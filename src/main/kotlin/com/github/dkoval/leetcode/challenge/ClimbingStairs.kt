@@ -35,16 +35,14 @@ object MemoClimbingStairs: ClimbingStairs {
 object NoExtraSpaceClimbingStairs: ClimbingStairs {
 
     override fun climbStairs(n: Int): Int {
-        if (n == 1) return 1
-        if (n == 2) return 2
+        if (n <= 2) return n
         var prevStep2 = 1
         var prevStep1 = 2
-        var next = Int.MIN_VALUE
         for (i in 3..n) {
-            next = prevStep1 + prevStep2
-            prevStep2 = prevStep1
-            prevStep1 = next
+            val tmp = prevStep1
+            prevStep1 += prevStep2
+            prevStep2 = tmp
         }
-        return next
+        return prevStep1
     }
 }
