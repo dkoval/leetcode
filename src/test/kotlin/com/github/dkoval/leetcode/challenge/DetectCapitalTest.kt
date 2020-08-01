@@ -13,7 +13,8 @@ internal class DetectCapitalTest {
             Arguments.of("USA", true),
             Arguments.of("leetcode", true),
             Arguments.of("Google", true),
-            Arguments.of("FlaG", false)
+            Arguments.of("FlaG", false),
+            Arguments.of("aBcd", false)
         )
     }
 

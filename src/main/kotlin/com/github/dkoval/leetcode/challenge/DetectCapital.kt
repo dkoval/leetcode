@@ -13,20 +13,15 @@ object DetectCapital {
 
     fun detectCapitalUse(word: String): Boolean {
         if (word.length == 1) return true
-        return if (word[0].isUpperCase()) {
-            var prevLetterIsUppercase = true
-            for (i in 1 until word.length) {
-                val currLetterIsUppercase = word[i].isUpperCase()
-                if (currLetterIsUppercase && !prevLetterIsUppercase) return false
-                if (i > 1 && !currLetterIsUppercase && prevLetterIsUppercase) return false
-                prevLetterIsUppercase = currLetterIsUppercase
+        if (word[0].isUpperCase() && word[1].isUpperCase()) {
+            for (i in 2 until word.length) {
+                if (word[i].isLowerCase()) return false
             }
-            true
         } else {
             for (i in 1 until word.length) {
-                if (!word[i].isLowerCase()) return false
+                if (word[i].isUpperCase()) return false
             }
-            true
         }
+        return true
     }
 }
