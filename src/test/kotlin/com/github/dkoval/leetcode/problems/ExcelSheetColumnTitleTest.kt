@@ -11,7 +11,8 @@ internal class ExcelSheetColumnTitleTest {
         @JvmStatic
         fun input(): List<Arguments> = listOf(
             Arguments.of(1, "A"),
-            Arguments.of(3, "B"),
+            Arguments.of(2, "B"),
+            Arguments.of(3, "C"),
             Arguments.of(26, "Z"),
             Arguments.of(28, "AB"),
             Arguments.of(701, "ZY")
