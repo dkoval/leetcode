@@ -51,7 +51,7 @@ object VerticalOrderTraversalOfBinaryTree {
         cache.getOrPut(col) { mutableListOf() }.add(row to node.`val`)
         minCol.apply { value = min(value, col) }
         maxCol.apply { value = max(value, col) }
-        dfs(node.left, row + 1, col -1, cache, minCol, maxCol)
+        dfs(node.left, row + 1, col - 1, cache, minCol, maxCol)
         dfs(node.right, row + 1, col + 1, cache, minCol, maxCol)
     }
 }
