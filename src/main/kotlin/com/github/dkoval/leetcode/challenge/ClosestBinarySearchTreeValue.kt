@@ -14,13 +14,16 @@ object ClosestBinarySearchTreeValue {
         root.`val` > target && root.left != null -> {
             // search in the left subtree
             val l = closestValue(root.left!!, target)
-            if (abs(l - target) < abs(root.`val` - target)) l else root.`val`
+            takeClosestToTarget(l, root.`val`, target)
         }
         root.`val` < target && root.right != null -> {
             // search in the right subtree
             val r = closestValue(root.right!!, target)
-            if (abs(r - target) < abs(root.`val` - target)) r else root.`val`
+            takeClosestToTarget(r, root.`val`, target)
         }
         else -> root.`val`
     }
+
+    private fun takeClosestToTarget(x: Int, y: Int, target: Double): Int =
+        if (abs(x - target) < abs(y - target)) x else y
 }
