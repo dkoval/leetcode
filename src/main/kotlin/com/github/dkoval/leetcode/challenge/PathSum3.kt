@@ -13,10 +13,39 @@ import com.github.dkoval.leetcode.TreeNode
  *
  * The tree has no more than 1,000 nodes and the values are in the range -1,000,000 to 1,000,000.
  */
-object PathSum3 {
+interface PathSum3 {
+
+    fun pathSum(root: TreeNode?, sum: Int): Int
+}
+
+object PathSum3Solution1 : PathSum3 {
+
+    override fun pathSum(root: TreeNode?, sum: Int): Int {
+        if (root == null) return 0
+        val sumPaths = mutableMapOf(0 to 1) // how many paths are there for a certain sum
+        return doPathSum(root, sum, 0, sumPaths)
+    }
+
+    private fun doPathSum(root: TreeNode?, targetSum: Int, currentSum: Int, sumPaths: MutableMap<Int, Int>): Int {
+        if (root == null) return 0
+        // `currentSum` is always increasing downwards in the recursion
+        // and at each level we are putting the sum in the `sumPaths` map.
+        // When we find that the (newSum - targetSum) exits in the map,
+        // it means there is a path to get `targetSum`.
+        val newSum = currentSum + root.`val`
+        var count = sumPaths.getOrDefault(newSum - targetSum, 0)
+        sumPaths[newSum] = sumPaths.getOrDefault(newSum, 0) + 1
+        count += doPathSum(root.left, targetSum, newSum, sumPaths)
+        count += doPathSum(root.right, targetSum, newSum, sumPaths)
+        sumPaths[newSum] = sumPaths.getOrDefault(newSum, 0) - 1 // backtrack
+        return count
+    }
+}
+
+object PathSum3Solution2 : PathSum3 {
 
     // Resource: https://www.youtube.com/watch?v=Vam9gldRapY
-    fun pathSum(root: TreeNode?, sum: Int): Int {
+    override fun pathSum(root: TreeNode?, sum: Int): Int {
         if (root == null) return 0
         return pathSum(root.left, sum) + pathSum(root.right, sum) + // exclude current root
                 pathSumIncludeRoot(root, sum) // include current root
