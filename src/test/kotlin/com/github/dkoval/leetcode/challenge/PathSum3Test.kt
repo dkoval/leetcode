@@ -41,22 +41,22 @@ internal class PathSum3Test {
     }
 
     @Nested
-    inner class PathSum3Solution1Test {
+    inner class PathSum3BruteForceTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the number of paths that sum to a given value`(root: TreeNode?, sum: Int, expected: Int) {
-            PathSum3Solution1.test(root, sum, expected)
+            PathSum3BruteForce.test(root, sum, expected)
         }
     }
 
     @Nested
-    inner class PathSum3Solution2Test {
+    inner class PathSum3HashMapTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the number of paths that sum to a given value`(root: TreeNode?, sum: Int, expected: Int) {
-            PathSum3Solution2.test(root, sum, expected)
+            PathSum3HashMap.test(root, sum, expected)
         }
     }
 
