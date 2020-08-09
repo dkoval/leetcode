@@ -13,13 +13,12 @@ internal class ArrangingCoinsTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> =
-            Stream.of(
-                Arguments.of(1, 1),
-                Arguments.of(5, 2),
-                Arguments.of(8, 3),
-                Arguments.of(1804289383, 60070)
-            )
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
+            Arguments.of(1, 1),
+            Arguments.of(5, 2),
+            Arguments.of(8, 3),
+            Arguments.of(1804289383, 60070)
+        )
     }
 
     @Nested

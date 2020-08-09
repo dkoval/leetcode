@@ -13,17 +13,16 @@ internal class ReverseBitsTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> =
-            Stream.of(
-                Arguments.of(
-                    0b00000010100101000001111010011100,
-                    0b00111001011110000010100101000000
-                ),
-                Arguments.of(
-                    -3,
-                    -1073741825
-                )
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
+            Arguments.of(
+                0b00000010100101000001111010011100,
+                0b00111001011110000010100101000000
+            ),
+            Arguments.of(
+                -3,
+                -1073741825
             )
+        )
     }
 
     @Nested

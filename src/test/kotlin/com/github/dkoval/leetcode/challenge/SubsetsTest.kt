@@ -13,22 +13,21 @@ internal class SubsetsTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> =
-            Stream.of(
-                Arguments.of(
-                    intArrayOf(1, 2, 3),
-                    listOf(
-                        listOf(3),
-                        listOf(1),
-                        listOf(2),
-                        listOf(1, 2, 3),
-                        listOf(1, 3),
-                        listOf(2, 3),
-                        listOf(1, 2),
-                        emptyList()
-                    )
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
+            Arguments.of(
+                intArrayOf(1, 2, 3),
+                listOf(
+                    listOf(3),
+                    listOf(1),
+                    listOf(2),
+                    listOf(1, 2, 3),
+                    listOf(1, 3),
+                    listOf(2, 3),
+                    listOf(1, 2),
+                    emptyList()
                 )
             )
+        )
     }
 
     @Nested

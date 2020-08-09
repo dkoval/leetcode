@@ -13,31 +13,30 @@ internal class IslandPerimeterTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> =
-            Stream.of(
-                Arguments.of(
-                    arrayOf(
-                        intArrayOf(1)
-                    ),
-                    4
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(1)
                 ),
-                Arguments.of(
-                    arrayOf(
-                        intArrayOf(0, 1, 0, 0),
-                        intArrayOf(1, 1, 1, 0),
-                        intArrayOf(0, 1, 0, 0),
-                        intArrayOf(1, 1, 0, 0)
-                    ),
-                    16
+                4
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(0, 1, 0, 0),
+                    intArrayOf(1, 1, 1, 0),
+                    intArrayOf(0, 1, 0, 0),
+                    intArrayOf(1, 1, 0, 0)
                 ),
-                Arguments.of(
-                    arrayOf(
-                        intArrayOf(1, 1),
-                        intArrayOf(1, 1)
-                    ),
-                    8
-                )
+                16
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(1, 1),
+                    intArrayOf(1, 1)
+                ),
+                8
             )
+        )
     }
 
     @Nested
