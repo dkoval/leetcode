@@ -13,16 +13,11 @@ package com.github.dkoval.leetcode.challenge
 object PascalTriangle2 {
 
     fun getRow(rowIndex: Int): List<Int> {
-        val result = IntArray(rowIndex + 1)
-        result[0] = 1
-        for (currRowIndex in 0..rowIndex) {
-            var prev = 1
-            for (i in 1 until currRowIndex) {
-                val tmp = result[i]
-                result[i] += prev
-                prev = tmp
+        val result = IntArray(rowIndex + 1) { 1 }
+        for (currRowIndex in 1 until rowIndex) {
+            for (i in currRowIndex downTo 1) {
+                result[i] += result[i - 1]
             }
-            result[currRowIndex] = 1
         }
         return result.asList()
     }
