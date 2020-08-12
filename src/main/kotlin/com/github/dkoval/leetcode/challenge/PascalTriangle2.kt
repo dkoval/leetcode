@@ -14,8 +14,8 @@ object PascalTriangle2 {
 
     fun getRow(rowIndex: Int): List<Int> {
         val result = IntArray(rowIndex + 1) { 1 }
-        for (currRowIndex in 1 until rowIndex) {
-            for (i in currRowIndex downTo 1) {
+        for (prevRowIndex in 1 until rowIndex) {
+            for (i in prevRowIndex downTo 1) {
                 result[i] += result[i - 1]
             }
         }
