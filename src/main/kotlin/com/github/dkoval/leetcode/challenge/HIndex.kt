@@ -1,7 +1,5 @@
 package com.github.dkoval.leetcode.challenge
 
-import kotlin.math.min
-
 /**
  * [H-Index](https://leetcode.com/explore/challenge/card/august-leetcoding-challenge/550/week-2-august-8th-august-14th/3420/)
  *
@@ -33,14 +31,18 @@ object HIndexNLongN : HIndex {
 object HIndexLinear : HIndex {
 
     override fun hIndex(citations: IntArray): Int {
-        val counts = IntArray(citations.size + 1)
+        val buckets = IntArray(citations.size + 1)
         for (citation in citations) {
-            counts[min(citation, citations.size)]++
+            if (citation <= citations.size) {
+                buckets[citation]++
+            } else {
+                buckets[buckets.lastIndex]++
+            }
         }
-        var sum = 0
-        for (i in counts.lastIndex downTo 0) {
-            sum += counts[i]
-            if (sum >= i) return i
+        var result = 0
+        for (i in buckets.lastIndex downTo 0) {
+            result += buckets[i]
+            if (result >= i) return i
         }
         return 0
     }
