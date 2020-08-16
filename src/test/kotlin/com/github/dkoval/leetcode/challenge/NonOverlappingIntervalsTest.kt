@@ -18,6 +18,21 @@ internal class NonOverlappingIntervalsTest {
                     intArrayOf(1, 3)
                 ),
                 1
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(1, 2),
+                    intArrayOf(1, 2),
+                    intArrayOf(1, 2)
+                ),
+                2
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(1, 2),
+                    intArrayOf(2, 3)
+                ),
+                0
             )
         )
     }
