@@ -45,6 +45,16 @@ internal class LongestCommonPrefixTest {
         }
     }
 
+    @Nested
+    inner class LongestCommonPrefixDivideAndConquerTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the longest common prefix`(strs: Array<String>, expected: String) {
+            LongestCommonPrefixDivideAndConquer.test(strs, expected)
+        }
+    }
+
     private fun LongestCommonPrefix.test(strs: Array<String>, expected: String) {
         val actual = longestCommonPrefix(strs)
         assertEquals(expected, actual)
