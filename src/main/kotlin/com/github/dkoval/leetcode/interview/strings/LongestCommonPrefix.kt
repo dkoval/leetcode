@@ -48,7 +48,7 @@ object LongestCommonPrefixVerticalScanning : LongestCommonPrefix {
 
 // https://leetcode.com/problems/longest-common-prefix/solution/
 // Time complexity - O(S), where S is the number of all characters in the array. In the best case this algorithm
-// performs O(minLen⋅N) comparisons, where minLen is the shortest string of the array.
+// performs O(minLen*N) comparisons, where minLen is the shortest string of the array.
 // Space complexity - O(M*logN). There are logN recursive calls, each store need m space to store the result.
 object LongestCommonPrefixDivideAndConquer: LongestCommonPrefix {
 
