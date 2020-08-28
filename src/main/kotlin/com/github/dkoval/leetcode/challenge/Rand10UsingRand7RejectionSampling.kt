@@ -10,12 +10,17 @@ import kotlin.random.Random
  *
  * Do NOT use system's Math.random().
  */
-object Rand10UsingRand7 {
+interface Rand10UsingRand7 {
+
+    fun rand10(): Int
+}
+
+object Rand10UsingRand7RejectionSampling : Rand10UsingRand7 {
 
     private fun rand7(): Int = Random.nextInt(1, 8)
 
     // Resource: https://leetcode.com/problems/implement-rand10-using-rand7/solution/
-    fun rand10(): Int {
+    override fun rand10(): Int {
         var idx: Int // idx is a 1-based index
         do {
             val row = rand7()
@@ -23,5 +28,24 @@ object Rand10UsingRand7 {
             idx = (row - 1) * 7 + col
         } while (idx > 40)
         return (idx - 1) % 10 + 1
+    }
+}
+
+object Rand10UsingRand7KnowledgeCenter : Rand10UsingRand7 {
+
+    private fun rand7(): Int = Random.nextInt(1, 8)
+
+    // Resource: https://www.youtube.com/watch?v=BvYd6KSW4nQ&t=383s
+    override fun rand10(): Int {
+        var v1: Int
+        do {
+            v1 = rand7()
+        } while (v1 > 5) // ignore 6, 7
+        var v2: Int
+        do {
+            v2 = rand7()
+        } while (v2 == 7) // ignore 7
+        // map v2's value [1..3] to [1..5], [4..6] to [6..10]
+        return if (v2 < 4) v1 else v1 + 5
     }
 }
