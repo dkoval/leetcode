@@ -20,6 +20,8 @@ object PancakeSorting {
     fun pancakeSort(A: IntArray): List<Int> {
         val result = mutableListOf<Int>()
         for (i in A.lastIndex downTo 1) {
+            // j starts from 1 since if searchable (i + 1) number appears at the beginning of the array,
+            // there no point in flipping
             for (j in 1..i) {
                 if (A[j] == i + 1) {
                     flip(A, j)
