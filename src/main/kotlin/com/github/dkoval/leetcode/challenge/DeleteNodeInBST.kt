@@ -14,9 +14,14 @@ import com.github.dkoval.leetcode.TreeNode
  *
  * Note: Time complexity should be O(height of tree).
  */
-object DeleteNodeInBST {
+interface DeleteNodeInBST {
 
-    fun deleteNode(root: TreeNode?, key: Int): TreeNode? {
+    fun deleteNode(root: TreeNode?, key: Int): TreeNode?
+}
+
+object DeleteNodeInBSTCaseByCase : DeleteNodeInBST {
+
+    override fun deleteNode(root: TreeNode?, key: Int): TreeNode? {
         if (root == null) return null
         val (parent, node) = findNode(root, key)
         if (node == null) return root // key is not found in the tree
@@ -52,6 +57,48 @@ object DeleteNodeInBST {
             }
         }
         return parent to node
+    }
+
+    private fun findMaxNode(root: TreeNode): TreeNode {
+        var node = root
+        while (node.right != null) {
+            node = node.right!!
+        }
+        return node
+    }
+}
+
+object DeleteNodeInBSTRecursive : DeleteNodeInBST {
+
+    override fun deleteNode(root: TreeNode?, key: Int): TreeNode? {
+        if (root == null) return null
+        when {
+            key < root.`val` -> root.left = deleteNode(root.left, key)
+            key > root.`val` -> root.right = deleteNode(root.right, key)
+            else -> {
+                // delete current node
+                if (root.left == null && root.right == null) {
+                    return null
+                } else if (root.left != null) {
+                    // find inorder predecessor
+                    root.`val` = findMaxNode(root.left!!).`val`
+                    root.left = deleteNode(root.left, root.`val`)
+                } else {
+                    // find inorder successor
+                    root.`val` = findMinNode(root.right!!).`val`
+                    root.right = deleteNode(root.right, root.`val`)
+                }
+            }
+        }
+        return root
+    }
+
+    private fun findMinNode(root: TreeNode): TreeNode {
+        var node = root
+        while (node.left != null) {
+            node = node.left!!
+        }
+        return node
     }
 
     private fun findMaxNode(root: TreeNode): TreeNode {
