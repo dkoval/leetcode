@@ -15,6 +15,7 @@ interface ContainsDuplicate3 {
     fun containsNearbyAlmostDuplicate(nums: IntArray, k: Int, t: Int): Boolean
 }
 
+// Time complexity: O(N^2), space complexity: O(1)
 object ContainsDuplicate3BruteForce : ContainsDuplicate3 {
 
     override fun containsNearbyAlmostDuplicate(nums: IntArray, k: Int, t: Int): Boolean {
@@ -27,7 +28,20 @@ object ContainsDuplicate3BruteForce : ContainsDuplicate3 {
     }
 }
 
-// Time complexity: O(N * logK)
+// Time complexity: O(N * K), space complexity: O(1)
+object ContainsDuplicate3Straightforward: ContainsDuplicate3 {
+
+    override fun containsNearbyAlmostDuplicate(nums: IntArray, k: Int, t: Int): Boolean {
+        for (i in 0 until nums.size - 1) {
+            for (j in i + 1 until minOf(i + k + 1, nums.size)) {
+                if (abs(nums[i].toLong() - nums[j].toLong()) <= t) return true
+            }
+        }
+        return false
+    }
+}
+
+// Time complexity: O(N * logK), space complexity: O(K)
 object ContainsDuplicate3UsingTreeSet : ContainsDuplicate3 {
 
     override fun containsNearbyAlmostDuplicate(nums: IntArray, k: Int, t: Int): Boolean {
