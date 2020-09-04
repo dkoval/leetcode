@@ -55,6 +55,16 @@ internal class ContainsDuplicate3Test {
     }
 
     @Nested
+    inner class ContainsDuplicate3StraightforwardTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should test containsNearbyAlmostDuplicate() method`(nums: IntArray, k: Int, t: Int, expected: Boolean) {
+            ContainsDuplicate3Straightforward.test(nums, k, t, expected)
+        }
+    }
+
+    @Nested
     inner class ContainsDuplicate3UsingTreeSetTest {
 
         @ParameterizedTest
