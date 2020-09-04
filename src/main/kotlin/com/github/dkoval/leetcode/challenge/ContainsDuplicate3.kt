@@ -28,10 +28,14 @@ object ContainsDuplicate3BruteForce : ContainsDuplicate3 {
     }
 }
 
-// Time complexity: O(N * K), space complexity: O(1)
+// Time complexity: O(N * K), space complexity: O(N)
 object ContainsDuplicate3Straightforward: ContainsDuplicate3 {
 
     override fun containsNearbyAlmostDuplicate(nums: IntArray, k: Int, t: Int): Boolean {
+        if (t == 0) {
+            val unique = nums.toSet()
+            if (unique.size == nums.size) return false
+        }
         for (i in 0 until nums.size - 1) {
             for (j in i + 1 until minOf(i + k + 1, nums.size)) {
                 if (abs(nums[i].toLong() - nums[j].toLong()) <= t) return true
