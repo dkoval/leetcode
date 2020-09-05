@@ -1,6 +1,8 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.TreeNode
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * [All Elements in Two Binary Search Trees](https://leetcode.com/explore/featured/card/september-leetcoding-challenge/554/week-1-september-1st-september-7th/3449/)
@@ -14,7 +16,7 @@ interface AllElementsInTwoBinarySearchTrees {
     fun getAllElements(root1: TreeNode?, root2: TreeNode?): List<Int>
 }
 
-// Space complexity: O(M + N), space complexity: O(M + N) - required to merge 2 sorted lists
+// Time complexity: O(M + N), space complexity: O(M + N) - required to merge 2 sorted lists
 object AllElementsInTwoBinarySearchTreesUsingInorderTraversalWithMerge : AllElementsInTwoBinarySearchTrees {
 
     override fun getAllElements(root1: TreeNode?, root2: TreeNode?): List<Int> {
@@ -59,5 +61,41 @@ object AllElementsInTwoBinarySearchTreesUsingInorderTraversalWithMerge : AllElem
             j++
         }
         return result
+    }
+}
+
+// Time complexity: O(M + N), space complexity: O(H1 + H2), where H1 and H2 are the heights of 2 given BSTs
+object AllElementsInTwoBinarySearchTreesUsingInorderTraversalWithStack : AllElementsInTwoBinarySearchTrees {
+
+    // Resource: https://www.youtube.com/watch?v=B97Hk1H2x2s&t=1170s
+    override fun getAllElements(root1: TreeNode?, root2: TreeNode?): List<Int> {
+        val result = mutableListOf<Int>()
+        val s1 = ArrayDeque<TreeNode>()
+        val s2 = ArrayDeque<TreeNode>()
+        var curr1 = root1
+        var curr2 = root2
+        while (curr1 != null || curr2 != null || !s1.isEmpty() || !s2.isEmpty()) {
+            curr1 = pushLeftNodesToStack(curr1, s1)
+            curr2 = pushLeftNodesToStack(curr2, s2)
+            if (s2.isEmpty() || (!s1.isEmpty() && s1.peek().`val` < s2.peek().`val`)) {
+                curr1 = s1.pop()
+                result.add(curr1.`val`)
+                curr1 = curr1.right
+            } else {
+                curr2 = s2.pop()
+                result.add(curr2.`val`)
+                curr2 = curr2.right
+            }
+        }
+        return result
+    }
+
+    private fun pushLeftNodesToStack(root: TreeNode?, stack: Deque<TreeNode>): TreeNode? {
+        var curr = root
+        while (curr != null) {
+            stack.push(curr)
+            curr = curr.left
+        }
+        return curr
     }
 }

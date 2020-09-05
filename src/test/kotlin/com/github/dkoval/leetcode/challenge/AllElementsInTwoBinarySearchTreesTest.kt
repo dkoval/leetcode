@@ -69,6 +69,20 @@ internal class AllElementsInTwoBinarySearchTreesTest {
         }
     }
 
+    @Nested
+    inner class AllElementsInTwoBinarySearchTreesUsingInorderTraversalWithStackTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return a list containing all the integers from both trees sorted in ascending order`(
+            root1: TreeNode?,
+            root2: TreeNode?,
+            expected: List<Int>
+        ) {
+            AllElementsInTwoBinarySearchTreesUsingInorderTraversalWithStack.test(root1, root2, expected)
+        }
+    }
+
     private fun AllElementsInTwoBinarySearchTrees.test(root1: TreeNode?, root2: TreeNode?, expected: List<Int>) {
         val actual = getAllElements(root1, root2)
         assertEquals(expected, actual)
