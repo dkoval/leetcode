@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
 import com.github.dkoval.leetcode.TreeNode
+import java.util.*
 
 /**
  * [Validate Binary Search Tree](https://leetcode.com/problems/validate-binary-search-tree/)
@@ -60,9 +61,35 @@ object IsBinarySearchTreeRecursivelyWithRanges : IsBinarySearchTree {
 
         // check for BST constraint violation: root.`val` must be in (minValue; maxValue) range
         if (minValue != null && root.`val` <= minValue
-            || maxValue != null && root.`val` >= maxValue) return false
+            || maxValue != null && root.`val` >= maxValue
+        ) return false
 
         return doIsValidBST(root.left, minValue, root.`val`)
                 && doIsValidBST(root.right, root.`val`, maxValue)
+    }
+}
+
+// Time complexity: O(N) - since we visit each node exactly once,
+// Space complexity: O(N) - to keep stack
+object IsBinarySearchTreeUsingInorderTraversal : IsBinarySearchTree {
+
+    override fun isValidBST(root: TreeNode?): Boolean {
+        val stack: Deque<TreeNode> = ArrayDeque()
+        var curr = root
+        var prev: Int? = null
+        while (!stack.isEmpty() || curr != null) {
+            while (curr != null) {
+                stack.push(curr)
+                curr = curr.left
+            }
+            curr = stack.pop()
+            // If next element in inorder traversal
+            // is smaller than the previous one
+            // that's not a BST.
+            if (prev != null && curr.`val` <= prev) return false
+            prev = curr.`val`
+            curr = curr.right
+        }
+        return true
     }
 }
