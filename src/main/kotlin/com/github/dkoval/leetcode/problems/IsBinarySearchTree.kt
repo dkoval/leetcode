@@ -74,6 +74,7 @@ object IsBinarySearchTreeRecursivelyWithRanges : IsBinarySearchTree {
 object IsBinarySearchTreeUsingInorderTraversal : IsBinarySearchTree {
 
     override fun isValidBST(root: TreeNode?): Boolean {
+        // Idea: innorder traversal of a BST explores nodes in sorted order
         val stack: Deque<TreeNode> = ArrayDeque()
         var curr = root
         var prev: Int? = null
