@@ -93,6 +93,16 @@ internal class IsBinarySearchTreeTest {
         }
     }
 
+    @Nested
+    inner class IsBinarySearchTreeUsingInorderTraversalWithStackTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should check if a given tree is a binary search tree (BST)`(root: TreeNode?, expected: Boolean) {
+            IsBinarySearchTreeUsingInorderTraversalWithStack.test(root, expected)
+        }
+    }
+
     private fun IsBinarySearchTree.test(root: TreeNode?, expected: Boolean) {
         val actual = isValidBST(root)
         assertEquals(expected, actual)

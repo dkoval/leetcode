@@ -70,11 +70,30 @@ object IsBinarySearchTreeRecursivelyWithRanges : IsBinarySearchTree {
 }
 
 // Time complexity: O(N) - since we visit each node exactly once,
-// Space complexity: O(N) - to keep stack
+// Space complexity: O(N) - since we keep up to the entire tree
 object IsBinarySearchTreeUsingInorderTraversal : IsBinarySearchTree {
 
+    private class ValueHolder<T>(var value: T)
+
     override fun isValidBST(root: TreeNode?): Boolean {
-        // Idea: innorder traversal of a BST explores nodes in sorted order
+        // Idea: inorder traversal of a BST explores nodes in sorted order
+        return doIsValidBST(root, ValueHolder(null))
+    }
+
+    private fun doIsValidBST(root: TreeNode?, prev: ValueHolder<Int?>): Boolean {
+        if (root == null) return true
+        if (!doIsValidBST(root.left, prev)) return false
+        if (prev.value != null && root.`val` <= prev.value!!) return false
+        return doIsValidBST(root.right, prev.apply { value = root.`val` })
+    }
+}
+
+// Time complexity: O(N) - since we visit each node exactly once,
+// Space complexity: O(N) - to keep stack
+object IsBinarySearchTreeUsingInorderTraversalWithStack : IsBinarySearchTree {
+
+    override fun isValidBST(root: TreeNode?): Boolean {
+        // Idea: inorder traversal of a BST explores nodes in sorted order
         val stack: Deque<TreeNode> = ArrayDeque()
         var curr = root
         var prev: Int? = null
