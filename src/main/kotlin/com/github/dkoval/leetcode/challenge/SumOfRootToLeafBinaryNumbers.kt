@@ -13,34 +13,15 @@ import com.github.dkoval.leetcode.TreeNode
  */
 object SumOfRootToLeafBinaryNumbers {
 
-    fun sumRootToLeaf(root: TreeNode?): Int {
-        if (root == null) return 0
-        return doSumRootToLeaf(root, mutableListOf())
-    }
+    fun sumRootToLeaf(root: TreeNode?): Int = doSumRootToLeaf(root, 0)
 
-    private fun doSumRootToLeaf(root: TreeNode, path: MutableList<Int>): Int {
-        path.add(root.`val`)
+    private fun doSumRootToLeaf(root: TreeNode?, sum: Int): Int {
+        if (root == null) return 0
+        val updatedSum = (sum shl 1) + root.`val` // base2 to base10 conversion
         if (root.left == null && root.right == null) {
             // reached a leaf node
-            return binToBase10(path)
+            return updatedSum
         }
-        var sum = 0
-        if (root.left != null) {
-            sum += doSumRootToLeaf(root.left!!, path)
-            path.removeAt(path.lastIndex)
-        }
-        if (root.right != null) {
-            sum += doSumRootToLeaf(root.right!!, path)
-            path.removeAt(path.lastIndex)
-        }
-        return sum
-    }
-
-    private fun binToBase10(binNum: List<Int>): Int {
-        var num = 0
-        for (digit in binNum) {
-            num = num * 2 + digit
-        }
-        return num
+        return doSumRootToLeaf(root.left, updatedSum) + doSumRootToLeaf(root.right, updatedSum)
     }
 }
