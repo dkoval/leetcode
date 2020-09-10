@@ -14,10 +14,15 @@ package com.github.dkoval.leetcode.challenge
  *
  * Please note that both secret number and friend's guess may contain duplicate digits.
  */
-object BullsAndCows {
+interface BullsAndCows {
+
+    fun getHint(secret: String, guess: String): String
+}
+
+object BullsAndCowsUsingTwoMaps : BullsAndCows {
 
     // Resource: https://www.youtube.com/watch?v=V_rZZ0kMFiw
-    fun getHint(secret: String, guess: String): String {
+    override fun getHint(secret: String, guess: String): String {
         var numBulls = 0
         val secretCharCount = mutableMapOf<Char, Int>()
         val guessCharCount = mutableMapOf<Char, Int>()
@@ -38,6 +43,30 @@ object BullsAndCows {
             if (secretCount != null) {
                 numCows += minOf(guessCount, secretCount)
             }
+        }
+        return "${numBulls}A${numCows}B"
+    }
+}
+
+object BullsAndCowsUsingTwoArrays : BullsAndCows {
+
+    override fun getHint(secret: String, guess: String): String {
+        var numBulls = 0
+        val arr1 = IntArray(10)
+        val arr2 = IntArray(10)
+        // compute number of bulls and keep track of mismatches
+        for (i in guess.indices) {
+            if (guess[i] == secret[i]) {
+                numBulls++
+            } else {
+                arr1[secret[i] - '0']++
+                arr2[guess[i] - '0']++
+            }
+        }
+        // compute number of cows
+        var numCows = 0
+        for (i in 0..9) {
+            numCows += minOf(arr1[i], arr2[i])
         }
         return "${numBulls}A${numCows}B"
     }
