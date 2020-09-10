@@ -24,24 +24,16 @@ package com.github.dkoval.leetcode.challenge
 object CompareVersionNumbers {
 
     fun compareVersion(version1: String, version2: String): Int {
-        fun levelRevisions(version: String): List<Int> = version.split(".").map { it.toInt() }
-
-        val revs1 = levelRevisions(version1)
-        val revs2 = levelRevisions(version2)
-
-        val numCommonLevels = minOf(revs1.size, revs2.size)
-        for (level in 0 until numCommonLevels) {
-            val rev1 = revs1[level]
-            val rev2 = revs2[level]
-            if (rev1 < rev2) return -1
-            if (rev1 > rev2) return 1
-        }
-
-        val longerRevs = if (revs1.size > revs2.size) revs1 else revs2
-        for (level in numCommonLevels until longerRevs.size) {
-            if (longerRevs[level] > 0) {
-                return if (longerRevs == revs1) 1 else -1
-            }
+        val tokens1 = version1.split(".")
+        val tokens2 = version2.split(".")
+        val maxLength = maxOf(tokens1.size, tokens2.size)
+        for (i in 0 until maxLength) {
+            val v1 = if (i < tokens1.size) tokens1[i].toInt() else 0
+            val v2 = if (i < tokens2.size) tokens2[i].toInt() else 0
+            if (v1 < v2)
+                return -1
+            else if (v1 > v2)
+                return 1
         }
         return 0
     }
