@@ -9,45 +9,29 @@ package com.github.dkoval.leetcode.challenge
  */
 object InsertInterval {
 
+    // Time complexity: O(N), space complexity: O(1)
+    // Resource: https://www.youtube.com/watch?v=FuLfL_WhUHI&t=1s
     fun insert(intervals: Array<IntArray>, newInterval: IntArray): Array<IntArray> {
-        if (intervals.isEmpty()) return arrayOf(newInterval)
-        val idx = findInsertIndex(intervals, newInterval)
         val result = mutableListOf<IntArray>()
-        for (i in 0 until idx) {
-            result += intervals[i]
-        }
-        val copyFrom = when {
-            idx == intervals.size || newInterval[1] < intervals[idx][0] -> {
-                // no overlap - either append the newInterval
-                result += newInterval
-                idx
-            }
-            else -> {
-                // merge overlapping intervals
-                val start = minOf(newInterval[0], intervals[idx][0])
-                var end = newInterval[1]
-                // can we further expand the end of the interval?
-                var i = idx
-                while (i < intervals.size && newInterval[1] >= intervals[i][0]) {
-                    end = maxOf(end, intervals[i][1])
-                    i++
-                }
-                result += intArrayOf(start, end)
-                if (i != idx) i else idx + 1
-            }
-        }
-        // copy remaining intervals
-        for (i in copyFrom until intervals.size) {
-            result += intervals[i]
-        }
-        return result.toTypedArray()
-    }
-
-    private fun findInsertIndex(intervals: Array<IntArray>, newInterval: IntArray): Int {
         var i = 0
-        while (i < intervals.size && newInterval[0] > intervals[i][1]) {
+        // include intervals that occur before `newInterval`
+        while (i < intervals.size && intervals[i][1] < newInterval[0]) { // end of the current interval is before `newInterval` start
+            result += intervals[i]
             i++
         }
-        return i
+        // include intervals overlapping with `newInterval` and merge them together
+        val mergedInterval = newInterval.copyOf()
+        while (i < intervals.size && intervals[i][0] <= newInterval[1]) { // start of the current interval is before `newInterval` end
+            mergedInterval[0] = minOf(mergedInterval[0], intervals[i][0])
+            mergedInterval[1] = maxOf(mergedInterval[1], intervals[i][1])
+            i++
+        }
+        result += mergedInterval
+        // include remaining intervals
+        while (i < intervals.size) {
+            result += intervals[i]
+            i++
+        }
+        return result.toTypedArray()
     }
 }
