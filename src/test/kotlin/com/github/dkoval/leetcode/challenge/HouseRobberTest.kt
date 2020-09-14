@@ -42,7 +42,20 @@ internal class HouseRobberTest {
         }
     }
 
-    private fun HouseRobberDPArray.test(nums: IntArray, expected: Int) {
+    @Nested
+    inner class HouseRobberDPSpaceOptimizedTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should determine the maximum amount of money you can rob tonight without alerting the police`(
+            nums: IntArray,
+            expected: Int
+        ) {
+            HouseRobberDPSpaceOptimized.test(nums, expected)
+        }
+    }
+
+    private fun HouseRobber.test(nums: IntArray, expected: Int) {
         val actual = rob(nums)
         assertEquals(expected, actual)
     }
