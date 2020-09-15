@@ -2,7 +2,7 @@ plugins {
     id 'idea'
     id 'java'
     id 'jacoco'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
 }
 
 group 'com.github.dkoval.leetcode'
@@ -13,8 +13,8 @@ repositories {
 
 dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.6.2'
-    testImplementation 'org.assertj:assertj-core:3.16.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
+    testImplementation 'org.assertj:assertj-core:3.17.2'
 }
 
 test {
