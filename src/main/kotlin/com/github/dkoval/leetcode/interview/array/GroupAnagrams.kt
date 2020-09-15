@@ -10,6 +10,9 @@ package com.github.dkoval.leetcode.interview.array
  */
 object GroupAnagrams {
 
+    // Time Complexity: O(N*K), where N is the length of strs, and K is the maximum length of a string in strs.
+    // Counting each string is linear in the size of the string, and we count every string.
+    // Space Complexity: O(N), the total information content stored in `groups` map.
     fun groupAnagrams(strs: Array<String>): List<List<String>> {
         val groups = mutableMapOf<String, MutableList<String>>()
         for (str in strs) {
