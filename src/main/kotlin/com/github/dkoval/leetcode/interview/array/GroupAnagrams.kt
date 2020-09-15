@@ -8,12 +8,17 @@ package com.github.dkoval.leetcode.interview.array
  * An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase,
  * typically using all the original letters exactly once.
  */
-object GroupAnagrams {
+interface GroupAnagrams {
+
+    fun groupAnagrams(strs: Array<String>): List<List<String>>
+}
+
+object GroupAnagramsKt : GroupAnagrams {
 
     // Time Complexity: O(N*K), where N is the length of strs, and K is the maximum length of a string in strs.
     // Counting each string is linear in the size of the string, and we count every string.
     // Space Complexity: O(N), the total information content stored in `groups` map.
-    fun groupAnagrams(strs: Array<String>): List<List<String>> {
+    override fun groupAnagrams(strs: Array<String>): List<List<String>> {
         val groups = mutableMapOf<String, MutableList<String>>()
         for (str in strs) {
             val key = keyOf(str)
