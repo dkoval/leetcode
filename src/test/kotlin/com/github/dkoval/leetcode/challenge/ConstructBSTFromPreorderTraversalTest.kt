@@ -37,7 +37,7 @@ internal class ConstructBSTFromPreorderTraversalTest {
         preorder: IntArray,
         expected: TreeNode?
     ) {
-        testSolution(preorder, expected, ConstructBSTFromPreorderTraversalSimple)
+        ConstructBSTFromPreorderTraversalSimple.test(preorder, expected)
     }
 
     @ParameterizedTest
@@ -46,15 +46,14 @@ internal class ConstructBSTFromPreorderTraversalTest {
         preorder: IntArray,
         expected: TreeNode?
     ) {
-       testSolution(preorder, expected, ConstructBSTFromPreorderTraversalOptimal)
+        ConstructBSTFromPreorderTraversalOptimal.test(preorder, expected)
     }
 
-    private fun testSolution(
+    private fun ConstructBSTFromPreorderTraversal.test(
         preorder: IntArray,
         expected: TreeNode?,
-        solution: ConstructBSTFromPreorderTraversal
     ) {
-        val actual = solution.bstFromPreorder(preorder)
+        val actual = bstFromPreorder(preorder)
         assertTrue(expected.equalsTo(actual))
     }
 }

@@ -42,7 +42,7 @@ internal class KClosestPointsToOriginTest {
         K: Int,
         expected: Array<IntArray>
     ) {
-        testSolution(points, K, expected, KClosestPointsToOriginUsingSorting)
+        KClosestPointsToOriginUsingSorting.test(points, K, expected)
     }
 
     @ParameterizedTest
@@ -52,16 +52,15 @@ internal class KClosestPointsToOriginTest {
         K: Int,
         expected: Array<IntArray>
     ) {
-        testSolution(points, K, expected, KClosestPointsToOriginUsingPriorityQueue)
+        KClosestPointsToOriginUsingPriorityQueue.test(points, K, expected)
     }
 
-    private fun testSolution(
+    private fun KClosestPointsToOrigin.test(
         points: Array<IntArray>,
         K: Int,
-        expected: Array<IntArray>,
-        solution: KClosestPointsToOrigin
+        expected: Array<IntArray>
     ) {
-        val actual = solution.kClosest(points, K)
+        val actual = kClosest(points, K)
         assertThat(actual).containsExactlyInAnyOrder(*expected)
     }
 }
