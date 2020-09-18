@@ -52,7 +52,7 @@ object MaximumXOROfTwoNumbersInArrayUsingTrie : MaximumXOROfTwoNumbersInArray {
             }
         }
 
-        fun findMaxXORWith(x: Int): Int {
+        fun findMaxXorWith(x: Int): Int {
             // The result of XOR is max when the bits are not same.
             // For each bit of x, starting from MSB, we try to maximise the XOR.
             // If the bit is 1, then we need a 0 to get the max XOR.
@@ -61,10 +61,10 @@ object MaximumXOROfTwoNumbersInArrayUsingTrie : MaximumXOROfTwoNumbersInArray {
             var result = 0
             for (i in 31 downTo 0) {
                 val bit = (x shr i) and 1 // get i-th bit of num
-                val invBit = bit xor 1 // 0 -> 1, 1 -> 0
-                if (cur.next[invBit] != null) {
+                val flippedBit = bit xor 1 // 0 -> 1, 1 -> 0
+                if (cur.next[flippedBit] != null) {
                     result = result or (1 shl i)
-                    cur = cur.next[invBit]!!
+                    cur = cur.next[flippedBit]!!
                 } else {
                     cur = cur.next[bit]!!
                 }
@@ -81,7 +81,7 @@ object MaximumXOROfTwoNumbersInArrayUsingTrie : MaximumXOROfTwoNumbersInArray {
             t.insert(num)
         }
         for (num in nums) {
-            result = maxOf(result, t.findMaxXORWith(num))
+            result = maxOf(result, t.findMaxXorWith(num))
         }
         return result
     }
