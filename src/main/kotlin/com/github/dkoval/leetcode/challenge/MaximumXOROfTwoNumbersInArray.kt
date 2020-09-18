@@ -26,3 +26,63 @@ object MaximumXOROfTwoNumbersInArrayBruteForce : MaximumXOROfTwoNumbersInArray {
         return result
     }
 }
+
+// Time complexity: O(N), space complexity: O(N)
+object MaximumXOROfTwoNumbersInArrayUsingTrie : MaximumXOROfTwoNumbersInArray {
+
+    private class Trie {
+
+        class Node {
+            // next[0] and next[1] deal with binary values 0 and 1 respectively
+            val next = Array<Node?>(2) { null }
+        }
+
+        private val root = Node()
+
+        fun insert(x: Int) {
+            // While inserting a number, we look into each bit of that number, starting from MSB.
+            // If that bit is 1 then we move on right side else, if the bit is 0, we move on the left side.
+            var curr = root
+            for (i in 31 downTo 0) {
+                val bit = (x shr i) and 1 // get i-th bit of num
+                if (curr.next[bit] == null) {
+                    curr.next[bit] = Node()
+                }
+                curr = curr.next[bit]!!
+            }
+        }
+
+        fun findMaxXORWith(x: Int): Int {
+            // The result of XOR is max when the bits are not same.
+            // For each bit of x, starting from MSB, we try to maximise the XOR.
+            // If the bit is 1, then we need a 0 to get the max XOR.
+            // Similarly, if the bit is 0, then we need a 1.
+            var cur = root
+            var result = 0
+            for (i in 31 downTo 0) {
+                val bit = (x shr i) and 1 // get i-th bit of num
+                val invBit = bit xor 1 // 0 -> 1, 1 -> 0
+                if (cur.next[invBit] != null) {
+                    result = result or (1 shl i)
+                    cur = cur.next[invBit]!!
+                } else {
+                    cur = cur.next[bit]!!
+                }
+            }
+            return result
+        }
+    }
+
+    // Resource: https://www.ritambhara.in/maximum-xor-value-of-two-elements/
+    override fun findMaximumXOR(nums: IntArray): Int {
+        var result = 0
+        val t = Trie()
+        for (num in nums) {
+            t.insert(num)
+        }
+        for (num in nums) {
+            result = maxOf(result, t.findMaxXORWith(num))
+        }
+        return result
+    }
+}

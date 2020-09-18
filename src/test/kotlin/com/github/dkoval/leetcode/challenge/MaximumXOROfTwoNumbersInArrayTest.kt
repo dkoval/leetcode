@@ -22,6 +22,10 @@ internal class MaximumXOROfTwoNumbersInArrayTest {
             Arguments.of(
                 intArrayOf(0),
                 0
+            ),
+            Arguments.of(
+                intArrayOf(2, 4),
+                6
             )
         )
     }
@@ -39,5 +43,15 @@ internal class MaximumXOROfTwoNumbersInArrayTest {
     private fun MaximumXOROfTwoNumbersInArray.test(nums: IntArray, expected: Int) {
         val actual = findMaximumXOR(nums)
         assertEquals(expected, actual)
+    }
+
+    @Nested
+    inner class MaximumXOROfTwoNumbersInArrayUsingTrieTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should maximum xor of two numbers in an array`(nums: IntArray, expected: Int) {
+            MaximumXOROfTwoNumbersInArrayUsingTrie.test(nums, expected)
+        }
     }
 }
