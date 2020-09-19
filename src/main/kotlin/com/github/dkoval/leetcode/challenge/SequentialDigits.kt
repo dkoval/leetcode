@@ -10,10 +10,15 @@ package com.github.dkoval.leetcode.challenge
  * Constraints:
  * - 10 <= low <= high <= 10^9
  */
-object SequentialDigits {
+interface SequentialDigits {
+
+    fun sequentialDigits(low: Int, high: Int): List<Int>
+}
+
+object SequentialDigitsIter : SequentialDigits {
 
     // Time complexity: O(9*log10(high)), space complexity: O(log10(high))
-    fun sequentialDigits(low: Int, high: Int): List<Int> {
+    override fun sequentialDigits(low: Int, high: Int): List<Int> {
         val result = mutableListOf<Int>()
         for (digit in 1..9) {
             var num = 0
@@ -28,5 +33,25 @@ object SequentialDigits {
             }
         }
         return result.apply { sort() }
+    }
+}
+
+object SequentialDigitsRecursive : SequentialDigits {
+
+    override fun sequentialDigits(low: Int, high: Int): List<Int> {
+        val result = mutableListOf<Int>()
+        for (digit in 1..9) {
+            doSequentialDigits(low, high, 0, digit, result)
+        }
+        return result.apply { sort() }
+    }
+
+    private fun doSequentialDigits(low: Int, high: Int, num: Int, nextDigit: Int, result: MutableList<Int>) {
+        if (num > high) return
+        if (num >= low) {
+            result += num
+        }
+        if (nextDigit > 9) return
+        return doSequentialDigits(low, high, num * 10 + nextDigit, nextDigit + 1, result)
     }
 }
