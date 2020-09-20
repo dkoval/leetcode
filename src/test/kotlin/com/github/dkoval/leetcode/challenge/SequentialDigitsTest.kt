@@ -42,6 +42,20 @@ internal class SequentialDigitsTest {
     }
 
     @Nested
+    inner class SequentialDigitsIterOptimizedTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return a sorted list of all the integers in the low to high range  inclusive that have sequential digits`(
+            low: Int,
+            high: Int,
+            expected: List<Int>
+        ) {
+            SequentialDigitsIterOptimized.test(low, high, expected)
+        }
+    }
+
+    @Nested
     inner class SequentialDigitsRecursiveTest {
 
         @ParameterizedTest

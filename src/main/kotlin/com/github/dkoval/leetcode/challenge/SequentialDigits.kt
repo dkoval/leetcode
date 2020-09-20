@@ -36,6 +36,42 @@ object SequentialDigitsIter : SequentialDigits {
     }
 }
 
+object SequentialDigitsIterOptimized : SequentialDigits {
+
+    override fun sequentialDigits(low: Int, high: Int): List<Int> {
+        val result = mutableListOf<Int>()
+        val numDigitsInLow = countDigits(low)
+        val numDigitsInHigh = countDigits(high)
+        for (numDigits in numDigitsInLow..numDigitsInHigh) {
+            for (i in 1..10 - numDigits) {
+                val num = numWithSequentialDigits(i, i + numDigits - 1)
+                if (num in low..high) {
+                    result += num
+                }
+            }
+        }
+        return result
+    }
+
+    private fun countDigits(n: Int): Int {
+        var count = 0
+        var x = n
+        while (x != 0) {
+            x /= 10
+            count++
+        }
+        return count
+    }
+
+    private fun numWithSequentialDigits(start: Int, end: Int): Int {
+        var num = 0
+        for (i in start..end) {
+            num = num * 10 + i
+        }
+        return num
+    }
+}
+
 object SequentialDigitsRecursive : SequentialDigits {
 
     override fun sequentialDigits(low: Int, high: Int): List<Int> {
