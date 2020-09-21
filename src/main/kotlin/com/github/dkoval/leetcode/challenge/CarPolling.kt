@@ -19,6 +19,8 @@ interface CarPolling {
 
 object CarPollingUsingSortedMap : CarPolling {
 
+    // Time complexity: O(N*logN) cause TreeMap has complexity of O(logN) for insertion and lookup.
+    // Space complexity: O(1001)
     override fun carPooling(trips: Array<IntArray>, capacity: Int): Boolean {
         val deltas = sortedMapOf<Int, Int>() // we want keys to be sorted
         for ((numPassengers, startLocation, endLocation) in trips) {
@@ -34,10 +36,11 @@ object CarPollingUsingSortedMap : CarPolling {
     }
 }
 
+// Time complexity: O(N), space complexity: O(1001)
 object CarPollingUsingArray : CarPolling {
 
     override fun carPooling(trips: Array<IntArray>, capacity: Int): Boolean {
-        val deltas = IntArray(1001) // array size is taken from the problem's constraints
+        val deltas = IntArray(1001) // size is taken from the problem's constraint: 0 <= trips[i][1] < trips[i][2] <= 1000
         for ((numPassengers, startLocation, endLocation) in trips) {
             deltas[startLocation] -= numPassengers
             deltas[endLocation] += numPassengers
