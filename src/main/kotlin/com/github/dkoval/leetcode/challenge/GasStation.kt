@@ -21,6 +21,7 @@ interface GasStation {
     fun canCompleteCircuit(gas: IntArray, cost: IntArray): Int
 }
 
+// Time complexity: O(N^2), space complexity: O(1)
 object GasStationBruteForce : GasStation {
 
     override fun canCompleteCircuit(gas: IntArray, cost: IntArray): Int {
@@ -38,5 +39,26 @@ object GasStationBruteForce : GasStation {
             }
         }
         return -1
+    }
+}
+
+// Time complexity: O(N), space complexity: O(1)
+object GasStationGreedy : GasStation {
+
+    // Resource: https://www.youtube.com/watch?v=xWgbFI_rXJs
+    override fun canCompleteCircuit(gas: IntArray, cost: IntArray): Int {
+        var start = 0
+        var gasInTank = 0
+        var total = 0
+        for (i in gas.indices) {
+            val diff = gas[i] - cost[i]
+            gasInTank += diff
+            if (gasInTank < 0) {
+                start = i + 1
+                gasInTank = 0
+            }
+            total += diff
+        }
+        return if (total >= 0) start else -1
     }
 }

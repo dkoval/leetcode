@@ -54,6 +54,20 @@ internal class GasStationTest {
         }
     }
 
+    @Nested
+    inner class GasStationGreedyTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the starting gas station's index if you can travel around the circuit once `(
+            gas: IntArray,
+            cost: IntArray,
+            expected: Int
+        ) {
+            GasStationGreedy.test(gas, cost, expected)
+        }
+    }
+
     private fun GasStation.test(gas: IntArray, cost: IntArray, expected: Int) {
         val actual = canCompleteCircuit(gas, cost)
         assertEquals(expected, actual)
