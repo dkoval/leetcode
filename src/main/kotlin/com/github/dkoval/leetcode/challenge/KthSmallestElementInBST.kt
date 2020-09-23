@@ -13,24 +13,24 @@ import com.github.dkoval.leetcode.TreeNode
 object KthSmallestElementInBST {
 
     fun kthSmallest(root: TreeNode?, k: Int): Int {
-        val i = IndexAndValue(0, Int.MAX_VALUE)
+        val i = CountAndValue(0, Int.MAX_VALUE)
         inorder(root, k, i);
         return i.value
     }
 
-    private data class IndexAndValue(var index: Int, var value: Int)
+    private data class CountAndValue(var count: Int, var value: Int)
 
     // Fact: In-order traversal of a BST returns the node in ascending order.
     // Idea: Keep track of the number of nodes processed so far while traversing the BST in in-order fashion.
     // When the number of nodes processed becomes equal to k, the current node is k-th smallest.
-    private fun inorder(root: TreeNode?, k: Int, i: IndexAndValue) {
+    private fun inorder(root: TreeNode?, k: Int, i: CountAndValue) {
         if (root == null) {
             return
         }
         // search in the left subtree
         inorder(root.left, k, i)
         // if the current node is k-th, return its node
-        if (++i.index == k) {
+        if (++i.count == k) {
             i.value = root.`val`
             return
         }
