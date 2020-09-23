@@ -6,36 +6,44 @@ package com.github.dkoval.leetcode.challenge
  * Given an array of size n, find the majority element. The majority element is the element that appears more than ⌊ n/2 ⌋ times.
  * You may assume that the array is non-empty and the majority element always exist in the array.
  */
-object MajorityElement {
+interface MajorityElement {
 
-    fun majorityElement(nums: IntArray): Int {
-        val frequenciesByNum = frequencies(nums)
-        var majorityElement: MajorityElement? = null
-        for ((num, frequency) in frequenciesByNum.entries) {
-            if (frequency > nums.size / 2) {
-                if (majorityElement == null) {
-                    majorityElement = MajorityElement(num, frequency)
-                } else if (frequency > majorityElement.frequency) {
-                    majorityElement.num = num
-                    majorityElement.frequency = frequency
-                }
-            }
-        }
-        return majorityElement?.num ?: throw IllegalStateException("No majority element found")
-    }
+    fun majorityElement(nums: IntArray): Int
+}
 
-    private data class MajorityElement(var num: Int, var frequency: Int)
+// Time complexity: O(N), space complexity: O(N)
+object MajorityElementUsingHashMap : MajorityElement {
 
-    private fun frequencies(nums: IntArray): Map<Int, Int> {
-        val result = mutableMapOf<Int, Int>()
+    override fun majorityElement(nums: IntArray): Int {
+        val counts = mutableMapOf<Int, Int>()
         for (num in nums) {
-            val frequency = result[num]
-            if (frequency != null) {
-                result[num] = frequency + 1
+            val count = counts[num]
+            if (count != null && count + 1 > nums.size / 2) {
+                return num
             } else {
-                result[num] = 1
+                counts[num] = (count ?: 0) + 1
             }
         }
-        return result
+        return -1
+    }
+}
+
+// Time complexity: O(N), space complexity: O(N)
+object MajorityElementUsingBoyerMooreVotingAlgorithm : MajorityElement {
+
+    override fun majorityElement(nums: IntArray): Int {
+        var candidate: Int? = null
+        var count = 0
+        for (num in nums) {
+            when {
+                candidate == num -> count++
+                count == 0 -> {
+                    candidate = num
+                    count++
+                }
+                else -> count--
+            }
+        }
+        return candidate!!
     }
 }
