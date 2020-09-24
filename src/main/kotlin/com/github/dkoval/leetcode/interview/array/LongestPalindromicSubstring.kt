@@ -10,24 +10,33 @@ interface LongestPalindromicSubstring {
     fun longestPalindrome(s: String): String
 }
 
+// Time complexity: O(N^3)
 object LongestPalindromicSubstringBruteForce : LongestPalindromicSubstring {
 
     override fun longestPalindrome(s: String): String {
-        var result = ""
+        var startIndex = 0
+        var endIndex = 0
+        var maxLength = 0
         for (i in s.indices) {
             for (j in i until s.length) {
-                val substr = s.substring(i..j)
-                if (substr.isPalindrome() && substr.length > result.length) {
-                    result = substr
+                val length = j - i + 1
+                if (length > maxLength && s.isPalindrome(i, j)) {
+                    maxLength = length
+                    startIndex = i
+                    endIndex = j
                 }
             }
         }
-        return result
+        return if (maxLength > 0) s.substring(startIndex..endIndex) else ""
     }
 
-    private fun String.isPalindrome(): Boolean {
-        for (i in 0 until length / 2) {
-            if (this[i] != this[length - i - 1]) return false
+    private fun String.isPalindrome(startIndex: Int, endIndex: Int): Boolean {
+        var i = startIndex
+        var j = endIndex
+        while (i < j) {
+            if (this[i] != this[j]) return false
+            i++
+            j--
         }
         return true
     }
