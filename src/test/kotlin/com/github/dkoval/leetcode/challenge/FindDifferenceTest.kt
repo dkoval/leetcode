@@ -23,22 +23,42 @@ internal class FindDifferenceTest {
     }
 
     @Nested
-    inner class FindDifferenceKtTest {
+    inner class FindDifferenceUsingSumKtTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the letter that was added in t`(s: String, t: String, expected: Char) {
-            FindDifferenceKt.test(s, t, expected)
+            FindDifferenceUsingSumKt.test(s, t, expected)
         }
     }
 
     @Nested
-    inner class FindDifferenceJavaTest {
+    inner class FindDifferenceUsingXorKtTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the letter that was added in t`(s: String, t: String, expected: Char) {
-            FindDifferenceJava().test(s, t, expected)
+            FindDifferenceUsingXorKt.test(s, t, expected)
+        }
+    }
+
+    @Nested
+    inner class FindDifferenceUsingSumJavaTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the letter that was added in t`(s: String, t: String, expected: Char) {
+            FindDifferenceUsingSumJava().test(s, t, expected)
+        }
+    }
+
+    @Nested
+    inner class FindDifferenceUsingXorJavaTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the letter that was added in t`(s: String, t: String, expected: Char) {
+            FindDifferenceUsingXorJava().test(s, t, expected)
         }
     }
 

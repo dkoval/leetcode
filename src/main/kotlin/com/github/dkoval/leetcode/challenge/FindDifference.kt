@@ -15,7 +15,7 @@ interface FindDifference {
 }
 
 // Time complexity: O(N), space complexity: O(1)
-object FindDifferenceKt : FindDifference {
+object FindDifferenceUsingSumKt : FindDifference {
 
     override fun findTheDifference(s: String, t: String): Char {
         var addedCharAsciiValue = 0
@@ -25,5 +25,17 @@ object FindDifferenceKt : FindDifference {
         }
         addedCharAsciiValue += t.last().toInt()
         return addedCharAsciiValue.toChar()
+    }
+}
+
+// Time complexity: O(N), space complexity: O(1)
+object FindDifferenceUsingXorKt : FindDifference {
+
+    // Resource: https://www.youtube.com/watch?v=sRwElQ_TOr8&t=266s
+    override fun findTheDifference(s: String, t: String): Char {
+        var addedChar = 0
+        for (cs in s) addedChar = addedChar xor cs.toInt()
+        for (ct in t) addedChar = addedChar xor ct.toInt()
+        return addedChar.toChar()
     }
 }
