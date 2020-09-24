@@ -41,3 +41,40 @@ object LongestPalindromicSubstringBruteForce : LongestPalindromicSubstring {
         return true
     }
 }
+
+// Time complexity: O(N^2)
+object LongestPalindromicSubstringUsingExpandOutApproach : LongestPalindromicSubstring {
+
+    // Resource: https://www.youtube.com/watch?v=y2BD4MJqV20&list=TLPQMjQwOTIwMjCNKBD_ObHf6w&index=2
+    override fun longestPalindrome(s: String): String {
+        if (s.isEmpty()) return ""
+        var startIndex = 0
+        var endIndex = 0
+        for (i in s.indices) {
+            // 2 cases to handle:
+            // - palindrome of odd length, like "racecar", where the middle element 'e' doesn't have a match
+            // - regular palindrome of even length, like "abba", where each character has a match
+            val length1 = lengthOfPalindromeExpandingFromMiddle(s, i, i)
+            val length2 = lengthOfPalindromeExpandingFromMiddle(s, i, i + 1)
+            val length = maxOf(length1, length2)
+            if (length > endIndex - startIndex + 1) {
+                startIndex = i - (length - 1) / 2
+                endIndex = i + length / 2
+            }
+        }
+        return s.substring(startIndex..endIndex)
+    }
+
+    private fun lengthOfPalindromeExpandingFromMiddle(s: String, startIndex: Int, endIndex: Int): Int {
+        if (startIndex > endIndex) return 0
+        var i = startIndex
+        var j = endIndex
+        while (i >= 0 && j < s.length && s[i] == s[j]) {
+            i--
+            j++
+        }
+        // after loop is executed: ...i, start, ..., end, j, ...
+        // therefore length of s.substring(start..end) = end - start + 1 = end - i = j - 1 - i
+        return j - i - 1
+    }
+}

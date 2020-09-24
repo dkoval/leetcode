@@ -40,6 +40,16 @@ internal class LongestPalindromicSubstringTest {
         }
     }
 
+    @Nested
+    inner class LongestPalindromicSubstringUsingExpandOutApproachTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the longest palindromic substring`(s: String, expected: String) {
+            LongestPalindromicSubstringUsingExpandOutApproach.test(s, expected)
+        }
+    }
+
     private fun LongestPalindromicSubstring.test(s: String, expected: String) {
         val actual = longestPalindrome(s)
         assertEquals(expected, actual)
