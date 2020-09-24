@@ -31,12 +31,12 @@ object LongestPalindromicSubstringBruteForce : LongestPalindromicSubstring {
     }
 
     private fun String.isPalindrome(startIndex: Int, endIndex: Int): Boolean {
-        var i = startIndex
-        var j = endIndex
-        while (i < j) {
-            if (this[i] != this[j]) return false
-            i++
-            j--
+        var l = startIndex
+        var r = endIndex
+        while (l < r) {
+            if (this[l] != this[r]) return false
+            l++
+            r--
         }
         return true
     }
@@ -45,36 +45,37 @@ object LongestPalindromicSubstringBruteForce : LongestPalindromicSubstring {
 // Time complexity: O(N^2)
 object LongestPalindromicSubstringUsingExpandOutApproach : LongestPalindromicSubstring {
 
-    // Resource: https://www.youtube.com/watch?v=y2BD4MJqV20&list=TLPQMjQwOTIwMjCNKBD_ObHf6w&index=2
+    // Resources:
+    // https://www.youtube.com/watch?v=ZJUGtWObroc
+    // https://www.youtube.com/watch?v=y2BD4MJqV20&list=TLPQMjQwOTIwMjCNKBD_ObHf6w&index=2
     override fun longestPalindrome(s: String): String {
-        if (s.isEmpty()) return ""
+        if (s.length <= 1) return s
         var startIndex = 0
         var endIndex = 0
         for (i in s.indices) {
             // 2 cases to handle:
-            // - palindrome of odd length, like "racecar", where the middle element 'e' doesn't have a match
+            // - palindrome of odd length, like "abdba", where the middle element 'd' doesn't have a match
             // - regular palindrome of even length, like "abba", where each character has a match
-            val length1 = lengthOfPalindromeExpandingFromMiddle(s, i, i)
-            val length2 = lengthOfPalindromeExpandingFromMiddle(s, i, i + 1)
-            val length = maxOf(length1, length2)
-            if (length > endIndex - startIndex + 1) {
-                startIndex = i - (length - 1) / 2
-                endIndex = i + length / 2
+            val odd = palindromeExpandingFromCenter(s, i, isOdd = true)
+            val even = palindromeExpandingFromCenter(s, i, isOdd = false)
+            val longer = if (odd.last - odd.first > even.last - even.first) odd else even
+            if (longer.last - longer.first > endIndex - startIndex) {
+                startIndex = longer.first
+                endIndex = longer.last
             }
         }
         return s.substring(startIndex..endIndex)
     }
 
-    private fun lengthOfPalindromeExpandingFromMiddle(s: String, startIndex: Int, endIndex: Int): Int {
-        if (startIndex > endIndex) return 0
-        var i = startIndex
-        var j = endIndex
-        while (i >= 0 && j < s.length && s[i] == s[j]) {
-            i--
-            j++
+    private fun palindromeExpandingFromCenter(s: String, index: Int, isOdd: Boolean): IntRange {
+        var l = index
+        var r = if (isOdd) index else index + 1
+        while (l >= 0 && r < s.length && s[l] == s[r]) {
+            l--
+            r++
         }
-        // after loop is executed: ...i, start, ..., end, j, ...
-        // therefore length of s.substring(start..end) = end - start + 1 = end - i = j - 1 - i
-        return j - i - 1
+        // after loop is executed: ..., l, start, ..., end, r, ...
+        // therefore length of s.substring(start..end) = end - start + 1 = end - l = r - 1 - l
+        return IntRange(l + 1, r - 1)
     }
 }
