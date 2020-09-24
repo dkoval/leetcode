@@ -14,6 +14,7 @@ interface FindDifference {
     fun findTheDifference(s: String, t: String): Char
 }
 
+// Time complexity: O(N), space complexity: O(1)
 object FindDifferenceKt : FindDifference {
 
     override fun findTheDifference(s: String, t: String): Char {

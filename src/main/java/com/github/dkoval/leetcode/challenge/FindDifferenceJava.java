@@ -2,6 +2,7 @@ package com.github.dkoval.leetcode.challenge;
 
 import org.jetbrains.annotations.NotNull;
 
+// Time complexity: O(N), space complexity: O(1)
 public class FindDifferenceJava implements FindDifference {
 
     @Override
