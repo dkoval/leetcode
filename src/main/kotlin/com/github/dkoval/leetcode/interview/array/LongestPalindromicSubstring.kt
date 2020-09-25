@@ -75,7 +75,6 @@ object LongestPalindromicSubstringUsingExpandOutApproach : LongestPalindromicSub
             r++
         }
         // after loop is executed: ..., l, start, ..., end, r, ...
-        // therefore length of s.substring(start..end) = end - start + 1 = end - l = r - 1 - l
         return IntRange(l + 1, r - 1)
     }
 }

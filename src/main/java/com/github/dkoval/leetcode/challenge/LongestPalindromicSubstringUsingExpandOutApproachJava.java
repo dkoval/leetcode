@@ -30,6 +30,8 @@ public class LongestPalindromicSubstringUsingExpandOutApproachJava implements Lo
             l--;
             r++;
         }
+        // after loop is executed: ..., l, start, ..., end, r, ...
+        // therefore length of s.substring(start..end) = end - start + 1 = end - l = r - 1 - l
         return r - l - 1;
     }
 }
