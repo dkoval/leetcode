@@ -23,22 +23,22 @@ internal class FindDifferenceTest {
     }
 
     @Nested
-    inner class FindDifferenceUsingSumKtTest {
+    inner class FindDifferenceUsingSumTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the letter that was added in t`(s: String, t: String, expected: Char) {
-            FindDifferenceUsingSumKt.test(s, t, expected)
+            FindDifferenceUsingSum.test(s, t, expected)
         }
     }
 
     @Nested
-    inner class FindDifferenceUsingXorKtTest {
+    inner class FindDifferenceUsingXorTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the letter that was added in t`(s: String, t: String, expected: Char) {
-            FindDifferenceUsingXorKt.test(s, t, expected)
+            FindDifferenceUsingXor.test(s, t, expected)
         }
     }
 

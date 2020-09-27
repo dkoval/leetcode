@@ -61,7 +61,7 @@ internal class EvaluateDivisionTest {
     }
 
     @Nested
-    inner class EvaluateDivisionKtTest {
+    inner class EvaluateDivisionTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -71,7 +71,7 @@ internal class EvaluateDivisionTest {
             queries: List<List<String>>,
             expected: DoubleArray
         ) {
-            EvaluateDivisionKt.test(equations, values, queries, expected)
+            EvaluateDivision.test(equations, values, queries, expected)
         }
     }
 
@@ -90,7 +90,7 @@ internal class EvaluateDivisionTest {
         }
     }
 
-    private fun EvaluateDivisionKt.test(
+    private fun EvaluateDivision.test(
         equations: List<List<String>>,
         values: DoubleArray,
         queries: List<List<String>>,
