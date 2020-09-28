@@ -34,10 +34,9 @@ object SubarrayProductLessThanKUsingWindow : SubarrayProductLessThanK {
     override fun numSubarrayProductLessThanK(nums: IntArray, k: Int): Int {
         if (k <= 1) return 0
         var l = 0
-        var r = 0
         var count = 0
         var product = 1
-        while (r < nums.size) {
+        for (r in nums.indices) {
             product *= nums[r]
             // shift window's left boundary to make window's elements product < k
             while (product >= k) {
@@ -45,7 +44,6 @@ object SubarrayProductLessThanKUsingWindow : SubarrayProductLessThanK {
                 l++
             }
             count += r - l + 1
-            r++
         }
         return count
     }

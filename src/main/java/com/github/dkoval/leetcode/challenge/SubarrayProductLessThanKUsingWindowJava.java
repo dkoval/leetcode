@@ -8,15 +8,14 @@ public class SubarrayProductLessThanKUsingWindowJava implements SubarrayProductL
     @Override
     public int numSubarrayProductLessThanK(@NotNull int[] nums, int k) {
         if (k <= 1) return 0;
-        int l = 0, r = 0, count = 0, product = 1;
-        while (r < nums.length) {
+        int l = 0, count = 0, product = 1;
+        for (int r = 0; r < nums.length; r++) {
             product *= nums[r];
             while (product >= k) {
                 product /= nums[l];
                 l++;
             }
             count += r - l + 1;
-            r++;
         }
         return count;
     }
