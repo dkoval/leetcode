@@ -64,6 +64,19 @@ internal class WordSquaresTest {
         }
     }
 
+    @Nested
+    inner class WordSquaresRecursiveWithTrieJavaTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find all word squares you can build from a given set of words`(
+            words: Array<String>,
+            expected: List<List<String>>
+        ) {
+            WordSquaresRecursiveWithTrieJava().test(words, expected)
+        }
+    }
+
     private fun WordSquares.test(words: Array<String>, expected: List<List<String>>) {
         val actual = wordSquares(words)
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
