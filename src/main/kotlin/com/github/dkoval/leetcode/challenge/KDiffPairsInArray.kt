@@ -16,6 +16,7 @@ interface KDiffPairsInArray {
     fun findPairs(nums: IntArray, k: Int): Int
 }
 
+// Time complexity: O(N^2), space complexity: O(N)
 object KDiffPairsInArrayBruteForce : KDiffPairsInArray {
 
     override fun findPairs(nums: IntArray, k: Int): Int {
@@ -34,6 +35,7 @@ object KDiffPairsInArrayBruteForce : KDiffPairsInArray {
     }
 }
 
+// Time complexity: O(N*LogN), space complexity: O(1)
 object KDiffPairsInArrayInNLogNTime : KDiffPairsInArray {
 
     override fun findPairs(nums: IntArray, k: Int): Int {
@@ -47,5 +49,35 @@ object KDiffPairsInArrayInNLogNTime : KDiffPairsInArray {
             prev = nums[i]
         }
         return count
+    }
+}
+
+object KDiffPairsInArrayInNLogNTimeWithCustomBinarySearch : KDiffPairsInArray {
+
+    override fun findPairs(nums: IntArray, k: Int): Int {
+        nums.sort()
+        var count = 0
+        var prev: Int? = null
+        for (i in 0 until nums.size - 1) {
+            if (nums[i] == prev) continue
+            val index = binarySearch(nums, i + 1, nums.lastIndex, nums[i] + k)
+            if (index >= 0) count++
+            prev = nums[i]
+        }
+        return count
+    }
+
+    private fun binarySearch(nums: IntArray, start: Int, end: Int, key: Int): Int {
+        var left = start
+        var right = end
+        while (left <= right) {
+            val mid = left + (right - left) / 2
+            when {
+                nums[mid] < key -> left = mid + 1
+                nums[mid] > key -> right = mid - 1
+                else -> return mid
+            }
+        }
+        return -1
     }
 }

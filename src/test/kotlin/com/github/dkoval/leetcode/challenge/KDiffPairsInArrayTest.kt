@@ -75,6 +75,26 @@ internal class KDiffPairsInArrayTest {
         }
     }
 
+    @Nested
+    inner class KDiffPairsInArrayInNLogNTimeWithCustomBinarySearchTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of unique k-diff pairs in the array`(nums: IntArray, k: Int, expected: Int) {
+            KDiffPairsInArrayInNLogNTimeWithCustomBinarySearch.test(nums, k, expected)
+        }
+    }
+
+    @Nested
+    inner class KDiffPairsInArrayInNLogNTimeWithCustomBinarySearchJavaTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of unique k-diff pairs in the array`(nums: IntArray, k: Int, expected: Int) {
+            KDiffPairsInArrayInNLogNTimeWithCustomBinarySearchJava().test(nums, k, expected)
+        }
+    }
+
     private fun KDiffPairsInArray.test(nums: IntArray, k: Int, expected: Int) {
         val actual = findPairs(nums, k)
         assertEquals(expected, actual)
