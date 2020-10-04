@@ -34,3 +34,26 @@ object RemoveCoveredIntervalsBruteForceKt : RemoveCoveredIntervals {
     private fun IntArray.isIntervalCoveredBy(interval: IntArray): Boolean =
         interval[0] <= this[0] && interval[1] >= this[1]
 }
+
+// Greedy algorithm
+// Time complexity: O(NlogN), space complexity: O(1)
+object RemoveCoveredIntervalsInNLogNTimeKt : RemoveCoveredIntervals {
+
+    override fun removeCoveredIntervals(intervals: Array<IntArray>): Int {
+        intervals.sortWith { (start1, end1), (start2, end2) ->
+            // Sort interval by start point in ascending order.
+            // If two intervals share the same start point, put the longer interval in front.
+            if (start1 == start2) end2 - end1 else start1 - start2
+        }
+        var numCoveredIntervals = 0
+        var prevInterval = intervals[0]
+        for (i in 1 until intervals.size) {
+            if (prevInterval[1] >= intervals[i][1]) {
+                numCoveredIntervals++
+            } else {
+                prevInterval = intervals[i]
+            }
+        }
+        return intervals.size - numCoveredIntervals
+    }
+}

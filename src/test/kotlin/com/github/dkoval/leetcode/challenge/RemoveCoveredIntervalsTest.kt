@@ -77,8 +77,31 @@ internal class RemoveCoveredIntervalsTest {
             intervals: Array<IntArray>,
             expected: Int
         ) {
-            RemoveCoveredIntervalsBruteForceJava()
-                .test(intervals, expected)
+            RemoveCoveredIntervalsBruteForceJava().test(intervals, expected)
+        }
+    }
+
+    @Nested
+    inner class RemoveCoveredIntervalsInNLogNTimeKtTest {
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of remaining intervals after covered intervals were removed`(
+            intervals: Array<IntArray>,
+            expected: Int
+        ) {
+            RemoveCoveredIntervalsInNLogNTimeKt.test(intervals, expected)
+        }
+    }
+
+    @Nested
+    inner class RemoveCoveredIntervalsInNLogNTimeJavaTest {
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of remaining intervals after covered intervals were removed`(
+            intervals: Array<IntArray>,
+            expected: Int
+        ) {
+            RemoveCoveredIntervalsInNLogNTimeJava().test(intervals, expected)
         }
     }
 
