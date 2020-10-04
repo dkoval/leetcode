@@ -3,9 +3,11 @@ package com.github.dkoval.leetcode.challenge;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public interface NumberOfRecentCalls {
+public abstract class NumberOfRecentCalls {
 
-    class RecentCounterJava implements RecentCounter {
+    private NumberOfRecentCalls() { /* prevents instantiation */ }
+
+    public static class RecentCounterJava implements RecentCounter {
         private static final int WINDOW_SIZE = 3000;
 
         private final Queue<Integer> queue = new LinkedList<>();
