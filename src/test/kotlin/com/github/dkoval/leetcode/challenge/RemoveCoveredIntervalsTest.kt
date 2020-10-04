@@ -56,7 +56,7 @@ internal class RemoveCoveredIntervalsTest {
     }
 
     @Nested
-    inner class RemoveCoveredIntervalsKtTest {
+    inner class RemoveCoveredIntervalsBruteForceKtTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -64,12 +64,12 @@ internal class RemoveCoveredIntervalsTest {
             intervals: Array<IntArray>,
             expected: Int
         ) {
-            RemoveCoveredIntervalsKt.test(intervals, expected)
+            RemoveCoveredIntervalsBruteForceKt.test(intervals, expected)
         }
     }
 
     @Nested
-    inner class RemoveCoveredIntervalsJavaTest {
+    inner class RemoveCoveredIntervalsBruteForceJavaTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -77,7 +77,8 @@ internal class RemoveCoveredIntervalsTest {
             intervals: Array<IntArray>,
             expected: Int
         ) {
-            RemoveCoveredIntervalsJava().test(intervals, expected)
+            RemoveCoveredIntervalsBruteForceJava()
+                .test(intervals, expected)
         }
     }
 

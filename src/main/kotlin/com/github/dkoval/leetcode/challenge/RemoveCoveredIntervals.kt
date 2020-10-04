@@ -14,7 +14,8 @@ interface RemoveCoveredIntervals {
     fun removeCoveredIntervals(intervals: Array<IntArray>): Int
 }
 
-object RemoveCoveredIntervalsKt : RemoveCoveredIntervals {
+// Time complexity: O(N^2), space complexity: O(1)
+object RemoveCoveredIntervalsBruteForceKt : RemoveCoveredIntervals {
 
     override fun removeCoveredIntervals(intervals: Array<IntArray>): Int {
         var numCoveredIntervals = 0

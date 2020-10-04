@@ -2,7 +2,7 @@ package com.github.dkoval.leetcode.challenge;
 
 import org.jetbrains.annotations.NotNull;
 
-public class RemoveCoveredIntervalsJava implements RemoveCoveredIntervals {
+public class RemoveCoveredIntervalsBruteForceJava implements RemoveCoveredIntervals {
 
     @Override
     public int removeCoveredIntervals(@NotNull int[][] intervals) {
