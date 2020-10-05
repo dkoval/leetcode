@@ -23,11 +23,15 @@ internal class IncreasingTripletSubsequenceTest {
                 false
             ),
             Arguments.of(
-              intArrayOf(),
+                intArrayOf(10, 20, 3, 2, 1, 1, 2, 0, 4),
+                true
+            ),
+            Arguments.of(
+                intArrayOf(),
                 false
             ),
             Arguments.of(
-              intArrayOf(1),
+                intArrayOf(1),
                 false
             ),
             Arguments.of(
