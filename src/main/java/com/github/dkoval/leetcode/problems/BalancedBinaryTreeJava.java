@@ -28,18 +28,18 @@ public abstract class BalancedBinaryTreeJava {
                 return true;
             }
 
-            if (Math.abs(height(root.getLeft()) - height(root.getRight())) > 1) {
+            if (Math.abs(height(root.left) - height(root.right)) > 1) {
                 return false;
             }
 
-            return isBalanced(root.getLeft()) && isBalanced(root.getRight());
+            return isBalanced(root.left) && isBalanced(root.right);
         }
 
         private int height(TreeNode root) {
             if (root == null) {
                 return -1;
             }
-            return 1 + Math.max(height(root.getLeft()), height(root.getRight()));
+            return 1 + Math.max(height(root.left), height(root.right));
         }
     }
 
@@ -69,12 +69,12 @@ public abstract class BalancedBinaryTreeJava {
                 return new Answer(true, -1);
             }
 
-            Answer left = checkIfBalancedAndComputeHeight(root.getLeft());
+            Answer left = checkIfBalancedAndComputeHeight(root.left);
             if (!left.isBalanced) {
                 return Answer.NOT_BALANCED;
             }
 
-            Answer right = checkIfBalancedAndComputeHeight(root.getRight());
+            Answer right = checkIfBalancedAndComputeHeight(root.right);
             if (!right.isBalanced) {
                 return Answer.NOT_BALANCED;
             }
