@@ -26,9 +26,9 @@ public abstract class InsertIntoBST {
                 return new TreeNode(val);
             }
             if (val < root.val) {
-                root.left = (root.left == null) ? new TreeNode(val) : insertIntoBST(root.left, val);
+                root.left = insertIntoBST(root.left, val);
             } else if (val > root.val) {
-                root.right = (root.right == null) ? new TreeNode(val) : insertIntoBST(root.right, val);
+                root.right = insertIntoBST(root.right, val);
             }
             return root;
         }
