@@ -2,7 +2,8 @@ package com.github.dkoval.leetcode
 
 import java.util.*
 
-class ListNode(var `val`: Int) {
+class ListNode(@JvmField var `val`: Int) {
+    @JvmField
     var next: ListNode? = null
 }
 
