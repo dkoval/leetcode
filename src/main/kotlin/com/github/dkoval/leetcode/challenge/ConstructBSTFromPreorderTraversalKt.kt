@@ -13,7 +13,7 @@ interface ConstructBSTFromPreorderTraversal {
 }
 
 // Time complexity - O(N^2)
-object ConstructBSTFromPreorderTraversalSimple: ConstructBSTFromPreorderTraversal {
+object ConstructBSTFromPreorderTraversalNaiveKt: ConstructBSTFromPreorderTraversal {
 
     override fun bstFromPreorder(preorder: IntArray): TreeNode? {
         if (preorder.isEmpty()) {
@@ -40,7 +40,7 @@ object ConstructBSTFromPreorderTraversalSimple: ConstructBSTFromPreorderTraversa
 }
 
 // Time complexity - O(N)
-object ConstructBSTFromPreorderTraversalOptimal: ConstructBSTFromPreorderTraversal {
+object ConstructBSTFromPreorderTraversalKt: ConstructBSTFromPreorderTraversal {
 
     override fun bstFromPreorder(preorder: IntArray): TreeNode? =
         buildBSTFromPreorder(preorder, Index(0), Int.MIN_VALUE, Int.MAX_VALUE)
