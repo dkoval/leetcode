@@ -30,6 +30,23 @@ internal class SerializeAndDeserializeBSTTest {
                 TreeNode(1).apply {
                     right = TreeNode(2)
                 }
+            ),
+            Arguments.of(
+                TreeNode(5).apply {
+                    left = TreeNode(3).apply {
+                        left = TreeNode(1).apply {
+                            right = TreeNode(2)
+                        }
+                        right = TreeNode(4)
+                    }
+                    right = TreeNode(9).apply {
+                        left = TreeNode(7).apply {
+                            left = TreeNode(6)
+                            right = TreeNode(8)
+                        }
+                        right = TreeNode(10)
+                    }
+                }
             )
         )
     }
