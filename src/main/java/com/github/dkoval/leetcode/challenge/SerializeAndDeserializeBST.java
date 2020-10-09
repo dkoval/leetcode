@@ -2,9 +2,6 @@ package com.github.dkoval.leetcode.challenge;
 
 import com.github.dkoval.leetcode.TreeNode;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-
 public abstract class SerializeAndDeserializeBST {
 
     public static final Codec CODEC = new Codec();
@@ -19,6 +16,8 @@ public abstract class SerializeAndDeserializeBST {
 
         // Encodes a tree to a single string.
         public String serialize(TreeNode root) {
+            // Important fact: BST can only be constructed from preorder or postorder traversal.
+            // We use postorder traversal here.
             StringBuilder result = new StringBuilder();
             postorder(root, result);
             if (result.length() > 0) {
@@ -43,25 +42,21 @@ public abstract class SerializeAndDeserializeBST {
                 return null;
             }
             String[] postorder = data.split(DELIMITER);
-            Deque<Integer> nums = new ArrayDeque<>();
-            for (String num : postorder) {
-                nums.add(Integer.parseInt(num));
-            }
-            return bstFromPostorder(nums, Integer.MIN_VALUE, Integer.MAX_VALUE);
+            return bstFromPostorder(postorder, 0, postorder.length - 1);
         }
 
-        private TreeNode bstFromPostorder(Deque<Integer> nums, int lower, int upper) {
-            if (nums.isEmpty()) {
+        private TreeNode bstFromPostorder(String[] postorder, int start, int end) {
+            if (start > end) {
                 return null;
             }
-            int val = nums.getLast();
-            if (val < lower || val > upper) {
-                return null;
-            }
-            nums.removeLast();
+            int val = Integer.parseInt(postorder[end]);
             TreeNode root = new TreeNode(val);
-            root.right = bstFromPostorder(nums, val, upper);
-            root.left = bstFromPostorder(nums, lower, val);
+            int i = end;
+            while (i >= start && Integer.parseInt(postorder[i]) >= val) {
+                i--;
+            }
+            root.left = bstFromPostorder(postorder, start, i);
+            root.right = bstFromPostorder(postorder, i + 1, end - 1);
             return root;
         }
     }
