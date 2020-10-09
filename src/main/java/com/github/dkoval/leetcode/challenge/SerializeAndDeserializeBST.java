@@ -47,10 +47,10 @@ public abstract class SerializeAndDeserializeBST {
             for (String num : postorder) {
                 nums.add(Integer.parseInt(num));
             }
-            return buildTreeFromPostorder(nums, Integer.MIN_VALUE, Integer.MAX_VALUE);
+            return bstFromPostorder(nums, Integer.MIN_VALUE, Integer.MAX_VALUE);
         }
 
-        private TreeNode buildTreeFromPostorder(Deque<Integer> nums, int lower, int upper) {
+        private TreeNode bstFromPostorder(Deque<Integer> nums, int lower, int upper) {
             if (nums.isEmpty()) {
                 return null;
             }
@@ -60,8 +60,8 @@ public abstract class SerializeAndDeserializeBST {
             }
             nums.removeLast();
             TreeNode root = new TreeNode(val);
-            root.right = buildTreeFromPostorder(nums, val, upper);
-            root.left = buildTreeFromPostorder(nums, lower, val);
+            root.right = bstFromPostorder(nums, val, upper);
+            root.left = bstFromPostorder(nums, lower, val);
             return root;
         }
     }
