@@ -14,8 +14,6 @@ import com.github.dkoval.leetcode.TreeNode;
  */
 public abstract class InsertIntoBST {
 
-    private InsertIntoBST() { /* prevents instantiation from the outside */ }
-
     public abstract TreeNode insertIntoBST(TreeNode root, int val);
 
     public static class InsertIntoBSTRecursive extends InsertIntoBST {

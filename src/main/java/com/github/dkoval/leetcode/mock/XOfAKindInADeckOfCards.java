@@ -16,8 +16,6 @@ import java.util.Map;
  */
 public abstract class XOfAKindInADeckOfCards {
 
-    private XOfAKindInADeckOfCards() { /* prevents instantiation from the outside */ }
-
     public abstract boolean hasGroupsSizeX(int[] deck);
 
     public static class XOfAKindInADeckOfCardsBruteForce extends XOfAKindInADeckOfCards {

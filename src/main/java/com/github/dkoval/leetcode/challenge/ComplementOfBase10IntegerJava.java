@@ -13,8 +13,6 @@ package com.github.dkoval.leetcode.challenge;
  */
 public abstract class ComplementOfBase10IntegerJava {
 
-    private ComplementOfBase10IntegerJava() { /* prevents instantiation from the outside */}
-
     public abstract int bitwiseComplement(int N);
 
     public static class ComplementOfBase10IntegerFlipBitByBitJava extends ComplementOfBase10IntegerJava {

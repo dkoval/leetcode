@@ -13,8 +13,6 @@ import com.github.dkoval.leetcode.TreeNode;
  */
 public abstract class BalancedBinaryTreeJava {
 
-    private BalancedBinaryTreeJava() { /* prevents instantiation from the outside */}
-
     public abstract boolean isBalanced(TreeNode root);
 
     public static class BalancedBinaryTreeNaiveJava extends BalancedBinaryTreeJava {

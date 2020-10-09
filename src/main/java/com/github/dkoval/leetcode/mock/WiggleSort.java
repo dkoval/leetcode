@@ -9,8 +9,6 @@ import java.util.Arrays;
  */
 public abstract class WiggleSort {
 
-    private WiggleSort() { /* prevents instantiation from the outside */ }
-
     public abstract void wiggleSort(int[] nums);
 
     static class WiggleSortInNLogNTime extends WiggleSort {
