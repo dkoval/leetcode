@@ -23,4 +23,23 @@ public abstract class MinimumNumberOfArrowsToBurstBalloons {
             return count;
         }
     }
+
+    public static class MinimumNumberOfArrowsToBurstBalloonsSortByStartPoint extends MinimumNumberOfArrowsToBurstBalloons {
+
+        @Override
+        public int findMinArrowShots(int[][] points) {
+            if (points.length == 0) return 0;
+            Arrays.sort(points, Comparator.comparingInt(delimiter -> delimiter[0]));
+            int count = 1;
+            int endPoint = points[0][1];
+            for (int i = 1; i < points.length; i++) {
+                endPoint = Math.min(endPoint, points[i][1]);
+                if (points[i][0] > endPoint) {
+                    count++;
+                    endPoint = points[i][1];
+                }
+            }
+            return count;
+        }
+    }
 }
