@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.mock;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <a href="https://leetcode.com/problems/snapshot-array/">Snapshot Array</a>
@@ -27,7 +26,7 @@ public abstract class SnapshotArray {
 
     public static class SnapshotArrayMemoryInefficient extends SnapshotArray {
         private final Map<Integer, Map<Integer, Integer>> snapshot = new HashMap<>();
-        private int snapshotId = 0;
+        private int snapId = 0;
 
         public SnapshotArrayMemoryInefficient(int length) {
             super(length);
@@ -35,12 +34,12 @@ public abstract class SnapshotArray {
 
         @Override
         public void set(int index, int val) {
-            snapshot.computeIfAbsent(snapshotId, k -> new HashMap<>()).put(index, val);
+            snapshot.computeIfAbsent(snapId, k -> new HashMap<>()).put(index, val);
         }
 
         @Override
         public int snap() {
-            return snapshotId++;
+            return snapId++;
         }
 
         @Override
@@ -51,6 +50,46 @@ public abstract class SnapshotArray {
                 val = indexedVal != null ? indexedVal.get(index) : null;
             } while (val == null && snapId-- > 0);
             return val != null ? val : 0;
+        }
+    }
+
+    public static class SnapshotArrayBackedByTreeMap extends SnapshotArray {
+        private static int DUMMY_SNAP_ID = -1;
+        private static int INIT_VALUE = 0;
+
+        // snapshot[index] is a map of (snapId, val) pairs
+        private final List<NavigableMap<Integer, Integer>> snapshot;
+        private int snapId = 0;
+
+        public SnapshotArrayBackedByTreeMap(int length) {
+            super(length);
+            this.snapshot = new ArrayList<>(length);
+            for (int i = 0; i < length; i++) {
+                NavigableMap<Integer, Integer> revision = new TreeMap<>();
+                revision.put(DUMMY_SNAP_ID, INIT_VALUE);
+                snapshot.add(revision);
+            }
+        }
+
+        @Override
+        public void set(int index, int val) {
+            NavigableMap<Integer, Integer> revision = snapshot.get(index);
+            int latestVal = get(index, val);
+            if (latestVal != val) {
+                revision.put(snapId, val);
+            }
+        }
+
+        @Override
+        public int snap() {
+            return snapId++;
+        }
+
+        @Override
+        public int get(int index, int snapId) {
+            NavigableMap<Integer, Integer> revision = snapshot.get(index);
+            // get closest revision
+            return revision.floorEntry(snapId).getValue();
         }
     }
 }
