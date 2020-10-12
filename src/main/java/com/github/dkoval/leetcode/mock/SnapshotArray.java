@@ -24,11 +24,12 @@ public abstract class SnapshotArray {
 
     public abstract int get(int index, int snapId);
 
-    public static class SnapshotArrayMemoryInefficient extends SnapshotArray {
+    public static class SnapshotArrayBackedByNestedMap extends SnapshotArray {
+        // snapId -> (index, val)
         private final Map<Integer, Map<Integer, Integer>> snapshot = new HashMap<>();
         private int snapId = 0;
 
-        public SnapshotArrayMemoryInefficient(int length) {
+        public SnapshotArrayBackedByNestedMap(int length) {
             super(length);
         }
 

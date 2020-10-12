@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.mock
 
+import com.github.dkoval.leetcode.mock.SnapshotArray.SnapshotArrayBackedByNestedMap
 import com.github.dkoval.leetcode.mock.SnapshotArray.SnapshotArrayBackedByTreeMap
-import com.github.dkoval.leetcode.mock.SnapshotArray.SnapshotArrayMemoryInefficient
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -61,12 +61,12 @@ internal class SnapshotArrayTest {
     }
 
     @Nested
-    inner class SnapshotArrayMemoryInefficientTest {
+    inner class SnapshotArrayBackedByNestedMapTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should validate SnapshotArray implementation`(length: Int, commands: List<Command>) {
-            SnapshotArrayMemoryInefficient(length).test(commands)
+            SnapshotArrayBackedByNestedMap(length).test(commands)
         }
     }
 
