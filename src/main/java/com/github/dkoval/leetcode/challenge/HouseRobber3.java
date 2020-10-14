@@ -19,7 +19,10 @@ public abstract class HouseRobber3 {
 
     public abstract int rob(TreeNode root);
 
-    public static class HouseRobber3DTopDownWithMemoization extends HouseRobber3 {
+    // Time complexity: O(N) since we visit all nodes.
+    // Space complexity: O(N) since we need to a map with the size of O(N) to store the results,
+    // and O(N) space for the call stack.
+    public static class HouseRobber3DRecursionWithMemoization extends HouseRobber3 {
 
         @Override
         public int rob(TreeNode root) {

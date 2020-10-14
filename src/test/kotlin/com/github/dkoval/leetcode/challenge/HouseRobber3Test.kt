@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.TreeNode
-import com.github.dkoval.leetcode.challenge.HouseRobber3.HouseRobber3DTopDownWithMemoization
+import com.github.dkoval.leetcode.challenge.HouseRobber3.HouseRobber3DRecursionWithMemoization
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -43,7 +43,7 @@ internal class HouseRobber3Test {
     }
 
     @Nested
-    inner class HouseRobber3DTopDownWithMemoizationTest {
+    inner class HouseRobber3DRecursionWithMemoizationTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -51,7 +51,7 @@ internal class HouseRobber3Test {
             root: TreeNode?,
             expected: Int
         ) {
-            HouseRobber3DTopDownWithMemoization()
+            HouseRobber3DRecursionWithMemoization()
                 .test(root, expected)
         }
     }
