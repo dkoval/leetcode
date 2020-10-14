@@ -2,6 +2,7 @@ package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.TreeNode
 import com.github.dkoval.leetcode.challenge.HouseRobber3.HouseRobber3DRecursionWithMemoization
+import com.github.dkoval.leetcode.challenge.HouseRobber3.HouseRobber3DRecursionWithMemoizationCompacted
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -52,6 +53,20 @@ internal class HouseRobber3Test {
             expected: Int
         ) {
             HouseRobber3DRecursionWithMemoization()
+                .test(root, expected)
+        }
+    }
+
+    @Nested
+    inner class HouseRobber3DRecursionWithMemoizationCompactedTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum amount of money the thief can rob without alerting the police`(
+            root: TreeNode?,
+            expected: Int
+        ) {
+            HouseRobber3DRecursionWithMemoizationCompacted()
                 .test(root, expected)
         }
     }
