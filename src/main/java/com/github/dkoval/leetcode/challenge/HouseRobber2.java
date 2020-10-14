@@ -15,6 +15,8 @@ public abstract class HouseRobber2 {
 
     public abstract int rob(int[] nums);
 
+    // Time complexity: O(N)
+    // Space complexity: O(N)
     public static class HouseRobber2DPArray extends HouseRobber2 {
 
         @Override
@@ -41,6 +43,8 @@ public abstract class HouseRobber2 {
         }
     }
 
+    // Time complexity: O(N)
+    // Space complexity: O(1)
     public static class HouseRobber2DPSpaceOptimized extends HouseRobber2 {
 
         @Override
@@ -51,11 +55,9 @@ public abstract class HouseRobber2 {
         }
 
         private int doRob(int[] nums, int start, int end) {
-            int length = end - start + 1;
-            if (length == 1) return nums[start];
-            if (length == 2) return Math.max(nums[start], nums[start + 1]);
-            int first = nums[start], second = Math.max(nums[start], nums[start + 1]);
-            for (int i = start + 2; i < start + length; i++) {
+            int first = 0;
+            int second = 0;
+            for (int i = start; i <= end; i++) {
                 int third = Math.max(first + nums[i], second);
                 first = second;
                 second = third;
