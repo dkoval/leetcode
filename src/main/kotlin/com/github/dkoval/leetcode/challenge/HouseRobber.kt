@@ -37,19 +37,14 @@ object HouseRobberDPArray : HouseRobber {
 // Time complexity: O(N), space complexity: O(1)
 object HouseRobberDPSpaceOptimized : HouseRobber {
 
-    override fun rob(nums: IntArray): Int = when (nums.size) {
-        0 -> 0
-        1 -> nums[0]
-        2 -> maxOf(nums[0], nums[1])
-        else -> {
-            var first = nums[0]
-            var second = maxOf(nums[0], nums[1])
-            for (i in 2 until nums.size) {
-                val third = maxOf(nums[i] + first, second)
-                first = second
-                second = third
-            }
-            second
+    override fun rob(nums: IntArray): Int {
+        var first = 0
+        var second = 0
+        for (num in nums) {
+            val third = maxOf(num + first, second)
+            first = second
+            second = third
         }
+        return second
     }
 }
