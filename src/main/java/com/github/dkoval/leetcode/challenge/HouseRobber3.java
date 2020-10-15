@@ -84,6 +84,9 @@ public abstract class HouseRobber3 {
             return Math.max(answer[0], answer[1]);
         }
 
+        // The function return two-element array, where
+        // - answer[0] is the maximum amount of money a one can rob if starting from the given node without robbing it;
+        // - answer[1] is the maximum amount of money a one can rob if starting from the given node and robbing it.
         private int[] doRob(TreeNode root, Map<TreeNode, int[]> memo) {
             if (root == null) {
                 return new int[]{0, 0};
