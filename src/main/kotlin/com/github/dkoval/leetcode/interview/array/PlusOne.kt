@@ -7,9 +7,14 @@ package com.github.dkoval.leetcode.interview.array
  * The digits are stored such that the most significant digit is at the head of the list, and each element in the array contain a single digit.
  * You may assume the integer does not contain any leading zero, except the number 0 itself.
  */
-object PlusOne {
+interface PlusOne {
 
-    fun plusOne(digits: IntArray): IntArray {
+    fun plusOne(digits: IntArray): IntArray
+}
+
+object PlusOneKt : PlusOne {
+
+    override fun plusOne(digits: IntArray): IntArray {
         for (i in digits.lastIndex downTo 0) {
             if (digits[i] < 9) {
                 digits[i] += 1
