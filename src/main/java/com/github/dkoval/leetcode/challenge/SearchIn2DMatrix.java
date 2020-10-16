@@ -14,7 +14,7 @@ public class SearchIn2DMatrix {
     public boolean searchMatrix(int[][] matrix, int target) {
         if (matrix.length == 0) return false;
         int row = findRowToSearchIn(matrix, target);
-        return searchInColumn(matrix, row, target);
+        return searchInRow(matrix, row, target);
     }
 
     private int findRowToSearchIn(int[][] matrix, int target) {
@@ -39,7 +39,7 @@ public class SearchIn2DMatrix {
         return lo;
     }
 
-    private boolean searchInColumn(int[][] matrix, int row, int target) {
+    private boolean searchInRow(int[][] matrix, int row, int target) {
         // binary search
         int n = matrix[0].length;
         int lo = 0, hi = n - 1;
