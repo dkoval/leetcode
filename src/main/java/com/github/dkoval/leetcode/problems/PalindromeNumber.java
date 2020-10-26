@@ -24,4 +24,20 @@ public abstract class PalindromeNumber {
             return true;
         }
     }
+
+    public static class PalindromeNumberReverseHalfOfNumber extends PalindromeNumber {
+
+        @Override
+        public boolean isPalindrome(int x) {
+            if (x < 0 || (x % 10 == 0 && x != 0)) return false;
+            int revertedX = 0;
+            // revert and compare half of the number x
+            while (x > revertedX) {
+                revertedX = revertedX * 10 + x % 10;
+                x /= 10;
+            }
+            return x == revertedX
+                    || x == revertedX / 10; // remove middle digit if original x is of odd length
+        }
+    }
 }
