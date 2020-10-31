@@ -32,10 +32,13 @@ public class RecoverBinarySearchTree {
         }
         inorder(root.left);
         if (prev != null && root.val < prev.val) {
+            second = root;
             if (first == null) {
                 first = prev;
+            } else {
+                // TreeNodes to swap have been found, no need to traverse the tree further
+                return;
             }
-            second = root;
         }
         prev = root;
         inorder(root.right);
