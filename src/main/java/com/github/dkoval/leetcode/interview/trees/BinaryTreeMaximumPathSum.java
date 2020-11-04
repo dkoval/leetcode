@@ -13,6 +13,7 @@ import com.github.dkoval.leetcode.TreeNode;
 public class BinaryTreeMaximumPathSum {
     private int result = Integer.MIN_VALUE;
 
+    // Resource: https://www.youtube.com/watch?v=bm0q6huoriY
     public int maxPathSum(TreeNode root) {
         dfs(root);
         return result;
