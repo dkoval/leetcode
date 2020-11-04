@@ -18,19 +18,20 @@ public class BinaryTreeMaximumPathSum {
         return result;
     }
 
+    // returns the maximum path sum going down
     private int dfs(TreeNode root) {
         if (root == null) {
             return 0;
         }
 
-        int leftMaxPathSum = dfs(root.left);
-        int rightMaxPathSum = dfs(root.right);
+        int leftMaxSumDownPath = dfs(root.left);
+        int rightMaxSumDownPath = dfs(root.right);
 
         // side effect: update maxPathSum
-        int combinedPathSum = root.val + leftMaxPathSum + rightMaxPathSum;
+        int combinedPathSum = root.val + leftMaxSumDownPath + rightMaxSumDownPath;
         result = Math.max(result, combinedPathSum);
 
         // return the maximum path sum starting from `root` node to its parent (prefer 0 over negative sum)
-        return Math.max(0, root.val + Math.max(leftMaxPathSum, rightMaxPathSum));
+        return Math.max(0, root.val + Math.max(leftMaxSumDownPath, rightMaxSumDownPath));
     }
 }
