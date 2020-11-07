@@ -33,23 +33,20 @@ public abstract class LetterCombinationsOfPhoneNumber {
         public List<String> letterCombinations(String digits) {
             // base case
             if (digits.isEmpty()) {
-                return Collections.emptyList();
+                return new ArrayList<>();
             }
 
-            // build solution to f(n) based on solution to f(n - 1)
             List<String> result = new ArrayList<>();
-            char digit = digits.charAt(digits.length() - 1);
-            List<Character> letters = mapping.get(digit);
             List<String> prev = letterCombinations(digits.substring(0, digits.length() - 1));
             if (prev.isEmpty()) {
+                prev.add("");
+            }
+
+            char digit = digits.charAt(digits.length() - 1);
+            List<Character> letters = mapping.get(digit);
+            for (String s : prev) {
                 for (char letter : letters) {
-                    result.add(String.valueOf(letter));
-                }
-            } else {
-                for (String s : prev) {
-                    for (char letter : letters) {
-                        result.add(s + letter);
-                    }
+                    result.add(s + letter);
                 }
             }
             return result;
