@@ -1,6 +1,6 @@
 package com.github.dkoval.leetcode.interview.recursion
 
-import com.github.dkoval.leetcode.interview.recursion.LetterCombinationsOfPhoneNumber.LetterCombinationsOfPhoneNumberRecursive
+import com.github.dkoval.leetcode.interview.recursion.LetterCombinationsOfPhoneNumber.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -40,6 +40,45 @@ internal class LetterCombinationsOfPhoneNumberTest {
             expected: List<String>
         ) {
             LetterCombinationsOfPhoneNumberRecursive().test(digits, expected)
+        }
+    }
+
+    @Nested
+    inner class LetterCombinationsOfPhoneNumberRecursiveUsingArrayToKeepMappingTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return all possible letter combinations that the number could represent`(
+            digits: String,
+            expected: List<String>
+        ) {
+            LetterCombinationsOfPhoneNumberRecursiveUsingArrayToKeepMapping().test(digits, expected)
+        }
+    }
+
+    @Nested
+    inner class LetterCombinationsOfPhoneNumberIterTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return all possible letter combinations that the number could represent`(
+            digits: String,
+            expected: List<String>
+        ) {
+            LetterCombinationsOfPhoneNumberIter().test(digits, expected)
+        }
+    }
+
+    @Nested
+    inner class LetterCombinationsOfPhoneNumberIterUsingArrayToKeepMappingTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return all possible letter combinations that the number could represent`(
+            digits: String,
+            expected: List<String>
+        ) {
+            LetterCombinationsOfPhoneNumberIterUsingArrayToKeepMapping().test(digits, expected)
         }
     }
 
