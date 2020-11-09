@@ -13,12 +13,15 @@ public class RemoveDuplicatesFromSortedArray {
         if (nums.length == 0) {
             return 0;
         }
-        int writeIdx = 0; // divide array into `duplicate-free` and `everything else` parts
+        int writeIdx = 1; // divide array into `duplicate-free` and `everything else` parts
         for (int i = 1; i < nums.length; i++) {
-            if (nums[i] != nums[writeIdx]) {
-                nums[++writeIdx] = nums[i];
+            if (nums[i] != nums[writeIdx - 1]) {
+                if (writeIdx != i) {
+                    nums[writeIdx] = nums[i];
+                }
+                writeIdx++;
             }
         }
-        return writeIdx + 1;
+        return writeIdx;
     }
 }
