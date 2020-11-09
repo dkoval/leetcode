@@ -13,6 +13,12 @@ public class LongestIncreasingPathInMatrix {
     private static final int[][] directions = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 
     // DFS with memoization
+    //
+    // Time complexity : O(M*N). Each vertex/cell will be calculated once and only once, and each edge will be visited once and only once.
+    // The total time complexity is then O(V+E). V is the total number of vertices and E is the total number of edges.
+    // In our problem, O(V) = O(M*N), O(E) = O(4V) = O(M*N).
+    //
+    // Space complexity : O(M*N). The cache dominates the space complexity.
     public int longestIncreasingPath(int[][] matrix) {
         if (matrix.length == 0) {
             return 0;
