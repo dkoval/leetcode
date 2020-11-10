@@ -22,28 +22,23 @@ public abstract class CoinChange {
 
         @Override
         public int coinChange(int[] coins, int amount) {
-            // top-down with memoization:
+            // DP: top-down with memoization
             // memo[i] - minimum amount of coins needed to make up i amount of money
-            return doCoinChange(coins, amount, new int[amount + 1]);
+            return coinChange(coins, amount, new int[amount + 1]);
         }
 
-        private int doCoinChange(int[] coins, int amount, int[] memo) {
-            // base cases
-            if (amount < 0) return -1;
+        private int coinChange(int[] coins, int amount, int[] memo) {
             if (amount == 0) return 0;
-
-            // check if we solved the same problem before
             if (memo[amount] != 0) return memo[amount];
-
-            int minResult = Integer.MAX_VALUE;
+            int minNumCoins = Integer.MAX_VALUE;
             for (int coin : coins) {
-                int result = doCoinChange(coins, amount - coin, memo);
-                if (result >= 0 && result < minResult) {
-                    minResult = 1 + result;
+                if (coin > amount) continue;
+                int numCoins = coinChange(coins, amount - coin, memo);
+                if (numCoins != -1) {
+                    minNumCoins = Math.min(minNumCoins, numCoins);
                 }
             }
-
-            memo[amount] = (minResult == Integer.MAX_VALUE) ? -1 : minResult;
+            memo[amount] = (minNumCoins == Integer.MAX_VALUE) ? -1 : 1 + minNumCoins;
             return memo[amount];
         }
     }
@@ -52,19 +47,19 @@ public abstract class CoinChange {
 
         @Override
         public int coinChange(int[] coins, int amount) {
-            // bottom-up DP
+            // DP: bottom-up
             // dp[i] - minimum amount of coins needed to make up i amount of money
             int[] dp = new int[amount + 1];
             for (int i = 1; i <= amount; i++) {
-                int minResult = Integer.MAX_VALUE;
+                int minNumCoins = Integer.MAX_VALUE;
                 for (int coin : coins) {
                     if (coin > i) continue;
-                    int prevResult = dp[i - coin];
-                    if (prevResult >= 0 && prevResult < minResult) {
-                        minResult = 1 + prevResult;
+                    int numCoins = dp[i - coin];
+                    if (numCoins != -1) {
+                        minNumCoins = Math.min(minNumCoins, numCoins);
                     }
                 }
-                dp[i] = (minResult == Integer.MAX_VALUE) ? -1 : minResult;
+                dp[i] = (minNumCoins == Integer.MAX_VALUE) ? -1 : 1 + minNumCoins;
             }
             return dp[amount];
         }
