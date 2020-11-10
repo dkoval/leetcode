@@ -23,7 +23,7 @@ public abstract class CoinChange {
         @Override
         public int coinChange(int[] coins, int amount) {
             // top-down with memoization:
-            // memo[i] - minimum amount of coins needed to make i amount of money
+            // memo[i] - minimum amount of coins needed to make up i amount of money
             return doCoinChange(coins, amount, new int[amount + 1]);
         }
 
@@ -45,6 +45,28 @@ public abstract class CoinChange {
 
             memo[amount] = (minResult == Integer.MAX_VALUE) ? -1 : minResult;
             return memo[amount];
+        }
+    }
+
+    public static class CoinChangeBottomUp extends CoinChange {
+
+        @Override
+        public int coinChange(int[] coins, int amount) {
+            // bottom-up DP
+            // dp[i] - minimum amount of coins needed to make up i amount of money
+            int[] dp = new int[amount + 1];
+            for (int i = 1; i <= amount; i++) {
+                int minResult = Integer.MAX_VALUE;
+                for (int coin : coins) {
+                    if (coin > i) continue;
+                    int prevResult = dp[i - coin];
+                    if (prevResult >= 0 && prevResult < minResult) {
+                        minResult = 1 + prevResult;
+                    }
+                }
+                dp[i] = (minResult == Integer.MAX_VALUE) ? -1 : minResult;
+            }
+            return dp[amount];
         }
     }
 }
