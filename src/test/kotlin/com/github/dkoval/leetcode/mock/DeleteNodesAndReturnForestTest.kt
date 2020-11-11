@@ -1,8 +1,7 @@
 package com.github.dkoval.leetcode.mock
 
 import com.github.dkoval.leetcode.TreeNode
-import com.github.dkoval.leetcode.equalsTo
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -45,6 +44,6 @@ internal class DeleteNodesAndReturnForestTest {
         expected: List<TreeNode>
     ) {
         val actual = DeleteNodesAndReturnForest().delNodes(root, nodesToDelete)
-        assertTrue(actual.withIndex().all { (index, node) -> node.equalsTo(expected[index]) })
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
     }
 }

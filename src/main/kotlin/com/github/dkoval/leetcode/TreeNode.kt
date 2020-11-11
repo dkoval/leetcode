@@ -1,10 +1,15 @@
 package com.github.dkoval.leetcode
 
+@Suppress("EqualsOrHashCode")
 class TreeNode(@JvmField var `val`: Int) {
     @JvmField
     var left: TreeNode? = null
     @JvmField
     var right: TreeNode? = null
+
+    override fun equals(other: Any?): Boolean {
+        return other is TreeNode && equalsTo(other)
+    }
 }
 
 fun TreeNode?.equalsTo(that: TreeNode?): Boolean {
