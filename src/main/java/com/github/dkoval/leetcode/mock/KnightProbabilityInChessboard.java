@@ -32,6 +32,7 @@ public abstract class KnightProbabilityInChessboard {
                 double[][] newDp = new double[N][N];
                 for (int row = 0; row < N; row++) {
                     for (int col = 0; col < N; col++) {
+                        if (dp[row][col] == 0) continue;
                         for (int[] dir : dirs) {
                             int newRow = row + dir[0];
                             int newCol = col + dir[1];
