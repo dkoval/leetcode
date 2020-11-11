@@ -2,7 +2,10 @@ package com.github.dkoval.leetcode.mock;
 
 import com.github.dkoval.leetcode.TreeNode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * <a href="https://leetcode.com/problems/delete-nodes-and-return-forest/">Delete Nodes And Return Forest</a>
@@ -16,51 +19,33 @@ import java.util.*;
 public class DeleteNodesAndReturnForest {
 
     public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {
-        if (to_delete.length == 0) {
-            return Collections.singletonList(root);
+        Set<Integer> valuesToDelete = new HashSet<>();
+        for (int value : to_delete) {
+            valuesToDelete.add(value);
         }
-
-        Set<Integer> nodesToDelete = new HashSet<>();
-        for (int val : to_delete) {
-            nodesToDelete.add(val);
+        List<TreeNode> roots = new ArrayList<>();
+        if (delNodes(root, valuesToDelete, roots) != null) {
+            roots.add(root);
         }
-
-        LinkedList<TreeNode> roots = new LinkedList<>();
-        roots.add(root);
-
-        traverse(root, root, nodesToDelete, roots);
         return roots;
     }
 
-    private void traverse(TreeNode curr, TreeNode parent, Set<Integer> nodesToDelete, Deque<TreeNode> roots) {
-        if (curr == null) {
-            return;
+    // Deletes `root` of the tree if its value is in `valuesToDelete` set and returns null,
+    // otherwise returns the original `root`
+    private TreeNode delNodes(TreeNode root, Set<Integer> valuesToDelete, List<TreeNode> roots) {
+        if (root == null) return null;
+        // postorder traversal
+        root.left = delNodes(root.left, valuesToDelete, roots);
+        root.right = delNodes(root.right, valuesToDelete, roots);
+        if (valuesToDelete.contains(root.val)) {
+            if (root.left != null) {
+                roots.add(root.left);
+            }
+            if (root.right != null) {
+                roots.add(root.right);
+            }
+            return null;
         }
-
-        // postorder
-        traverse(curr.left, curr, nodesToDelete, roots);
-        traverse(curr.right, curr, nodesToDelete, roots);
-
-        if (!nodesToDelete.contains(curr.val)) {
-            return;
-        }
-
-        // put current node's children as roots
-        if (curr.left != null) {
-            roots.addLast(curr.left);
-        }
-        if (curr.right != null) {
-            roots.addLast(curr.right);
-        }
-
-        // delete current node
-        if (curr == parent.left) {
-            parent.left = null;
-        } else if (curr == parent.right) {
-            parent.right = null;
-        } else {
-            // special case: delete root of the entire tree
-            roots.removeFirst();
-        }
+        return root;
     }
 }
