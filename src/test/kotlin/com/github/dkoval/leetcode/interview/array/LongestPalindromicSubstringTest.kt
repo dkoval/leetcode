@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.interview.array
 
 import com.github.dkoval.leetcode.challenge.LongestPalindromicSubstringUsingExpandOutApproachJava
+import com.github.dkoval.leetcode.problems.LongestPalindromicSubstringUsingExpandOutApproachRevisedJava
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -58,6 +59,16 @@ internal class LongestPalindromicSubstringTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the longest palindromic substring`(s: String, expected: String) {
             LongestPalindromicSubstringUsingExpandOutApproachJava().test(s, expected)
+        }
+    }
+
+    @Nested
+    inner class LongestPalindromicSubstringUsingExpandOutApproachJavaRevisedTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the longest palindromic substring`(s: String, expected: String) {
+            LongestPalindromicSubstringUsingExpandOutApproachRevisedJava().test(s, expected)
         }
     }
 
