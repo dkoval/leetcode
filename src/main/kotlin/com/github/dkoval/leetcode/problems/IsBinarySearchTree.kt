@@ -23,30 +23,24 @@ object IsBinarySearchTreeRecursivelyBruteForce : IsBinarySearchTree {
 
     override fun isValidBST(root: TreeNode?): Boolean {
         if (root == null) return true
-        if (isSubtreeLesser(root.left, root.`val`)
-            && isSubtreeGreater(root.right, root.`val`)
-            && isValidBST(root.left)
-            && isValidBST(root.right)
-        ) return true
-        return false
+        return isSubtreeLesser(root.left, root.`val`)
+                && isSubtreeGreater(root.right, root.`val`)
+                && isValidBST(root.left)
+                && isValidBST(root.right)
     }
 
     private fun isSubtreeLesser(root: TreeNode?, value: Int): Boolean {
         if (root == null) return true
-        if (root.`val` < value
-            && isSubtreeLesser(root.left, value)
-            && isSubtreeLesser(root.right, value)
-        ) return true
-        return false
+        return root.`val` < value
+                && isSubtreeLesser(root.left, value)
+                && isSubtreeLesser(root.right, value)
     }
 
     private fun isSubtreeGreater(root: TreeNode?, value: Int): Boolean {
         if (root == null) return true
-        if (root.`val` > value
-            && isSubtreeGreater(root.left, value)
-            && isSubtreeGreater(root.right, value)
-        ) return true
-        return false
+        return root.`val` > value
+                && isSubtreeGreater(root.left, value)
+                && isSubtreeGreater(root.right, value)
     }
 }
 
