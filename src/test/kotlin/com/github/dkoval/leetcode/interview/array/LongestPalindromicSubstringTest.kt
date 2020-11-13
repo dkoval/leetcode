@@ -24,10 +24,6 @@ internal class LongestPalindromicSubstringTest {
             Arguments.of(
                 "cbbd",
                 "bb"
-            ),
-            Arguments.of(
-                "",
-                ""
             )
         )
     }

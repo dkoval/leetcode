@@ -27,7 +27,7 @@ object LongestPalindromicSubstringBruteForce : LongestPalindromicSubstring {
                 }
             }
         }
-        return if (maxLength > 0) s.substring(startIndex..endIndex) else ""
+        return s.substring(startIndex..endIndex)
     }
 
     private fun String.isPalindrome(startIndex: Int, endIndex: Int): Boolean {
@@ -49,7 +49,6 @@ object LongestPalindromicSubstringUsingExpandOutApproach : LongestPalindromicSub
     // https://www.youtube.com/watch?v=ZJUGtWObroc
     // https://www.youtube.com/watch?v=y2BD4MJqV20&list=TLPQMjQwOTIwMjCNKBD_ObHf6w&index=2
     override fun longestPalindrome(s: String): String {
-        if (s.length <= 1) return s
         var startIndex = 0
         var endIndex = 0
         for (i in s.indices) {
