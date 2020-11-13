@@ -10,7 +10,7 @@ public class LongestPalindromicSubstringUsingExpandOutApproachRevisedJava implem
     public String longestPalindrome(@NotNull String s) {
         if (s.length() <= 1) return s;
         int start = 0, end = 0;
-        for (int i = 0; i < s.length(); i++) {
+        for (int i = 1; i < s.length(); i++) {
             int[] odd = palindromeExpandingFromCenter(s, i, true);
             int[] even = palindromeExpandingFromCenter(s, i, false);
             int[] longer = (odd[1] - odd[0] > even[1] - even[0]) ? odd : even;
@@ -23,8 +23,8 @@ public class LongestPalindromicSubstringUsingExpandOutApproachRevisedJava implem
     }
 
     private int[] palindromeExpandingFromCenter(String s, int idx, boolean isOdd) {
-        // odd palindrome: abxba
-        // even palindrome: abxxba
+        // For an odd palindrome, like "abxba", center at the given index "x"
+        // For an even palindrome, like "abxxba", center between the given index and the next one "x|x"
         int l = idx;
         int r = isOdd ? idx : idx + 1 ;
         while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
