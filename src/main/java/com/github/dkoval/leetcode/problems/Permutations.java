@@ -33,11 +33,11 @@ public abstract class Permutations {
             }
             for (int i = 0; i < availableNums.size(); i++) {
                 int num = availableNums.get(i);
-                availableNums.remove(i); // removes element at index i
                 perm.add(num);
+                availableNums.remove(i); // removes element at index i
                 doPermute(perm, availableNums, result);
                 // backtrack
-                perm.remove(Integer.valueOf(num)); // finds and removes num
+                perm.remove(perm.size() - 1);
                 availableNums.add(i, num);
             }
         }
