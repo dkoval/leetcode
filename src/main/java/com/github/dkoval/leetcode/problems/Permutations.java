@@ -62,9 +62,9 @@ public abstract class Permutations {
                 return;
             }
             for (int j = i; j < nums.size(); j++) {
-                Collections.swap(nums, i, j);
+                Collections.swap(nums, i, j); // swap nums[i] with every number after it
                 permute(nums, i + 1, result); // generate all permutations for sublist [i + 1, n - 1]
-                Collections.swap(nums, i, j); // restore the original state
+                Collections.swap(nums, i, j); // undo the swap to restore the original state
             }
         }
     }
