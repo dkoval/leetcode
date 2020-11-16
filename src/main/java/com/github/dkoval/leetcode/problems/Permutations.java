@@ -13,6 +13,8 @@ public abstract class Permutations {
 
     public abstract List<List<Integer>> permute(int[] nums);
 
+    // Time: O(N^2 * N!)
+    // Space: O(N * N!)
     public static class PermutationsRecursive extends Permutations {
 
         @Override
@@ -43,6 +45,8 @@ public abstract class Permutations {
         }
     }
 
+    // Time: O(N * N!)
+    // Space: O(N * N!)
     public static class PermutationsHeapAlgorithm extends Permutations {
 
         @Override
