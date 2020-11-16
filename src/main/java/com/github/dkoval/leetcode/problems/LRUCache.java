@@ -1,6 +1,8 @@
 package com.github.dkoval.leetcode.problems;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -19,78 +21,117 @@ import java.util.Map;
  * Follow up:
  * Could you do get and put in O(1) time complexity?
  */
-public class LRUCache {
-    private final Map<Integer, Node> cache = new HashMap<>();
-    // most frequently used key is the first element in the list
-    private final Node dummyHead;
-    // least frequently used key is the first element in the list
-    private final Node dummyTail;
-    private final int capacity;
+public abstract class LRUCache {
 
-    public LRUCache(int capacity) {
-        this.capacity = capacity;
-        dummyHead = new Node(Integer.MIN_VALUE, Integer.MIN_VALUE);
-        dummyTail = new Node(Integer.MAX_VALUE, Integer.MAX_VALUE);
-        dummyHead.next = dummyTail;
-        dummyTail.prev = dummyHead;
-    }
+    public abstract int get(int key);
 
-    public int get(int key) {
-        if (cache.containsKey(key)) {
-            Node node = cache.get(key);
-            // remove node from its current position and put it in front of the list
-            remove(node);
-            addFirst(node);
-            return node.value;
+    public abstract void put(int key, int value);
+
+    public static class LRUCacheUsingSinglyLinkedList extends LRUCache {
+        private final int capacity;
+        private final Map<Integer, Node> cache = new HashMap<>();
+        // least frequently used key is the first element in the list
+        private final Node head;
+        // most frequently used key is the last element in the list
+        private final Node tail;
+
+        public LRUCacheUsingSinglyLinkedList(int capacity) {
+            this.capacity = capacity;
+            head = new Node(-42, -42);
+            tail = new Node(+42, +42);
+            head.next = tail;
+            tail.prev = head;
         }
-        return -1;
-    }
 
-    public void put(int key, int value) {
-        Node node;
-        if (cache.containsKey(key)) {
-            node = cache.get(key);
-            node.value = value;
-            remove(node);
-        } else {
-            node = new Node(key, value);
-            if (cache.size() == capacity) {
-                // remove least frequently used element
-                Node last = dummyTail.prev;
-                cache.remove(last.key);
-                remove(last);
+        @Override
+        public int get(int key) {
+            if (cache.containsKey(key)) {
+                Node node = cache.get(key);
+                remove(node);
+                addLast(node);
+                return node.value;
+            }
+            return -1;
+        }
+
+        public void put(int key, int value) {
+            Node node;
+            if (cache.containsKey(key)) {
+                node = cache.get(key);
+                node.value = value;
+                remove(node);
+            } else {
+                node = new Node(key, value);
+                if (cache.size() == capacity) {
+                    // remove the least frequently used key
+                    Node firstNode = head.next;
+                    remove(firstNode);
+                    cache.remove(firstNode.key);
+                }
+            }
+            addLast(node);
+            cache.put(key, node);
+        }
+
+        private void remove(Node node) {
+            // before: x <-> n <-> y, after: x <-> y
+            node.prev.next = node.next;
+            node.next.prev = node.prev;
+        }
+
+        private void addLast(Node node) {
+            // before: x <-> tail, after: x <-> n <-> tail
+            tail.prev.next = node;
+            node.prev = tail.prev;
+            node.next = tail;
+            tail.prev = node;
+        }
+
+        private static class Node {
+            final int key;
+            int value;
+            Node prev;
+            Node next;
+
+            Node(int key, int value) {
+                this.key = key;
+                this.value = value;
             }
         }
-        cache.put(key, node);
-        // put new node in front of the list
-        addFirst(node);
     }
 
-    private void addFirst(Node node) {
-        // before: dummyHead <-> a <-> b, after: dummyHead <-> node <-> a <-> b
-        node.prev = dummyHead;
-        node.next = dummyHead.next;
-        dummyHead.next.prev = node;
-        dummyHead.next = node;
-    }
+    public static class LRUCacheUsingLinkedHashMap extends LRUCache {
+        private final int capacity;
+        private final Map<Integer, Integer> cache = new LinkedHashMap<>();
 
-    private void remove(Node node) {
-        // before: a <-> node <-> b, after: a <-> b
-        node.prev.next = node.next;
-        node.next.prev = node.prev;
-        node.prev = null;
-        node.next = null;
-    }
+        public LRUCacheUsingLinkedHashMap(int capacity) {
+            this.capacity = capacity;
+        }
 
-    private static class Node {
-        final int key;
-        int value;
-        Node prev;
-        Node next;
+        @Override
+        public int get(int key) {
+            if (cache.containsKey(key)) {
+                int value = cache.get(key);
+                // remove-put makes the key most frequently used
+                cache.remove(key);
+                cache.put(key, value);
+                return value;
+            }
+            return -1;
+        }
 
-        Node(int key, int value) {
-            this.key = key;
-            this.value = value;
+        @Override
+        public void put(int key, int value) {
+            if (cache.containsKey(key)) {
+                // remove-put makes the key most frequently used
+                cache.remove(key);
+            } else if (cache.size() == capacity) {
+                // remove the least frequently used key
+                Iterator<Integer> keys = cache.keySet().iterator();
+                keys.next();
+                keys.remove();
+            }
+            cache.put(key, value);
         }
     }
 }

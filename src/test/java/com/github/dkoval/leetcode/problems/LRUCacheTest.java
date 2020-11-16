@@ -1,14 +1,33 @@
 package com.github.dkoval.leetcode.problems;
 
+import com.github.dkoval.leetcode.problems.LRUCache.LRUCacheUsingLinkedHashMap;
+import com.github.dkoval.leetcode.problems.LRUCache.LRUCacheUsingSinglyLinkedList;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LRUCacheTest {
 
-    @Test
-    public void smokeTestImplementation() {
-        LRUCache cache = new LRUCache(2);
+    @Nested
+    class LRUCacheUsingSinglyLinkedListTest {
+
+        @Test
+        public void smokeTestImplementation() {
+            test(new LRUCacheUsingSinglyLinkedList(2));
+        }
+    }
+
+    @Nested
+    class LRUCacheUsingLinkedHashMapTest {
+
+        @Test
+        public void smokeTestImplementation() {
+            test(new LRUCacheUsingLinkedHashMap(2));
+        }
+    }
+
+    private static void test(LRUCache cache) {
         cache.put(1, 1);
         cache.put(2, 2);
         assertEquals(1, cache.get(1));
