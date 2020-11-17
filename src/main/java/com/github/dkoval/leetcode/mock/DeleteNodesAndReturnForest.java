@@ -16,36 +16,86 @@ import java.util.Set;
  * <p>
  * Return the roots of the trees in the remaining forest.  You may return the result in any order.
  */
-public class DeleteNodesAndReturnForest {
+public abstract class DeleteNodesAndReturnForest {
 
-    public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {
-        Set<Integer> valuesToDelete = new HashSet<>();
-        for (int value : to_delete) {
-            valuesToDelete.add(value);
+    public abstract List<TreeNode> delNodes(TreeNode root, int[] to_delete);
+
+    public static class DeleteNodesAndReturnForestRecursiveBottomUp extends DeleteNodesAndReturnForest {
+
+        @Override
+        public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {
+            Set<Integer> valuesToDelete = new HashSet<>();
+            for (int value : to_delete) {
+                valuesToDelete.add(value);
+            }
+            List<TreeNode> forest = new ArrayList<>();
+            if (delNodes(root, valuesToDelete, forest) != null) {
+                forest.add(root);
+            }
+            return forest;
         }
-        List<TreeNode> roots = new ArrayList<>();
-        if (delNodes(root, valuesToDelete, roots) != null) {
-            roots.add(root);
+
+        // Deletes `root` of the tree if its value is in `valuesToDelete` set and returns null,
+        // otherwise returns the original `root`
+        private TreeNode delNodes(TreeNode root, Set<Integer> valuesToDelete, List<TreeNode> forest) {
+            if (root == null) return null;
+            // postorder traversal
+            root.left = delNodes(root.left, valuesToDelete, forest);
+            root.right = delNodes(root.right, valuesToDelete, forest);
+            if (valuesToDelete.contains(root.val)) {
+                if (root.left != null) {
+                    forest.add(root.left);
+                }
+                if (root.right != null) {
+                    forest.add(root.right);
+                }
+                return null;
+            }
+            return root;
         }
-        return roots;
     }
 
-    // Deletes `root` of the tree if its value is in `valuesToDelete` set and returns null,
-    // otherwise returns the original `root`
-    private TreeNode delNodes(TreeNode root, Set<Integer> valuesToDelete, List<TreeNode> roots) {
-        if (root == null) return null;
-        // postorder traversal
-        root.left = delNodes(root.left, valuesToDelete, roots);
-        root.right = delNodes(root.right, valuesToDelete, roots);
-        if (valuesToDelete.contains(root.val)) {
-            if (root.left != null) {
-                roots.add(root.left);
+    public static class DeleteNodesAndReturnForestRecursiveBottomUpWithParentRef extends DeleteNodesAndReturnForest {
+
+        @Override
+        public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {
+            List<TreeNode> forest = new ArrayList<>();
+            Set<Integer> toDelete = new HashSet<>();
+            for (int value : to_delete) {
+                toDelete.add(value);
             }
-            if (root.right != null) {
-                roots.add(root.right);
+            if (!toDelete.contains(root.val)) {
+                forest.add(root);
             }
-            return null;
+            delNodes(root, null, toDelete, forest);
+            return forest;
         }
-        return root;
+
+        private void delNodes(TreeNode root, TreeNode parent, Set<Integer> toDelete, List<TreeNode> forest) {
+            if (root == null) {
+                return;
+            }
+
+            // process nodes bottom up
+            delNodes(root.left, root, toDelete, forest);
+            delNodes(root.right, root, toDelete, forest);
+
+            if (toDelete.contains(root.val)) {
+                if (root.left != null) {
+                    forest.add(root.left);
+                }
+                if (root.right != null) {
+                    forest.add(root.right);
+                }
+                // fix parent link
+                if (parent != null) {
+                    if (parent.left == root) {
+                        parent.left = null;
+                    } else {
+                        parent.right = null;
+                    }
+                }
+            }
+        }
     }
 }
