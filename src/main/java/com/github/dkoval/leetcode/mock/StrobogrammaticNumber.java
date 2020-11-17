@@ -10,15 +10,22 @@ package com.github.dkoval.leetcode.mock;
 public class StrobogrammaticNumber {
 
     public boolean isStrobogrammatic(String num) {
-        int n = num.length();
-        int l = 0, r = num.length() - 1;
-        while (l <= r) {
-            char lc = num.charAt(l++);
-            char rc = num.charAt(r--);
-            if (lc == rc && (lc == '0' || lc == '1' || lc == '8')) continue;
-            if (lc == '6' && rc == '9' || lc == '9' && rc == '6') continue;
-            return false;
+        int i = 0, j = num.length() - 1;
+        while (i <= j) {
+            char c1 = num.charAt(i++);
+            char c2 = num.charAt(j--);
+            if (!isStrobogrammaticPair(c1, c2)) {
+                return false;
+            }
         }
         return true;
+    }
+
+    private boolean isStrobogrammaticPair(char c1, char c2) {
+        if (c1 == c2) {
+            return (c1 == '0') || (c1 == '1') || (c1 == '8');
+        } else {
+            return (c1 == '6' && c2 == '9') || (c1 == '9' && c2 == '6');
+        }
     }
 }
