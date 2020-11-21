@@ -66,7 +66,7 @@ public abstract class MyCalendarTwo {
             for (int d : delta.values()) {
                 active += d;
                 if (active == 3) {
-                    // avoid triple booling
+                    // avoid triple booking
                     delta.put(start, delta.get(start) - 1);
                     delta.put(end, delta.get(end) + 1);
                     return false;
