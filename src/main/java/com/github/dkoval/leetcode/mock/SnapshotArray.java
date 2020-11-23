@@ -55,8 +55,8 @@ public abstract class SnapshotArray {
     }
 
     public static class SnapshotArrayBackedByTreeMap extends SnapshotArray {
-        private static int DUMMY_SNAP_ID = -1;
-        private static int INIT_VALUE = 0;
+        private static final int DUMMY_SNAP_ID = -1;
+        private static final int INIT_VALUE = 0;
 
         // snapshot[index] is a map of (snapId, val) pairs
         private final List<NavigableMap<Integer, Integer>> snapshot;
@@ -66,18 +66,18 @@ public abstract class SnapshotArray {
             super(length);
             this.snapshot = new ArrayList<>(length);
             for (int i = 0; i < length; i++) {
-                NavigableMap<Integer, Integer> revision = new TreeMap<>();
-                revision.put(DUMMY_SNAP_ID, INIT_VALUE);
-                snapshot.add(revision);
+                NavigableMap<Integer, Integer> revisions = new TreeMap<>();
+                revisions.put(DUMMY_SNAP_ID, INIT_VALUE);
+                snapshot.add(revisions);
             }
         }
 
         @Override
         public void set(int index, int val) {
-            NavigableMap<Integer, Integer> revision = snapshot.get(index);
-            int latestVal = get(index, val);
+            NavigableMap<Integer, Integer> revisions = snapshot.get(index);
+            int latestVal = get(index, snapId);
             if (latestVal != val) {
-                revision.put(snapId, val);
+                revisions.put(snapId, val);
             }
         }
 
