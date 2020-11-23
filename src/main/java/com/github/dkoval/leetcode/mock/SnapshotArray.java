@@ -58,27 +58,23 @@ public abstract class SnapshotArray {
         private static final int DUMMY_SNAP_ID = -1;
         private static final int INIT_VALUE = 0;
 
-        // snapshot[index] is a map of (snapId, val) pairs
-        private final List<NavigableMap<Integer, Integer>> snapshot;
+        // arr[index] is a map of (snapId, val) pairs
+        private final List<NavigableMap<Integer, Integer>> arr;
         private int snapId = 0;
 
         public SnapshotArrayBackedByTreeMap(int length) {
             super(length);
-            this.snapshot = new ArrayList<>(length);
+            this.arr = new ArrayList<>(length);
             for (int i = 0; i < length; i++) {
                 NavigableMap<Integer, Integer> revisions = new TreeMap<>();
                 revisions.put(DUMMY_SNAP_ID, INIT_VALUE);
-                snapshot.add(revisions);
+                arr.add(revisions);
             }
         }
 
         @Override
         public void set(int index, int val) {
-            NavigableMap<Integer, Integer> revisions = snapshot.get(index);
-            int latestVal = get(index, snapId);
-            if (latestVal != val) {
-                revisions.put(snapId, val);
-            }
+            arr.get(index).put(snapId, val);
         }
 
         @Override
@@ -88,9 +84,7 @@ public abstract class SnapshotArray {
 
         @Override
         public int get(int index, int snapId) {
-            NavigableMap<Integer, Integer> revision = snapshot.get(index);
-            // get closest revision
-            return revision.floorEntry(snapId).getValue();
+            return arr.get(index).floorEntry(snapId).getValue();
         }
     }
 }
