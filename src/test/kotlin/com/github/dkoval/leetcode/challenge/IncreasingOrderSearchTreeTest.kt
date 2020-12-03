@@ -2,6 +2,7 @@ package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.TreeNode
 import com.github.dkoval.leetcode.challenge.IncreasingOrderSearchTree.IncreasingOrderSearchTreeUsingInorderTraversal
+import com.github.dkoval.leetcode.challenge.IncreasingOrderSearchTree.IncreasingOrderSearchTreeUsingInorderTraversalWithRelinking
 import com.github.dkoval.leetcode.equalsTo
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
@@ -74,6 +75,19 @@ internal class IncreasingOrderSearchTreeTest {
             expected: TreeNode
         ) {
             IncreasingOrderSearchTreeUsingInorderTraversal().test(root, expected)
+        }
+    }
+
+    @Nested
+    inner class IncreasingOrderSearchTreeUsingInorderTraversalWithRelinkingTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should rearrange the tree in in-order so that the leftmost node in the tree is now the root of the tree, and every node has no left child and only one right child`(
+            root: TreeNode,
+            expected: TreeNode
+        ) {
+            IncreasingOrderSearchTreeUsingInorderTraversalWithRelinking().test(root, expected)
         }
     }
 

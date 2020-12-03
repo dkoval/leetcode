@@ -40,4 +40,27 @@ public abstract class IncreasingOrderSearchTree {
             inorder(root.right, traversal);
         }
     }
+
+    // O(N) time | O(H) space, where H is the height of the given tree,
+    // and the size of the implicit call stack in our in-order traversal.
+    public static class IncreasingOrderSearchTreeUsingInorderTraversalWithRelinking extends IncreasingOrderSearchTree {
+
+        @Override
+        public TreeNode increasingBST(TreeNode root) {
+            TreeNode dummyRoot = new TreeNode(42);
+            inorder(root, new TreeNode[]{dummyRoot});
+            return dummyRoot.right;
+        }
+
+        private void inorder(TreeNode root, TreeNode[] curr) {
+            if (root == null) {
+                return;
+            }
+            inorder(root.left, curr);
+            curr[0].right = root;
+            curr[0] = curr[0].right;
+            root.left = null;
+            inorder(root.right, curr);
+        }
+    }
 }
