@@ -32,6 +32,7 @@ public abstract class PopulatingNextRightPointersInEachNode2 {
 
     public abstract Node connect(Node root);
 
+    // O(N) time since we process each node exactly once | O(N) space
     public static class PopulatingNextRightPointersInEachNode2UsingDeque extends PopulatingNextRightPointersInEachNode2 {
 
         @Override
@@ -55,6 +56,36 @@ public abstract class PopulatingNextRightPointersInEachNode2 {
                         q.addFirst(last.left);
                     }
                 }
+            }
+            return root;
+        }
+    }
+
+    // O(N) time since we process each node exactly once | O(1) space
+    public static class PopulatingNextRightPointersInEachNode2UsingPreviousNextPointers extends PopulatingNextRightPointersInEachNode2 {
+
+        @Override
+        public Node connect(Node root) {
+            if (root == null) {
+                return null;
+            }
+            Node curr = root;
+            // process the tree in a BFS manner, i.e level by level
+            while (curr != null) {
+                // while on level N, establish the next pointers on level (N + 1)
+                Node dummy = new Node(42), prev = dummy;
+                while (curr != null) {
+                    if (curr.left != null) {
+                        prev.next = curr.left;
+                        prev = prev.next;
+                    }
+                    if (curr.right != null) {
+                        prev.next = curr.right;
+                        prev = prev.next;
+                    }
+                    curr = curr.next;
+                }
+                curr = dummy.next;
             }
             return root;
         }
