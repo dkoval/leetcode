@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.PairsOfSongsWithTotalDurationsDivisibleBy60.PairsOfSongsWithTotalDurationsDivisibleBy60BruteForce
-import com.github.dkoval.leetcode.challenge.PairsOfSongsWithTotalDurationsDivisibleBy60.PairsOfSongsWithTotalDurationsDivisibleBy60CountingMods
+import com.github.dkoval.leetcode.challenge.PairsOfSongsWithTotalDurationsDivisibleBy60.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -45,7 +44,7 @@ internal class PairsOfSongsWithTotalDurationsDivisibleBy60Test {
     }
 
     @Nested
-    inner class PairsOfSongsWithTotalDurationsDivisibleBy60CountingModsTest {
+    inner class PairsOfSongsWithTotalDurationsDivisibleBy60CountingRemaindersTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -53,7 +52,20 @@ internal class PairsOfSongsWithTotalDurationsDivisibleBy60Test {
             time: IntArray,
             expected: Int
         ) {
-            PairsOfSongsWithTotalDurationsDivisibleBy60CountingMods().test(time, expected)
+            PairsOfSongsWithTotalDurationsDivisibleBy60CountingRemainders().test(time, expected)
+        }
+    }
+
+    @Nested
+    inner class PairsOfSongsWithTotalDurationsDivisibleBy60CountingRemaindersRefactoredTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of pairs of songs for which their total duration in seconds is divisible by 60`(
+            time: IntArray,
+            expected: Int
+        ) {
+            PairsOfSongsWithTotalDurationsDivisibleBy60CountingRemaindersRefactored().test(time, expected)
         }
     }
 

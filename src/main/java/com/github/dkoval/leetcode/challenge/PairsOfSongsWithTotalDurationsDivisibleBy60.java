@@ -36,17 +36,17 @@ public abstract class PairsOfSongsWithTotalDurationsDivisibleBy60 {
         }
     }
 
-    public static class PairsOfSongsWithTotalDurationsDivisibleBy60CountingMods extends PairsOfSongsWithTotalDurationsDivisibleBy60 {
+    public static class PairsOfSongsWithTotalDurationsDivisibleBy60CountingRemainders extends PairsOfSongsWithTotalDurationsDivisibleBy60 {
 
         @Override
         public int numPairsDivisibleBy60(int[] time) {
-            int[] mods = new int[60];
+            int[] remainders = new int[60];
             for (int t : time) {
-                mods[t % 60]++;
+                remainders[t % 60]++;
             }
-            int count = choose2(mods[0]) + choose2(mods[30]);
+            int count = choose2(remainders[0]) + choose2(remainders[30]);
             for (int i = 1; i <= 29; i++) {
-                count += mods[i] * mods[60 - i];
+                count += remainders[i] * remainders[60 - i];
             }
             return count;
         }
@@ -54,6 +54,27 @@ public abstract class PairsOfSongsWithTotalDurationsDivisibleBy60 {
         private int choose2(int n) {
             // C(n, 2) = n * (n - 1) / 2
             return n * (n - 1) / 2;
+        }
+    }
+
+    public static class PairsOfSongsWithTotalDurationsDivisibleBy60CountingRemaindersRefactored extends PairsOfSongsWithTotalDurationsDivisibleBy60 {
+
+        @Override
+        public int numPairsDivisibleBy60(int[] time) {
+            int[] remainders = new int[60];
+            int count = 0;
+            for (int t : time) {
+                int remainder1 = t % 60;
+                // count made pairs
+                if (remainder1 % 60 == 0) {
+                    count += remainders[0];
+                } else {
+                    int remainder2 = 60 - remainder1;
+                    count += remainders[remainder2];
+                }
+                remainders[remainder1]++;
+            }
+            return count;
         }
     }
 }
