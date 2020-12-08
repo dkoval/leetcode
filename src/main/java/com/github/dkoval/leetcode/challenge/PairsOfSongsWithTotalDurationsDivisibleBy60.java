@@ -64,15 +64,15 @@ public abstract class PairsOfSongsWithTotalDurationsDivisibleBy60 {
             int[] remainders = new int[60];
             int count = 0;
             for (int t : time) {
-                int remainder1 = t % 60;
+                int r1 = t % 60;
                 // count made pairs
-                if (remainder1 % 60 == 0) {
+                if (r1 % 60 == 0) {
                     count += remainders[0];
                 } else {
-                    int remainder2 = 60 - remainder1;
-                    count += remainders[remainder2];
+                    int r2 = 60 - r1;
+                    count += remainders[r2];
                 }
-                remainders[remainder1]++;
+                remainders[r1]++;
             }
             return count;
         }
