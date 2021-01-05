@@ -3,6 +3,11 @@ package com.github.dkoval.leetcode
 import java.util.*
 
 class ListNode(@JvmField var `val`: Int) {
+
+    constructor(`val`: Int, next: ListNode?) : this(`val`) {
+        this.next = next
+    }
+
     @JvmField
     var next: ListNode? = null
 }
