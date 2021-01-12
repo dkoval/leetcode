@@ -13,27 +13,25 @@ import com.github.dkoval.leetcode.ListNode;
 public class AddTwoNumbers {
 
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode dummy = new ListNode(42), prev = dummy;
-        ListNode p1 = l1, p2 = l2;
+        ListNode dummy = new ListNode(42), curr = dummy;
         int carry = 0;
-        while (p1 != null || p2 != null) {
+        while (l1 != null || l2 != null) {
             int sum = carry;
-            if (p1 != null) {
-                sum += p1.val;
-                p1 = p1.next;
+            if (l1 != null) {
+                sum += l1.val;
+                l1 = l1.next;
             }
-            if (p2 != null) {
-                sum += p2.val;
-                p2 = p2.next;
+            if (l2 != null) {
+                sum += l2.val;
+                l2 = l2.next;
             }
             int digit = sum % 10;
             carry = sum / 10;
-            ListNode curr = new ListNode(digit);
-            prev.next = curr;
-            prev = curr;
+            curr.next = new ListNode(digit);
+            curr = curr.next;
         }
         if (carry == 1) {
-            prev.next = new ListNode(1);
+            curr.next = new ListNode(1);
         }
         return dummy.next;
     }
