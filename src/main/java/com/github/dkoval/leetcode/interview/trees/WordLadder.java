@@ -39,7 +39,7 @@ public class WordLadder {
                 char[] currWordChars = currWord.toCharArray();
                 for (int i = 0; i < currWordChars.length; i++) {
                     char originalCh = currWordChars[i];
-                    // generate a new word by replace i-th character with 'a'..'z'
+                    // generate new words by replacing i-th character with 'a'..'z'
                     for (char ch = 'a'; ch <= 'z'; ch++) {
                         if (ch == originalCh) continue;
                         currWordChars[i] = ch;
