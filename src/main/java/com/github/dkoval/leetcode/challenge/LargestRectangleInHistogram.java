@@ -1,5 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.Stack;
+
 /**
  * <a href="https://leetcode.com/explore/challenge/card/december-leetcoding-challenge/573/week-5-december-29th-december-31st/3587/">Largest Rectangle in Histogram</a>
  * <p>
@@ -22,6 +24,32 @@ public abstract class LargestRectangleInHistogram {
                     minHeight = Math.min(minHeight, heights[j]);
                     maxArea = Math.max(maxArea, minHeight * (j - i + 1));
                 }
+            }
+            return maxArea;
+        }
+    }
+
+    // O(N) time | O(N) space
+    public static class LargestRectangleInHistogramUsingStack extends LargestRectangleInHistogram {
+
+        @Override
+        public int largestRectangleArea(int[] heights) {
+            int maxArea = 0;
+            Stack<Integer> stack = new Stack<>();
+            stack.push(-1); // marks the end
+            for (int i = 0; i < heights.length; i++) {
+                while (stack.peek() != -1 && heights[stack.peek()] >= heights[i]) {
+                    int currHeight =  heights[stack.pop()];
+                    int currWidth = i - stack.peek() - 1;
+                    maxArea = Math.max(maxArea, currHeight * currWidth);
+                }
+                stack.push(i);
+            }
+            // check if we have something left in the stack
+            while (stack.peek() != -1) {
+                int currHeight = heights[stack.pop()];
+                int currWidth = heights.length - stack.peek() - 1;
+                maxArea = Math.max(maxArea, currHeight * currWidth);
             }
             return maxArea;
         }
