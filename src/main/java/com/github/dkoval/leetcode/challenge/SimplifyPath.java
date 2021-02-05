@@ -30,11 +30,12 @@ public class SimplifyPath {
         String[] dirs = path.split("/");
         Deque<String> dq = new LinkedList<>();
         for (String dir : dirs) {
-            if ("".equals(dir) || ".".equals(dir)) continue;
-            if (!"..".equals(dir)) {
+            if ("..".equals(dir)) {
+                if (!dq.isEmpty()) {
+                    dq.removeLast();
+                }
+            } else if (!dir.isEmpty() && !".".equals(dir)) {
                 dq.addLast(dir);
-            } else if (!dq.isEmpty()) {
-                dq.removeLast();
             }
         }
         if (dq.isEmpty()) {
