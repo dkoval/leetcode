@@ -25,6 +25,7 @@ import java.util.LinkedList;
  */
 public class SimplifyPath {
 
+    // O(N) time | O(N) space
     public String simplifyPath(String path) {
         String[] dirs = path.split("/");
         Deque<String> dq = new LinkedList<>();
