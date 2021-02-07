@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.ShortestDistanceToCharacter.ShortestDistanceToCharacterUsingLoHiRanges
 import com.github.dkoval.leetcode.challenge.ShortestDistanceToCharacter.ShortestDistanceToCharacterUsingTreeSet
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
@@ -35,6 +36,16 @@ internal class ShortestDistanceToCharacterTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return shortest distance to character`(s: String, c: Char, expected: IntArray) {
             ShortestDistanceToCharacterUsingTreeSet().test(s, c, expected)
+        }
+    }
+
+    @Nested
+    inner class ShortestDistanceToCharacterUsingLoHiRangesTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return shortest distance to character`(s: String, c: Char, expected: IntArray) {
+            ShortestDistanceToCharacterUsingLoHiRanges().test(s, c, expected)
         }
     }
 

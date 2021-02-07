@@ -1,5 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
 
 /**
@@ -29,6 +31,37 @@ public abstract class ShortestDistanceToCharacter {
                 int loDist = (lo == null) ? Integer.MAX_VALUE : Math.abs(i - lo);
                 int hiDist = (hi == null) ? Integer.MAX_VALUE : Math.abs(i - hi);
                 answer[i] = Math.min(loDist, hiDist);
+            }
+            return answer;
+        }
+    }
+
+    public static class ShortestDistanceToCharacterUsingLoHiRanges extends ShortestDistanceToCharacter {
+
+        private static final int MAX_LENGTH_CONSTRAINT = 10_000;
+
+        @Override
+        public int[] shortestToChar(String s, char c) {
+            List<Integer> positions = new ArrayList<>();
+            positions.add(-MAX_LENGTH_CONSTRAINT);
+            for (int i = 0; i < s.length(); i++) {
+                if (s.charAt(i) == c) {
+                    positions.add(i);
+                }
+            }
+            positions.add(MAX_LENGTH_CONSTRAINT);
+
+            int[] answer = new int[s.length()];
+            int lo = positions.get(0);
+            int hi = positions.get(1);
+            int idx = 2;
+            for (int i = 0; i < s.length(); i++) {
+                if (s.charAt(i) != c) {
+                    answer[i] = Math.min(i - lo, hi - i);
+                } else {
+                    lo = hi;
+                    hi = positions.get(idx++);
+                }
             }
             return answer;
         }
