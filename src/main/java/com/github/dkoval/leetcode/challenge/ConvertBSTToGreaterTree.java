@@ -23,7 +23,7 @@ public abstract class ConvertBSTToGreaterTree {
     public abstract TreeNode convertBST(TreeNode root);
 
     // O(N) time | O(H) space, where H - height of a BST
-    public static class ConvertBSTToGreaterTreeUsingRecursiveReversedInorderTraversal extends ConvertBSTToGreaterTree {
+    public static class ConvertBSTToGreaterTreeWithRecursiveReverseInorderTraversal extends ConvertBSTToGreaterTree {
         private int sum = 0;
 
         @Override
@@ -39,7 +39,7 @@ public abstract class ConvertBSTToGreaterTree {
     }
 
     // O(N) time | O(H) space, where H - height of a BST
-    public static class ConvertBSTToGreaterTreeUsingStackForReversedInorderTraversal extends ConvertBSTToGreaterTree {
+    public static class ConvertBSTToGreaterTreeWithStackForReverseInorderTraversal extends ConvertBSTToGreaterTree {
 
         @Override
         public TreeNode convertBST(TreeNode root) {
@@ -57,6 +57,52 @@ public abstract class ConvertBSTToGreaterTree {
                 curr = curr.left;
             }
             return root;
+        }
+    }
+
+    // O(N) time | O(1) space
+    // Resource: https://leetcode.com/problems/convert-bst-to-greater-tree/solution/
+    public static class ConvertBSTToGreaterTreeWithReverseMorrisInorderTraversal extends ConvertBSTToGreaterTree {
+
+        @Override
+        public TreeNode convertBST(TreeNode root) {
+            int sum = 0;
+            TreeNode node = root;
+            while (node != null) {
+                if (node.right == null) {
+                    // If there is no right subtree continue traversing left.
+                    sum += node.val;
+                    node.val = sum;
+                    node = node.left;
+                } else {
+                    // If there is a right subtree, then there is at least one node that
+                    // has a greater value than the current one, therefore, traverse that subtree first.
+                    TreeNode successor = successor(node);
+                    if (successor.left == null) {
+                        // If the successor's left subtree is null, then we have never been here before.
+                        // We temporarily link successor's left pointer to the current node and use this information
+                        // to escape the subtree later on.
+                        successor.left = node;
+                        node = node.right;
+                    } else {
+                        // If there is a left subtree, it is a link that we created on a previous pass,
+                        // so we should unlink it and visit this node.
+                        successor.left = null;
+                        sum += node.val;
+                        node.val = sum;
+                        node = node.left;
+                    }
+                }
+            }
+            return root;
+        }
+
+        private TreeNode successor(TreeNode node) {
+            TreeNode successor = node.right;
+            while (successor.left != null && successor.left != node) {
+                successor = successor.left;
+            }
+            return successor;
         }
     }
 }

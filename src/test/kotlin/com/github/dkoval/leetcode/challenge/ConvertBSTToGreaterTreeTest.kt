@@ -1,8 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.TreeNode
-import com.github.dkoval.leetcode.challenge.ConvertBSTToGreaterTree.ConvertBSTToGreaterTreeUsingRecursiveReversedInorderTraversal
-import com.github.dkoval.leetcode.challenge.ConvertBSTToGreaterTree.ConvertBSTToGreaterTreeUsingStackForReversedInorderTraversal
+import com.github.dkoval.leetcode.challenge.ConvertBSTToGreaterTree.*
 import com.github.dkoval.leetcode.equalsTo
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
@@ -52,23 +51,34 @@ internal class ConvertBSTToGreaterTreeTest {
     }
 
     @Nested
-    inner class ConvertBSTToGreaterTreeUsingRecursiveReversedInorderTraversalTest {
+    inner class ConvertBSTToGreaterTreeWithRecursiveReverseInorderTraversalTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should convert a BST a Greater Tree`(root: TreeNode?, expected: TreeNode?) {
-            ConvertBSTToGreaterTreeUsingRecursiveReversedInorderTraversal()
+            ConvertBSTToGreaterTreeWithRecursiveReverseInorderTraversal()
                 .test(root, expected)
         }
     }
 
     @Nested
-    inner class ConvertBSTToGreaterTreeUsingStackForReversedInorderTraversalTest {
+    inner class ConvertBSTToGreaterTreeWithStackForReverseInorderTraversalTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should convert a BST a Greater Tree`(root: TreeNode?, expected: TreeNode?) {
-            ConvertBSTToGreaterTreeUsingStackForReversedInorderTraversal()
+            ConvertBSTToGreaterTreeWithStackForReverseInorderTraversal()
+                .test(root, expected)
+        }
+    }
+
+    @Nested
+    inner class ConvertBSTToGreaterTreeWithReverseMorrisInorderTraversalTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should convert a BST a Greater Tree`(root: TreeNode?, expected: TreeNode?) {
+            ConvertBSTToGreaterTreeWithReverseMorrisInorderTraversal()
                 .test(root, expected)
         }
     }
