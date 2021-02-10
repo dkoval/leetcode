@@ -29,32 +29,32 @@ public class CopyListWithRandomPointer {
     public Node copyRandomList(Node head) {
         // tweak the original linked list by interweaving the nodes of the old and copied list:
         // A --> A' --> B --> B' --> C --> C' --> D --> D'
-        Node oldCurr = head;
-        while (oldCurr != null) {
-            Node oldNext = oldCurr.next;
-            Node copyNode = new Node(oldCurr.val);
-            oldCurr.next = copyNode;
-            copyNode.next = oldNext;
-            oldCurr = oldNext;
+        Node curr = head;
+        while (curr != null) {
+            Node next = curr.next;
+            Node copy = new Node(curr.val);
+            curr.next = copy;
+            copy.next = next;
+            curr = next;
         }
         // resolve random pointers
-        oldCurr = head;
-        while (oldCurr != null && oldCurr.next != null) {
-            Node oldNext = oldCurr.next.next;
-            if (oldCurr.random != null) {
-                oldCurr.next.random = oldCurr.random.next;
+        curr = head;
+        while (curr != null && curr.next != null) {
+            Node next = curr.next.next;
+            if (curr.random != null) {
+                curr.next.random = curr.random.next;
             }
-            oldCurr = oldNext;
+            curr = next;
         }
-        // collect copied nodes as well as restore the original linked list
-        oldCurr = head;
-        Node copyDummyHead = new Node(42), copyCurr = copyDummyHead;
-        while (oldCurr != null && oldCurr.next != null) {
-            copyCurr.next = oldCurr.next;
-            copyCurr = copyCurr.next;
-            oldCurr.next = oldCurr.next.next;
-            oldCurr = oldCurr.next;
+        // collect copied nodes while restoring the original list
+        curr = head;
+        Node dummy = new Node(42), copy = dummy;
+        while (curr != null && curr.next != null) {
+            copy.next = curr.next;
+            copy = copy.next;
+            curr.next = curr.next.next;
+            curr = curr.next;
         }
-        return copyDummyHead.next;
+        return dummy.next;
     }
 }
