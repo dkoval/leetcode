@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.ShortestUnsortedContinuousSubarray.ShortestUnsortedContinuousSubarrayInLinerTimeAndConstantSpace
 import com.github.dkoval.leetcode.challenge.ShortestUnsortedContinuousSubarray.ShortestUnsortedContinuousSubarrayNaive
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -47,5 +48,18 @@ internal class ShortestUnsortedContinuousSubarrayTest {
     private fun ShortestUnsortedContinuousSubarray.test(nums: IntArray, expected: Int) {
         val actual = findUnsortedSubarray(nums)
         assertEquals(expected, actual)
+    }
+
+    @Nested
+    inner class ShortestUnsortedContinuousSubarrayInLinerTimeAndConstantSpaceTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the length of the shortest subarray such that if you only sort this subarray in asc order, then the whole array will be sorted in asc order`(
+            nums: IntArray,
+            expected: Int
+        ) {
+            ShortestUnsortedContinuousSubarrayInLinerTimeAndConstantSpace().test(nums, expected)
+        }
     }
 }

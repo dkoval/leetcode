@@ -43,4 +43,53 @@ public abstract class ShortestUnsortedContinuousSubarray {
             return end - start + 1;
         }
     }
+
+    // O(N) time | O(1) space
+    public static class ShortestUnsortedContinuousSubarrayInLinerTimeAndConstantSpace extends ShortestUnsortedContinuousSubarray {
+
+        @Override
+        public int findUnsortedSubarray(int[] nums) {
+            int min = Integer.MAX_VALUE;
+            int max = Integer.MIN_VALUE;
+
+            // when going from left to right, find the lowest decreasing value
+            for (int i = 1; i < nums.length; i++) {
+                if (nums[i] < nums[i - 1]) {
+                    min = Math.min(min, nums[i]);
+                    break;
+                }
+            }
+
+            // when going from right to left, find the biggest increasing value
+            for (int i = nums.length - 2; i >= 0; i--) {
+                if (nums[i] > nums[i + 1]) {
+                    max = Math.max(max, nums[i]);
+                    break;
+                }
+            }
+
+            // nums[] is already sorted
+            if (min == Integer.MAX_VALUE && max == Integer.MIN_VALUE) {
+                return 0;
+            }
+
+            // start index of the subarray is the 1st value from left to right that is > min
+            int start = 0;
+            for (; start < nums.length; start++) {
+                if (nums[start] > min) {
+                    break;
+                }
+            }
+
+            // end index of the subarray is the 1st value from right to left that is < max
+            int end = nums.length - 1;
+            for (; end >= 0; end--) {
+                if (nums[end] < max) {
+                    break;
+                }
+            }
+
+            return end - start + 1;
+        }
+    }
 }
