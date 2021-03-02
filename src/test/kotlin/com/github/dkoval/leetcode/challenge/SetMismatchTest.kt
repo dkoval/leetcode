@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.SetMismatch.SetMismatchNaive
+import com.github.dkoval.leetcode.challenge.SetMismatch.SetMismatchOptimal
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -37,6 +38,15 @@ internal class SetMismatchTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the number that occurs twice and the number that is missing`(nums: IntArray, expected: IntArray) {
             SetMismatchNaive().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class SetMismatchOptimalTest {
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the number that occurs twice and the number that is missing`(nums: IntArray, expected: IntArray) {
+            SetMismatchOptimal().test(nums, expected)
         }
     }
 

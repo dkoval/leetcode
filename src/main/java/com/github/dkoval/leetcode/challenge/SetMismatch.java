@@ -24,7 +24,7 @@ public abstract class SetMismatch {
         public int[] findErrorNums(int[] nums) {
             Set<Integer> seen = new HashSet<>();
             int[] answer = new int[2];
-            // sum(1 + 2 + ... + n) = n * (n + 1) / 2
+            // 1 + 2 + ... + n = n * (n + 1) / 2
             int sum = 0;
             for (int num : nums) {
                 if (seen.contains(num)) {
@@ -35,6 +35,33 @@ public abstract class SetMismatch {
                 }
             }
             answer[1] = nums.length * (nums.length + 1) / 2 - sum;
+            return answer;
+        }
+    }
+
+    // O(N) time | O(1) space
+    public static class SetMismatchOptimal extends SetMismatch {
+
+        // Resource: https://www.youtube.com/watch?v=u6Dt9av66yM&t=338s
+        @Override
+        public int[] findErrorNums(int[] nums) {
+            int[] answer = new int[2];
+            // 1st pass - find the duplicate number
+            for (int num : nums) {
+                int i = Math.abs(num) - 1; // map num to index
+                if (nums[i] < 0) {
+                    answer[0] = i + 1;
+                } else {
+                    nums[i] *= -1; // convert to negative
+                }
+            }
+            // 2nd pass - find the missing number
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] > 0) {
+                    answer[1] = i + 1;
+                    break;
+                }
+            }
             return answer;
         }
     }
