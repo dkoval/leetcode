@@ -16,40 +16,41 @@ import com.github.dkoval.leetcode.ListNode;
  * <li>Your code should preferably run in O(n) time and use only O(1) memory.</li>
  * </ul>
  */
-public abstract class IntersectionOfTwoLinkedLists {
+public class IntersectionOfTwoLinkedLists {
 
-    public abstract ListNode getIntersectionNode(ListNode headA, ListNode headB);
-
-    public static class IntersectionOfTwoLinkedListsByComparingLengths extends IntersectionOfTwoLinkedLists {
-
-        @Override
-        public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-            int lengthA = length(headA);
-            int lengthB = length(headB);
-            int diff = Math.abs(lengthA - lengthB);
-            ListNode longer = (lengthA > lengthB) ? headA : headB;
-            ListNode shorter = (lengthA > lengthB) ? headB : headA;
-            while (diff-- > 0) {
-                longer = longer.next;
+    // O(N) time | O(1) space
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        int lengthA = 0, lengthB = 0;
+        ListNode p1 = headA, p2 = headB;
+        while (p1 != null || p2 != null) {
+            if (p1 != null) {
+                lengthA++;
+                p1 = p1.next;
             }
-            while (longer != null) {
-                if (longer == shorter) {
-                    return longer;
-                }
-                longer = longer.next;
-                shorter = shorter.next;
+            if (p2 != null) {
+                lengthB++;
+                p2 = p2.next;
             }
-            return null;
         }
 
-        private int length(ListNode head) {
-            int length = 0;
-            ListNode curr = head;
-            while (curr != null) {
-                length++;
-                curr = curr.next;
-            }
-            return length;
+        int diff = Math.abs(lengthA - lengthB);
+        // p1 points to the head of the longest list
+        p1 = (lengthA > lengthB) ? headA : headB;
+        // p2 points to the head of the shortest list
+        p2 = (p1 == headA) ? headB : headA;
+
+        // skip `diff` number of nodes in the longest list
+        while (diff-- > 0) {
+            p1 = p1.next;
         }
+
+        while (p1 != null) {
+            if (p1 == p2) {
+                return p1;
+            }
+            p1 = p1.next;
+            p2 = p2.next;
+        }
+        return null;
     }
 }
