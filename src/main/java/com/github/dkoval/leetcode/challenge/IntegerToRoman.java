@@ -1,6 +1,5 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -28,47 +27,34 @@ import java.util.Map;
  * 1 <= num <= 3999
  */
 public class IntegerToRoman {
-    private static final Map<Integer, String> nums = new LinkedHashMap<>();
-    private static final Map<Integer, String> digits = new HashMap<>();
+    private static final Map<Integer, String> romans = new LinkedHashMap<>();
 
     static {
-        // x >= 10
-        nums.put(1000, "M");
-        nums.put(900, "CM");
-        nums.put(500, "D");
-        nums.put(400, "CD");
-        nums.put(100, "C");
-        nums.put(90, "XC");
-        nums.put(50, "L");
-        nums.put(40, "XL");
-        nums.put(10, "X");
-        // x < 10
-        digits.put(1, "I");
-        digits.put(2, "II");
-        digits.put(3, "III");
-        digits.put(4, "IV");
-        digits.put(5, "V");
-        digits.put(6, "VI");
-        digits.put(7, "VII");
-        digits.put(8, "VIII");
-        digits.put(9, "IX");
+        romans.put(1000, "M");
+        romans.put(900, "CM");
+        romans.put(500, "D");
+        romans.put(400, "CD");
+        romans.put(100, "C");
+        romans.put(90, "XC");
+        romans.put(50, "L");
+        romans.put(40, "XL");
+        romans.put(10, "X");
+        romans.put(9, "IX");
+        romans.put(5, "V");
+        romans.put(4, "IV");
+        romans.put(1, "I");
     }
 
     public String intToRoman(int num) {
         StringBuilder sb = new StringBuilder();
-        if (num >= 10) {
-            for (Map.Entry<Integer, String> entry : nums.entrySet()) {
-                int x = entry.getKey();
-                String roman = entry.getValue();
-                if (num >= x) {
-                    int times = num / x;
-                    append(sb, roman, times);
-                    num %= x;
-                }
+        for (Map.Entry<Integer, String> entry : romans.entrySet()) {
+            int x = entry.getKey();
+            String roman = entry.getValue();
+            if (num >= x) {
+                int times = num / x;
+                append(sb, roman, times);
+                num %= x;
             }
-        }
-        if (num != 0) {
-            append(sb, digits.get(num), 1);
         }
         return sb.toString();
     }
