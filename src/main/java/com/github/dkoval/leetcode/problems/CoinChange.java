@@ -32,10 +32,11 @@ public abstract class CoinChange {
             if (memo[amount] != 0) return memo[amount];
             int minNumCoins = Integer.MAX_VALUE;
             for (int coin : coins) {
-                if (coin > amount) continue;
-                int numCoins = coinChange(coins, amount - coin, memo);
-                if (numCoins != -1) {
-                    minNumCoins = Math.min(minNumCoins, numCoins);
+                if (amount >= coin) {
+                    int numCoins = coinChange(coins, amount - coin, memo);
+                    if (numCoins != -1) {
+                        minNumCoins = Math.min(minNumCoins, numCoins);
+                    }
                 }
             }
             memo[amount] = (minNumCoins == Integer.MAX_VALUE) ? -1 : 1 + minNumCoins;
@@ -53,10 +54,11 @@ public abstract class CoinChange {
             for (int i = 1; i <= amount; i++) {
                 int minNumCoins = Integer.MAX_VALUE;
                 for (int coin : coins) {
-                    if (coin > i) continue;
-                    int numCoins = dp[i - coin];
-                    if (numCoins != -1) {
-                        minNumCoins = Math.min(minNumCoins, numCoins);
+                    if (i >= coin) {
+                        int numCoins = dp[i - coin];
+                        if (numCoins != -1) {
+                            minNumCoins = Math.min(minNumCoins, numCoins);
+                        }
                     }
                 }
                 dp[i] = (minNumCoins == Integer.MAX_VALUE) ? -1 : 1 + minNumCoins;
