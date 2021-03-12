@@ -55,19 +55,24 @@ public abstract class CheckIfStringContainsAllBinaryCodesOfSizeK {
         }
     }
 
-    // O(N) time | O(M) space, where N == s.length(), M == 2^k
     public static class CheckIfStringContainsAllBinaryCodesOfSizeKAccepted extends CheckIfStringContainsAllBinaryCodesOfSizeK {
 
         public boolean hasAllCodes(String s, int k) {
-            // Sliding window: for each i in range [0, N), where N is the length of string s,
-            // generate substrings of length k starting at index i
-            Set<String> binCodes = new HashSet<>();
+            int need = 1 << k;
+            // Sliding window: for each i in [0, N - k], where N is the length of string s,
+            // generate substrings s[i : i + k - 1] of length k
+            Set<String> codes = new HashSet<>();
             for (int i = 0; i <= s.length() - k; i++) {
-                String binCode = s.substring(i, i + k);
-                binCodes.add(binCode);
+                String code = s.substring(i, i + k);
+                if (!codes.contains(code)) {
+                    codes.add(code);
+                    need--;
+                    if (need == 0) {
+                        return true;
+                    }
+                }
             }
-            // D oes the set contain all possible 2^k substring of length k?
-            return binCodes.size() == (1 << k);
+            return false;
         }
     }
 }
