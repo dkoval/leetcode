@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.WordSubsets.WordSubsetsAccepted
 import com.github.dkoval.leetcode.challenge.WordSubsets.WordSubsetsTLE
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
@@ -50,6 +51,16 @@ internal class WordSubsetsTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return a list of all universal words in A`(A: Array<String>, B: Array<String>, expected: List<String>) {
             WordSubsetsTLE().test(A, B, expected)
+        }
+    }
+
+    @Nested
+    inner class WordSubsetsAcceptedTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return a list of all universal words in A`(A: Array<String>, B: Array<String>, expected: List<String>) {
+            WordSubsetsAccepted().test(A, B, expected)
         }
     }
 

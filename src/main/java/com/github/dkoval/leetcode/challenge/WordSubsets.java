@@ -16,7 +16,7 @@ import java.util.Map;
  * Now say a word a from A is universal if for every b in B, b is a subset of a.
  * <p>
  * Return a list of all universal words in A.  You can return the words in any order.
- *
+ * <p>
  * Note:
  * <ul>
  *     <li>1 <= A.length, B.length <= 10000</li>
@@ -43,7 +43,7 @@ public interface WordSubsets {
                 int[] bCharCounts = charCounts(b);
                 for (int i = 0; i < A.length; i++) {
                     int[] aCharCounts = wordStats.get(A[i]);
-                    if (isSubsetOfA(bCharCounts, aCharCounts)) {
+                    if (isSubset(aCharCounts, bCharCounts)) {
                         subsets[i]++;
                     }
                 }
@@ -67,9 +67,49 @@ public interface WordSubsets {
             return counts;
         }
 
-        private boolean isSubsetOfA(int[] bCharCounts, int[] aCharCounts) {
-            for (int i = 0; i < bCharCounts.length; i++) {
-                if (bCharCounts[i] > aCharCounts[i]) {
+        private boolean isSubset(int[] sourceCharCounts, int[] destCharCounts) {
+            for (int i = 0; i < destCharCounts.length; i++) {
+                if (destCharCounts[i] > sourceCharCounts[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    class WordSubsetsAccepted implements WordSubsets {
+
+        @Override
+        public List<String> wordSubsets(String[] A, String[] B) {
+            int[] targetCharCounts = new int[26];
+            for (String b : B) {
+                int[] bCharCounts = charCounts(b);
+                for (int i = 0; i < 26; i++) {
+                    targetCharCounts[i] = Math.max(targetCharCounts[i], bCharCounts[i]);
+                }
+            }
+
+            List<String> result = new ArrayList<>();
+            for (String a : A) {
+                int[] aCharCounts = charCounts(a);
+                if (isSubset(aCharCounts, targetCharCounts)) {
+                    result.add(a);
+                }
+            }
+            return result;
+        }
+
+        private int[] charCounts(String s) {
+            int[] counts = new int[26];
+            for (int i = 0; i < s.length(); i++) {
+                counts[s.charAt(i) - 'a']++;
+            }
+            return counts;
+        }
+
+        private boolean isSubset(int[] sourceCharCounts, int[] destCharCounts) {
+            for (int i = 0; i < 26; i++) {
+                if (destCharCounts[i] > sourceCharCounts[i]) {
                     return false;
                 }
             }
