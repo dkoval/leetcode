@@ -40,6 +40,15 @@ internal class FlipBinaryTreeToMatchPreorderTraversalTest {
                 },
                 intArrayOf(1, 2),
                 listOf<Int>()
+            ),
+            Arguments.of(
+                TreeNode(1).apply {
+                    left = TreeNode(2).apply {
+                        left = TreeNode(3)
+                    }
+                },
+                intArrayOf(1, 3, 2),
+                listOf(-1)
             )
         )
     }
