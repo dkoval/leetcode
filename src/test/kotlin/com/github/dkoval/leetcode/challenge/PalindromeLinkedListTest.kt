@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.ListNode
+import com.github.dkoval.leetcode.challenge.PalindromeLinkedList.PalindromeLinkedListFollowUp
 import com.github.dkoval.leetcode.challenge.PalindromeLinkedList.PalindromeLinkedListUsingExtraSpace
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -31,6 +32,18 @@ class PalindromeLinkedListTest {
                     next = ListNode(2)
                 },
                 false
+            ),
+            Arguments.of(
+                ListNode(1).apply {
+                    next = ListNode(2).apply {
+                        next = ListNode(3).apply {
+                            next = ListNode(2).apply {
+                                next = ListNode(1)
+                            }
+                        }
+                    }
+                },
+                true
             )
         )
     }
@@ -42,6 +55,17 @@ class PalindromeLinkedListTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should check if a singly linked list is a palindrome`(head: ListNode, expected: Boolean) {
             PalindromeLinkedListUsingExtraSpace().test(head, expected)
+        }
+    }
+
+    @Nested
+    inner class PalindromeLinkedListFollowUpTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should check if a singly linked list is a palindrome`(head: ListNode, expected: Boolean) {
+            PalindromeLinkedListFollowUp()
+                .test(head, expected)
         }
     }
 
