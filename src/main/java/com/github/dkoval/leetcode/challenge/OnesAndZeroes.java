@@ -13,6 +13,7 @@ public class OnesAndZeroes {
 
     // O(L * M * N) time | O(M * N) space
     public int findMaxForm(String[] strs, int m, int n) {
+        // dp[i][j] - best result given i 0s and j 1s
         int[][] dp = new int[m + 1][n + 1];
         for (String str : strs) {
             int[] count = countZerosAndOnes(str);
