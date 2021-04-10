@@ -20,12 +20,10 @@ public class LongestIncreasingPathInMatrix {
     //
     // Space complexity : O(M*N). The cache dominates the space complexity.
     public int longestIncreasingPath(int[][] matrix) {
-        if (matrix.length == 0) {
-            return 0;
-        }
         // memo[i][j] - longest increasing path starting at matrix[i][j]
         int[][] memo = new int[matrix.length][matrix[0].length];
-        int result = 0;
+
+        int result = 1;
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
                 result = Math.max(result, dfs(matrix, i, j, memo));
@@ -38,21 +36,26 @@ public class LongestIncreasingPathInMatrix {
         if (memo[row][col] != 0) {
             return memo[row][col];
         }
-        int result = 0;
+
+        int longestIncPathSoFar = 0;
         for (int[] direction : directions) {
             int nextRow = row + direction[0];
             int nextCol = col + direction[1];
+
             // boundary check
             if (nextRow < 0 || nextRow >= matrix.length || nextCol < 0 || nextCol >= matrix[0].length) {
                 continue;
             }
+
             // check if the next element can be appended to the current increasing path
             if (matrix[nextRow][nextCol] <= matrix[row][col]) {
                 continue;
             }
-            // take the maximum result by moving left, right, up, down
-            result = Math.max(result, dfs(matrix, nextRow, nextCol, memo));
+
+            // take the longest increasing path length by moving left, right, up, down
+            longestIncPathSoFar = Math.max(longestIncPathSoFar, dfs(matrix, nextRow, nextCol, memo));
         }
-        return memo[row][col] = 1 + result;
+
+        return memo[row][col] = longestIncPathSoFar + 1;
     }
 }
