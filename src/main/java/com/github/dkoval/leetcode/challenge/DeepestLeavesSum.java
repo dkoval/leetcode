@@ -14,12 +14,7 @@ public class DeepestLeavesSum {
 
     public int deepestLeavesSum(TreeNode root) {
         int maxDepth = maxDepth(root);
-        Queue<TreeNode> q = nodesAtDepth(root, maxDepth);
-        int sum = 0;
-        while (!q.isEmpty()) {
-            sum += q.poll().val;
-        }
-        return sum;
+        return sumOfNodeValuesAtDepth(root, maxDepth);
     }
 
     private int maxDepth(TreeNode root) {
@@ -29,10 +24,11 @@ public class DeepestLeavesSum {
         return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
     }
 
-    private Queue<TreeNode> nodesAtDepth(TreeNode root, int depth) {
+    private int sumOfNodeValuesAtDepth(TreeNode root, int depth) {
+        int sum = 0;
         Queue<TreeNode> q = new LinkedList<>();
         q.offer(root);
-        while (depth-- > 1) {
+        while (depth-- > 0) {
             int size = q.size();
             while (size-- > 0) {
                 TreeNode node = q.poll();
@@ -42,8 +38,11 @@ public class DeepestLeavesSum {
                 if (node.right != null) {
                     q.offer(node.right);
                 }
+                if (depth == 0) {
+                    sum += node.val;
+                }
             }
         }
-        return q;
+        return sum;
     }
 }
