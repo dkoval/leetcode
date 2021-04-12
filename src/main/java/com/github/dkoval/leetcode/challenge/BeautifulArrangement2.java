@@ -19,13 +19,12 @@ public class BeautifulArrangement2 {
         boolean increasing = true;
         while (k-- > 0) {
             result[idx++] = increasing ? min++ : max--;
-            if (k == 0 && idx < n) {
-                // copy remaining elements
-                while (idx < n) {
-                    result[idx++] = increasing ? min++ : max--;
-                }
-            }
             increasing = !increasing;
+        }
+        // add remaining elements, if there are any left
+        increasing = !increasing;
+        while (idx < n) {
+            result[idx++] = increasing ? min++ : max--;
         }
         return result;
     }
