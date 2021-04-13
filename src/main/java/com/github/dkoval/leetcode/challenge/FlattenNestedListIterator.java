@@ -7,6 +7,19 @@ import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * <a href="https://leetcode.com/explore/challenge/card/april-leetcoding-challenge-2021/594/week-2-april-8th-april-14th/3706/">Flatten Nested List Iterator</a>
+ * <p>
+ * You are given a nested list of integers nestedList. Each element is either an integer or a list whose elements
+ * may also be integers or other lists. Implement an iterator to flatten it.
+ * <p>
+ * Implement the NestedIterator class:
+ * <ul>
+ *  <li>NestedIterator(List<NestedInteger> nestedList) Initializes the iterator with the nested list nestedList.</li>
+ *  <li>int next() Returns the next integer in the nested list.</li>
+ *  <li>boolean hasNext() Returns true if there are still some integers in the nested list and false otherwise.</li>
+ * </ul>
+ */
 public class FlattenNestedListIterator {
 
     public interface NestedInteger {
@@ -27,7 +40,6 @@ public class FlattenNestedListIterator {
          * Return empty list if this NestedInteger holds a single integer.
          *
          * @return the nested list that this NestedInteger holds, if it holds a nested list.
-         *
          */
         List<NestedInteger> getList();
     }
