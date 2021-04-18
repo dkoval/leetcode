@@ -33,7 +33,7 @@ internal class SubarraySumEqualsKTest {
     }
 
     @Nested
-    inner class SubarraySumEqualsKWithoutSpaceTest {
+    inner class SubarraySumEqualsKBruteForceTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -42,7 +42,7 @@ internal class SubarraySumEqualsKTest {
             k: Int,
             expected: Int
         ) {
-            SubarraySumEqualsKWithoutSpace.test(nums, k, expected)
+            SubarraySumEqualsKBruteForce.test(nums, k, expected)
         }
     }
 

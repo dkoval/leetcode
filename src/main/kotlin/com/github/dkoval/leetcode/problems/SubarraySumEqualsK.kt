@@ -13,7 +13,7 @@ interface SubarraySumEqualsK {
 
 // Time complexity: O(N^2). We need to consider every subarray possible.
 // Space complexity: O(1). Constant space is used.
-object SubarraySumEqualsKWithoutSpace : SubarraySumEqualsK {
+object SubarraySumEqualsKBruteForce : SubarraySumEqualsK {
 
     override fun subarraySum(nums: IntArray, k: Int): Int {
         var count = 0
@@ -33,7 +33,7 @@ object SubarraySumEqualsKWithoutSpace : SubarraySumEqualsK {
 object SubarraySumEqualsKUsingHashMap : SubarraySumEqualsK {
 
     override fun subarraySum(nums: IntArray, k: Int): Int {
-        // sum(i, j) = sum(j, 0) - sum(i, 0)
+        // sum[i:j] = sum[0:j] - sum[0:i - 1]
         var count = 0
         var sum = 0
         // stores (sum[i], number of occurrences of sum[i]) pairs
