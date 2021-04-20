@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * <a href="https://leetcode.com/explore/challenge/card/april-leetcoding-challenge-2021/595/week-3-april-15th-april-21st/3714/">N-ary Tree Preorder Traversal</a>
@@ -34,6 +33,7 @@ interface NaryTreePreorderTraversal {
 
     List<Integer> preorder(Node root);
 
+    // O(N) time | O(N) space
     class NaryTreePreorderTraversalRecursive implements NaryTreePreorderTraversal {
 
         @Override
@@ -57,6 +57,33 @@ interface NaryTreePreorderTraversal {
             for (Node child : root.children) {
                 preorder(child, result);
             }
+        }
+    }
+
+    // O(N) time | O(N) space
+    class NaryTreePreorderTraversalIter implements NaryTreePreorderTraversal {
+
+        @Override
+        public List<Integer> preorder(Node root) {
+            if (root == null) {
+                return Collections.emptyList();
+            }
+            List<Integer> result = new ArrayList<>();
+            Deque<Node> dq = new LinkedList<>();
+            dq.offerLast(root);
+            while (!dq.isEmpty()) {
+                Node node = dq.pollFirst();
+                result.add(node.val);
+
+                if (node.children == null) {
+                    continue;
+                }
+
+                for (int i = node.children.size() - 1; i >= 0; i--) {
+                    dq.offerFirst(node.children.get(i));
+                }
+            }
+            return result;
         }
     }
 }

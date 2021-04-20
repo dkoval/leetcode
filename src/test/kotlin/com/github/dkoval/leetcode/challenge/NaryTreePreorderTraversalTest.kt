@@ -1,6 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.NaryTreePreorderTraversal.NaryTreePreorderTraversalRecursive
+import com.github.dkoval.leetcode.challenge.NaryTreePreorderTraversal.*
 import com.github.dkoval.leetcode.challenge.NaryTreePreorderTraversal.Node
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -40,8 +40,22 @@ internal class NaryTreePreorderTraversalTest {
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the preorder traversal of n-ary tree node values`(root: Node?, expected: List<Int>) {
-            val actual = NaryTreePreorderTraversalRecursive().preorder(root)
-            assertEquals(expected, actual)
+            NaryTreePreorderTraversalRecursive().test(root, expected)
         }
+    }
+
+    @Nested
+    inner class NaryTreePreorderTraversalIterTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the preorder traversal of n-ary tree node values`(root: Node?, expected: List<Int>) {
+            NaryTreePreorderTraversalIter().test(root, expected)
+        }
+    }
+
+    private fun NaryTreePreorderTraversal.test(root: Node?, expected: List<Int>) {
+        val actual = preorder(root)
+        assertEquals(expected, actual)
     }
 }
