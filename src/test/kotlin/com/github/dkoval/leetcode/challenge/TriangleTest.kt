@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.Triangle.TriangleBottomUp
 import com.github.dkoval.leetcode.challenge.Triangle.TriangleTopDown
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -17,7 +18,7 @@ internal class TriangleTest {
         override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 listOf(
-                    listOf(2),
+                    mutableListOf(2),
                     listOf(3, 4),
                     listOf(6, 5, 7),
                     listOf(4, 1, 8, 3)
@@ -26,22 +27,20 @@ internal class TriangleTest {
             ),
             Arguments.of(
                 listOf(
-                    listOf(
-                        -10
-                    )
+                    mutableListOf(-10)
                 ),
                 -10
             ),
             Arguments.of(
                 listOf(
-                    listOf(-1),
+                    mutableListOf(-1),
                     listOf(-2, -3)
                 ),
                 -4
             ),
             Arguments.of(
                 listOf(
-                    listOf(-1),
+                    mutableListOf(-1),
                     listOf(2, 3),
                     listOf(1, -1, -3)
                 ),
@@ -49,7 +48,7 @@ internal class TriangleTest {
             ),
             Arguments.of(
                 listOf(
-                    listOf(1),
+                    mutableListOf(1),
                     listOf(-5, -2),
                     listOf(3, 6, 1),
                     listOf(-1, 2, 4, -3)
@@ -69,6 +68,19 @@ internal class TriangleTest {
             expected: Int
         ) {
             TriangleTopDown().test(triangle, expected)
+        }
+    }
+
+    @Nested
+    inner class TriangleBottomUpTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum path sum from top to bottom in a triangle`(
+            triangle: List<List<Int>>,
+            expected: Int
+        ) {
+            TriangleBottomUp().test(triangle, expected)
         }
     }
 

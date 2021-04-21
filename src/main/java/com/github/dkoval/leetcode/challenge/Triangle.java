@@ -38,4 +38,23 @@ public interface Triangle {
             return Collections.min(triangle.get(numRows - 1));
         }
     }
+
+    // Time: O(N^2) since we're visiting all 1 + 2 + ... + N = N  * (N + 1) / 2 numbers,
+    // where N is the total number of rows in the triangle
+    // Space: O(1)
+    class TriangleBottomUp implements Triangle {
+
+        @Override
+        public int minimumTotal(List<List<Integer>> triangle) {
+            for (int i = triangle.size() - 2; i >= 0; i--) {
+                for (int j = 0; j < triangle.get(i).size(); j++) {
+                    int minPathSum = triangle.get(i).get(j);
+                    minPathSum += Math.min(triangle.get(i + 1).get(j), triangle.get(i + 1).get(j + 1));
+                    // hack: store computed value in the current (i, j) position to optimize for space
+                    triangle.get(i).set(j, minPathSum);
+                }
+            }
+            return triangle.get(0).get(0);
+        }
+    }
 }
