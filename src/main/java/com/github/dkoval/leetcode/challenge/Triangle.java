@@ -7,6 +7,9 @@ public interface Triangle {
 
     int minimumTotal(List<List<Integer>> triangle);
 
+    // Time: O(N^2) since we're visiting all 1 + 2 + ... + N = N  * (N + 1) / 2 numbers,
+    // where N is the total number of rows in the triangle
+    // Space: O(1)
     class TriangleTopDown implements Triangle {
 
         @Override
@@ -27,7 +30,7 @@ public interface Triangle {
                         // case #3: middle cell
                         minPathSum += Math.min(triangle.get(i - 1).get(j - 1), triangle.get(i - 1).get(j));
                     }
-                    // hack: store computed value in (i, j) cell to optimize for space
+                    // hack: store computed value in the current (i, j) position to optimize for space
                     triangle.get(i).set(j, minPathSum);
                 }
             }
