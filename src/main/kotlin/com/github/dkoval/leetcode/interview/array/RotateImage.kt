@@ -9,9 +9,10 @@ package com.github.dkoval.leetcode.interview.array
  */
 object RotateImage {
 
+    // O(N * N) time | O(1) space
     fun rotate(matrix: Array<IntArray>) {
         transpose(matrix)
-        flipVertically(matrix)
+        reverseEachRow(matrix)
     }
 
     private fun transpose(matrix: Array<IntArray>) {
@@ -24,7 +25,7 @@ object RotateImage {
         }
     }
 
-    private fun flipVertically(matrix: Array<IntArray>) {
+    private fun reverseEachRow(matrix: Array<IntArray>) {
         for (i in matrix.indices) {
             for (j in 0 until matrix[i].size / 2) {
                 val tmp = matrix[i][j]
