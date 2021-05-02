@@ -24,21 +24,27 @@ public class CourseSchedule3 {
 
         // Max heap is here to keep track of `duration`s of taken courses
         PriorityQueue<Integer> maxHeap = new PriorityQueue<>(courses.length, Comparator.reverseOrder());
-        int maxCoursesTaken = 0;
         int currDay = 0;
 
         for (int[] course : courses) {
             int duration = course[0], lastDay = course[1];
-            maxHeap.offer(duration);
-            currDay += duration;
-            while (currDay > lastDay && !maxHeap.isEmpty()) {
-                // remove course(s) with the longest duration to meet the deadline
-                currDay -= maxHeap.poll();
+            if (duration > lastDay) {
+                continue;
             }
-            // maxHeap.size() is the current number of taken courses.
-            // Our goal is to maximize the total number number of taken courses.
-            maxCoursesTaken = Math.max(maxCoursesTaken, maxHeap.size());
+
+            currDay += duration;
+            if (currDay <= lastDay) {
+                // take current course
+                maxHeap.offer(duration);
+            } else if (maxHeap.peek() > duration) {
+                // can swap current course with a one already taken to meet a deadline
+                currDay -= maxHeap.poll();
+                maxHeap.offer(duration);
+            } else {
+                // ignore current course
+                currDay -= duration;
+            }
         }
-        return maxCoursesTaken;
+        return maxHeap.size();
     }
 }
