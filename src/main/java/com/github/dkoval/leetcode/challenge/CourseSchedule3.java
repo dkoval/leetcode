@@ -37,7 +37,7 @@ public class CourseSchedule3 {
                 // take current course
                 maxHeap.offer(duration);
             } else if (maxHeap.peek() > duration) {
-                // can swap current course with a one already taken to meet a deadline
+                // take current course in favour of excluding previously taken course with the largest `duration`
                 currDay -= maxHeap.poll();
                 maxHeap.offer(duration);
             } else {
