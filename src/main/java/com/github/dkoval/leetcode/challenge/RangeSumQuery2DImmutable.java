@@ -31,30 +31,47 @@ package com.github.dkoval.leetcode.challenge;
 public class RangeSumQuery2DImmutable {
 
     public static class NumMatrix {
+        // sum[i][j] denotes sum of the elements of matrix defined by
+        // its upper left corner (0, 0) and lower right corner (i, j)
         private final int[][] sum;
 
         public NumMatrix(int[][] matrix) {
-            this.sum = calcRowRunningSum(matrix);
+            this.sum = calcSums(matrix);
         }
 
-        private static int[][] calcRowRunningSum(int[][] matrix) {
+        private static int[][] calcSums(int[][] matrix) {
             int m = matrix.length;
             int n = matrix[0].length;
             int[][] sum = new int[m][n];
+
+            // compute prefix sum for each row
             for (int i = 0; i < m; i++) {
                 for (int j = 0; j < n; j++) {
                     sum[i][j] = matrix[i][j] + (j > 0 ? sum[i][j - 1] : 0);
+                }
+            }
+
+            // compute prefix sum for each column
+            for (int i = 1; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    sum[i][j] += sum[i - 1][j];
                 }
             }
             return sum;
         }
 
         public int sumRegion(int row1, int col1, int row2, int col2) {
-            int result = 0;
-            for (int i = row1; i <= row2; i++) {
-                result += sum[i][col2] - (col1 > 0 ? sum[i][col1 - 1] : 0);
+            return getSum(sum, row2, col2)
+                    - getSum(sum, row2, col1 - 1)
+                    - getSum(sum, row1 - 1, col2)
+                    + getSum(sum, row1 - 1, col1 - 1);
+        }
+
+        private int getSum(int[][] sum, int row, int col) {
+            if (row < 0 || row >= sum.length || col < 0 || col >= sum[0].length) {
+                return 0;
             }
-            return result;
+            return sum[row][col];
         }
     }
 }
