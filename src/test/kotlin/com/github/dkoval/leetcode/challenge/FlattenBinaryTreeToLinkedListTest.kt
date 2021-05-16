@@ -14,16 +14,34 @@ internal class FlattenBinaryTreeToLinkedListTest {
         @JvmStatic
         fun input(): List<Arguments> = listOf(
             Arguments.of(
-
+                TreeNode(1).apply {
+                    left = TreeNode(2).apply {
+                        left = TreeNode(3)
+                        right = TreeNode(4)
+                    }
+                    right = TreeNode(5).apply {
+                        right = TreeNode(6)
+                    }
+                },
+                TreeNode(1).apply {
+                    right = TreeNode(2).apply {
+                        right = TreeNode(3).apply {
+                            right = TreeNode(4).apply {
+                                right = TreeNode(5).apply {
+                                    right = TreeNode(6)
+                                }
+                            }
+                        }
+                    }
+                }
             ),
             Arguments.of(
-
+                null,
+                null
             ),
             Arguments.of(
-
-            ),
-            Arguments.of(
-
+                TreeNode(0),
+                TreeNode(0)
             )
         )
     }
