@@ -34,7 +34,7 @@ public class FindDuplicateFileInSystem {
         for (String path : paths) {
             int basedirEndIndex = path.indexOf(' ');
             String basedir = path.substring(0, basedirEndIndex);
-            String[] tokens = path.substring(basedirEndIndex + 1).split("\\s+");
+            String[] tokens = path.substring(basedirEndIndex + 1).split(" ");
             for (String token : tokens) {
                 int filenameEndIndex = token.indexOf('(');
                 String filename = token.substring(0, filenameEndIndex);
