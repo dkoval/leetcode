@@ -36,7 +36,7 @@ public interface MinimumMovesToEqualArrayElements2 {
         }
     }
 
-    class MinimumMovesToEqualArrayElements2BruteByFindingMedian implements MinimumMovesToEqualArrayElements2 {
+    class MinimumMovesToEqualArrayElements2ByFindingMedian implements MinimumMovesToEqualArrayElements2 {
 
         // O(NlogN) time | O(1) space
         @Override
@@ -53,6 +53,22 @@ public interface MinimumMovesToEqualArrayElements2 {
                 numSteps += Math.abs(num - median);
             }
             return numSteps;
+        }
+    }
+
+    // Resource: https://www.youtube.com/watch?v=FGgL5QxZLno&t=1s
+    class MinimumMovesToEqualArrayElements2UsingTwoPointers implements MinimumMovesToEqualArrayElements2 {
+
+        // O(NlogN) time | O(1) space
+        @Override
+        public int minMoves2(int[] nums) {
+            Arrays.sort(nums);
+            int numsSteps = 0;
+            int l = 0, r = nums.length - 1;
+            while (l < r) {
+                numsSteps += nums[r--] - nums[l++];
+            }
+            return numsSteps;
         }
     }
 }

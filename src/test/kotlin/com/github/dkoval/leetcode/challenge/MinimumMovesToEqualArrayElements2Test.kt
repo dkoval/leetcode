@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.MinimumMovesToEqualArrayElements2.MinimumMovesToEqualArrayElements2BruteByFindingMedian
-import com.github.dkoval.leetcode.challenge.MinimumMovesToEqualArrayElements2.MinimumMovesToEqualArrayElements2BruteForce
+import com.github.dkoval.leetcode.challenge.MinimumMovesToEqualArrayElements2.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -57,14 +56,28 @@ internal class MinimumMovesToEqualArrayElements2Test {
     }
 
     @Nested
-    inner class MinimumMovesToEqualArrayElements2BruteByFindingMedianTest {
+    inner class MinimumMovesToEqualArrayElements2ByFindingMedianTest {
+
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the minimum number of moves required to make all array elements equal`(
             nums: IntArray,
             expected: Int
         ) {
-            MinimumMovesToEqualArrayElements2BruteByFindingMedian().test(nums, expected)
+            MinimumMovesToEqualArrayElements2ByFindingMedian().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class MinimumMovesToEqualArrayElements2UsingTwoPointersTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum number of moves required to make all array elements equal`(
+            nums: IntArray,
+            expected: Int
+        ) {
+            MinimumMovesToEqualArrayElements2UsingTwoPointers().test(nums, expected)
         }
     }
 
