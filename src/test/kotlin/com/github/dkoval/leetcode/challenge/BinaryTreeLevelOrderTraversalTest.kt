@@ -1,16 +1,22 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.TreeNode
+import com.github.dkoval.leetcode.challenge.BinaryTreeLevelOrderTraversal.BinaryTreeLevelOrderTraversalIter
+import com.github.dkoval.leetcode.challenge.BinaryTreeLevelOrderTraversal.BinaryTreeLevelOrderTraversalRecursive
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
 
 internal class BinaryTreeLevelOrderTraversalTest {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(p0: ExtensionContext?): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 TreeNode(3).apply {
                     left = TreeNode(9)
@@ -38,13 +44,34 @@ internal class BinaryTreeLevelOrderTraversalTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should return the level order traversal of binary tree node values`(
-        root: TreeNode?,
-        expected: List<List<Int>>
-    ) {
-        val actual = BinaryTreeLevelOrderTraversal().levelOrder(root)
+    @Nested
+    inner class BinaryTreeLevelOrderTraversalIterTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the level order traversal of binary tree node values`(
+            root: TreeNode?,
+            expected: List<List<Int>>
+        ) {
+            BinaryTreeLevelOrderTraversalIter().test(root, expected)
+        }
+    }
+
+    @Nested
+    inner class BinaryTreeLevelOrderTraversalRecursiveTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the level order traversal of binary tree node values`(
+            root: TreeNode?,
+            expected: List<List<Int>>
+        ) {
+            BinaryTreeLevelOrderTraversalRecursive().test(root, expected)
+        }
+    }
+
+    private fun BinaryTreeLevelOrderTraversal.test(root: TreeNode?, expected: List<List<Int>>) {
+        val actual = levelOrder(root)
         assertThat(actual).containsExactlyElementsOf(expected)
     }
 }
