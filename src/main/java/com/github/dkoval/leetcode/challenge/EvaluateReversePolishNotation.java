@@ -2,9 +2,6 @@ package com.github.dkoval.leetcode.challenge;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.BiFunction;
 
 /**
  * <a href="https://leetcode.com/explore/challenge/card/may-leetcoding-challenge-2021/601/week-4-may-22nd-may-28th/3755/">Evaluate Reverse Polish Notation</a>
@@ -20,14 +17,7 @@ import java.util.function.BiFunction;
  */
 public class EvaluateReversePolishNotation {
 
-    private static final Map<String, BiFunction<Integer, Integer, Integer>> operations = new HashMap<>();
-
-    static {
-        operations.put("+", (x, y) -> x + y);
-        operations.put("-", (x, y) -> x - y);
-        operations.put("*", (x, y) -> x * y);
-        operations.put("/", (x, y) -> x / y);
-    }
+    public static final String SUPPORTED_OPERATORS = "+-*/";
 
     public int evalRPN(String[] tokens) {
         Deque<Integer> stack = new ArrayDeque<>();
@@ -46,10 +36,21 @@ public class EvaluateReversePolishNotation {
     }
 
     private boolean isOperator(String token) {
-        return operations.containsKey(token);
+        return SUPPORTED_OPERATORS.contains(token);
     }
 
     private int evaluate(String operator, int x, int y) {
-        return operations.get(operator).apply(x, y);
+        switch (operator) {
+            case "+":
+                return x + y;
+            case "-":
+                return x - y;
+            case "*":
+                return x * y;
+            case "/":
+                return x / y;
+            default:
+                throw new IllegalArgumentException("Unsupported operator: " + operator);
+        }
     }
 }
