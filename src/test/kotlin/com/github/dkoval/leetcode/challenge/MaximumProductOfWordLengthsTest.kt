@@ -1,6 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.MaximumProductOfWordLengths.MaximumProductOfWordLengthsBruteForce
+import com.github.dkoval.leetcode.challenge.MaximumProductOfWordLengths.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -31,12 +31,32 @@ internal class MaximumProductOfWordLengthsTest {
     }
 
     @Nested
-    inner class MaximumProductOfWordLengthsBruteForceTest {
+    inner class MaximumProductOfWordLengthUsingBitSetTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return maximum product of word lengths`(words: Array<String>, expected: Int) {
             MaximumProductOfWordLengthsBruteForce().test(words, expected)
+        }
+    }
+
+    @Nested
+    inner class MaximumProductOfWordLengthsUsingBitSetTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return maximum product of word lengths`(words: Array<String>, expected: Int) {
+            MaximumProductOfWordLengthUsingBitSet().test(words, expected)
+        }
+    }
+
+    @Nested
+    inner class MaximumProductOfWordLengthUsingBitmaskTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return maximum product of word lengths`(words: Array<String>, expected: Int) {
+            MaximumProductOfWordLengthUsingBitmask().test(words, expected)
         }
     }
 
