@@ -51,9 +51,7 @@ public class MaximumGap {
             if (currBucket == null) {
                 continue;
             }
-            if (prevBucket.max != Integer.MIN_VALUE && currBucket.min != Integer.MAX_VALUE) {
-                maxDiff = Math.max(maxDiff, currBucket.min - prevBucket.max);
-            }
+            maxDiff = Math.max(maxDiff, currBucket.min - prevBucket.max);
             prevBucket = currBucket;
         }
         return maxDiff;
