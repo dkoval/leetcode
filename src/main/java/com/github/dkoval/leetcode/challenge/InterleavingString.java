@@ -65,4 +65,41 @@ public interface InterleavingString {
             return value;
         }
     }
+
+    // O(N1 * N2) time | O(N1 * N2), where N2 and N2 are lengths of s1 and s2 respectively
+    class InterleavingStringBottomUp implements InterleavingString {
+
+        @Override
+        public boolean isInterleave(String s1, String s2, String s3) {
+            int n1 = s1.length(), n2 = s2.length(), n3 = s3.length();
+            if (n1 + n2 != n3) {
+                return false;
+            }
+
+            // dp[idx1][idx2] denotes whether s1[0:idx1 - 1] and s2[0:idx2 - 1] interleave to form s3[0:idx1 + idx2 - 1],
+            // where idx1 = 1..n1, idx2 = 1..n2
+            boolean[][] dp = new boolean[n1 + 1][n2 + 1];
+            // special case where s1 = "", s2 = "", s3 = ""
+            dp[0][0] = true;
+
+            // 1st column: case where s2 = ""
+            for (int idx1 = 1; idx1 <= n1; idx1++) {
+                dp[idx1][0] = dp[idx1 - 1][0] && (s1.charAt(idx1 - 1) == s3.charAt(idx1 - 1));
+            }
+
+            // 1st row: case where s1 = ""
+            for (int idx2 = 1; idx2 <= n2; idx2++) {
+                dp[0][idx2] = dp[0][idx2 - 1] && (s2.charAt(idx2 - 1) == s3.charAt(idx2 - 1));
+            }
+
+            for (int idx1 = 1; idx1 <= n1; idx1++) {
+                for (int idx2 = 1; idx2 <= n2; idx2++) {
+                    int idx3 = idx1 + idx2;
+                    dp[idx1][idx2] = (dp[idx1 - 1][idx2] && (s1.charAt(idx1 - 1) == s3.charAt(idx3 - 1)))
+                            || (dp[idx1][idx2  - 1] && (s2.charAt(idx2 - 1) == s3.charAt(idx3 - 1)));
+                }
+            }
+            return dp[n1][n2];
+        }
+    }
 }
