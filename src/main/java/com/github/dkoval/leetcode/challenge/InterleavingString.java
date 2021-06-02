@@ -22,7 +22,7 @@ public interface InterleavingString {
 
     boolean isInterleave(String s1, String s2, String s3);
 
-    // O(N1 * N2) time | O(N1 * N2), where N2 and N2 are lengths of s1 and s2 respectively
+    // O(N1 * N2) time | O(N1 * N2) space, where N2 and N2 are lengths of s1 and s2 respectively
     class InterleavingStringTopDown implements InterleavingString {
 
         @Override
@@ -66,7 +66,7 @@ public interface InterleavingString {
         }
     }
 
-    // O(N1 * N2) time | O(N1 * N2), where N2 and N2 are lengths of s1 and s2 respectively
+    // O(N1 * N2) time | O(N1 * N2) space, where N2 and N2 are lengths of s1 and s2 respectively
     class InterleavingStringBottomUp implements InterleavingString {
 
         @Override
@@ -82,12 +82,12 @@ public interface InterleavingString {
             // special case where s1 = "", s2 = "", s3 = ""
             dp[0][0] = true;
 
-            // 1st column: case where s2 = ""
+            // fill in the 1st column: case where s2 = ""
             for (int idx1 = 1; idx1 <= n1; idx1++) {
                 dp[idx1][0] = dp[idx1 - 1][0] && (s1.charAt(idx1 - 1) == s3.charAt(idx1 - 1));
             }
 
-            // 1st row: case where s1 = ""
+            // fill in the 1st row: case where s1 = ""
             for (int idx2 = 1; idx2 <= n2; idx2++) {
                 dp[0][idx2] = dp[0][idx2 - 1] && (s2.charAt(idx2 - 1) == s3.charAt(idx2 - 1));
             }
@@ -100,6 +100,45 @@ public interface InterleavingString {
                 }
             }
             return dp[n1][n2];
+        }
+    }
+
+    // O(N1 * N2) time | O(min(N1 * N2)) space, where N2 and N2 are lengths of s1 and s2 respectively
+    class InterleavingStringBottomUpSpaceOptimized implements InterleavingString {
+
+        @Override
+        public boolean isInterleave(String s1, String s2, String s3) {
+            String longer = s1.length() > s2.length() ? s1 : s2;
+            String shorter = s1.length() <= s2.length() ? s1 : s2;
+            return isInterleaveInternal(longer, shorter, s3);
+        }
+
+        private boolean isInterleaveInternal(String s1, String s2, String s3) {
+            int n1 = s1.length(), n2 = s2.length(), n3 = s3.length();
+            if (n1 + n2 != n3) {
+                return false;
+            }
+
+            boolean[] currRow = new boolean[n2 + 1];
+            // special case where s1 = "", s2 = "", s3 = ""
+            currRow[0] = true;
+
+            // fill in 1st row: case where s1 = ""
+            for (int idx2 = 1; idx2 <= n2; idx2++) {
+                currRow[idx2] = currRow[idx2 - 1] && (s2.charAt(idx2 - 1) == s3.charAt(idx2 - 1));
+            }
+
+            for (int idx1 = 1; idx1 <= n1; idx1++) {
+                currRow[0] = currRow[0] && (s1.charAt(idx1 - 1) == s3.charAt(idx1 - 1));
+                boolean prevCol = currRow[0];
+                for (int idx2 = 1; idx2 <= n2; idx2++) {
+                    int idx3 = idx1 + idx2;
+                    currRow[idx2] = (currRow[idx2] && (s1.charAt(idx1 - 1) == s3.charAt(idx3 - 1)))
+                            || (prevCol && (s2.charAt(idx2 - 1) == s3.charAt(idx3 - 1)));
+                    prevCol = currRow[idx2];
+                }
+            }
+            return currRow[n2];
         }
     }
 }

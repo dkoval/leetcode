@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.InterleavingString.InterleavingStringBottomUp
-import com.github.dkoval.leetcode.challenge.InterleavingString.InterleavingStringTopDown
+import com.github.dkoval.leetcode.challenge.InterleavingString.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -33,6 +32,24 @@ internal class InterleavingStringTest {
                 "",
                 "",
                 true
+            ),
+            Arguments.of(
+                "db",
+                "b",
+                "cbb",
+                false
+            ),
+            Arguments.of(
+                "a",
+                "",
+                "c",
+                false
+            ),
+            Arguments.of(
+                "",
+                "a",
+                "c",
+                false
             )
         )
     }
@@ -64,6 +81,21 @@ internal class InterleavingStringTest {
             expected: Boolean
         ) {
             InterleavingStringBottomUp().test(s1, s2, s3, expected)
+        }
+    }
+
+    @Nested
+    inner class InterleavingStringBottomUpSpaceOptimizedTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find whether s3 is formed by an interleaving of s1 and s2`(
+            s1: String,
+            s2: String,
+            s3: String,
+            expected: Boolean
+        ) {
+            InterleavingStringBottomUpSpaceOptimized().test(s1, s2, s3, expected)
         }
     }
 
