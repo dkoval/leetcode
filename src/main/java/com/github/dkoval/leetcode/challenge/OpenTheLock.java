@@ -36,18 +36,18 @@ public class OpenTheLock {
         Queue<String> q = new LinkedList<>();
         q.offer(initialCode);
         while (!q.isEmpty()) {
-            String curr = q.poll();
-            if (curr.equals(target)) {
-                return distance.get(curr);
+            String currCode = q.poll();
+            if (currCode.equals(target)) {
+                return distance.get(currCode);
             }
 
             // generate 8 next possible 4-digit codes
             for (int i = 3; i >= 0; i--) {
                 for (int move : MOVES) {
-                    String next = nextCode(curr, i, move);
-                    if (!deadendsSet.contains(next) && !distance.containsKey(next)) {
-                        q.offer(next);
-                        distance.put(next, distance.get(curr) + 1);
+                    String nextCode = nextCode(currCode, i, move);
+                    if (!deadendsSet.contains(nextCode) && !distance.containsKey(nextCode)) {
+                        q.offer(nextCode);
+                        distance.put(nextCode, distance.get(currCode) + 1);
                     }
                 }
             }
