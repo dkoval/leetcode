@@ -61,4 +61,22 @@ public interface MinCostClimbingStairs {
             return dp[n];
         }
     }
+
+    // O(N) time | O(1) space
+    class MinCostClimbingStairsBottomUpSpaceOptimized implements MinCostClimbingStairs {
+
+        @Override
+        public int minCostClimbingStairs(int[] cost) {
+            int n = cost.length;
+            int first = cost[0];
+            int second = cost[1];
+
+            for (int i = 2; i <= n; i++) {
+                int third = ((i < n) ? cost[i] : 0) + Math.min(first, second);
+                first = second;
+                second = third;
+            }
+            return second;
+        }
+    }
 }
