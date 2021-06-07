@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.MinCostClimbingStairs.MinCostClimbingStairsBottomUp
-import com.github.dkoval.leetcode.challenge.MinCostClimbingStairs.MinCostClimbingStairsTopDownWithMemoization
+import com.github.dkoval.leetcode.challenge.MinCostClimbingStairs.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -44,6 +43,16 @@ internal class MinCostClimbingStairsTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the minimum cost to reach the top of the floor`(cost: IntArray, expected: Int) {
             MinCostClimbingStairsBottomUp().test(cost, expected)
+        }
+    }
+
+    @Nested
+    inner class MinCostClimbingStairsBottomUpSpaceOptimizedTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum cost to reach the top of the floor`(cost: IntArray, expected: Int) {
+            MinCostClimbingStairsBottomUpSpaceOptimized().test(cost, expected)
         }
     }
 
