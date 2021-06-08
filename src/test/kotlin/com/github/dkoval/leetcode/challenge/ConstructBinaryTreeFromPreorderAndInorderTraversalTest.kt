@@ -47,6 +47,13 @@ internal class ConstructBinaryTreeFromPreorderAndInorderTraversalTest {
                         right = TreeNode(7)
                     }
                 }
+            ),
+            Arguments.of(
+                intArrayOf(1, 2),
+                intArrayOf(2, 1),
+                TreeNode(1).apply {
+                    left = TreeNode(2)
+                }
             )
         )
     }

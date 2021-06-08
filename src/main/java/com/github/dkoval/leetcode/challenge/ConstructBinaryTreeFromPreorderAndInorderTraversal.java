@@ -13,9 +13,17 @@ import java.util.Map;
  */
 public class ConstructBinaryTreeFromPreorderAndInorderTraversal {
 
+    private static class MutableInt {
+        int val;
+
+        MutableInt(int val) {
+            this.val = val;
+        }
+    }
+
     // Resource: https://www.youtube.com/watch?v=PoBGyrIWisE
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        return buildTree(inorder, 0, inorder.length - 1, preorder, buildIndex(preorder), buildIndex(inorder));
+        return buildTree(inorder, 0, inorder.length - 1, buildIndex(inorder), preorder, new MutableInt(0));
     }
 
     private Map<Integer, Integer> buildIndex(int[] elements) {
@@ -26,37 +34,27 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversal {
         return index;
     }
 
-    private TreeNode buildTree(int[] inorder, int start, int end,
+    private TreeNode buildTree(int[] inorder,
+                               int inorderStartIdx,
+                               int inorderEndIdx,
+                               Map<Integer, Integer> inorderIndex,
                                int[] preorder,
-                               Map<Integer, Integer> preorderIndex,
-                               Map<Integer, Integer> inorderIndex) {
-        if (end < start) {
+                               MutableInt preorderIdx) {
+
+        if (inorderEndIdx < inorderStartIdx) {
             return null;
         }
 
-        // the root's value is a value from inorder[start:end] that appears first in preorder[]
-        int rootVal = findRoot(inorder, start, end, preorder, preorderIndex);
-        // now, get the root's value index in inorder[]
+        int rootVal = preorder[preorderIdx.val++];
+        TreeNode root = new TreeNode(rootVal);
+
+        // Now, get the root's value index in inorder[].
+        // Values from inorder[inorderStartIdx:inorderRootIdx - 1] and inorder[inorderRootIdx + 1:inorderEndIdx] subarrays
+        // form left and right subtrees respectively.
         int inorderRootIdx = inorderIndex.get(rootVal);
 
-        TreeNode root = new TreeNode(rootVal);
-        root.left = buildTree(inorder, start, inorderRootIdx - 1, preorder, preorderIndex, inorderIndex);
-        root.right = buildTree(inorder, inorderRootIdx + 1, end, preorder, preorderIndex, inorderIndex);
+        root.left = buildTree(inorder, inorderStartIdx, inorderRootIdx - 1, inorderIndex, preorder, preorderIdx);
+        root.right = buildTree(inorder, inorderRootIdx + 1, inorderEndIdx, inorderIndex, preorder, preorderIdx);
         return root;
-    }
-
-    private int findRoot(int[] inorder, int start, int end,
-                         int[] preorder,
-                         Map<Integer, Integer> preorderIndex) {
-        if (end - start + 1 == inorder.length) {
-            return preorder[0];
-        }
-
-        int preorderMinIdx = inorder.length;
-        for (int i = start; i <= end; i++) {
-            int preorderCurrIdx = preorderIndex.get(inorder[i]);
-            preorderMinIdx = Math.min(preorderMinIdx, preorderCurrIdx);
-        }
-        return preorder[preorderMinIdx];
     }
 }
