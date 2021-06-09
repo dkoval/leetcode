@@ -55,7 +55,7 @@ public interface JumpGame6 {
             int n = nums.length;
 
             // dp[i] denotes max score at i-th index.
-            // We're going to fill in dp[] iterating from fight to left.
+            // We're going to fill in dp[] iterating from right to left.
             int[] dp = new int[n];
             dp[n - 1] = nums[n - 1];
 
