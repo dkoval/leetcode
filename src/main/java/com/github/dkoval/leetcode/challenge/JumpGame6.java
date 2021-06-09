@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Deque;
 
 /**
@@ -43,7 +42,6 @@ public interface JumpGame6 {
                 }
                 dp[i] = maxScoreSoFar + nums[i];
             }
-            System.out.println(Arrays.toString(dp));
             return dp[n - 1];
         }
     }
