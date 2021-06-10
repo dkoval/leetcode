@@ -68,8 +68,8 @@ public interface MyCalendar1 {
                 return false;
             }
 
-            Integer nextBookingEnd = bookings.ceilingKey(start);
-            if (nextBookingEnd != null && end > nextBookingEnd) {
+            Integer nextBookingStart = bookings.ceilingKey(start);
+            if (nextBookingStart != null && end > nextBookingStart) {
                 return false;
             }
 
