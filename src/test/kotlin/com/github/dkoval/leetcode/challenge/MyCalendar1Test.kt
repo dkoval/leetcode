@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.MyCalendar1.MyCalendar1BruteForce
-import com.github.dkoval.leetcode.challenge.MyCalendar1.MyCalendar1UsingTreeMap
+import com.github.dkoval.leetcode.challenge.MyCalendar1.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -63,6 +62,18 @@ internal class MyCalendar1Test {
             commands: List<BookCommand>
         ) {
             MyCalendar1UsingTreeMap().test(commands)
+        }
+    }
+
+    @Nested
+    inner class MyCalendar1UsingTreeSetTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should  return true if the event can be added to the calendar successfully without causing a double booking`(
+            commands: List<BookCommand>
+        ) {
+            MyCalendar1UsingTreeSet().test(commands)
         }
     }
 
