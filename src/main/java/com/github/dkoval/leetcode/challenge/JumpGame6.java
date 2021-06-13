@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Deque;
 import java.util.PriorityQueue;
 
@@ -68,7 +67,6 @@ public interface JumpGame6 {
             // dp[i] denotes max score you can get when reaching index n - 1 from index i.
             // We're going to fill in dp[] iterating from right to left.
             int[] dp = new int[n];
-            Arrays.fill(dp, Integer.MIN_VALUE);
             dp[n - 1] = nums[n - 1];
 
             // Sliding window of size <= k
