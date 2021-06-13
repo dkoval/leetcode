@@ -1,5 +1,8 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
 /**
  * <a href="https://leetcode.com/explore/challenge/card/june-leetcoding-challenge-2021/604/week-2-june-8th-june-14th/3776/">Minimum Number of Refueling Stops</a>
  * <p>
@@ -32,9 +35,7 @@ public interface MinimumNumberOfRefuelingStops {
             // dp[i] denotes the farthest location we can get to using i refueling stops
             int[] dp = new int[n + 1];
             dp[0] = startFuel;
-            for (int i = 1; i < n; i++) {
-                // if we reached stations[i][0] location with j refueling stops,
-                // we can now reach stations[i][1] extra miles further with j + 1 refueling stops
+            for (int i = 0; i < n; i++) {
                 for (int j = i; j >= 0; j--) {
                     int currLocation = stations[i][0];
                     if (dp[j] >= currLocation) {
@@ -50,6 +51,47 @@ public interface MinimumNumberOfRefuelingStops {
                 }
             }
             return -1;
+        }
+    }
+
+    // O(NlogN) time | O(N) space
+    class MinimumNumberOfRefuelingStopsUsingMaxHeap implements MinimumNumberOfRefuelingStops {
+
+        @Override
+        public int minRefuelStops(int target, int startFuel, int[][] stations) {
+            // keeps capacities of gas stations as we drive by them
+            PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
+            int tank = startFuel;
+            int numStops = 0;
+            int prevLocation = 0;
+            for (int[] station : stations) {
+                int currLocation = station[0];
+                int extraFuel = station[1];
+                tank -= currLocation - prevLocation;
+                // when we reach a station but have negative amount of fuel in the tank, i.e. we needed to have refueled
+                // at some point in the past, we add capacities of the largest gas stations we've driven by so far until
+                // amount of fuel is non-negative
+                while (!maxHeap.isEmpty() && tank < 0) {
+                    tank += maxHeap.poll();
+                    numStops++;
+                }
+                if (tank < 0) {
+                    return -1;
+                }
+                maxHeap.offer(extraFuel);
+                prevLocation = currLocation;
+            }
+
+            // check target location
+            tank -= target - prevLocation;
+            while (!maxHeap.isEmpty() && tank < 0) {
+                tank += maxHeap.poll();
+                numStops++;
+            }
+            if (tank < 0) {
+                return -1;
+            }
+            return numStops;
         }
     }
 }

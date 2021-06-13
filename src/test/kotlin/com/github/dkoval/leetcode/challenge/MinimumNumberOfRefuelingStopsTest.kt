@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MinimumNumberOfRefuelingStops.MinimumNumberOfRefuelingStopsBottomUpInQuadraticTime
+import com.github.dkoval.leetcode.challenge.MinimumNumberOfRefuelingStops.MinimumNumberOfRefuelingStopsUsingMaxHeap
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -38,7 +39,7 @@ internal class MinimumNumberOfRefuelingStopsTest {
                     intArrayOf(30, 30),
                     intArrayOf(60, 40)
                 ),
-                -1
+                2
             )
         )
     }
@@ -55,6 +56,21 @@ internal class MinimumNumberOfRefuelingStopsTest {
             expected: Int
         ) {
             MinimumNumberOfRefuelingStopsBottomUpInQuadraticTime().test(target, startFuel, stations, expected)
+        }
+    }
+
+    @Nested
+    inner class MinimumNumberOfRefuelingStopsUsingMaxHeapTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return least number of refueling stops the car must make in order to reach target`(
+            target: Int,
+            startFuel: Int,
+            stations: Array<IntArray>,
+            expected: Int
+        ) {
+            MinimumNumberOfRefuelingStopsUsingMaxHeap().test(target, startFuel, stations, expected)
         }
     }
 
