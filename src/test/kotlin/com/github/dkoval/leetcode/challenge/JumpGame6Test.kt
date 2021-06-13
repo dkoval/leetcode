@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.JumpGame6.JumpGame6TTEOnLargeInput
-import com.github.dkoval.leetcode.challenge.JumpGame6.JumpGame6UsingSlidingWindow
+import com.github.dkoval.leetcode.challenge.JumpGame6.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -52,12 +51,22 @@ internal class JumpGame6Test {
     }
 
     @Nested
-    inner class JumpGame6UsingSlidingWindowTest {
+    inner class JumpGame6UsingMaxHeapAsSlidingWindowTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the maximum score`(nums: IntArray, k: Int, expected: Int) {
-            JumpGame6UsingSlidingWindow().test(nums, k, expected)
+            JumpGame6UsingMaxHeapAsSlidingWindow().test(nums, k, expected)
+        }
+    }
+
+    @Nested
+    inner class JumpGame6UsingDequeAsSlidingWindowTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum score`(nums: IntArray, k: Int, expected: Int) {
+            JumpGame6UsingDequeAsSlidingWindow().test(nums, k, expected)
         }
     }
 
