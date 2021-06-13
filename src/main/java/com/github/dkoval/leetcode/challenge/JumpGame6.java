@@ -48,7 +48,7 @@ public interface JumpGame6 {
         }
     }
 
-    // O(N) time | O(N) space
+    // O(NlogN) time | O(N) space
     // Resource: https://medium.com/nerd-for-tech/day-9-jump-game-vi-1af20e1a74c
     class JumpGame6UsingMaxHeapAsSlidingWindow implements JumpGame6 {
 
