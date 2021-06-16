@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MatchsticksToSquare.MatchsticksToSquareRecursiveWithBacktracking
+import com.github.dkoval.leetcode.challenge.MatchsticksToSquare.MatchsticksToSquareUsingBitmaskWithMemoization
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -22,6 +23,10 @@ internal class MatchsticksToSquareTest {
             Arguments.of(
                 intArrayOf(3, 3, 3, 3, 4),
                 false
+            ),
+            Arguments.of(
+                intArrayOf(5, 5, 5, 5, 4, 4, 4, 4, 3, 3, 3, 3),
+                true
             )
         )
     }
@@ -33,6 +38,17 @@ internal class MatchsticksToSquareTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should check if you can make a square with matchsticks`(matchsticks: IntArray, expected: Boolean) {
             MatchsticksToSquareRecursiveWithBacktracking().test(matchsticks, expected)
+        }
+    }
+
+    @Nested
+    inner class MatchsticksToSquareUsingBitmaskWithMemoizationTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should check if you can make a square with matchsticks`(matchsticks: IntArray, expected: Boolean) {
+            MatchsticksToSquareUsingBitmaskWithMemoization()
+                .test(matchsticks, expected)
         }
     }
 
