@@ -28,13 +28,15 @@ public interface SwimInRisingWater {
         @Override
         public int swimInWater(int[][] grid) {
             int n = grid.length;
+            // binary search: find the minimum time from [0:N * N - 1] required to swim from (0, 0) to (N - 1, N - 1)
             int l = 0, r = n * n - 1;
             while (l < r) {
                 int mid = l + (r - l) / 2;
                 boolean[][] visited = new boolean[n][n];
                 dfs(grid, 0, 0, mid, visited);
                 if (visited[n - 1][n - 1]) {
-                    // target cell (N - 1, N - 1) was visited
+                    // ok, can definitely swim from (0, 0) to (N - 1, N - 1) in `mid` amount of time;
+                    // try to find a better solution in the next iterations.
                     r = mid;
                 } else {
                     l = mid + 1;
