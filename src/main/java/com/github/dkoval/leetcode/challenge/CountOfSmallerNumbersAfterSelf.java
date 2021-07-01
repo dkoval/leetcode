@@ -51,6 +51,8 @@ public class CountOfSmallerNumbersAfterSelf {
 
         // Divide step
         int mid = start + (end - start) / 2;
+
+        // Conquer step
         countingMergeSort(nums, start, mid, counts);
         countingMergeSort(nums, mid + 1, end, counts);
 
@@ -64,10 +66,11 @@ public class CountOfSmallerNumbersAfterSelf {
             counts[nums[i].index] += j - mid - 1;
         }
 
-        // Conquer step
+        // Combine step
         merge(nums, start, mid, end);
     }
 
+    // O(N) time | O(1) space, where N = end - start + 1
     private void merge(IndexedValue[] nums, int start, int mid, int end) {
         int n = end - start + 1;
         IndexedValue[] tmp = new IndexedValue[n];
