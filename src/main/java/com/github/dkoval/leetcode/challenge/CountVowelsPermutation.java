@@ -1,5 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.Arrays;
+
 /**
  * <a href="https://leetcode.com/explore/challenge/card/july-leetcoding-challenge-2021/608/week-1-july-1st-july-7th/3802/">Count Vowels Permutation</a>
  * <p>
@@ -14,9 +16,9 @@ package com.github.dkoval.leetcode.challenge;
  * </ul>
  * Since the answer may be too large, return it modulo 10^9 + 7
  */
-public class CountVowelsPermutation {
+public interface CountVowelsPermutation {
 
-    private static final int MOD = 1_000_000_007;
+    int MOD = 1_000_000_007;
 
     // transitions[i] denotes the indices of vowels that can be placed after i-th vowel under the following rules:
     // - each vowel 'a' may only be followed by an 'e'.
@@ -24,37 +26,80 @@ public class CountVowelsPermutation {
     // - each vowel 'i' may not be followed by another 'i'.
     // - each vowel 'o' may only be followed by an 'i' or a 'u'.
     // - each vowel 'u' may only be followed by an 'a'.
-    private static final int[][] transitions = {{1}, {0, 2}, {0, 1, 3, 4}, {2, 4}, {0}};
+    int[][] transitions = {{1}, {0, 2}, {0, 1, 3, 4}, {2, 4}, {0}};
 
-    public int countVowelPermutation(int n) {
-        // dp[i][j] - the number of strings of length i that ends with j-th vowel, i.e.
-        // 'a' - 0, 'e' - 1, 'i' - 2, 'o' - 3, 'u' - 4
-        final int numVowels = 5;
+    int countVowelPermutation(int n);
 
-        long[][] dp = new long[n + 1][numVowels];
-        for (int j = 0; j < numVowels; j++) {
-            dp[1][j] = 1;
-        }
 
-        for (int i = 2; i <= n; i++) {
+    class CountVowelsPermutationDP implements CountVowelsPermutation {
+
+        @Override
+        public int countVowelPermutation(int n) {
+            final int numVowels = 5;
+
+            // dp[i][j] - the number of strings of length i that ends with j-th vowel, i.e.
+            // 'a' - 0, 'e' - 1, 'i' - 2, 'o' - 3, 'u' - 4
+            long[][] dp = new long[n + 1][numVowels];
             for (int j = 0; j < numVowels; j++) {
-                dp[i][j] = applyRules(dp, i, j);
+                dp[1][j] = 1;
             }
+
+            for (int i = 2; i <= n; i++) {
+                for (int j = 0; j < numVowels; j++) {
+                    dp[i][j] = applyRules(dp, i, j);
+                }
+            }
+
+            // answer is the sum of the n-th row
+            long count = 0;
+            for (long x : dp[n]) {
+                count += x % MOD;
+            }
+            return (int) (count % MOD);
         }
 
-        // answer is the sum of the n-th row
-        long count = 0;
-        for (long x : dp[n]) {
-            count += x % MOD;
+        private long applyRules(long[][] dp, int i, int j) {
+            long count = 0;
+            for (int idx : transitions[j]) {
+                count += dp[i - 1][idx] % MOD;
+            }
+            return count % MOD;
         }
-        return (int) (count % MOD);
     }
 
-    private long applyRules(long[][] dp, int i, int j) {
-        long count = 0;
-        for (int idx : transitions[j]) {
-            count += dp[i - 1][idx] % MOD;
+    class CountVowelsPermutationDPSpaceOptimized implements CountVowelsPermutation {
+
+        @Override
+        public int countVowelPermutation(int n) {
+            final int numVowels = 5;
+            // dp[j] - at i-th iteration, denotes the number of strings of length i that ends with j-th vowel, i.e.
+            // 'a' - 0, 'e' - 1, 'i' - 2, 'o' - 3, 'u' - 4
+
+            long[] dp = new long[numVowels];
+            Arrays.fill(dp, 1);
+
+            for (int i = 2; i <= n; i++) {
+                long[] curr = new long[numVowels];
+                for (int j = 0; j < numVowels; j++) {
+                    curr[j] = applyRules(dp, j);
+                }
+                dp = curr;
+            }
+
+            // answer is the sum of the dp[]
+            long count = 0;
+            for (long x : dp) {
+                count += x % MOD;
+            }
+            return (int) (count % MOD);
         }
-        return count % MOD;
+
+        private long applyRules(long[] dp, int j) {
+            long count = 0;
+            for (int idx : transitions[j]) {
+                count += dp[idx] % MOD;
+            }
+            return count % MOD;
+        }
     }
 }
