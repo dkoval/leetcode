@@ -19,6 +19,7 @@ import java.util.Arrays;
  */
 public class LongestIncreasingSubsequence {
 
+    // O(N^2) time | O(N) space
     public int lengthOfLIS(int[] nums) {
         int n = nums.length;
 
