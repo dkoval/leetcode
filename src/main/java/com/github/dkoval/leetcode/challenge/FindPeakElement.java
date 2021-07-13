@@ -41,7 +41,7 @@ public class FindPeakElement {
                 right = mid - 1;
             } else if (nextNum > nums[mid]) {
                 // analogously, given that nums[i] != nums[i + 1] for all valid i,
-                // it means that there exists at least 1 peak to the left
+                // it means that there exists at least 1 peak to the right
                 left = mid + 1;
             }
         }
