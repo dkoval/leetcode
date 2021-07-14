@@ -34,6 +34,7 @@ public interface FindMedianFromDataStream {
 
         // O(logN) time
         public void addNum(int num) {
+            // Invariant: after adding a `num`, the size of max heap differs by at most element
             left.offer(num);
 
             int x = left.poll();
@@ -51,7 +52,7 @@ public interface FindMedianFromDataStream {
             if (left.size() > right.size()) {
                 return left.peek();
             }
-            // `left` and `right` are of the same size
+            // both max and min heaps are of the same size
             return (left.peek() + right.peek()) / 2.0;
         }
     }
