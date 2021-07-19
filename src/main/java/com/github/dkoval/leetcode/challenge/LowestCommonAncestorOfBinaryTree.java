@@ -16,27 +16,16 @@ import java.util.LinkedList;
  */
 public class LowestCommonAncestorOfBinaryTree {
 
-    private static class Path {
-
-        static final Path NOT_FOUND = new Path(false, new LinkedList<>());
-
-        final boolean found;
-        final Deque<TreeNode> seq;
-
-        Path(boolean found, Deque<TreeNode> seq) {
-            this.found = found;
-            this.seq = seq;
-        }
-    }
-
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        Path pPath = find(root, p);
-        Path qPath = find(root, q);
+        Deque<TreeNode> pPath = find(root, p);
+        Deque<TreeNode> qPath = find(root, q);
 
+        // While traversing p- and q- paths, find the first p != q pair.
+        // If found, LCA is the previous node in the path, otherwise - the root node.
         TreeNode lca = root;
-        while (!pPath.seq.isEmpty() && !qPath.seq.isEmpty()) {
-            TreeNode pNode = pPath.seq.pollFirst();
-            TreeNode qNode = qPath.seq.pollFirst();
+        while (!pPath.isEmpty() && !qPath.isEmpty()) {
+            TreeNode pNode = pPath.pollFirst();
+            TreeNode qNode = qPath.pollFirst();
             if (pNode.val != qNode.val) {
                 return lca;
             }
@@ -45,31 +34,29 @@ public class LowestCommonAncestorOfBinaryTree {
         return lca;
     }
 
-    private Path find(TreeNode curr, TreeNode target) {
-        if (curr == null) {
-            return Path.NOT_FOUND;
+    private Deque<TreeNode> find(TreeNode root, TreeNode target) {
+        if (root == null) {
+            return new LinkedList<>();
         }
 
-        if (curr.val == target.val) {
+        if (root.val == target.val) {
             Deque<TreeNode> path = new LinkedList<>();
-            path.offer(curr);
-            return new Path(true, path);
+            path.addFirst(root);
+            return path;
         }
 
-        Path left = find(curr.left, target);
-        if (left.found) {
-            Deque<TreeNode> path = left.seq;
-            path.offerFirst(curr);
-            return new Path(true, path);
+        Deque<TreeNode> left = find(root.left, target);
+        if (!left.isEmpty()) {
+            left.addFirst(root);
+            return left;
         }
 
-        Path right = find(curr.right, target);
-        if (right.found) {
-            Deque<TreeNode> path = right.seq;
-            path.offerFirst(curr);
-            return new Path(true, path);
+        Deque<TreeNode> right = find(root.right, target);
+        if (!right.isEmpty()) {
+            right.addFirst(root);
+            return right;
         }
 
-        return Path.NOT_FOUND;
+        return new LinkedList<>();
     }
 }
