@@ -16,19 +16,19 @@ import java.util.Random;
  * </ul>
  */
 public class ShuffleArray {
-    private int[] nums;
-    private final int[] original;
+    private final int[] nums;
+    private final int[] orig;
     private final Random rand = new Random();
 
     public ShuffleArray(int[] nums) {
         this.nums = nums;
-        this.original = Arrays.copyOf(nums, nums.length);
+        this.orig = Arrays.copyOf(nums, nums.length);
     }
 
     /** Resets the array to its original configuration and return it. */
     public int[] reset() {
-        this.nums = Arrays.copyOf(original, original.length);
-        return original;
+        System.arraycopy(orig, 0, nums, 0, orig.length);
+        return nums;
     }
 
     /** Returns a random shuffling of the array. */
@@ -36,13 +36,15 @@ public class ShuffleArray {
         // Fisher-Yates algorithm
         for (int i = 0; i < nums.length; i++) {
             // Note that it is possible to swap an element with itself
-            swap(nums, i, randomIntFromRange(i, nums.length));
+            swap(nums, i, randomIntFromRange(i, nums.length - 1));
         }
         return nums;
     }
 
-    private int randomIntFromRange(int min, int max) {
-        return min + rand.nextInt(max - min);
+    private int randomIntFromRange(int lo, int hi) {
+        // Random.nextInt() returns a random int between 0 (inclusive) and 1 (exclusive),
+        // therefore we add + 1 here to make `hi` boundary inclusive
+        return lo + rand.nextInt(hi - lo + 1);
     }
 
     private void swap(int[] arr, int i, int j) {
