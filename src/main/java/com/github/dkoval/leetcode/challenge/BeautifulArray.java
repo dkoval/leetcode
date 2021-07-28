@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class BeautifulArray {
 
+    // Resource: https://www.programmersought.com/article/705430618/
     public int[] beautifulArray(int n) {
         List<Integer> result = new ArrayList<>();
         result.add(1);
@@ -38,7 +39,7 @@ public class BeautifulArray {
                 }
             }
 
-            // update result
+            // update the result
             result = newResult;
         }
         return toArray(result);
