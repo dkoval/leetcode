@@ -14,7 +14,9 @@ import java.util.List;
  */
 public class BeautifulArray {
 
-    // Resource: https://www.programmersought.com/article/705430618/
+    // Resources:
+    // https://www.programmersought.com/article/705430618/
+    // https://leetcode.com/problems/beautiful-array/discuss/186679/C++JavaPython-Odd-+-Even-Pattern-O(N)
     public int[] beautifulArray(int n) {
         List<Integer> result = new ArrayList<>();
         result.add(1);
