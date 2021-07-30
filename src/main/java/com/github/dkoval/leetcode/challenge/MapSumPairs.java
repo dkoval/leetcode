@@ -19,48 +19,40 @@ public interface MapSumPairs {
 
         private static class TrieNode {
             final Map<Character, TrieNode> edges = new HashMap<>();
-            int val = 0;
             int prefixSum = 0;
         }
 
+        // O(N) space, where N is the size of the total input
         private final TrieNode root = new TrieNode();
+        private final Map<String, Integer> entries = new HashMap<>();
 
         public MapSum() {
             // noop
         }
 
+        // O(K) time
         public void insert(String key, int val) {
-            int oldVal = getOrInsert(key);
-            add(key, val - oldVal);
-        }
+            int oldVal = entries.getOrDefault(key, 0);
+            int delta = val - oldVal;
+            entries.put(key, val);
 
-        private int getOrInsert(String key) {
             TrieNode curr = root;
             for (int i = 0; i < key.length(); i++) {
                 char c = key.charAt(i);
                 curr = curr.edges.computeIfAbsent(c, k -> new TrieNode());
-            }
-            return curr.val;
-        }
-
-        private void add(String key, int delta) {
-            TrieNode curr = root;
-            for (int i = 0; i < key.length(); i++) {
-                char c = key.charAt(i);
-                curr = curr.edges.get(c);
                 curr.prefixSum += delta;
             }
-            curr.val += delta;
         }
 
+        // O(K) time
         public int sum(String prefix) {
             TrieNode curr = root;
             for (int i = 0; i < prefix.length(); i++) {
                 char c = prefix.charAt(i);
-                if (!curr.edges.containsKey(c)) {
+                curr = curr.edges.get(c);
+                if (curr == null) {
                     return 0;
                 }
-                curr = curr.edges.get(c);
             }
             return curr.prefixSum;
         }
