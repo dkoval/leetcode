@@ -40,11 +40,16 @@ public class PathSum2 {
         currPath.add(root.val);
         targetSum -= root.val;
 
-        if (targetSum == 0 && root.left == null && root.right == null) {
-            result.add(currPath);
+        if (root.left == null && root.right == null) {
+            if (targetSum == 0) {
+                result.add(new ArrayList<>(currPath));
+            }
         } else {
-            pathSum(root.left, targetSum, new ArrayList<>(currPath), result);
-            pathSum(root.right, targetSum, new ArrayList<>(currPath), result);
+            pathSum(root.left, targetSum, currPath, result);
+            pathSum(root.right, targetSum, currPath, result);
         }
+
+        // backtrack
+        currPath.remove(currPath.size() - 1);
     }
 }
