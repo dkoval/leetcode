@@ -36,10 +36,11 @@ public interface FlipStringToMonotoneIncreasing {
             for (int i = 0; i <= n; i++) {
                 // Number of 1's in the left half s[0 : i - 1] to flip 1 -> 0
                 int numOnesLeft = prefixSum[i];
-                // Interim - number of 1's in the right part s[i : n - 1]
-                int numOnesRight = prefixSum[n] - prefixSum[i];
+
                 // Number of 0's in the right half s[i : n - 1] to flip 0 -> 1
+                int numOnesRight = prefixSum[n] - prefixSum[i];
                 int numZerosRight = n - i - numOnesRight;
+
                 // Check if a better result was found
                 result = Math.min(result, numOnesLeft + numZerosRight);
             }
