@@ -21,9 +21,9 @@ public class FlipStringToMonotoneIncreasing {
     // O(N) time | O(1) space
     public int minFlipsMonoIncr(String s) {
         int n = s.length();
-        // number if 0 -> 1 flips
+        // Number of 0 -> 1 flips
         int numZeroFlips = 0;
-        // number of 1 -> 0 flips; there can be up to s.count('1') number of such flips in s.
+        // Number of 1 -> 0 flips, There can be up to s.count('1') number of such flips in string s.
         int numOneFlips = 0;
         for (int i = 0; i < n; i++) {
             if (s.charAt(i) == '1') {
@@ -31,8 +31,9 @@ public class FlipStringToMonotoneIncreasing {
             }
         }
 
-        // target: N0 number of 0's followed by N1 number of 1's
-        // 00...011...1
+        // Target string s' consists of N0 number of 0's followed by N1 number of 1's
+        // s' = 00...011...1
+        // To start with, turn all 1 -> 0 in s to achieve s' = 00...0, then see if we can improve the result.
         int result = numOneFlips;
         for (int i = n - 1; i >= 0; i--) {
             if (s.charAt(i) == '0') {
