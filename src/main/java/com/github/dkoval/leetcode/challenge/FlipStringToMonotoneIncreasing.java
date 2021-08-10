@@ -16,34 +16,67 @@ package com.github.dkoval.leetcode.challenge;
  * <li>s[i] is either '0' or '1'</li>
  * </ul>
  */
-public class FlipStringToMonotoneIncreasing {
+public interface FlipStringToMonotoneIncreasing {
+
+    int minFlipsMonoIncr(String s);
+
+    // O(N) time | O(N) space
+    class FlipStringToMonotoneIncreasingUsingPrefixSum implements FlipStringToMonotoneIncreasing {
+
+        @Override
+        public int minFlipsMonoIncr(String s) {
+            int n = s.length();
+            int[] prefixSum = new int[n + 1];
+            for (int i = 0; i < n; i++) {
+                prefixSum[i + 1] = prefixSum[i] + (s.charAt(i) - '0');
+            }
+
+            // Target string s' consists of two parts: left - X number of 0's and right - (N - X) number of 1's
+            int result = Integer.MAX_VALUE;
+            for (int i = 0; i <= n; i++) {
+                // Number of 1's in the left half s[0 : i - 1] to flip 1 -> 0
+                int numOnesLeft = prefixSum[i];
+                // Interim - number of 1's in the right part s[i : n - 1]
+                int numOnesRight = prefixSum[n] - prefixSum[i];
+                // Number of 0's in the right half s[i : n - 1] to flip 0 -> 1
+                int numZerosRight = n - i - numOnesRight;
+                // Check if a better result was found
+                result = Math.min(result, numOnesLeft + numZerosRight);
+            }
+            return result;
+        }
+    }
 
     // O(N) time | O(1) space
-    public int minFlipsMonoIncr(String s) {
-        int n = s.length();
-        // Number of 0 -> 1 flips
-        int numZeroFlips = 0;
-        // Number of 1 -> 0 flips, There can be up to s.count('1') number of such flips in string s.
-        int numOneFlips = 0;
-        for (int i = 0; i < n; i++) {
-            if (s.charAt(i) == '1') {
-                numOneFlips++;
-            }
-        }
+    class FlipStringToMonotoneIncreasingInConstantSpace implements FlipStringToMonotoneIncreasing {
 
-        // Target string s' consists of N0 number of 0's followed by N1 number of 1's
-        // s' = 00...011...1
-        // To start with, turn all 1 -> 0 in s to achieve s' = 00...0, then see if we can improve the result.
-        int result = numOneFlips;
-        for (int i = n - 1; i >= 0; i--) {
-            if (s.charAt(i) == '0') {
-                numZeroFlips++;
-            } else {
-                // flip 1 -> 0 is not required
-                numOneFlips--;
+        @Override
+        public int minFlipsMonoIncr(String s) {
+            int n = s.length();
+            // Number of 0 -> 1 flips
+            int numZeroFlips = 0;
+            // Number of 1 -> 0 flips, There can be up to s.count('1') number of such flips in string s.
+            int numOneFlips = 0;
+            for (int i = 0; i < n; i++) {
+                if (s.charAt(i) == '1') {
+                    numOneFlips++;
+                }
             }
-            result = Math.min(result, numZeroFlips + numOneFlips);
+
+            // Target string s' consists of X number of 0's followed by (N - X) number of 1's
+            // s' = 00...011...1
+            // To start with, turn all 1 -> 0 in s to achieve s' = 00...0, then see if we can improve the result.
+            int result = numOneFlips;
+            for (int i = n - 1; i >= 0; i--) {
+                if (s.charAt(i) == '0') {
+                    numZeroFlips++;
+                } else {
+                    // flip 1 -> 0 is not required
+                    numOneFlips--;
+                }
+                result = Math.min(result, numZeroFlips + numOneFlips);
+            }
+            return result;
         }
-        return result;
     }
 }
