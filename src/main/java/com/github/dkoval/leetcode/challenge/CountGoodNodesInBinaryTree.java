@@ -17,7 +17,7 @@ import com.github.dkoval.leetcode.TreeNode;
  */
 public class CountGoodNodesInBinaryTree {
 
-    // O(N) time | O(N) space, where N is the number of nodes in a binary tree
+    // O(N) time, where N is the number of nodes in a binary tree | O(H) space, where H is the height of a binary tree
     public int goodNodes(TreeNode root) {
         return goodNodes(root, root.val, 0);
     }
