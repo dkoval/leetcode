@@ -70,4 +70,36 @@ public interface DecodeWays {
             return count;
         }
     }
+
+    class DecodeWaysDPBottomUp implements DecodeWays {
+
+        @Override
+        public int numDecodings(String s) {
+            int n = s.length();
+
+            // dp[i] is the number of ways to decode suffix s[i:]
+            int[] dp = new int[n + 1];
+            dp[n] = 1;
+
+            for (int i = n - 1; i >= 0; i--) {
+                if (s.charAt(i) == '0') {
+                    continue;
+                }
+
+                // take 1 character
+                dp[i] += dp[i + 1];
+
+                // take 2 characters: 1[0-9], 2[0-6]
+                if (s.charAt(i) == '1' && i + 1 < n) {
+                    dp[i] += dp[i + 2];
+                }
+
+                if (s.charAt(i) == '2' && i + 1 < n && s.charAt(i + 1) >= '0' && s.charAt(i + 1) <= '6') {
+                    dp[i] += dp[i + 2];
+                }
+            }
+
+            return dp[0];
+        }
+    }
 }
