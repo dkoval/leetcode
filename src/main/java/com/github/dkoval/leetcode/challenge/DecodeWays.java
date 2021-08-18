@@ -71,6 +71,7 @@ public interface DecodeWays {
         }
     }
 
+    // O(N) time | O(N) space
     class DecodeWaysDPBottomUp implements DecodeWays {
 
         @Override
