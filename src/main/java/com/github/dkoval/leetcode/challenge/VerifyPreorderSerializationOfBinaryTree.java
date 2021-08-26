@@ -18,38 +18,67 @@ package com.github.dkoval.leetcode.challenge;
  * For example, it could never contain two consecutive commas, such as "1,,3".
  * Note: You are not allowed to reconstruct the tree.
  */
-public class VerifyPreorderSerializationOfBinaryTree {
+public interface VerifyPreorderSerializationOfBinaryTree {
 
-    private static class Status {
-        boolean ok;
-        int index;
+    boolean isValidSerialization(String preorder);
 
-        Status(boolean ok, int index) {
-            this.ok = ok;
-            this.index = index;
-        }
-    }
+    class VerifyPreorderSerializationOfBinaryTreeRecursively implements VerifyPreorderSerializationOfBinaryTree {
 
-    public boolean isValidSerialization(String preorder) {
-        String[] nodes = preorder.split(",");
-        Status status = new Status(true, 0);
-        preorder(nodes, status);
-        return status.ok && (status.index == nodes.length);
-    }
+        private static class Status {
+            boolean ok;
+            int index;
 
-    private void preorder(String[] nodes, Status status) {
-        if (status.index >= nodes.length) {
-            status.ok = false;
-            return;
+            Status(boolean ok, int index) {
+                this.ok = ok;
+                this.index = index;
+            }
         }
 
-        if (nodes[status.index].equals("#")) {
+        @Override
+        public boolean isValidSerialization(String preorder) {
+            String[] nodes = preorder.split(",");
+            Status status = new Status(true, 0);
+            preorder(nodes, status);
+            return status.ok && (status.index == nodes.length);
+        }
+
+        private void preorder(String[] nodes, Status status) {
+            if (status.index >= nodes.length) {
+                status.ok = false;
+                return;
+            }
+
+            if (nodes[status.index].equals("#")) {
+                status.index++;
+                return;
+            }
+
             status.index++;
-            return;
+            preorder(nodes, status);
+            preorder(nodes, status);
         }
+    }
 
-        status.index++;
-        preorder(nodes, status);
-        preorder(nodes, status);
+    // Resource: https://www.youtube.com/watch?v=RzNYwhSQjHQ
+    class VerifyPreorderSerializationOfBinaryTreeUsingVacanciesCount implements VerifyPreorderSerializationOfBinaryTree {
+
+        @Override
+        public boolean isValidSerialization(String preorder) {
+            String[] nodes = preorder.split(",");
+            int vacancies = 1;
+            for (String node : nodes) {
+                // marks current nodes as visited
+                vacancies--;
+                if (vacancies < 0) {
+                    return false;
+                }
+
+                if (!node.equals("#")) {
+                    // we can add at most 2 child nodes
+                    vacancies += 2;
+                }
+            }
+            return vacancies == 0;
+        }
     }
 }
