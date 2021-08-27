@@ -22,7 +22,7 @@ package com.github.dkoval.leetcode.challenge;
  */
 public class LongestUncommonSubsequence2 {
 
-    // O(N^2) time | O(1) space
+    // O(N^2 * L) time, where L is the average length of strs[i] | O(1) space
     public int findLUSlength(String[] strs) {
         int longest = -1;
         for (int i = 0; i < strs.length; i++) {
