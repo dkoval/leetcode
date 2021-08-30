@@ -25,7 +25,7 @@ public class RangeAddition2 {
         int minWidth = n;
 
         // find the common area of intersecting rectangles, i.e.
-        // a rectangle with (0, 0) top-left and (min height, min width) right-bottom corners respectively
+        // a rectangle with (0, 0) top-left and (min height, min width) bottom-right corners respectively
         for (int[] op : ops) {
             minHeight = Math.min(minHeight, op[0]);
             minWidth = Math.min(minWidth, op[1]);
