@@ -13,29 +13,62 @@ package com.github.dkoval.leetcode.challenge;
  * </ul>
  * Return the longest length of a set s[k].
  */
-public class ArrayNesting {
+public interface ArrayNesting {
+
+    int arrayNesting(int[] nums);
 
     // O(N) time | O(N) space
-    public int arrayNesting(int[] nums) {
-        int n = nums.length;
-        int longest = 1;
-        boolean[] visited = new boolean[n];
+    class ArrayNestingUsingExtraSpace implements ArrayNesting {
 
-        for (int x : nums) {
-            if (visited[x]) {
-                continue;
-            }
+        public int arrayNesting(int[] nums) {
+            int n = nums.length;
+            int longest = 1;
+            boolean[] visited = new boolean[n];
 
-            visited[x] = true;
-            int length = 1;
-            int next = nums[x];
-            while (!visited[next]) {
-                visited[next] = true;
-                next = nums[next];
-                length++;
+            for (int x : nums) {
+                if (visited[x]) {
+                    continue;
+                }
+
+                int length = 1;
+                visited[x] = true;
+                int next = nums[x];
+                while (!visited[next]) {
+                    visited[next] = true;
+                    next = nums[next];
+                    length++;
+                }
+                longest = Math.max(longest, length);
             }
-            longest = Math.max(longest, length);
+            return longest;
         }
-        return longest;
+    }
+
+    // O(N) time | O(1) space
+    class ArrayNestingUsingConstantSpace implements ArrayNesting {
+
+        @Override
+        public int arrayNesting(int[] nums) {
+            int n = nums.length;
+            int longest = 1;
+
+            for (int i = 0; i < n; i++) {
+                if (nums[i] < 0) {
+                    continue;
+                }
+
+                int length = 1;
+                int next = nums[nums[i]];
+                nums[nums[i]] = -1; // mark as visited
+                while (nums[next] >= 0) {
+                    int val = nums[next];
+                    nums[next] = -1;
+                    next = val;
+                    length++;
+                }
+                longest = Math.max(longest, length);
+            }
+            return longest;
+        }
     }
 }
