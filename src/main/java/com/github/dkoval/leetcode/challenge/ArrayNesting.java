@@ -30,6 +30,7 @@ public class ArrayNesting {
             int length = 1;
             int next = nums[x];
             while (!visited[next]) {
+                visited[next] = true;
                 next = nums[next];
                 length++;
             }
