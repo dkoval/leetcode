@@ -58,8 +58,8 @@ public interface ArrayNesting {
                 }
 
                 int length = 1;
-                int next = nums[nums[i]];
-                nums[nums[i]] = -1; // mark as visited
+                int next = nums[i];
+                nums[i] = -1; // mark as visited
                 while (nums[next] >= 0) {
                     int val = nums[next];
                     nums[next] = -1;
