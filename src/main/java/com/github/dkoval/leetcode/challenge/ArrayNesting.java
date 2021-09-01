@@ -57,12 +57,11 @@ public interface ArrayNesting {
                     continue;
                 }
 
-                int length = 1;
-                int next = nums[i];
-                nums[i] = -1; // mark as visited
+                int length = 0;
+                int next = i;
                 while (nums[next] >= 0) {
                     int val = nums[next];
-                    nums[next] = -1;
+                    nums[next] = -1; // mark as visited
                     next = val;
                     length++;
                 }
