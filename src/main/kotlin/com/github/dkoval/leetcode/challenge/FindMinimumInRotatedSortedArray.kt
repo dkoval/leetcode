@@ -12,6 +12,7 @@ package com.github.dkoval.leetcode.challenge
 object FindMinimumInRotatedSortedArray {
 
     // Resource: https://www.youtube.com/watch?v=OXkLNPalfRs
+    // O(logN) time | O(1) space
     fun findMin(nums: IntArray): Int {
         var l = 0
         var r = nums.lastIndex

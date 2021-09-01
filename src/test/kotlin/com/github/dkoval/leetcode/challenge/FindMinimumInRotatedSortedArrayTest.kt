@@ -11,6 +11,26 @@ internal class FindMinimumInRotatedSortedArrayTest {
         @JvmStatic
         fun input(): List<Arguments> = listOf(
             Arguments.of(
+                intArrayOf(3, 4, 5, 1, 2),
+                1
+            ),
+            Arguments.of(
+                intArrayOf(4, 5, 6, 7, 0, 1, 2),
+                0
+            ),
+            Arguments.of(
+                intArrayOf(11, 13, 15, 17),
+                11
+            ),
+            Arguments.of(
+                intArrayOf(1, 2, 3, 4, 5),
+                1
+            ),
+            Arguments.of(
+                intArrayOf(2, 3, 4, 5, 1),
+                1
+            ),
+            Arguments.of(
                 intArrayOf(4, 5, 1, 2, 3),
                 1
             )
