@@ -30,8 +30,7 @@ public interface ArrayNesting {
                     continue;
                 }
 
-                int length = 1;
-                visited[x] = true;
+                int length = 0;
                 int next = nums[x];
                 while (!visited[next]) {
                     visited[next] = true;
