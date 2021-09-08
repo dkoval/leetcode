@@ -22,20 +22,20 @@ public class ShiftingLetters {
 
     private static final int MOD = 26;
 
-    // O(N) time | O(N) space
+    // O(N) time | O(1) extra space
     public String shiftingLetters(String s, int[] shifts) {
         int n = s.length();
 
-        int[] totalShifts = new int[n];
-        totalShifts[n - 1] = shifts[n - 1];
-        for (int i = n - 2; i >= 0; i--) {
-            totalShifts[i] = (totalShifts[i + 1] % MOD + shifts[i] % MOD) % MOD;
+        int totalShifts = 0;
+        for (int x : shifts) {
+            totalShifts += x % MOD;
         }
 
         char[] answer = new char[n];
         for (int i = 0; i < n; i++) {
-            int shift = (s.charAt(i) - 'a' + totalShifts[i]) % MOD;
-            answer[i] = (char) ('a' + shift);
+            int index = s.charAt(i) - 'a';
+            answer[i] = (char) ('a' + (index + totalShifts) % MOD);
+            totalShifts -= shifts[i] % MOD;
         }
         return String.valueOf(answer);
     }
