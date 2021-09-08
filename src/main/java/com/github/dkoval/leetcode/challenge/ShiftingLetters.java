@@ -27,15 +27,11 @@ public class ShiftingLetters {
         int n = s.length();
 
         int totalShifts = 0;
-        for (int x : shifts) {
-            totalShifts += x % MOD;
-        }
-
         char[] answer = new char[n];
-        for (int i = 0; i < n; i++) {
+        for (int i = n - 1; i >= 0; i--) {
+            totalShifts += shifts[i] % MOD;
             int index = s.charAt(i) - 'a';
             answer[i] = (char) ('a' + (index + totalShifts) % MOD);
-            totalShifts -= shifts[i] % MOD;
         }
         return String.valueOf(answer);
     }
