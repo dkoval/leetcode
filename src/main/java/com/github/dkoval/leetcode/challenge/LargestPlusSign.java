@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 /**
  * <a href="https://leetcode.com/explore/challenge/card/september-leetcoding-challenge-2021/637/week-2-september-8th-september-14th/3969/">Largest Plus Sign</a>
@@ -74,34 +75,55 @@ public class LargestPlusSign {
     }
 
     private void countOnesInRow(int[][] grid, int n, int row, int[][] result, boolean reversed) {
-        int col = reversed ? n - 1 : 0;
-        int end = reversed ? -1 : n;
-        int step = reversed ? -1 : 1;
-
-        int count = 0;
-        while (col != end) {
-            if (grid[row][col] == 0) {
-                count = 0;
-            } else {
-                result[row][col] = ++count;
-            }
-            col += step;
-        }
+        OnesCounter counter = new OnesCounter(grid, result);
+        Range.of(n, reversed).forEach(col -> counter.process(row, col));
     }
 
     private void countOnesInCol(int[][] grid, int n, int col, int[][] result, boolean reversed) {
-        int row = reversed ? n - 1 : 0;
-        int end = reversed ? -1 : n;
-        int step = reversed ? -1 : 1;
+        OnesCounter counter = new OnesCounter(grid, result);
+        Range.of(n, reversed).forEach(row -> counter.process(row, col));
+    }
+}
 
-        int count = 0;
-        while (row != end) {
-            if (grid[row][col] == 0) {
-                count = 0;
-            } else {
-                result[row][col] = ++count;
-            }
-            row += step;
+// Represents abstract computation on a range of numbers [0:n)
+class Range {
+    private int x;
+    private final int end;
+    private final int step;
+
+    static Range of(int n, boolean reversed) {
+        return new Range(n, reversed);
+    }
+
+    private Range(int n, boolean reversed) {
+        this.x = reversed ? n - 1 : 0;
+        this.end = reversed ? -1 : n;
+        this.step = reversed ? -1 : 1;
+    }
+
+    void forEach(Consumer<Integer> action) {
+        while (x != end) {
+            action.accept(x);
+            x += step;
+        }
+    }
+}
+
+class OnesCounter {
+    private int count = 0;
+    private final int[][] grid;
+    private final int[][] result;
+
+    OnesCounter(int[][] grid, int[][] result) {
+        this.grid = grid;
+        this.result = result;
+    }
+
+    void process(int row, int col) {
+        if (grid[row][col] == 0) {
+            count = 0;
+        } else {
+            result[row][col] = ++count;
         }
     }
 }
