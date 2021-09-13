@@ -54,4 +54,31 @@ public interface MaximumNumberOfBalloons {
             return frequencies;
         }
     }
+
+    class MaximumNumberOfBalloonsUsingSingleMap implements MaximumNumberOfBalloons {
+
+        @Override
+        public int maxNumberOfBalloons(String text) {
+            Map<Character, Integer> frequencies = new HashMap<>();
+            for (char c : "balon".toCharArray()) {
+                frequencies.put(c, 0);
+            }
+
+            for (int i = 0; i < text.length(); i++) {
+                char c = text.charAt(i);
+                if (frequencies.containsKey(c)) {
+                    frequencies.put(c, frequencies.get(c) + 1);
+                }
+            }
+
+            frequencies.put('l', frequencies.get('l') / 2);
+            frequencies.put('o', frequencies.get('o') / 2);
+
+            int total = Integer.MAX_VALUE;
+            for (int frequency : frequencies.values()) {
+                total = Math.min(total, frequency);
+            }
+            return total;
+        }
+    }
 }
