@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.IntersectionOfTwoArrays2.IntersectionOfTwoArrays2UsingMaps
+import com.github.dkoval.leetcode.challenge.IntersectionOfTwoArrays2.IntersectionOfTwoArrays2UsingSorting
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -39,6 +40,20 @@ internal class IntersectionOfTwoArrays2Test {
             expected: IntArray
         ) {
             IntersectionOfTwoArrays2UsingMaps().test(nums1, nums2, expected)
+        }
+    }
+
+    @Nested
+    inner class IntersectionOfTwoArrays2UsingSortingTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return an array of their intersection of nums1 and nums2 in ay order`(
+            nums1: IntArray,
+            nums2: IntArray,
+            expected: IntArray
+        ) {
+            IntersectionOfTwoArrays2UsingSorting().test(nums1, nums2, expected)
         }
     }
 
