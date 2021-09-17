@@ -18,7 +18,7 @@ public interface IntersectionOfTwoArrays2 {
 
     int[] intersect(int[] nums1, int[] nums2);
 
-    // O(N1 +N2) time | O(N1 + N2) extra space
+    // O(max(N1, N2)) time | O(max(N1, N2)) extra space
     class IntersectionOfTwoArrays2UsingMaps implements IntersectionOfTwoArrays2 {
 
         @Override
@@ -56,7 +56,7 @@ public interface IntersectionOfTwoArrays2 {
         }
     }
 
-    // O(N1 * logN1 + N2 * logN2) time | O(1) extra space
+    // O(max(N1 * logN1, N2 * logN2)) time | O(1) extra space
     class IntersectionOfTwoArrays2UsingSorting implements IntersectionOfTwoArrays2 {
 
         @Override
