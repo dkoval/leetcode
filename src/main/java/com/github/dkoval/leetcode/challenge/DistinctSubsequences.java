@@ -32,20 +32,17 @@ public interface DistinctSubsequences {
                 dp[i][0] = 1;
             }
 
-            // fill 1st row
-            for (int j = 1; j <= m; j++) {
-                // there's no way to generate a non-empty string from s = ""
-                dp[0][j] = 0;
-            }
+            // Note that there's no way to generate a non-empty string from s = "", therefore
+            // for each j dp[0][j] = 0, which is set by default upon allocation of dp[][] array.
 
             for (int i = 1; i <= n; i++) {
                 for (int j = 1; j <= m; j++) {
                     if (s.charAt(i - 1) != t.charAt(j - 1)) {
-                        // don't take s[i], therefore the result doesn't change
+                        // skip s[i], therefore the result doesn't change
                         dp[i][j] = dp[i - 1][j];
                     } else {
-                        // case #1 - don't take s[i]: skip only i-th character from s
-                        // case #2 - take s[i]: skip i-th character from s and j-th character from t
+                        // case #1 skip only i-th character from s (maybe there's another s[i] to the right of i that matches t[j])
+                        // case #2 skip i-th character from s and j-th character from t
                         dp[i][j] = dp[i - 1][j] + dp[i - 1][j - 1];
                     }
                 }
