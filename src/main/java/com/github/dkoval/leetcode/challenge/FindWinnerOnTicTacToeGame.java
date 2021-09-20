@@ -25,112 +25,57 @@ package com.github.dkoval.leetcode.challenge;
 public class FindWinnerOnTicTacToeGame {
 
     private static final int N = 3;
-    private static final char CROSS = 'X';
-    private static final char ZERO = '0';
 
-    private static class CrossesAndZeros {
-        final char[][] board;
-        int crosses = 0;
-        int zeros = 0;
-
-        CrossesAndZeros(char[][] board) {
-            this.board = board;
-        }
-
-        void count(int row, int col) {
-            if (board[row][col] == CROSS) {
-                crosses++;
-            } else if (board[row][col] == ZERO) {
-                zeros++;
-            }
-        }
-    }
-
-    private enum Winner {
-        PLAYER_A("A"),
-        PLAYER_B("B");
-
-        static Winner of(CrossesAndZeros counts) {
-            return (counts.crosses == N)
-                    ? Winner.PLAYER_A
-                    : ((counts.zeros == N) ? Winner.PLAYER_B : null);
-        }
-
-        final String text;
-
-        Winner(String text) {
-            this.text = text;
-        }
-    }
-
+    // O(M * N) time | O(N * N) space
     public String tictactoe(int[][] moves) {
         char[][] board = new char[N][N];
-        int i = 0;
+        int player = 0;
+
         for (int[] move : moves) {
-            char c = (i++ % 2 == 0) ? CROSS : ZERO;
-            board[move[0]][move[1]] = c;
+            int row = move[0];
+            int col = move[1];
+
+            char mark = (char)('A' + player);
+            board[row][col] = mark;
+
+            if (checkRow(board, row, mark)
+                    || checkCol(board, col, mark)
+                    || (row == col && checkDiagonal(board, mark, true))
+                    || (row + col == N - 1 && checkDiagonal(board, mark, false))) {
+                return String.valueOf(mark);
+            }
+            player = (player + 1) % 2;
         }
-        return checkBoard(board, moves.length);
+        return (moves.length == N * N) ? "Draw" : "Pending";
     }
 
-    private String checkBoard(char[][] board, int numMoves) {
-        Winner winner;
-
-        // check rows
-        for (int row = 0; row < N; row++) {
-            winner = checkRow(board, row);
-            if (winner != null) {
-                return winner.text;
+    private boolean checkRow(char[][] board, int row, char mark) {
+        for (int col = 0; col < N; col++) {
+            if (board[row][col] != mark) {
+                return false;
             }
         }
+        return true;
+    }
 
-        // check columns
-        for (int col = 0; col < N; col++) {
-            winner = checkCol(board, col);
-            if (winner != null) {
-                return winner.text;
+    private boolean checkCol(char[][] board, int col, char mark) {
+        for (int row = 0; row < N; row++) {
+            if (board[row][col] != mark) {
+                return false;
             }
         }
-
-        // check main diagonal
-        winner = checkDiagonal(board, true);
-        if (winner != null) {
-            return winner.text;
-        }
-
-        // check anti-diagonal
-        winner = checkDiagonal(board, false);
-        if (winner != null) {
-            return winner.text;
-        }
-
-        return (numMoves == N * N) ? "Draw" : "Pending";
+        return true;
     }
 
-    private Winner checkRow(char[][] board, int row) {
-        CrossesAndZeros counts = new CrossesAndZeros(board);
-        for (int col = 0; col < N; col++) {
-            counts.count(row, col);
-        }
-        return Winner.of(counts);
-    }
-
-    private Winner checkCol(char[][] board, int col) {
-        CrossesAndZeros counts = new CrossesAndZeros(board);
-        for (int row = 0; row < N; row++) {
-            counts.count(row, col);
-        }
-        return Winner.of(counts);
-    }
-
-    private Winner checkDiagonal(char[][] board, boolean main) {
-        CrossesAndZeros counts = new CrossesAndZeros(board);
+    private boolean checkDiagonal(char[][] board, char mark, boolean main) {
         int col = main ? 0 : N - 1;
-        int deltaCol = main ? 1 : -1;
+        int dy = main ? 1 : -1;
         for (int row = 0; row < N; row++) {
-            counts.count(row, col);
-            col += deltaCol;
+            if (board[row][col] != mark) {
+                return false;
+            }
+            col += dy;
         }
-        return Winner.of(counts);
+        return true;
     }
 }
