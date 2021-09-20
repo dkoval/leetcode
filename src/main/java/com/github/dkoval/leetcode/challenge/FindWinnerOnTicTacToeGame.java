@@ -25,20 +25,35 @@ package com.github.dkoval.leetcode.challenge;
 public class FindWinnerOnTicTacToeGame {
 
     private static final int N = 3;
+    private static final char CROSS = 'X';
+    private static final char ZERO = '0';
 
-    private static class XsAnd0s {
-        int numXs = 0;
-        int num0s = 0;
+    private static class CrossesAndZeros {
+        final char[][] board;
+        int crosses = 0;
+        int zeros = 0;
+
+        CrossesAndZeros(char[][] board) {
+            this.board = board;
+        }
+
+        void count(int row, int col) {
+            if (board[row][col] == CROSS) {
+                crosses++;
+            } else if (board[row][col] == ZERO) {
+                zeros++;
+            }
+        }
     }
 
     private enum Winner {
         PLAYER_A("A"),
         PLAYER_B("B");
 
-        static Winner of(XsAnd0s counts) {
-            return (counts.numXs == N)
+        static Winner of(CrossesAndZeros counts) {
+            return (counts.crosses == N)
                     ? Winner.PLAYER_A
-                    : ((counts.num0s == N) ? Winner.PLAYER_B : null);
+                    : ((counts.zeros == N) ? Winner.PLAYER_B : null);
         }
 
         final String text;
@@ -52,7 +67,7 @@ public class FindWinnerOnTicTacToeGame {
         char[][] board = new char[N][N];
         int i = 0;
         for (int[] move : moves) {
-            char c = (i++ % 2 == 0) ? 'X' : '0';
+            char c = (i++ % 2 == 0) ? CROSS : ZERO;
             board[move[0]][move[1]] = c;
         }
         return checkBoard(board, moves.length);
@@ -93,39 +108,27 @@ public class FindWinnerOnTicTacToeGame {
     }
 
     private Winner checkRow(char[][] board, int row) {
-        XsAnd0s counts = new XsAnd0s();
+        CrossesAndZeros counts = new CrossesAndZeros(board);
         for (int col = 0; col < N; col++) {
-            if (board[row][col] == 'X') {
-                counts.numXs++;
-            } else if (board[row][col] == '0') {
-                counts.num0s++;
-            }
+            counts.count(row, col);
         }
         return Winner.of(counts);
     }
 
     private Winner checkCol(char[][] board, int col) {
-        XsAnd0s counts = new XsAnd0s();
+        CrossesAndZeros counts = new CrossesAndZeros(board);
         for (int row = 0; row < N; row++) {
-            if (board[row][col] == 'X') {
-                counts.numXs++;
-            } else if (board[row][col] == '0') {
-                counts.num0s++;
-            }
+            counts.count(row, col);
         }
         return Winner.of(counts);
     }
 
     private Winner checkDiagonal(char[][] board, boolean main) {
-        XsAnd0s counts = new XsAnd0s();
+        CrossesAndZeros counts = new CrossesAndZeros(board);
         int col = main ? 0 : N - 1;
         int deltaCol = main ? 1 : -1;
         for (int row = 0; row < N; row++) {
-            if (board[row][col] == 'X') {
-                counts.numXs++;
-            } else if (board[row][col] == '0') {
-                counts.num0s++;
-            }
+            counts.count(row, col);
             col += deltaCol;
         }
         return Winner.of(counts);
