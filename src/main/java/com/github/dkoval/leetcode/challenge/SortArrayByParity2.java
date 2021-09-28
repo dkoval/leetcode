@@ -26,6 +26,7 @@ public interface SortArrayByParity2 {
 
     int[] sortArrayByParityII(int[] nums);
 
+    // O(N) time | O(N) space
     class SortArrayByParity2UsingTwoQueues implements SortArrayByParity2 {
 
         @Override
@@ -66,6 +67,39 @@ public interface SortArrayByParity2 {
             while (j < nums.length && nums[j] % 2 != parity) {
                 j++;
             }
+            int tmp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = tmp;
+        }
+    }
+
+    // O(N) time | O(1) space
+    class SortArrayByParity2InplaceUsingTwoPointers implements SortArrayByParity2 {
+
+        // Resource: https://www.youtube.com/watch?v=3Ne-G2yySUc
+        @Override
+        public int[] sortArrayByParityII(int[] nums) {
+            int n = nums.length;
+            int evenIdx = 0;
+            int oddIdx = 1;
+            while (oddIdx < n && evenIdx < n) {
+                // search for ODD number at EVEN index
+                while (evenIdx < n && nums[evenIdx] % 2 == 0) {
+                    evenIdx += 2;
+                }
+                // search for EVEN number at ODD index
+                while (oddIdx < n && nums[oddIdx] % 2 == 1) {
+                    oddIdx += 2;
+                }
+                // swap numbers at `even` and `odd` indices to fix a mismatch
+                if (evenIdx < n && oddIdx < n) {
+                    swap(nums, evenIdx, oddIdx);
+                }
+            }
+            return nums;
+        }
+
+        private void swap(int[] nums, int i, int j) {
             int tmp = nums[i];
             nums[i] = nums[j];
             nums[j] = tmp;

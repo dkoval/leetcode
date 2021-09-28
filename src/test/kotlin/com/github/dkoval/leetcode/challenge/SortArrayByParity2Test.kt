@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.SortArrayByParity2.SortArrayByParity2Inplace
-import com.github.dkoval.leetcode.challenge.SortArrayByParity2.SortArrayByParity2UsingTwoQueues
+import com.github.dkoval.leetcode.challenge.SortArrayByParity2.*
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Condition
 import org.junit.jupiter.api.Nested
@@ -50,6 +49,18 @@ internal class SortArrayByParity2Test {
             nums: IntArray
         ) {
             SortArrayByParity2Inplace().test(nums)
+        }
+    }
+
+    @Nested
+    inner class SortArrayByParity2InplaceUsingTwoPointersTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should sort the array so that whenever nums(i) is odd, i is odd, and whenever nums(i) is even, i is even`(
+            nums: IntArray
+        ) {
+            SortArrayByParity2InplaceUsingTwoPointers().test(nums)
         }
     }
 
