@@ -17,6 +17,24 @@ internal class DungeonGameTest {
                     intArrayOf(10, 30, -5)
                 ),
                 7
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(0)
+                ),
+                1
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(2)
+                ),
+                1
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(-5)
+                ),
+                6
             )
         )
     }

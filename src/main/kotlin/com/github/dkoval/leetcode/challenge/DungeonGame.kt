@@ -23,28 +23,36 @@ import kotlin.math.min
  */
 object DungeonGame {
 
+    // O(M * N) time | O(M * N) space
     fun calculateMinimumHP(dungeon: Array<IntArray>): Int {
         val r = dungeon.size
         val c = dungeon[0].size
+
+        // hp[i][j] - min health points needed to reach the bottom-right corner from (i, j).
+        // Idea is to solve the problem in reverse.
         val hp = Array(r) { IntArray(c) }
-        // calculate min health point needed to reach the bottom-up cell
+
+        // Step #0: min health points needed in the bottom-right corner for the knight to survive.
         hp[r - 1][c - 1] = if (dungeon[r - 1][c - 1] > 0) 1 else 1 - dungeon[r - 1][c - 1]
-        // solve for the last column
+
+        // Step #1: solve for the last column going bottom-up.
         for (i in r - 2 downTo 0) {
-            hp[i][c - 1] = ensureMinHealthPoint(hp[i + 1][c - 1] - dungeon[i][c - 1])
+            hp[i][c - 1] = ensureAlive(hp[i + 1][c - 1] - dungeon[i][c - 1])
         }
-        // solve for the last row
+
+        // Step #2: solve for the last row going right-to-left.
         for (j in c - 2 downTo 0) {
-            hp[r - 1][j] = ensureMinHealthPoint(hp[r - 1][j + 1] - dungeon[r - 1][j])
+            hp[r - 1][j] = ensureAlive(hp[r - 1][j + 1] - dungeon[r - 1][j])
         }
-        // solve for remaining cells going bottom-up
+
+        // Step #3: solve for the remaining cells going bottom-up.
         for (i in r - 2 downTo 0) {
             for (j in c - 2 downTo 0) {
-                hp[i][j] = ensureMinHealthPoint(min(hp[i][j + 1], hp[i + 1][j]) - dungeon[i][j])
+                hp[i][j] = ensureAlive(min(hp[i][j + 1], hp[i + 1][j]) - dungeon[i][j])
             }
         }
         return hp[0][0]
     }
 
-    private fun ensureMinHealthPoint(healthPoint: Int): Int = max(healthPoint, 1)
+    private fun ensureAlive(healthPoint: Int): Int = max(healthPoint, 1)
 }
