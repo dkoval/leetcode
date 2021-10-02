@@ -21,10 +21,10 @@ import kotlin.math.min
  *
  * Write a function to determine the knight's minimum initial health so that he is able to rescue the princess.
  */
-object DungeonGame {
+object DungeonGameDP : DungeonGame {
 
     // O(M * N) time | O(M * N) space
-    fun calculateMinimumHP(dungeon: Array<IntArray>): Int {
+    override fun calculateMinimumHP(dungeon: Array<IntArray>): Int {
         val r = dungeon.size
         val c = dungeon[0].size
 
@@ -54,5 +54,5 @@ object DungeonGame {
         return hp[0][0]
     }
 
-    private fun ensureAlive(healthPoint: Int): Int = max(healthPoint, 1)
+    private fun ensureAlive(healthPoints: Int): Int = max(healthPoints, 1)
 }
