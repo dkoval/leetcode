@@ -8,15 +8,21 @@ package com.github.dkoval.leetcode.interview.array;
  * Each element in the array represents your maximum jump length at that position.
  * <p>
  * Determine if you are able to reach the last index.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= nums.length <= 10^4</li>
+ *  <li>0 <= nums[i] <= 10^5</li>
+ * </ul>
  */
-public abstract class JumpGame {
+public interface JumpGame {
 
-    public abstract boolean canJump(int[] nums);
+    boolean canJump(int[] nums);
 
     // Time complexity: O(2^N). There are 2^N (upper bound) ways of jumping from the first position to the last,
     // where N is the length of array nums.
     // Space complexity : O(N). Recursion requires additional memory for the stack frames.
-    public static class JumpGameRecursiveTLE extends JumpGame {
+    class JumpGameRecursiveTLE implements JumpGame {
 
         @Override
         public boolean canJump(int[] nums) {
@@ -30,8 +36,8 @@ public abstract class JumpGame {
                 return true;
             }
             int furthestIdx = Math.min(idx + nums[idx], nums.length - 1);
-            for (int nextIdx = idx + 1; nextIdx <= furthestIdx; nextIdx++) {
-                if (canJump(nextIdx, nums)) {
+            for (int i = furthestIdx; i > idx; i--) {
+                if (canJump(i, nums)) {
                     return true;
                 }
             }
@@ -40,9 +46,9 @@ public abstract class JumpGame {
     }
 
     // Time complexity : O(N^2). For every element in the array, say i, we are looking at the next nums[i] number of elements to
-    // its right aiming to find a GOOD index. nums[i] can be at most N, where nn is the length of array nums.
+    // its right aiming to find a GOOD index. nums[i] can be at most N, where N is the length of array nums.
     // Space complexity : O(2N) = O(N). First N originates from recursion. Second N comes from the usage of the memo table.
-    public static class JumpGameDPTopDown extends JumpGame {
+    class JumpGameDPTopDown implements JumpGame {
 
         @Override
         public boolean canJump(int[] nums) {
@@ -60,8 +66,8 @@ public abstract class JumpGame {
                 return memo[idx];
             }
             int furthestIdx = Math.min(idx + nums[idx], nums.length - 1);
-            for (int nextIdx = furthestIdx; nextIdx > idx; nextIdx--) {
-                if (canJump(nextIdx, nums, memo)) {
+            for (int i = furthestIdx; i > idx; i--) {
+                if (canJump(i, nums, memo)) {
                     memo[idx] = true;
                     return true;
                 }
@@ -71,25 +77,30 @@ public abstract class JumpGame {
         }
     }
 
-    public static class JumpGameDPBottomUp extends JumpGame {
+    // O(N^2) time | O(N) space
+    class JumpGameDPBottomUp implements JumpGame {
 
         @Override
         public boolean canJump(int[] nums) {
             // Top-down to bottom-up conversion is done by eliminating recursion.
             // In practice, this achieves better performance as we no longer have the method stack overhead.
             // The recursion is usually eliminated by trying to reverse the order of the steps from the top-down approach.
-            boolean[] memo = new boolean[nums.length];
-            memo[nums.length - 1] = true;
-            for (int i = nums.length - 2; i >= 0; i--) {
-                int furthestIdx = Math.min(i + nums[i], nums.length - 1);
-                for (int j = i + 1; j <= furthestIdx; j++) {
-                    if (memo[j]) {
-                        memo[i] = true;
+            int n = nums.length;
+
+            // dp[i] - denotes whether the last index is reachable from i-th index
+            boolean[] dp = new boolean[n];
+            dp[n - 1] = true;
+
+            for (int i = n - 2; i >= 0; i--) {
+                int furthestIdx = Math.min(i + nums[i], n - 1);
+                for (int j = furthestIdx; j > i; j--) {
+                    if (dp[j]) {
+                        dp[i] = true;
                         break;
                     }
                 }
             }
-            return memo[0];
+            return dp[0];
         }
     }
 }
