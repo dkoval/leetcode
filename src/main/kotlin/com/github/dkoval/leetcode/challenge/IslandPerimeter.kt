@@ -17,17 +17,32 @@ interface IslandPerimeter {
     fun islandPerimeter(grid: Array<IntArray>): Int
 }
 
+// O(M * N) time | O(1) space
 object IslandPerimeterIter : IslandPerimeter {
 
+    private val directions = arrayOf(
+        intArrayOf(-1, 0),
+        intArrayOf(1, 0),
+        intArrayOf(0, -1),
+        intArrayOf(0, 1)
+    )
+
     override fun islandPerimeter(grid: Array<IntArray>): Int {
+        val m = grid.size
+        val n = grid[0].size
+
         var p = 0
-        for (i in grid.indices) {
-            for (j in grid[0].indices) {
-                if (grid[i][j] == 0) continue
-                if (i == 0 || grid[i - 1][j] == 0) p++ // look up
-                if (i == grid.lastIndex || grid[i + 1][j] == 0) p++ // look down
-                if (j == 0 || grid[i][j - 1] == 0) p++ // look left
-                if (j == grid[0].lastIndex || grid[i][j + 1] == 0) p++ // look right
+        for (row in 0 until m) {
+            for (col in 0 until n) {
+                if (grid[row][col] == 0) continue
+                // explore all 4 directions
+                for ((dx, dy) in directions) {
+                    val nextRow = row + dx
+                    val nextCol = col + dy
+                    if (nextRow !in 0 until m || nextCol !in 0 until n || grid[nextRow][nextCol] == 0) {
+                        p++;
+                    }
+                }
             }
         }
         return p
@@ -36,49 +51,45 @@ object IslandPerimeterIter : IslandPerimeter {
 
 object IslandPerimeterDFS : IslandPerimeter {
 
+    private val directions = arrayOf(
+        intArrayOf(-1, 0),
+        intArrayOf(1, 0),
+        intArrayOf(0, -1),
+        intArrayOf(0, 1)
+    )
+
+    private data class Cell(val row: Int, val col: Int)
+
     override fun islandPerimeter(grid: Array<IntArray>): Int {
-        for (i in grid.indices) {
-            for (j in grid[0].indices) {
-                if (grid[i][j] == 0) continue
-                return dfs(i, j, grid)
+        for (row in grid.indices) {
+            for (col in grid[0].indices) {
+                if (grid[row][col] == 0) continue
+                return dfs(grid, row, col, mutableSetOf())
             }
         }
         return -1
     }
 
-    private data class Cell(val row: Int, val col: Int) {
-        fun up(): Cell = Cell(row - 1, col)
-        fun down(): Cell = Cell(row + 1, col)
-        fun left(): Cell = Cell(row, col - 1)
-        fun right(): Cell = Cell(row, col + 1)
-    }
+    private fun dfs(grid: Array<IntArray>, row: Int, col: Int, visited: MutableSet<Cell>): Int {
+        val m = grid.size
+        val n = grid[0].size
 
-    private data class PerimeterValue(var value: Int)
-
-    private fun dfs(i: Int, j: Int, grid: Array<IntArray>): Int {
-        val p = PerimeterValue(0)
-        doDfs(grid, Cell(i, j), mutableSetOf(), p)
-        return p.value
-    }
-
-    private fun doDfs(grid: Array<IntArray>, cell: Cell, visited: MutableSet<Cell>, p: PerimeterValue) {
-        visited.add(cell)
-
-        if (cell.row == 0 || grid[cell.row - 1][cell.col] == 0) p.value++ // look up
-        if (cell.row == grid.lastIndex || grid[cell.row + 1][cell.col] == 0) p.value++ // look down
-        if (cell.col == 0 || grid[cell.row][cell.col - 1] == 0) p.value++ // look left
-        if (cell.col == grid[0].lastIndex || grid[cell.row][cell.col + 1] == 0) p.value++ // look right
-
-        // keep on doing DFS
-        if (cell.row > 0) doDfsIfPossible(grid, cell.up(), visited, p)
-        if (cell.row < grid.lastIndex) doDfsIfPossible(grid, cell.down(), visited, p)
-        if (cell.col > 0) doDfsIfPossible(grid, cell.left(), visited, p)
-        if (cell.col < grid[0].lastIndex) doDfsIfPossible(grid, cell.right(), visited, p)
-    }
-
-    private fun doDfsIfPossible(grid: Array<IntArray>, cell: Cell, visited: MutableSet<Cell>, p: PerimeterValue) {
-        if (grid[cell.row][cell.col] == 1 && !visited.contains(cell)) {
-            doDfs(grid, cell, visited, p)
+        if (row !in 0 until m || col !in 0 until n || grid[row][col] == 0) {
+            return 1
         }
+
+        val cell = Cell(row, col)
+        if (cell in visited) {
+            return 0
+        }
+
+        // mark current cell as visited
+        visited += cell
+        var p = 0
+        // explore all 4 directions
+        for ((dx, dy) in directions) {
+           p += dfs(grid, row + dx, col + dy, visited)
+        }
+        return p
     }
 }
