@@ -15,35 +15,34 @@ internal class ClimbingStairsTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(1, 1),
-            Arguments.of(2, 2),
-            Arguments.of(4, 5),
             // 1. 1 step + 1 step
             // 2. 2 steps
             Arguments.of(2, 2),
             // 1. 1 step + 1 step + 1 step
             // 2. 1 step + 2 steps
             // 3. 2 steps + 1 step
-            Arguments.of(3, 3)
+            Arguments.of(3, 3),
+            Arguments.of(4, 5)
         )
     }
 
     @Nested
-    inner class MemoClimbingStairsTest {
+    inner class ClimbingStairsDPTopDownTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the number of distinct ways you can climb to the top`(n: Int, expected: Int) {
-            MemoClimbingStairs.test(n, expected)
+            ClimbingStairsDPTopDown.test(n, expected)
         }
     }
 
     @Nested
-    inner class NoExtraSpaceClimbingStairsTest {
+    inner class ClimbingStairsFibonacciSeqTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the number of distinct ways you can climb to the top`(n: Int, expected: Int) {
-            NoExtraSpaceClimbingStairs.test(n, expected)
+            ClimbingStairsFibonacciSeq.test(n, expected)
         }
     }
 

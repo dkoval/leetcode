@@ -14,35 +14,38 @@ interface ClimbingStairs {
     fun climbStairs(n: Int): Int
 }
 
-object MemoClimbingStairs: ClimbingStairs {
+// O(N) time | O(N) space
+object ClimbingStairsDPTopDown : ClimbingStairs {
 
     override fun climbStairs(n: Int): Int {
-        val memo = IntArray(n + 1) { Int.MIN_VALUE }
+        val memo = IntArray(n + 1) { -1 }
         return doClimbStairs(n, memo)
     }
 
-    private fun doClimbStairs(n: Int, memo: IntArray): Int = when {
-        n < 0 -> 0
-        n == 0 -> 1
-        memo[n] != Int.MIN_VALUE -> memo[n]
-        else -> {
-            memo[n] = doClimbStairs(n - 1, memo) + doClimbStairs(n - 2, memo)
-            memo[n]
+    private fun doClimbStairs(n: Int, memo: IntArray): Int =
+        when {
+            (n < 0) -> 0
+            (n == 0) -> 1
+            (memo[n] != -1) -> memo[n]
+            else -> {
+                memo[n] = doClimbStairs(n - 1, memo) + doClimbStairs(n - 2, memo)
+                memo[n]
+            }
         }
-    }
 }
 
-object NoExtraSpaceClimbingStairs: ClimbingStairs {
+// O(N) time | O(1) space
+object ClimbingStairsFibonacciSeq : ClimbingStairs {
 
     override fun climbStairs(n: Int): Int {
         if (n <= 2) return n
-        var prevStep2 = 1
-        var prevStep1 = 2
+        var x = 1
+        var y = 2
         for (i in 3..n) {
-            val tmp = prevStep1
-            prevStep1 += prevStep2
-            prevStep2 = tmp
+            val z = x + y
+            x = y
+            y = z
         }
-        return prevStep1
+        return y
     }
 }
