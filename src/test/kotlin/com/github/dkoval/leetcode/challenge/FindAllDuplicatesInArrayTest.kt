@@ -13,6 +13,14 @@ internal class FindAllDuplicatesInArrayTest {
             Arguments.of(
                 intArrayOf(4, 3, 2, 7, 8, 2, 3, 1),
                 listOf(2, 3)
+            ),
+            Arguments.of(
+                intArrayOf(1, 1, 2),
+                listOf(1)
+            ),
+            Arguments.of(
+                intArrayOf(1),
+                listOf<Int>()
             )
         )
     }
