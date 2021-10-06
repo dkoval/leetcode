@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class LongestSubstringWithoutRepeatingCharacters {
 
-    // O(N) time | O(N) space
+    // O(N) time | O(min(alphabet, N)) space
     public int lengthOfLongestSubstring(String s) {
         int maxLength = 0;
         Map<Character, Integer> window = new HashMap<>();
