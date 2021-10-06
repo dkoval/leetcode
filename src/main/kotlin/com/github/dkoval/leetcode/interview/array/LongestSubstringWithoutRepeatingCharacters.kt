@@ -7,18 +7,20 @@ package com.github.dkoval.leetcode.interview.array
  */
 object LongestSubstringWithoutRepeatingCharacters {
 
-    // Time complexity: O(N)
+    // O(N) time | O(N) space
     fun lengthOfLongestSubstring(s: String): Int {
         var maxLength = 0
-        val charIndex = mutableMapOf<Char, Int>()
-        var i = 0 // i - sliding window start index, j - sliding window end index
-        for (j in s.indices) {
-            val index = charIndex[s[j]]
-            if (index != null) {
-                i = maxOf(i, index + 1)
+        val window = mutableMapOf<Char, Int>()
+        var start = 0
+        for (end in s.indices) {
+            val c = s[end]
+            if (c in window) {
+                val idx = window[c]!!
+                // shrink the window, i.e. ignore characters before s[idx + 1]
+                start = maxOf(start, idx + 1)
             }
-            maxLength = maxOf(maxLength, j - i + 1)
-            charIndex[s[j]] = j
+            window[c] = end
+            maxLength = maxOf(maxLength, end - start + 1)
         }
         return maxLength
     }

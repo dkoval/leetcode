@@ -33,6 +33,10 @@ internal class LongestSubstringWithoutRepeatingCharactersTest {
             Arguments.of(
                 "tmmzuxt",
                 5
+            ),
+            Arguments.of(
+                "abba",
+                2
             )
         )
     }
