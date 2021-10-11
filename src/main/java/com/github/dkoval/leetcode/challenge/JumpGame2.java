@@ -28,18 +28,14 @@ public class JumpGame2 {
         dp[n - 1] = 0;
 
         for (int i = n - 2; i >= 0; i--) {
-            dp[i] = Integer.MAX_VALUE;
-
+            int minJumps = Integer.MAX_VALUE;
             // consider all indices reachable from i and choose the one,
             // which requires the minimum number of jumps to get to the last index
             int furthestIdx = Math.min(i + nums[i], n - 1);
             for (int k = i + 1; k <= furthestIdx; k++) {
-                dp[i] = Math.min(dp[i], dp[k]);
+                minJumps = Math.min(minJumps, dp[k]);
             }
-
-            if (dp[i] != Integer.MAX_VALUE) {
-                dp[i]++;
-            }
+            dp[i] = (minJumps == Integer.MAX_VALUE) ? Integer.MAX_VALUE : minJumps + 1;
         }
         return dp[0];
     }
