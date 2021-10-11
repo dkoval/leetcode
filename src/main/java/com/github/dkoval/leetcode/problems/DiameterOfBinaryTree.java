@@ -12,8 +12,10 @@ import com.github.dkoval.leetcode.TreeNode;
 public class DiameterOfBinaryTree {
 
     private static class TreeInfo {
+        // The diameter of the bin tree, considering the current node as the root
         final int diameter;
-        final int height; // number of nodes in a path
+        // The height of the bin tree (in number of nodes) at the current node, going bottom-up in the tree
+        final int height;
 
         TreeInfo(int diameter, int height) {
             this.diameter = diameter;
@@ -30,12 +32,16 @@ public class DiameterOfBinaryTree {
             return new TreeInfo(0, 0);
         }
 
-        TreeInfo leftTreeInfo = dfs(root.left);
-        TreeInfo rightTreeInfo = dfs(root.right);
+        TreeInfo left = dfs(root.left);
+        TreeInfo right = dfs(root.right);
 
-        int currDiameter = Math.max(leftTreeInfo.diameter, rightTreeInfo.diameter);
-        currDiameter = Math.max(currDiameter, leftTreeInfo.height + rightTreeInfo.height); // longest path through the root
-        int currHeight = 1 + Math.max(leftTreeInfo.height, rightTreeInfo.height);
-        return new TreeInfo(currDiameter, currHeight);
+        // option #1: path doesn't pass through the root node
+        int diameter = Math.max(left.diameter, right.diameter);
+        // option #2: path passes through the root node
+        diameter = Math.max(diameter, left.height + right.height); // longest path through the root
+
+        // now, compute the height of the root node
+        int height = 1 + Math.max(left.height, right.height);
+        return new TreeInfo(diameter, height);
     }
 }
