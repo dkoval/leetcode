@@ -1,7 +1,5 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.Arrays;
-
 /**
  * <a href="https://leetcode.com/explore/featured/card/may-leetcoding-challenge-2021/598/week-1-may-1st-may-7th/3732/">Jump Game II</a>
  * <p>
@@ -27,14 +25,18 @@ public class JumpGame2 {
 
         // dp[i] - min number of jumps required to reach the last index starting from i
         int[] dp = new int[n];
-        Arrays.fill(dp, 0, n, Integer.MAX_VALUE);
         dp[n - 1] = 0;
 
         for (int i = n - 2; i >= 0; i--) {
             dp[i] = Integer.MAX_VALUE;
-            for (int l = 1; l <= nums[i] && i + l < n; l++) {
-                dp[i] = Math.min(dp[i], dp[i + l]);
+
+            // consider all indices reachable from i and choose the one,
+            // which requires the minimum number of jumps to get to the last index
+            int furthestIdx = Math.min(i + nums[i], n - 1);
+            for (int k = i + 1; k <= furthestIdx; k++) {
+                dp[i] = Math.min(dp[i], dp[k]);
             }
+
             if (dp[i] != Integer.MAX_VALUE) {
                 dp[i]++;
             }
