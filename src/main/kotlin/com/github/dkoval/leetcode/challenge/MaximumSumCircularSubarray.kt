@@ -17,19 +17,19 @@ object MaximumSumCircularSubarray {
 
     fun maxSubarraySumCircular(A: IntArray): Int {
         var totalSum = 0
-        var maxEndingAt = 0
-        var minEndingAt = 0
-        var maxSum = Int.MIN_VALUE
-        var minSum = Int.MAX_VALUE
+        var maxSumSoFar = 0
+        var bestMaxSum = Int.MIN_VALUE
+        var minSumSoFar = 0
+        var bestMinSum = Int.MAX_VALUE
         for (x in A) {
             totalSum += x
             // Kadane's algorithm to find MAX sum subarray
-            maxEndingAt = max(maxEndingAt + x, x)
-            maxSum = max(maxEndingAt, maxSum)
-            // Kadane's algorith to find MIN sum subarray
-            minEndingAt = min(minEndingAt + x, x)
-            minSum = min(minEndingAt, minSum)
+            maxSumSoFar = max(maxSumSoFar + x, x)
+            bestMaxSum = max(maxSumSoFar, bestMaxSum)
+            // Kadane's algorithm to find MIN sum subarray
+            minSumSoFar = min(minSumSoFar + x, x)
+            bestMinSum = min(minSumSoFar, bestMinSum)
         }
-        return if (maxSum > 0) max(maxSum, totalSum - minSum) else maxSum
+        return if (bestMaxSum > 0) max(bestMaxSum, totalSum - bestMinSum) else bestMaxSum
     }
 }

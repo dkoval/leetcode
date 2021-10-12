@@ -52,7 +52,7 @@ object MaximumSumSubarrayDivideAndConquer : MaximumSumSubarray {
 
     private fun maxCrossingSum(nums: IntArray, start: Int, mid: Int, end: Int): Int {
         // We can find the crossing sum in linear time.
-        // The idea is simple, find the maximum sum starting from mid point and ending at some point on left of mid,
+        // The idea is simple, find the maximum sum starting from mid-point and ending at some point on left of mid,
         // then find the maximum sum starting from mid + 1 and ending with sum point on right of mid + 1.
         // Finally, combine the two and return.
         fun maxSubarraySum(range: IntProgression): Int {
@@ -76,15 +76,15 @@ object MaximumSumSubarrayKadane : MaximumSumSubarray {
 
     override fun maxSubArray(nums: IntArray): Int {
         // DP: Kadane's algorithm
-        var maxSum = nums[0]
-        var maxSumEndingHere = nums[0]
+        var maxSumSoFar = nums[0]
+        var bestMaxSum = nums[0]
         for (i in 1 until nums.size) {
             // 2 options to choose from:
             // - start a new contiguous subarray
             // - extend previous contiguous subarray with nums[i]
-            maxSumEndingHere = maxOf(nums[i], maxSumEndingHere + nums[i])
-            maxSum = maxOf(maxSum, maxSumEndingHere)
+            maxSumSoFar = maxOf(nums[i], maxSumSoFar + nums[i])
+            bestMaxSum = maxOf(bestMaxSum, maxSumSoFar)
         }
-        return maxSum
+        return bestMaxSum
     }
 }

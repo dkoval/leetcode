@@ -10,15 +10,16 @@ object MaximumProductSubarray {
 
     // Time complexity 0(N), space complexity: O(1)
     fun maxProduct(nums: IntArray): Int {
-        var maxProductOverall = nums[0]
-        var maxProductEndingHere = nums[0]
-        var minProductEndingHere = nums[0]
+        var maxProdSoFar = nums[0]
+        var minProdSoFar = nums[0]
+        var bestMaxProd = nums[0]
         for (i in 1 until nums.size) {
-            val tmp = maxProductEndingHere
-            maxProductEndingHere = maxOf(nums[i], tmp * nums[i], minProductEndingHere * nums[i])
-            minProductEndingHere = minOf(nums[i], tmp * nums[i], minProductEndingHere * nums[i])
-            maxProductOverall = maxOf(maxProductOverall, maxProductEndingHere)
+            val prod1 = maxProdSoFar * nums[i]
+            val prod2 = minProdSoFar * nums[i]
+            maxProdSoFar = maxOf(nums[i], prod1, prod2)
+            minProdSoFar = minOf(nums[i], prod1, prod2)
+            bestMaxProd = maxOf(bestMaxProd, maxProdSoFar)
         }
-        return maxProductOverall
+        return bestMaxProd
     }
 }
