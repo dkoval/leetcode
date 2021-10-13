@@ -12,10 +12,11 @@ import kotlin.math.max
  * - You may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).
  * - After you sell your stock, you cannot buy stock on next day. (ie, cooldown 1 day)
  */
-object BestTimeToBuyAndSellStockWithCooldown {
+object BestTimeToBuyAndSellStockWithCooldownDPBottomUp : BestTimeToBuyAndSellStockWithCooldown {
 
+    // O(N) time | O(1) space
     // Resource: https://www.youtube.com/watch?v=pkiJyNijgBw
-    fun maxProfit(prices: IntArray): Int {
+    override fun maxProfit(prices: IntArray): Int {
         if (prices.size <= 1) return 0
         var profitInState1 = 0
         var profitInState2 = -prices[0]
