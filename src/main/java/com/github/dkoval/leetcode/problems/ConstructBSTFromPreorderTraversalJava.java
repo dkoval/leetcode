@@ -17,7 +17,12 @@ public class ConstructBSTFromPreorderTraversalJava implements ConstructBSTFromPr
         if (start > end) {
             return null;
         }
+
         TreeNode root = new TreeNode(preorder[start]);
+
+        // find index i of the first element > preorder[start];
+        // elements of the left sub-tree lie in the range [start + 1 : i - 1], whereas
+        // elements of the right sub-tree lie in the range [i : end]
         int i = start;
         while (i <= end && preorder[i] <= preorder[start]) {
             i++;
