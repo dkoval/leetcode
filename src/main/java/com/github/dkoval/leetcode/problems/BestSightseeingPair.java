@@ -27,22 +27,22 @@ public interface BestSightseeingPair {
             int n = values.length;
 
             // by definition, score = values[i] + values[j] + i - j
-            // let's split values[] into 2 parts:
-            // xs1[i] = values[i] + i is a non-decreasing array
-            // xs2[i] = values[i] - i is a non-increasing
-            // maxScore = xs1[i] + xs2[j] IFF xs1[i] is the possible maximum value in xs1[], i < j
-            int[] xs1 = new int[n];
-            int[] xs2 = new int[n];
+            // let's split values[] into 2 parts xs[] and ys[], where
+            // xs[i] = values[i] + i, which is a non-decreasing array
+            // ys[i] = values[i] - i, which is a non-increasing array
+            // maxScore = xs[i] + ys[j] IFF xs[i] is the maximum value in xs[], i < j
+            int[] xs = new int[n];
+            int[] ys = new int[n];
             for (int i = 0; i < n; i++) {
-                xs1[i] = values[i] + i;
-                xs2[i] = values[i] - i;
+                xs[i] = values[i] + i;
+                ys[i] = values[i] - i;
             }
 
             int maxScore = 0;
-            int max1 = xs1[0];
+            int maxX = xs[0];
             for (int i = 1; i < n; i++) {
-                maxScore = Math.max(maxScore, max1 + xs2[i]);
-                max1 = Math.max(max1, xs1[i]);
+                maxScore = Math.max(maxScore, maxX + ys[i]);
+                maxX = Math.max(maxX, xs[i]);
             }
             return maxScore;
         }
