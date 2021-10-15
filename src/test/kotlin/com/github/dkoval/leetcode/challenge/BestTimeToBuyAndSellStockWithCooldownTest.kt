@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.BestTimeToBuyAndSellStockWithCooldown.BestTimeToBuyAndSellStockWithCooldownDPTopDown
+import com.github.dkoval.leetcode.challenge.BestTimeToBuyAndSellStockWithCooldown.BestTimeToBuyAndSellStockWithCooldownDPTopDownRemastered
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -35,6 +36,16 @@ internal class BestTimeToBuyAndSellStockWithCooldownTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the maximum profit`(prices: IntArray, expected: Int) {
             BestTimeToBuyAndSellStockWithCooldownDPTopDown().test(prices, expected)
+        }
+    }
+
+    @Nested
+    inner class BestTimeToBuyAndSellStockWithCooldownDPTopDownRemasteredTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the maximum profit`(prices: IntArray, expected: Int) {
+            BestTimeToBuyAndSellStockWithCooldownDPTopDownRemastered().test(prices, expected)
         }
     }
 
