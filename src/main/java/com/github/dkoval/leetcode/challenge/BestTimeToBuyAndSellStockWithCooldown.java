@@ -37,7 +37,7 @@ public interface BestTimeToBuyAndSellStockWithCooldown {
             }
         }
 
-        // O(N) time | O(1) space
+        // O(N) time | O(N) space
         // Resource: https://www.youtube.com/watch?v=I7j0F7AHpb8&t=6s
         @Override
         public int maxProfit(int[] prices) {
