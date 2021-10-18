@@ -1,15 +1,20 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.BestTimeToBuyAndSellStock3.BestTimeToBuyAndSellStock3DPBottomUp
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
 
 internal class BestTimeToBuyAndSellStock3Test {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
             // Buy on day 4 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
             // Then buy on day 7 (price = 1) and sell on day 8 (price = 4), profit = 4-1 = 3.
             Arguments.of(
@@ -31,10 +36,28 @@ internal class BestTimeToBuyAndSellStock3Test {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should find the maximum profit with at most 2 transactions allowed`(prices: IntArray, expected: Int) {
-        val actual = BestTimeToBuyAndSellStock3.maxProfit(prices)
+    @Nested
+    inner class BestTimeToBuyAndSellStock3DPBottomUpTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the maximum profit with at most 2 transactions allowed`(prices: IntArray, expected: Int) {
+            BestTimeToBuyAndSellStock3DPBottomUp().test(prices, expected)
+        }
+    }
+
+    @Nested
+    inner class BestTimeToBuyAndSellStock3InLinearTimeAndConstSpaceTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the maximum profit with at most 2 transactions allowed`(prices: IntArray, expected: Int) {
+            BestTimeToBuyAndSellStock3InLinearTimeAndConstSpace.test(prices, expected)
+        }
+    }
+
+    private fun BestTimeToBuyAndSellStock3.test(prices: IntArray, expected: Int) {
+        val actual = maxProfit(prices)
         assertEquals(expected, actual)
     }
 }

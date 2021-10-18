@@ -9,9 +9,10 @@ package com.github.dkoval.leetcode.challenge
  *
  * Note: You may not engage in multiple transactions at the same time (i.e., you must sell the stock before you buy again).
  */
-object BestTimeToBuyAndSellStock3 {
+object BestTimeToBuyAndSellStock3InLinearTimeAndConstSpace : BestTimeToBuyAndSellStock3 {
 
-    fun maxProfit(prices: IntArray): Int {
+    // O(N) time | O(1) space
+    override fun maxProfit(prices: IntArray): Int {
         var minPrice = Int.MAX_VALUE
         var maxProfitAfterFirstSell = 0
         var maxProfitAfterSecondBuy = Int.MIN_VALUE
