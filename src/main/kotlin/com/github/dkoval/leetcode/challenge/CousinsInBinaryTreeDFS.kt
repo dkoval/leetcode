@@ -10,9 +10,9 @@ import com.github.dkoval.leetcode.TreeNode
  * We are given the root of a binary tree with unique values, and the values x and y of two different nodes in the tree.
  * Return true if and only if the nodes corresponding to the values x and y are cousins.
  */
-object CousinsInBinaryTree {
+object CousinsInBinaryTreeDFS : CousinsInBinaryTree {
 
-    fun isCousins(root: TreeNode?, x: Int, y: Int): Boolean {
+    override fun isCousins(root: TreeNode?, x: Int, y: Int): Boolean {
         val xn = findNode(root, x)
         val yn = findNode(root, y)
         return xn != null && yn != null && xn.depth == yn.depth && xn.parent != yn.parent
