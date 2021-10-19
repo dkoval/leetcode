@@ -61,13 +61,13 @@ public class RangeSumQuery2DImmutable {
         }
 
         public int sumRegion(int row1, int col1, int row2, int col2) {
-            return getSum(sum, row2, col2)
-                    - getSum(sum, row2, col1 - 1)
-                    - getSum(sum, row1 - 1, col2)
-                    + getSum(sum, row1 - 1, col1 - 1);
+            return getSum(row2, col2)
+                    - getSum(row2, col1 - 1)
+                    - getSum(row1 - 1, col2)
+                    + getSum(row1 - 1, col1 - 1);
         }
 
-        private int getSum(int[][] sum, int row, int col) {
+        private int getSum(int row, int col) {
             if (row < 0 || row >= sum.length || col < 0 || col >= sum[0].length) {
                 return 0;
             }
