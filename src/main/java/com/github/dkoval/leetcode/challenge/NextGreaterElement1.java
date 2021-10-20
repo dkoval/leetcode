@@ -3,6 +3,7 @@ package com.github.dkoval.leetcode.challenge;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * <a href="https://leetcode.com/problems/next-greater-element-i/">Next Greater Element I</a>
@@ -30,6 +31,7 @@ public interface NextGreaterElement1 {
 
     int[] nextGreaterElement(int[] nums1, int[] nums2);
 
+    // O(N1 * N2) time | O(N2) space
     class NextGreaterElement1Naive implements NextGreaterElement1 {
 
         @Override
@@ -55,6 +57,47 @@ public interface NextGreaterElement1 {
                 }
             }
             return answer;
+        }
+    }
+
+    // Resource: https://www.youtube.com/watch?v=qm89fiM8rJM
+    // O(N1 + N2) time | O(N2) space
+    class NextGreaterElement1UsingMonoStack implements NextGreaterElement1 {
+
+        @Override
+        public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+            int n1 = nums1.length;
+            int n2 = nums2.length;
+
+
+            Stack<Integer> stack = new Stack<>();
+            // lookup[x] is the next element in nums2, which is > x
+            Map<Integer, Integer> lookup = new HashMap<>();
+
+            // O(N2) time
+            // Example: 4, 2, 6
+            //             ^
+            for (int i = n2 - 1; i >= 0; i--) {
+                while (!stack.isEmpty() && stack.peek() < nums2[i]) {
+                    stack.pop();
+                }
+
+                if (stack.isEmpty()) {
+                    lookup.put(nums2[i], -1);
+                    stack.push(nums2[i]);
+                    continue;
+                }
+
+                lookup.put(nums2[i], stack.peek());
+                stack.push(nums2[i]);
+            }
+
+            // O(N1) time
+            int[] ans = new int[n1];
+            for (int i = 0; i < n1; i++) {
+                ans[i] = lookup.get(nums1[i]);
+            }
+            return ans;
         }
     }
 }

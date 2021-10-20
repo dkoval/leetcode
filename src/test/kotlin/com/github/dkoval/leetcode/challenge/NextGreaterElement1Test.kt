@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.NextGreaterElement1.NextGreaterElement1Naive
+import com.github.dkoval.leetcode.challenge.NextGreaterElement1.NextGreaterElement1UsingMonoStack
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -39,6 +40,20 @@ internal class NextGreaterElement1Test {
             expected: IntArray
         ) {
             NextGreaterElement1Naive().test(nums1, nums2, expected)
+        }
+    }
+
+    @Nested
+    inner class NextGreaterElement1UsingMonoStackTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return first greater element that is to the right of x in the same array`(
+            nums1: IntArray,
+            nums2: IntArray,
+            expected: IntArray
+        ) {
+            NextGreaterElement1UsingMonoStack().test(nums1, nums2, expected)
         }
     }
 
