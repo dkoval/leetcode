@@ -1,5 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.problems.UniquePaths
+
 /**
  * [Unique Paths](https://leetcode.com/explore/challenge/card/june-leetcoding-challenge/543/week-5-june-29th-june-30th/3375/)
  *
@@ -12,9 +14,9 @@ package com.github.dkoval.leetcode.challenge
  *
  * [Above is a 7 x 3 grid. How many possible unique paths are there?](https://assets.leetcode.com/uploads/2018/10/22/robot_maze.png)
  */
-object UniquePaths {
+object UniquePathsDPBottomUp : UniquePaths {
 
-    fun uniquePaths(m: Int, n: Int): Int {
+    override fun uniquePaths(m: Int, n: Int): Int {
         val dp = Array(n) { IntArray(m) { 0 } }
         for (i in 0 until n) {
             for (j in 0 until m) {
