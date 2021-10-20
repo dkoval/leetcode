@@ -12,9 +12,9 @@ import java.util.*
  * - Input string may contain leading or trailing spaces. However, your reversed string should not contain leading or trailing spaces.
  * - You need to reduce multiple spaces between two words to a single space in the reversed string.
  */
-object ReverseWordsInString {
+object ReverseWordsInStringKt : ReverseWordsInString {
 
-    fun reverseWords(s: String): String {
+    override fun reverseWords(s: String): String {
         val result = LinkedList<String>()
         var i = 0
         while (i < s.length) {
