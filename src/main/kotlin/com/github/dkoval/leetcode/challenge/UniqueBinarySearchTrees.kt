@@ -12,6 +12,13 @@ object UniqueBinarySearchTrees {
         if (n < 2) {
             return 1
         }
+
+        // Let f'(x, y) is number of structurally unique BSTs with x nodes in the left and y nodes in the right subtrees respectively,
+        // then the total number of structurally unique BSTs with n nodes is
+        // f(n) = f'(0, n - 1) + f'(1, n - 2) + ... + f'(0, n - 1), where
+        // f'(k, n - k - 1) = f(k) * f(n - k - 1)
+
+        // dp[i] is the number of structurally unique BSTs with i nodes, i.e. f(i)
         val dp = IntArray(n + 1)
         dp[0] = 1
         dp[1] = 1
