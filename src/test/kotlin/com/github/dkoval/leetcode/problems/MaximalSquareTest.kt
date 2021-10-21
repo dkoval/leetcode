@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
 import com.github.dkoval.leetcode.problems.MaximalSquare.MaximalSquareDPBottomUp
+import com.github.dkoval.leetcode.problems.MaximalSquare.MaximalSquareDPTopDown
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -38,6 +39,19 @@ internal class MaximalSquareTest {
                 0
             )
         )
+    }
+
+    @Nested
+    inner class MaximalSquareDPTopDownTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the largest square containing only 1's and return its area`(
+            matrix: Array<CharArray>,
+            expected: Int
+        ) {
+            MaximalSquareDPTopDown().test(matrix, expected)
+        }
     }
 
     @Nested

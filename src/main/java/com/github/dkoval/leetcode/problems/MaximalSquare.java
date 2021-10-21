@@ -9,6 +9,59 @@ public interface MaximalSquare {
 
     int maximalSquare(char[][] matrix);
 
+    // Resource: https://www.youtube.com/watch?v=6X7Ha2PrDmM
+    // O(M * N) time | O(M * N) space
+    class MaximalSquareDPTopDown implements MaximalSquare {
+
+        private static class Answer {
+            int d = 0;
+
+            void suggest(int d) {
+                this.d = Math.max(this.d, d);
+            }
+
+            int get() {
+                return d * d;
+            }
+        }
+
+        @Override
+        public int maximalSquare(char[][] matrix) {
+            int m = matrix.length;
+            int n = matrix[0].length;
+
+            // memo[i][j] is the maximum area we can get at (i, j) as the top-left corner of a square
+            // solving the problem in reverse
+            Answer answer = new Answer();
+            maximalSquare(matrix, 0, 0, new Integer[m][n], answer);
+            return answer.get();
+        }
+
+        private int maximalSquare(char[][] matrix, int row, int col, Integer[][] memo, Answer answer) {
+            int m = matrix.length;
+            int n = matrix[0].length;
+
+            if (row >= m || col >= n) {
+                return 0;
+            }
+
+            if (memo[row][col] != null) {
+                return memo[row][col];
+            }
+
+            memo[row][col] = 0;
+            int down = maximalSquare(matrix, row + 1, col, memo, answer);
+            int right = maximalSquare(matrix, row, col + 1, memo, answer);
+            int diagonal = maximalSquare(matrix, row + 1, col + 1, memo, answer);
+
+            if (matrix[row][col] == '1') {
+                memo[row][col] = 1 + Math.min(Math.min(down, right), diagonal);
+                answer.suggest(memo[row][col]);
+            }
+            return memo[row][col];
+        }
+    }
+
     // Resource: https://www.youtube.com/watch?v=oPrpoVdRLtg
     // O(M * N) time | O(M * N) space
     class MaximalSquareDPBottomUp implements MaximalSquare {
