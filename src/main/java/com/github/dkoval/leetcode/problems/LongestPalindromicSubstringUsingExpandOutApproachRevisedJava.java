@@ -5,32 +5,48 @@ import org.jetbrains.annotations.NotNull;
 
 public class LongestPalindromicSubstringUsingExpandOutApproachRevisedJava implements LongestPalindromicSubstring {
 
+    private static class Boundaries {
+        final int start;
+        final int end;
+
+        static Boundaries takeLonger(Boundaries first, Boundaries second) {
+            return (first.end - first.start) > (second.end - second.start) ? first : second;
+        }
+
+        Boundaries(int start, int end) {
+            this.start = start;
+            this.end = end;
+        }
+
+        boolean isLongerThat(Boundaries that) {
+            return end - start > that.end - that.start;
+        }
+    }
+
     @NotNull
     @Override
     public String longestPalindrome(@NotNull String s) {
-        int start = 0, end = 0;
-        for (int i = 1; i < s.length(); i++) {
-            // For an odd palindrome, like "abxba", center at the given index "x"
-            int[] odd = palindromeExpandingFromCenter(s, i - 1, i + 1);
-            // For an even palindrome, like "abxxba", center between the given index and the previous one "x|x"
-            int[] even = palindromeExpandingFromCenter(s, i - 1, i);
-            int[] longer = (odd[1] - odd[0] > even[1] - even[0]) ? odd : even;
-            if (longer[1] - longer[0] > end - start) {
-                start = longer[0];
-                end = longer[1];
+        int n = s.length();
+        Boundaries ans = new Boundaries(0, 0);
+        for (int i = 1; i < n; i++) {
+            // For an odd palindrome, like "abxba", center is at the given index "x"
+            Boundaries odd = expandFromCenter(s, i - 1, i + 1);
+            // For an even palindrome, like "abxxba", center is between the given index and the previous one "x|x"
+            Boundaries even = expandFromCenter(s, i - 1, i);
+
+            Boundaries longer = Boundaries.takeLonger(odd, even);
+            if (longer.isLongerThat(ans)) {
+                ans = longer;
             }
         }
-        return s.substring(start, end + 1);
+        return s.substring(ans.start, ans.end + 1);
     }
 
-    private int[] palindromeExpandingFromCenter(String s, int leftIdx, int rightIdx) {
-        while (leftIdx >= 0 && rightIdx < s.length()) {
-            if (s.charAt(leftIdx) != s.charAt(rightIdx)) {
-                break;
-            }
-            leftIdx--;
-            rightIdx++;
+    private Boundaries expandFromCenter(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
         }
-        return new int[]{leftIdx + 1, rightIdx - 1};
+        return new Boundaries(left + 1, right - 1);
     }
 }
