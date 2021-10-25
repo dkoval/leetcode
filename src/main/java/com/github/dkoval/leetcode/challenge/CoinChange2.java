@@ -15,6 +15,7 @@ public interface CoinChange2 {
 
     int change(int amount, int[] coins);
 
+    // O(N * A) time | O(N * A) space, where N = len(coins), A - amount
     // Resource: https://www.youtube.com/watch?v=zAnD3AVufsI
     class CoinChange2TopDown implements CoinChange2 {
 
