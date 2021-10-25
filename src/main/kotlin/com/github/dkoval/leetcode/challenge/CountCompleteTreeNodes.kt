@@ -17,15 +17,15 @@ object CountCompleteTreeNodes {
         if (root == null) {
             return 0
         }
-        val lh = height(root) { it.left }
-        val rh = height(root) { it.right }
+        val lh = depth(root) { it.left }
+        val rh = depth(root) { it.right }
         if (lh == rh) {
             return (1 shl lh) - 1 // 2^h - 1
         }
         return 1 + countNodes(root.left) + countNodes(root.right)
     }
 
-    private fun height(root: TreeNode?, onNext: (TreeNode) -> TreeNode?): Int {
+    private fun depth(root: TreeNode?, onNext: (TreeNode) -> TreeNode?): Int {
         var height = 0
         var curr = root
         while (curr != null) {
