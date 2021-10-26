@@ -7,12 +7,12 @@ import com.github.dkoval.leetcode.TreeNode
  *
  * Invert a binary tree.
  */
-object InvertBinaryTree {
+object InvertBinaryTreeRecursive : InvertBinaryTree {
 
     // O(N) time | O(H) space
     // N - the number of nodes in the tree
     // H - height of the tree (H == N in the worst case)
-    fun invertTree(root: TreeNode?): TreeNode? {
+    override fun invertTree(root: TreeNode?): TreeNode? {
         if (root == null) {
             return null
         }
