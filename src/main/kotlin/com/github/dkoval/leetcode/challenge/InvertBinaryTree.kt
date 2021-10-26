@@ -9,12 +9,16 @@ import com.github.dkoval.leetcode.TreeNode
  */
 object InvertBinaryTree {
 
+    // O(N) time | O(H) space
+    // N - the number of nodes in the tree
+    // H - height of the tree (H == N in the worst case)
     fun invertTree(root: TreeNode?): TreeNode? {
         if (root == null) {
             return null
         }
         val left = invertTree(root.left)
         val right = invertTree(root.right)
+
         root.left = right
         root.right = left
         return root
