@@ -15,32 +15,58 @@ package com.github.dkoval.leetcode.challenge;
  *  <li>1 <= target <= 1000</li>
  * </ul>
  */
-public class CombinationSum4 {
+public interface CombinationSum4 {
 
-    public int combinationSum4(int[] nums, int target) {
-        return combinationSum4(nums, target, new Integer[target + 1]);
+    int combinationSum4(int[] nums, int target);
+
+    class CombinationSum4DPTopDown implements CombinationSum4 {
+
+        @Override
+        public int combinationSum4(int[] nums, int target) {
+            return combinationSum4(nums, target, new Integer[target + 1]);
+        }
+
+        private int combinationSum4(int[] nums, int target, Integer[] memo) {
+            // base case
+            if (target == 0) {
+                return 1;
+            }
+
+            // already solved?
+            if (memo[target] != null) {
+                return memo[target];
+            }
+
+            int count = 0;
+            for (int num : nums) {
+                if (num <= target) {
+                    count += combinationSum4(nums, target - num, memo);
+                }
+            }
+
+            // cache solution to a smaller sub-problem
+            memo[target] = count;
+            return count;
+        }
     }
 
-    private int combinationSum4(int[] nums, int target, Integer[] memo) {
-        // base case
-        if (target == 0) {
-            return 1;
-        }
+    class CombinationSumDPBottomUp implements CombinationSum4 {
 
-        // already solved?
-        if (memo[target] != null) {
-            return memo[target];
-        }
+        @Override
+        public int combinationSum4(int[] nums, int target) {
+            // dp[i] - number of possible combinations that add up to i
+            int[] dp = new int[target + 1];
+            dp[0] = 1;
 
-        int count = 0;
-        for (int num : nums) {
-            if (num <= target) {
-                count += combinationSum4(nums, target - num, memo);
+            for (int sum = 1; sum <= target; sum++) {
+                for (int x : nums) {
+                    if (x > sum) {
+                        continue;
+                    }
+                    dp[sum] += dp[sum - x];
+                }
             }
+            return dp[target];
         }
-
-        // cache solution to a smaller sub-problem
-        memo[target] = count;
-        return count;
     }
 }
