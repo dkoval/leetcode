@@ -1,8 +1,5 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * <a href="https://leetcode.com/explore/challenge/card/april-leetcoding-challenge-2021/595/week-3-april-15th-april-21st/3713/">Combination Sum IV</a>
  * <p>
@@ -21,22 +18,29 @@ import java.util.Map;
 public class CombinationSum4 {
 
     public int combinationSum4(int[] nums, int target) {
-        Map<Integer, Integer> memo = new HashMap<>();
-        memo.put(0, 1);
-        return combinationSum4(nums, target, memo);
+        return combinationSum4(nums, target, new Integer[target + 1]);
     }
 
-    private int combinationSum4(int[] nums, int target, Map<Integer, Integer> memo) {
-        if (memo.containsKey(target)) {
-            return memo.get(target);
+    private int combinationSum4(int[] nums, int target, Integer[] memo) {
+        // base case
+        if (target == 0) {
+            return 1;
         }
+
+        // already solved?
+        if (memo[target] != null) {
+            return memo[target];
+        }
+
         int count = 0;
         for (int num : nums) {
             if (num <= target) {
                 count += combinationSum4(nums, target - num, memo);
             }
         }
-        memo.put(target, count);
+
+        // cache solution to a smaller sub-problem
+        memo[target] = count;
         return count;
     }
 }
