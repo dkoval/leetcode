@@ -8,7 +8,7 @@ package com.github.dkoval.leetcode.challenge
  *
  * Here, we will use the integers 0, 1, and 2 to represent the color red, white, and blue respectively.
  */
-object SortColors {
+object SortColorsUsingDutchFlagAlgorithm : SortColors {
 
     enum class Color(val code: Int) {
         RED(0),
@@ -16,7 +16,7 @@ object SortColors {
         BLUE(2)
     }
 
-    fun sortColors(nums: IntArray) {
+    override fun sortColors(nums: IntArray) {
         var red = 0 // read area
         var curr = 0 // white area
         var blue = nums.lastIndex // blue area
