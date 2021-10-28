@@ -16,17 +16,17 @@ package com.github.dkoval.leetcode.challenge
 class FirstBadVersion(private val isBadVersion: (Int) -> Boolean) {
 
     fun firstBadVersion(n: Int) : Int {
-        var lo = 1
-        var hi = n
-        while (lo < hi) {
-            val mid = lo + (hi - lo) / 2
-            val badVersion = isBadVersion(mid)
-            if (!badVersion) {
-                lo = mid + 1
+        var l = 1
+        var r = n
+        while (l < r) {
+            val mid = l + (r - l) / 2
+            val bad = isBadVersion(mid)
+            if (bad) {
+                r = mid - 1
             } else {
-                hi = mid
+                l = mid + 1
             }
         }
-        return lo
+        return l
     }
 }

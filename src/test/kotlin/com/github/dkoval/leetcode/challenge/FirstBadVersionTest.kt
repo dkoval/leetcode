@@ -11,6 +11,7 @@ internal class FirstBadVersionTest {
         @JvmStatic
         fun input(): List<Arguments> = listOf(
             Arguments.of(5, 4),
+            Arguments.of(1, 1),
             Arguments.of(10, 4)
         )
     }
