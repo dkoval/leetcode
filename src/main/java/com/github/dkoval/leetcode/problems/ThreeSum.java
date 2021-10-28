@@ -27,16 +27,19 @@ public class ThreeSum {
             }
             // fix nums[i] and find solution to 2sum problem: nums[j] + nums[k] = -nums[i];
             int target = -nums[i];
-            // binary search on nums[i + 1: n - 1] subarray since nums[] is sorted
+            // nums[] is sorted, hence binary search on nums[i + 1 : n - 1]
             int l = i + 1;
             int r = n - 1;
             while (l < r) {
                 int sum = nums[l] + nums[r];
                 if (sum > target) {
+                    // decrementing r will reduce the triplet sum
                     r--;
                 } else if (sum < target) {
+                    // incrementing l will increase the triplet sum
                     l++;
                 } else {
+                    // don't break the loop here since we may find yet another triplet in [l : r] range
                     ans.add(Arrays.asList(nums[i], nums[l], nums[r]));
                     l++;
                     r--;
