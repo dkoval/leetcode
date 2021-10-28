@@ -10,25 +10,19 @@ package com.github.dkoval.leetcode.challenge
 object SearchInsertPosition {
 
     fun searchInsert(nums: IntArray, target: Int): Int {
-        if (target < nums[0]) {
-            return 0
-        }
-        if (target > nums.last()) {
-            return nums.size
-        }
         var l = 0
         var r = nums.lastIndex
         while (l <= r) {
-            val m = l + (r - l) / 2
+            val mid = l + (r - l) / 2
             when {
-                target > nums[m] -> {
-                    l = m + 1
+                target > nums[mid] -> {
+                    l = mid + 1
                 }
-                target < nums[m] -> {
-                    r = m - 1
+                target < nums[mid] -> {
+                    r = mid - 1
                 }
                 else -> {
-                    return m
+                    return mid
                 }
             }
         }
