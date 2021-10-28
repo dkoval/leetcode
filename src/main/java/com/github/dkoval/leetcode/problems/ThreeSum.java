@@ -15,30 +15,41 @@ import java.util.List;
 public class ThreeSum {
 
     public List<List<Integer>> threeSum(int[] nums) {
+        int n = nums.length;
         Arrays.sort(nums);
-        List<List<Integer>> result = new ArrayList<>();
-        for (int i = 0; i < nums.length - 1; i++) {
+
+        List<List<Integer>> ans = new ArrayList<>();
+        // need at least 3 nums
+        for (int i = 0; i <= n - 3; i++) {
             // skip over duplicates
-            if (i > 0 && nums[i] == nums[i - 1]) continue;
-            // fix nums[i] and find solution to 2 sum problem: nums[j] + nums[k] = -nums[i]
-            int targetSum = -nums[i];
-            int lo = i + 1, hi = nums.length - 1;
-            while (lo < hi) {
-                int sum = nums[lo] + nums[hi];
-                if (sum > targetSum) {
-                    hi--;
-                } else if (sum < targetSum) {
-                    lo++;
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            // fix nums[i] and find solution to 2sum problem: nums[j] + nums[k] = -nums[i];
+            int target = -nums[i];
+            // binary search on nums[i + 1: n - 1] subarray since nums[] is sorted
+            int l = i + 1;
+            int r = n - 1;
+            while (l < r) {
+                int sum = nums[l] + nums[r];
+                if (sum > target) {
+                    r--;
+                } else if (sum < target) {
+                    l++;
                 } else {
-                    result.add(Arrays.asList(nums[i], nums[lo], nums[hi]));
-                    // skip over duplicates
-                    while (lo < hi && nums[lo] == nums[lo + 1]) lo++;
-                    while (lo < hi && nums[hi] == nums[hi - 1]) hi--;
-                    lo++;
-                    hi--;
+                    ans.add(Arrays.asList(nums[i], nums[l], nums[r]));
+                    l++;
+                    r--;
+                    // skip over duplicates from both sides
+                    while (l < r && nums[l] == nums[l - 1]) {
+                        l++;
+                    }
+                    while (r > l && nums[r] == nums[r + 1]) {
+                        r--;
+                    }
                 }
             }
         }
-        return result;
+        return ans;
     }
 }
