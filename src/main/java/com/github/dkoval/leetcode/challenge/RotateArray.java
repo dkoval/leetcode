@@ -1,12 +1,12 @@
 package com.github.dkoval.leetcode.challenge;
 
-public abstract class RotateArray {
+public interface RotateArray {
 
-    public abstract void rotate(int[] nums, int k);
+    void rotate(int[] nums, int k);
 
     // Time complexity: O(N)
     // Space complexity: O(N)
-    public static class RotateArrayExtraSpace extends RotateArray {
+    class RotateArrayExtraSpace implements RotateArray {
 
         @Override
         public void rotate(int[] nums, int k) {
@@ -27,25 +27,25 @@ public abstract class RotateArray {
 
     // Time complexity: O(N)
     // Space complexity: O(1)
-    public static class RotateArrayInPlace extends RotateArray {
+    class RotateArrayInPlace implements RotateArray {
 
         @Override
         public void rotate(int[] nums, int k) {
-            k %= nums.length;
-            if (k == 0 || nums.length == 1) return;
-            reverse(nums, 0, nums.length);
-            reverse(nums, 0, k);
-            reverse(nums, k, nums.length - k);
+            int n = nums.length;
+            k %= n;
+            reverse(nums, 0, n - 1);
+            reverse(nums, 0, k - 1);
+            reverse(nums, k, n - 1);
         }
 
-        private void reverse(int[] nums, int start, int length) {
-            int i = start, j = start + length - 1;
-            while (i < j) {
-                int tmp = nums[i];
-                nums[i] = nums[j];
-                nums[j] = tmp;
-                i++;
-                j--;
+        private void reverse(int[] nums, int start, int end) {
+            int l = start, r = end;
+            while (l < r) {
+                int tmp = nums[l];
+                nums[l] = nums[r];
+                nums[r] = tmp;
+                l++;
+                r--;
             }
         }
     }
