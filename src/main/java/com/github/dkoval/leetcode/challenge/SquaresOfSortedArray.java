@@ -7,11 +7,12 @@ import java.util.Arrays;
  * <p>
  * Given an integer array nums sorted in non-decreasing order, return an array of the squares of each number sorted in non-decreasing order.
  */
-public abstract class SquaresOfSortedArray {
+public interface SquaresOfSortedArray {
 
-    public abstract int[] sortedSquares(int[] nums);
+    int[] sortedSquares(int[] nums);
 
-    public static class SquaresOfSortedArrayUsingSorting extends SquaresOfSortedArray {
+    // O(N*logN) time | O(1) space
+    class SquaresOfSortedArrayUsingSorting implements SquaresOfSortedArray {
 
         @Override
         public int[] sortedSquares(int[] nums) {
@@ -20,6 +21,32 @@ public abstract class SquaresOfSortedArray {
             }
             Arrays.sort(nums);
             return nums;
+        }
+    }
+
+    // O(N) time | O(N) space
+    class SquaresOfSortedArrayUsingTwoPointers implements SquaresOfSortedArray {
+
+        @Override
+        public int[] sortedSquares(int[] nums) {
+            int n = nums.length;
+            int[] ans = new int[n];
+            int l = 0;
+            int r = n - 1;
+            int i = n - 1;
+            while (l <= r) {
+                int x = Math.abs(nums[l]);
+                int y = Math.abs(nums[r]);
+                if (x < y) {
+                    ans[i] = y * y;
+                    r--;
+                } else {
+                    ans[i] = x * x;
+                    l++;
+                }
+                i--;
+            }
+            return ans;
         }
     }
 }
