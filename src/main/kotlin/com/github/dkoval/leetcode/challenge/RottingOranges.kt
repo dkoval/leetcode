@@ -15,57 +15,55 @@ package com.github.dkoval.leetcode.challenge
  */
 object RottingOranges {
 
-    private data class Cell(val row: Int, val col: Int) {
+    private val directions = arrayOf(-1 to 0, 1 to 0, 0 to -1, 0 to 1)
 
-        fun adjacent(delta: Pair<Delta, Delta>): Cell = adjacent(delta.first, delta.second)
-
-        fun adjacent(rowDelta: Delta, colDelta: Delta): Cell = Cell(row + rowDelta.value, col + colDelta.value)
-
-        enum class Delta(val value: Int) {
-            ZERO(0),
-            PLUS_ONE(1),
-            MINUS_ONE(-1)
-        }
-    }
+    private data class Cell(val row: Int, val col: Int)
 
     fun orangesRotting(grid: Array<IntArray>): Int {
+        val m = grid.size
+        val n = grid[0].size
+
         val fresh = mutableSetOf<Cell>()
-        var rotten = mutableSetOf<Cell>()
-        for (i in grid.indices) {
-            for (j in grid[i].indices) {
-                if (grid[i][j] == 1) {
-                    fresh.add(Cell(i, j))
-                } else if (grid[i][j] == 2) {
-                    rotten.add(Cell(i, j))
+        val rotten = mutableSetOf<Cell>()
+
+        for (row in 0 until m) {
+            for (col in 0 until n) {
+                if (grid[row][col] == 1) {
+                    fresh.add(Cell(row, col))
+                }
+                if (grid[row][col] == 2) {
+                    rotten.add(Cell(row, col))
                 }
             }
         }
 
         var numMinutes = 0
-        // to be able to move left, right, up, bottom
-        val deltas = arrayOf(
-            Cell.Delta.ZERO to Cell.Delta.MINUS_ONE,
-            Cell.Delta.ZERO to Cell.Delta.PLUS_ONE,
-            Cell.Delta.MINUS_ONE to Cell.Delta.ZERO,
-            Cell.Delta.PLUS_ONE to Cell.Delta.ZERO
-        )
-
-        while (fresh.size > 0) {
-            // try to infect 4-directionally adjacent fresh oranges
+        while (fresh.isNotEmpty()) {
             val infected = mutableSetOf<Cell>()
-            for (currCell in rotten) {
-                for (delta in deltas) {
-                    val nextCell = currCell.adjacent(delta)
-                    if (fresh.contains(nextCell)) {
-                        fresh.remove(nextCell)
-                        infected.add(nextCell)
+            for (cell in rotten) {
+                // try to infect 4-directionally adjacent fresh oranges
+                for ((dx, dy) in directions) {
+                    val nextRow = cell.row + dx
+                    val nextCol = cell.col + dy
+
+                    if (nextRow !in 0 until m || nextCol !in 0 until n) {
+                        continue
+                    }
+
+                    val target = Cell(nextRow, nextCol)
+                    if (target in fresh) {
+                        fresh -= target
+                        infected += target
                     }
                 }
             }
+
             if (infected.isEmpty()) {
                 return -1
             }
-            rotten = infected
+
+            rotten.clear()
+            rotten += infected
             numMinutes++
         }
         return numMinutes
