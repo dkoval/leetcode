@@ -1,6 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -44,6 +44,18 @@ internal class FlattenMultilevelDoublyLinkedListTest {
                     }
                 },
                 listOf(1, 2, 3, 7, 8, 11, 12, 9, 10, 4, 5, 6)
+            ),
+            Arguments.of(
+                null,
+                listOf<Int>()
+            ),
+            Arguments.of(
+                Node(1).also { n1 ->
+                    n1.child = Node(2).also { n2 ->
+                        n2.child = Node(3)
+                    }
+                },
+                listOf(1, 2, 3)
             )
         )
     }
@@ -55,6 +67,6 @@ internal class FlattenMultilevelDoublyLinkedListTest {
         expected: List<Int>
     ) {
         val actual = FlattenMultilevelDoublyLinkedList.flatten(root)
-        Assertions.assertEquals(expected, actual.toList())
+        assertEquals(expected, actual.toList())
     }
 }
