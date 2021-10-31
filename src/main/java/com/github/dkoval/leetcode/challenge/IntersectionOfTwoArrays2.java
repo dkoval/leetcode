@@ -23,8 +23,11 @@ public interface IntersectionOfTwoArrays2 {
 
         @Override
         public int[] intersect(int[] nums1, int[] nums2) {
-            Map<Integer, Integer> counts1 = counts(nums1.length < nums2.length ? nums1 : nums2);
-            Map<Integer, Integer> counts2 = counts(nums2.length > nums1.length ? nums2 : nums1);
+            int n1 = nums1.length;
+            int n2 = nums2.length;
+
+            Map<Integer, Integer> counts1 = counts(n1 < n2 ? nums1 : nums2);
+            Map<Integer, Integer> counts2 = counts(n2 > n1 ? nums2 : nums1);
 
             List<Integer> result = new ArrayList<>();
             for (int x : counts1.keySet()) {
@@ -47,12 +50,13 @@ public interface IntersectionOfTwoArrays2 {
         }
 
         private int[] toPrimitiveArray(List<Integer> nums) {
-            int[] result = new int[nums.size()];
+            int n = nums.size();
+            int[] arr = new int[n];
             int i = 0;
             for (int x : nums) {
-                result[i++] = x;
+                arr[i++] = x;
             }
-            return result;
+            return arr;
         }
     }
 
@@ -61,51 +65,36 @@ public interface IntersectionOfTwoArrays2 {
 
         @Override
         public int[] intersect(int[] nums1, int[] nums2) {
+            int n1 = nums1.length;
+            int n2 = nums2.length;
+
             Arrays.sort(nums1);
             Arrays.sort(nums2);
 
             int i = 0;
             int j = 0;
             List<Integer> result = new ArrayList<>();
-            while (i < nums1.length && j < nums2.length) {
+            while (i < n1 && j < n2) {
                 if (nums1[i] < nums2[j]) {
-                    int t1 = times(nums1, i);
-                    i += t1;
+                    i++;
                 } else if (nums1[i] > nums2[j]) {
-                    int t2 = times(nums2, j);
-                    j += t2;
+                    j++;
                 } else {
-                    int t1 = times(nums1, i);
-                    int t2 = times(nums2, j);
-                    int numCopies = Math.min(t1, t2);
-                    while (numCopies-- > 0) {
-                        result.add(nums1[i]);
-                    }
-                    i += t1;
-                    j += t2;
+                    result.add(nums1[i]);
+                    i++;
+                    j++;
                 }
             }
             return toPrimitiveArray(result);
         }
 
-        // Number of times nums[idx] appears starting from index idx
-        private int times(int[] nums, int idx) {
-            int times = 1;
-            int i = idx + 1;
-            while (i < nums.length && nums[i] == nums[i - 1]) {
-                times++;
-                i++;
-            }
-            return times;
-        }
-
         private int[] toPrimitiveArray(List<Integer> nums) {
-            int[] result = new int[nums.size()];
+            int[] arr = new int[nums.size()];
             int i = 0;
             for (int x : nums) {
-                result[i++] = x;
+                arr[i++] = x;
             }
-            return result;
+            return arr;
         }
     }
 }
