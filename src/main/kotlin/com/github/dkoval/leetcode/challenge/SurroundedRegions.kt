@@ -12,45 +12,68 @@ package com.github.dkoval.leetcode.challenge
  */
 object SurroundedRegions {
 
+    val directions = arrayOf(-1 to 0, 1 to 0, 0 to -1, 0 to 1)
+
     fun solve(board: Array<CharArray>) {
-        // if number of rows/columns is [0:2], do nothing
-        if (board.size <= 2 || board[0].size <= 2) {
+        val m = board.size
+        val n = board[0].size
+
+        // mark all 'O' cells connected to 'O' cells on borders - those cells form regions that can't be surrounded by 'X'
+        for (col in 0 until n) {
+            // 1st row
+            if (board[0][col] == 'O') {
+                dfs(board, 0, col)
+            }
+            // last row
+            if (board[m - 1][col] == 'O') {
+                dfs(board, m - 1, col)
+            }
+        }
+
+        for (row in 0 until m) {
+            // 1st column
+            if (board[row][0] == 'O') {
+                dfs(board, row, 0)
+            }
+            // last column
+            if (board[row][n - 1] == 'O') {
+                dfs(board, row, n - 1)
+            }
+        }
+
+        // finally, turn 'O' -> 'X' - those cells form regions surrounded by 'X'
+        for (row in 0 until m) {
+            for (col in 0 until n) {
+                if (board[row][col] == 'O') {
+                    board[row][col] = 'X'
+                }
+                // cleanup visited cells
+                if (board[row][col] == '#') {
+                    board[row][col] = 'O'
+                }
+            }
+        }
+    }
+
+    private fun dfs(board: Array<CharArray>, row: Int, col: Int) {
+        if (board[row][col] != 'O') {
             return
         }
-        // mark 'O' cells connected to the 'O' cells on the borders
-        for (i in board.indices) {
-            for (j in board[0].indices) {
-                if (board[i][j] == 'O' && board.cellIsOnBorder(i, j)) {
-                    dfs(board, i, j)
-                }
+
+        // mark current cell as visited
+        board[row][col] = '#'
+
+        // run DFS for 4-directionally adjacent cells
+        for ((dx, dy) in directions) {
+            val nextRow = row + dx
+            val nextCol = col + dy
+
+            // boundaries check
+            if (nextRow !in board.indices || nextCol !in board[0].indices) {
+                continue
             }
-        }
-        // convert the board
-        for (i in board.indices) {
-            for (j in board[0].indices) {
-                if (board[i][j] == 'O') {
-                    board[i][j] = 'X'
-                }
-                if (board[i][j] == '$') {
-                    board[i][j] = 'O'
-                }
-            }
+
+            dfs(board, nextRow, nextCol)
         }
     }
-
-    private fun dfs(board: Array<CharArray>, i: Int, j: Int) {
-        if (board.cellIsWithinBounds(i, j) && board[i][j] == 'O') {
-            board[i][j] = '$' // replace 'O' with an alternative character
-            dfs(board, i - 1, j) // go ↑
-            dfs(board, i, j + 1) // go →
-            dfs(board, i + 1, j) // go ↓
-            dfs(board, i, j - 1) // go ←
-        }
-    }
-
-    private fun Array<CharArray>.cellIsOnBorder(i: Int, j: Int): Boolean =
-        i == 0 || i == this.lastIndex || j == 0 || j == this[0].lastIndex
-
-    private fun Array<CharArray>.cellIsWithinBounds(i: Int, j: Int): Boolean =
-        i in this.indices && j in this[0].indices
 }
