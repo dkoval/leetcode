@@ -16,13 +16,17 @@ public class PascalTriangle {
     public List<List<Integer>> generate(int numRows) {
         List<List<Integer>> rows = new ArrayList<>();
         rows.add(Collections.singletonList(1));
+
         for (int rowIdx = 1; rowIdx < numRows; rowIdx++) {
-            List<Integer> prevRow = rows.get(rowIdx - 1);
             List<Integer> currRow = new ArrayList<>();
             currRow.add(1);
-            for (int i = 1; i < rowIdx; i++) {
-                currRow.add(prevRow.get(i - 1) + prevRow.get(i));
+
+            List<Integer> prevRow = rows.get(rowIdx - 1);
+            for (int i = 1; i < prevRow.size(); i++) {
+                int x = prevRow.get(i - 1) + prevRow.get(i);
+                currRow.add(x);
             }
+
             currRow.add(1);
             rows.add(currRow);
         }
