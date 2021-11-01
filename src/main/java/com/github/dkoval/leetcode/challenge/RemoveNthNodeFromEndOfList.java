@@ -18,18 +18,24 @@ import com.github.dkoval.leetcode.ListNode;
  */
 public class RemoveNthNodeFromEndOfList {
 
+    // O(N) time | O(1) space
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        ListNode prev = null, slow = head, fast = head;
-        // advance `fast` pointer by n steps
+        // advance `fast` pointer by n steps forward
+        ListNode fast = head;
         while (n-- > 0) {
             fast = fast.next;
         }
-        // now, keep on shifting `slow` and `fast `pointers until `fast` reaches the end of the list
+
+        // now, keep on shifting `slow` and `fast `pointers until `fast` reaches the end of the list;
+        // at the time `fast` reaches the end of the list, `slow` will point at the n-th node from the end of the list
+        ListNode slow = head;
+        ListNode prev = null;
         while (fast != null) {
             prev = slow;
             slow = slow.next;
             fast = fast.next;
         }
+
         // finally, remove n-th node from the end of the list
         if (prev == null) {
             // corner case: 1st node of the list is to be removed
