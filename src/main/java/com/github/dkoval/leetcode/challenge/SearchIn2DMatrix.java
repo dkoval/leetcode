@@ -11,6 +11,7 @@ package com.github.dkoval.leetcode.challenge;
  */
 public class SearchIn2DMatrix {
 
+    // O(logM + logN) time | O(1) space
     public boolean searchMatrix(int[][] matrix, int target) {
         if (matrix.length == 0) return false;
         int row = findRowToSearchIn(matrix, target);
