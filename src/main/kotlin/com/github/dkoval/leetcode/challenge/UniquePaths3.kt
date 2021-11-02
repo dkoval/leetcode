@@ -13,6 +13,8 @@ package com.github.dkoval.leetcode.challenge
  */
 object UniquePaths3 {
 
+    private val directions = arrayOf(-1 to 0, 1 to 0, 0 to -1, 0 to 1)
+
     // Resource: https://www.youtube.com/watch?v=XNKCkX_tHhM
     fun uniquePathsIII(grid: Array<IntArray>): Int {
         var startRow = 0
@@ -29,29 +31,36 @@ object UniquePaths3 {
                 }
             }
         }
+
         return dfs(grid, startRow, startCol, numZeros)
     }
 
     private fun dfs(grid: Array<IntArray>, row: Int, col: Int, numZeros: Int): Int {
-        if (row < 0 || row >= grid.size ||
-            col < 0 || col >= grid[0].size ||
-            grid[row][col] == -1
-        ) {
-            // grid[row][col] == -1 means that the cell is
-            // either an obstacle or already visited
+        // boundaries check
+        if (row < 0 || row >= grid.size || col < 0 || col >= grid[0].size) {
             return 0
         }
-        if (grid[row][col] == 2) {
-            // reached ending cell
-            return if (numZeros == -1) return 1 else 0
+
+        // either an obstacle or already visited square?
+        if (grid[row][col] == -1) {
+            return 0
         }
-        // mark 0-cell as visited
+
+        // reached ending square
+        if (grid[row][col] == 2) {
+            // has every non-obstacle square been walked over?
+            return if (numZeros == -1) 1 else 0
+        }
+
+        // mark non-obstacle square as visited
         grid[row][col] = -1
+
         // consider all possible 4 directions
-        val numPaths = dfs(grid, row + 1, col, numZeros - 1) +
-                dfs(grid, row, col + 1, numZeros - 1) +
-                dfs(grid, row - 1, col, numZeros - 1) +
-                dfs(grid, row, col - 1, numZeros - 1)
+        var numPaths = 0
+        for ((dx, dy) in directions) {
+            numPaths += dfs(grid, row + dx, col + dy, numZeros - 1)
+        }
+
         // backtrack to explore all remaining possible paths
         grid[row][col] = 0
         return numPaths
