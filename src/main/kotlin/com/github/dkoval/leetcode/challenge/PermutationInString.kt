@@ -10,7 +10,7 @@ object PermutationInString {
 
     private const val ALPHABET_SIZE = 26
 
-    // O(l1 + l1 * (l2 - l1)) time | O(1) space, only counts1[] and counts2[] of size 26 are used
+    // O(l1 + 26 * (l2 - l1)) time | O(1) space - only counts1[] and counts2[] of size 26 are used
     fun checkInclusion(s1: String, s2: String): Boolean {
         val l1 = s1.length
         val l2 = s2.length
@@ -19,23 +19,28 @@ object PermutationInString {
             return false
         }
 
-        val counts1 = counts(s1, 0, l1 - 1)
-        // sliding window of size l1
+        // frequency table of string s1
+        val counts1 = IntArray(ALPHABET_SIZE)
+        // frequency table of a window of length l1 in string s2
+        val counts2 = IntArray(ALPHABET_SIZE)
+        for (i in 0 until l1) {
+            counts1[s1[i] - 'a']++
+            counts2[s2[i] - 'a']++
+        }
+
+        // sliding window: consider all windows of length l1 in string s2
         for (start in 0..(l2 - l1)) {
-            val counts2 = counts(s2, start, start + l1 - 1)
+            if (start > 0) {
+                // remove starting character of the previous windows from the frequency table of string s2
+                counts2[s2[start - 1] - 'a']--
+                // add ending character of the current window to the frequency table of string s2
+                counts2[s2[start + l1 - 1] - 'a']++
+            }
             if (matches(counts1, counts2)) {
                 return true
             }
         }
         return false
-    }
-
-    private fun counts(s: String, start: Int, end: Int): IntArray {
-        val counts = IntArray(26)
-        for (i in start..end) {
-            counts[s[i] - 'a']++
-        }
-        return counts
     }
 
     private fun matches(counts1: IntArray, counts2: IntArray): Boolean {
