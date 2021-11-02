@@ -8,26 +8,42 @@ package com.github.dkoval.leetcode.challenge
  */
 object PermutationInString {
 
+    private const val ALPHABET_SIZE = 26
+
+    // O(l1 + l1 * (l2 - l1)) time | O(1) space, only counts1[] and counts2[] of size 26 are used
     fun checkInclusion(s1: String, s2: String): Boolean {
-        for (i in 0..s2.length - s1.length) {
-            val candidate = s2.substring(i, i + s1.length)
-            if (arePermutations(candidate, s1)) {
+        val l1 = s1.length
+        val l2 = s2.length
+
+        if (l1 > l2) {
+            return false
+        }
+
+        val counts1 = counts(s1, 0, l1 - 1)
+        // sliding window of size l1
+        for (start in 0..(l2 - l1)) {
+            val counts2 = counts(s2, start, start + l1 - 1)
+            if (matches(counts1, counts2)) {
                 return true
             }
         }
         return false
     }
 
-    private fun arePermutations(str1: String, str2: String): Boolean {
-        if (str1.length != str2.length) {
-            return false
+    private fun counts(s: String, start: Int, end: Int): IntArray {
+        val counts = IntArray(26)
+        for (i in start..end) {
+            counts[s[i] - 'a']++
         }
-        // strings consists of lowercase English letters only
-        val frequencies = IntArray(26)
-        for (i in str1.indices) {
-            frequencies[str1[i] - 'a']++
-            frequencies[str2[i] - 'a']--
+        return counts
+    }
+
+    private fun matches(counts1: IntArray, counts2: IntArray): Boolean {
+        for (i in 0 until ALPHABET_SIZE) {
+            if (counts1[i] != counts2[i]) {
+                return false
+            }
         }
-        return frequencies.all { frequency -> frequency == 0 }
+        return true
     }
 }
