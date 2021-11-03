@@ -11,28 +11,33 @@ package com.github.dkoval.leetcode.challenge
  */
 object FloodFill {
 
+    private val directions = arrayOf(-1 to 0, 1 to 0, 0 to -1, 0 to 1)
+
     fun floodFill(image: Array<IntArray>, sr: Int, sc: Int, newColor: Int): Array<IntArray> {
-        val startingPixelColor = image[sr][sc]
-        if (startingPixelColor != newColor) {
-            doFloodFill(image, sr, sc, startingPixelColor, newColor)
+        val origColor = image[sr][sc]
+        if (origColor != newColor) {
+            dfs(image, sr, sc, origColor, newColor)
         }
         return image
     }
 
-    private fun doFloodFill(image: Array<IntArray>, row: Int, col: Int, startingPixelColor: Int, newColor: Int) {
-        fun isWithinBoundaries(row: Int, col: Int): Boolean =
-            row >= 0 && row < image.size && col >= 0 && col < image[0].size
+    private fun dfs(image: Array<IntArray>, row: Int, col: Int, origColor: Int, newColor: Int) {
+        // boundaries check
+        if (row !in image.indices || col !in image[0].indices) {
+            return
+        }
 
-        if (!isWithinBoundaries(row, col)) {
+        // skip over irrelevant pixels
+        if (image[row][col] != origColor) {
             return
         }
-        if (image[row][col] != startingPixelColor) {
-            return
-        }
+
+        // change the pixel's color
         image[row][col] = newColor
-        doFloodFill(image, row - 1, col, startingPixelColor, newColor) // go up
-        doFloodFill(image, row, col - 1, startingPixelColor, newColor) // go left
-        doFloodFill(image, row, col + 1, startingPixelColor, newColor) // go right
-        doFloodFill(image, row + 1, col, startingPixelColor, newColor) // go down
+
+        // explore 4-directionally adjacent pixels
+        for ((dx, dy) in directions) {
+            dfs(image, row + dx, col + dy, origColor, newColor)
+        }
     }
 }

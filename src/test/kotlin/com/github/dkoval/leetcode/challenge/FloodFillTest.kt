@@ -33,6 +33,17 @@ internal class FloodFillTest {
                     intArrayOf(0, 0, 0),
                     intArrayOf(0, 1, 1)
                 )
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(0, 0, 0),
+                    intArrayOf(0, 1, 1),
+                ),
+                1, 1, 1,
+                arrayOf(
+                    intArrayOf(0, 0, 0),
+                    intArrayOf(0, 1, 1),
+                )
             )
         )
     }
