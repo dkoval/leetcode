@@ -13,14 +13,14 @@ object SumRootToLeafNumbers {
 
     fun sumNumbers(root: TreeNode?): Int = doSumNumbers(root, 0)
 
-    private fun doSumNumbers(root: TreeNode?, sumSoFar: Int): Int {
+    private fun doSumNumbers(root: TreeNode?, x: Int): Int {
         if (root == null) {
             return 0
         }
-        val sum = sumSoFar * 10 + root.`val`
+        val y = x * 10 + root.`val`
         if (root.left == null && root.right == null) {
-            return sum
+            return y
         }
-        return doSumNumbers(root.left, sum) + doSumNumbers(root.right, sum)
+        return doSumNumbers(root.left, y) + doSumNumbers(root.right, y)
     }
 }
