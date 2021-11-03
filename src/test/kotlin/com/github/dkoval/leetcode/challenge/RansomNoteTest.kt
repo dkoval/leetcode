@@ -32,8 +32,7 @@ internal class RansomNoteTest {
             magazine: String,
             expected: Boolean
         ) {
-            RansomNoteUsingSingleArray()
-                .test(ransomNote, magazine, expected)
+            RansomNoteUsingSingleArray().test(ransomNote, magazine, expected)
         }
     }
 
