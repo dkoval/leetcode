@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * <a href="https://leetcode.com/explore/featured/card/december-leetcoding-challenge/569/week-1-december-1st-december-7th/3556/">Populating Next Right Pointers in Each Node II</a>
@@ -40,21 +40,23 @@ public abstract class PopulatingNextRightPointersInEachNode2 {
             if (root == null) {
                 return null;
             }
-            Deque<Node> q = new LinkedList<>();
-            q.addLast(root);
+            Queue<Node> q = new LinkedList<>();
+            q.offer(root);
             while (!q.isEmpty()) {
                 int size = q.size();
                 Node prev = null;
                 while (size-- > 0) {
-                    Node last = q.removeLast();
-                    last.next = prev;
-                    prev = last;
-                    if (last.right != null) {
-                        q.addFirst(last.right);
+                    Node curr = q.poll();
+                    if (prev != null) {
+                        prev.next = curr;
                     }
-                    if (last.left != null) {
-                        q.addFirst(last.left);
+                    if (curr.left != null) {
+                        q.offer(curr.left);
                     }
+                    if (curr.right != null) {
+                        q.offer(curr.right);
+                    }
+                    prev = curr;
                 }
             }
             return root;
@@ -70,7 +72,7 @@ public abstract class PopulatingNextRightPointersInEachNode2 {
                 return null;
             }
             Node curr = root;
-            // process the tree in a BFS manner, i.e level by level
+            // process the tree in a BFS manner, i.e. level by level
             while (curr != null) {
                 // while on level N, establish the next pointers on level (N + 1)
                 Node dummy = new Node(42), prev = dummy;
