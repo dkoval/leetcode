@@ -10,24 +10,20 @@ import com.github.dkoval.leetcode.ListNode
 object RemoveLinkedListElements {
 
     fun removeElements(head: ListNode?, `val`: Int): ListNode? {
-        if (head == null) return null
         var newHead = head
         var prev: ListNode? = null
         var curr = head
         while (curr != null) {
-            val next = curr.next
             if (curr.`val` == `val`) {
-                if (curr == newHead) {
-                    newHead.next = null
-                    newHead = next
+                if (prev != null) {
+                    prev.next = curr.next
                 } else {
-                    prev?.next = next
-                    curr.next = null
+                    newHead = newHead?.next
                 }
             } else {
                 prev = curr
             }
-            curr = next
+            curr = curr.next
         }
         return newHead
     }

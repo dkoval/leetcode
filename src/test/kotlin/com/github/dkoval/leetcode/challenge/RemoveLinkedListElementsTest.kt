@@ -35,6 +35,22 @@ internal class RemoveLinkedListElementsTest {
                 },
                 1,
                 emptyList<Int>()
+            ),
+            Arguments.of(
+                null,
+                1,
+                emptyList<Int>()
+            ),
+            Arguments.of(
+                ListNode(7).apply {
+                    next = ListNode(7).apply {
+                        next = ListNode(7).apply {
+                            next = ListNode(7)
+                        }
+                    }
+                },
+                7,
+                emptyList<Int>()
             )
         )
     }
