@@ -16,6 +16,7 @@ import com.github.dkoval.leetcode.ListNode;
  */
 public class RemoveDuplicatesFromSortedList {
 
+    // O(N) time | O(1) space
     public ListNode deleteDuplicates(ListNode head) {
         ListNode curr = head;
         ListNode prev = head;
