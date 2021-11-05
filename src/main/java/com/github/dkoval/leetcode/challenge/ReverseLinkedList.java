@@ -47,10 +47,10 @@ public interface ReverseLinkedList {
             // n[1] -> ... -> n[k] <- n[k + 1] <- ... <- n[N]
             //                        ^ already reversed ^
             // we want n[k + 1] to point to n[k], where n[k] is the current `head`
-            ListNode reversed = reverseList(head.next);
-            head.next.next = head;
+            ListNode headOfReversedList = reverseList(head.next);
+            head.next.next = head; // make n[k + 1] point to n[k]
             head.next = null; // to avoid cycles
-            return reversed; // head of the reversed list, i.e. n[N]
+            return headOfReversedList; // head of the reversed list, i.e. n[N]
         }
     }
 }
