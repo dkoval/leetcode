@@ -24,23 +24,21 @@ object RottingOranges {
         val n = grid[0].size
 
         val fresh = mutableSetOf<Cell>()
-        val rotten = mutableSetOf<Cell>()
+        val infected = mutableSetOf<Cell>()
 
         for (row in 0 until m) {
             for (col in 0 until n) {
-                if (grid[row][col] == 1) {
-                    fresh.add(Cell(row, col))
-                }
-                if (grid[row][col] == 2) {
-                    rotten.add(Cell(row, col))
+                when {
+                    grid[row][col] == 1 -> fresh.add(Cell(row, col))
+                    grid[row][col] == 2 -> infected.add(Cell(row, col))
                 }
             }
         }
 
         var numMinutes = 0
         while (fresh.isNotEmpty()) {
-            val infected = mutableSetOf<Cell>()
-            for (cell in rotten) {
+            val infectedNow = mutableSetOf<Cell>()
+            for (cell in infected) {
                 // try to infect 4-directionally adjacent fresh oranges
                 for ((dx, dy) in directions) {
                     val nextRow = cell.row + dx
@@ -53,19 +51,20 @@ object RottingOranges {
                     val target = Cell(nextRow, nextCol)
                     if (target in fresh) {
                         fresh -= target
-                        infected += target
+                        infectedNow += target
                     }
                 }
             }
 
-            if (infected.isEmpty()) {
+            if (infectedNow.isEmpty()) {
                 return -1
             }
 
-            rotten.clear()
-            rotten += infected
+            infected.clear()
+            infected += infectedNow
             numMinutes++
         }
+
         return numMinutes
     }
 }
