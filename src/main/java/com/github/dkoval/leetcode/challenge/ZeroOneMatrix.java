@@ -40,7 +40,7 @@ public class ZeroOneMatrix {
             }
         }
 
-        // BFS
+        // step #1: collect 0-cells in the given binary matrix
         Queue<Cell> q = new LinkedList<>();
         for (int row = 0; row < m; row++) {
             for (int col = 0; col < n; col++) {
@@ -51,6 +51,7 @@ public class ZeroOneMatrix {
             }
         }
 
+        // step #2: run BFS (BFS guarantees the shortest path from source to destination)
         while (!q.isEmpty()) {
             Cell curr = q.poll();
             for (int[] d : DIRECTIONS) {
