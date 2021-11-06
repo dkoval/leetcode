@@ -35,7 +35,7 @@ object SmartSingleNumber3 : SingleNumber3 {
         // Here we take the least significant bit: LSB = 2^i = x AND -x
         val lsb = xy and -xy
         val result = IntArray(2)
-        // Take XOR of all elements in nums[] once again, but this time elements into 2 groups:
+        // Take XOR of all elements in nums[] once again, but this time split elements into 2 groups:
         // with and without i-th bit set. Clearly, x and y will follow into different groups.
         for (num in nums) {
             // 1st group with i-th bit set, 2nd group with i-th bit unset
