@@ -9,22 +9,27 @@ package com.github.dkoval.leetcode.interview;
  */
 public class MultiplyStrings {
 
+    // O(L1 * L2) time | O(L1 + L2) space
+    // Resource: https://www.youtube.com/watch?v=1vZswirL8Y8
     public String multiply(String num1, String num2) {
         if ("0".equals(num1) || "0".equals(num2)) {
             return "0";
         }
 
-        int n1 = num1.length();
-        int n2 = num2.length();
+        int l1 = num1.length();
+        int l2 = num2.length();
 
-        // length of result can't exceed n1 + n characters (3 * 5 = 15)
-        int[] ans = new int[n1 + n2];
-        for (int i = n1 - 1; i >= 0; i--) {
-            for (int j = n2 - 1; j >= 0; j--) {
-                int mult = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');
-                int sum = mult + ans[i + j + 1];
-                ans[i + j + 1] = sum % 10;
-                ans[i + j] += sum / 10; // carry over to the position right before
+        // length of result can't exceed l1 + l2 characters (3 * 5 = 15)
+        int[] ans = new int[l1 + l2];
+        for (int i = l1 - 1; i >= 0; i--) {
+            for (int j = l2 - 1; j >= 0; j--) {
+                int prod = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');
+                int sum = prod + ans[i + j + 1];
+
+                int digit = sum % 10;
+                int carry = sum / 10;
+                ans[i + j + 1] = digit;
+                ans[i + j] += carry; // carry over to the position right before
             }
         }
 
