@@ -13,25 +13,29 @@ public class MultiplyStrings {
         if ("0".equals(num1) || "0".equals(num2)) {
             return "0";
         }
-        int m = num1.length();
-        int n = num2.length();
-        // length of result can't exceed m + n characters (3 * 5 = 15)
-        int[] result = new int[m + n];
-        for (int i = m - 1; i >= 0; i--) {
-            for (int j = n - 1; j >= 0; j--) {
+
+        int n1 = num1.length();
+        int n2 = num2.length();
+
+        // length of result can't exceed n1 + n characters (3 * 5 = 15)
+        int[] ans = new int[n1 + n2];
+        for (int i = n1 - 1; i >= 0; i--) {
+            for (int j = n2 - 1; j >= 0; j--) {
                 int mult = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');
-                int sum = mult + result[i + j + 1];
-                result[i + j + 1] = sum % 10;
-                result[i + j] += sum / 10; // carry over to the position right before
+                int sum = mult + ans[i + j + 1];
+                ans[i + j + 1] = sum % 10;
+                ans[i + j] += sum / 10; // carry over to the position right before
             }
         }
+
         // skip leading 0s
         int i = 0;
-        while (result[i] == 0) i++;
+        while (ans[i] == 0) i++;
+
         // include remaining digits in the result
         StringBuilder sb = new StringBuilder();
-        while (i < result.length) {
-            sb.append(result[i++]);
+        while (i < ans.length) {
+            sb.append(ans[i++]);
         }
         return sb.toString();
     }
