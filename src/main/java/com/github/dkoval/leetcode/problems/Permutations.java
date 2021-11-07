@@ -19,28 +19,33 @@ public abstract class Permutations {
 
         @Override
         public List<List<Integer>> permute(int[] nums) {
-            List<Integer> availableNums = new ArrayList<>();
-            for (int num : nums) {
-                availableNums.add(num);
-            }
             List<List<Integer>> result = new ArrayList<>();
-            doPermute(new ArrayList<>(), availableNums, result);
+            doPermute(listOf(nums), new ArrayList<>(), result);
             return result;
         }
 
-        private void doPermute(List<Integer> perm, List<Integer> availableNums, List<List<Integer>> result) {
-            if (availableNums.isEmpty()) {
-                result.add(new ArrayList<>(perm));
+        private List<Integer> listOf(int[] nums) {
+            List<Integer> list = new ArrayList<>();
+            for (int num : nums) {
+                list.add(num);
+            }
+            return list;
+        }
+
+        private void doPermute(List<Integer> nums, List<Integer> permutation, List<List<Integer>> result) {
+            if (nums.isEmpty()) {
+                result.add(new ArrayList<>(permutation));
                 return;
             }
-            for (int i = 0; i < availableNums.size(); i++) {
-                int num = availableNums.get(i);
-                perm.add(num);
-                availableNums.remove(i); // removes element at index i
-                doPermute(perm, availableNums, result);
+
+            for (int i = 0; i < nums.size(); i++) {
+                int num = nums.get(i);
+                permutation.add(num);
+                nums.remove(i); // removes element at index i
+                doPermute(nums, permutation, result);
                 // backtrack
-                perm.remove(perm.size() - 1);
-                availableNums.add(i, num);
+                permutation.remove(permutation.size() - 1);
+                nums.add(i, num);
             }
         }
     }
@@ -52,23 +57,28 @@ public abstract class Permutations {
         @Override
         public List<List<Integer>> permute(int[] nums) {
             List<List<Integer>> result = new ArrayList<>();
-            List<Integer> numsList = new ArrayList<>();
-            for (int num : nums) {
-                numsList.add(num);
-            }
-            permute(numsList, 0, result);
+            permute(listOf(nums), 0, result);
             return result;
         }
 
-        private void permute(List<Integer> nums, int i, List<List<Integer>> result) {
-            if (i == nums.size() - 1) {
+        private List<Integer> listOf(int[] nums) {
+            List<Integer> list = new ArrayList<>();
+            for (int num : nums) {
+                list.add(num);
+            }
+            return list;
+        }
+
+        private void permute(List<Integer> nums, int idx, List<List<Integer>> result) {
+            if (idx == nums.size() - 1) {
                 result.add(new ArrayList<>(nums));
                 return;
             }
-            for (int j = i; j < nums.size(); j++) {
-                Collections.swap(nums, i, j); // swap nums[i] with every number after it
-                permute(nums, i + 1, result); // generate all permutations for sublist [i + 1, n - 1]
-                Collections.swap(nums, i, j); // undo the swap to restore the original state
+
+            for (int i = idx; i < nums.size(); i++) {
+                Collections.swap(nums, idx, i); // swap nums[idx] with every number after it
+                permute(nums, idx + 1, result); // generate all permutations for sublist [idx + 1, n - 1]
+                Collections.swap(nums, idx, i); // undo the swap to restore the original state
             }
         }
     }
