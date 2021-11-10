@@ -33,14 +33,18 @@ public class NumberOfValidWordsForEachPuzzle {
 
     // Resource: https://www.youtube.com/watch?v=t1MSHVZLPNY
     public List<Integer> findNumOfValidWords(String[] words, String[] puzzles) {
+        // Group words that contain the same letters:
+        // (key = bitmask, value = count)
+        // bitmask: 0th bit -> 'a', 1st bit -> 'b', ... 25th bit -> 'z'
         Map<Integer, Integer> maskCounts = new HashMap<>();
         for (String word : words) {
             int mask = includedCharsMask(word);
             maskCounts.put(mask, maskCounts.getOrDefault(mask, 0) + 1);
         }
 
-        // consider all possible subsets of a puzzles[i]
-        // puzzles[i].length == 7, therefore total number of possible subsets is 2^7 = 128 - not too big
+        // Count the number of valid words for each puzzles[i].
+        // To do so, consider all possible subsets of a puzzles[i]:
+        // puzzles[i].length == 7, therefore total number of possible subsets is 2^7 = 128 - not too big.
         List<Integer> ans = new ArrayList<>(puzzles.length);
         for (String puzzle : puzzles) {
             // requirement: word must contain the first letter of puzzles[i]
