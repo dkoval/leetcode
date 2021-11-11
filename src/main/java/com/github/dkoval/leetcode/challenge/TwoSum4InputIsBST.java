@@ -34,7 +34,6 @@ public interface TwoSum4InputIsBST {
         }
 
         private boolean findTarget(TreeNode root, int k, Set<Integer> seen) {
-            // idea: in-order traversal of a BST visits nodes by their values sorted in asc order
             if (root == null) {
                 return false;
             }
@@ -62,8 +61,10 @@ public interface TwoSum4InputIsBST {
 
         @Override
         public boolean findTarget(TreeNode root, int k) {
+            // in-order traversal of a BST visits nodes by their values sorted in asc order
             List<Integer> values = new ArrayList<>();
             inorder(root, values);
+            // apply binary search on the sorted list of values
             return binarySearch(values, k);
         }
 
