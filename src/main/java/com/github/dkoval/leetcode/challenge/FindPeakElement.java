@@ -21,37 +21,20 @@ package com.github.dkoval.leetcode.challenge;
  */
 public class FindPeakElement {
 
+    // Resource: https://www.youtube.com/watch?v=L7gNay1c4ak
     // O(logN) time | O(1) space
     public int findPeakElement(int[] nums) {
-        int left = 0;
-        int right = nums.length - 1;
-
+        int l = 0;
+        int r = nums.length - 1;
         // ~ binary search
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            long prevNum = getValue(nums, mid - 1);
-            long nextNum = getValue(nums, mid + 1);
-
-            if (prevNum < nums[mid] && nums[mid] > nextNum) {
-                return mid;
-            }
-            if (prevNum > nums[mid]) {
-                // given that nums[i] != nums[i + 1] for all valid i,
-                // it means that there exists at least 1 peak to the left
-                right = mid - 1;
-            } else if (nextNum > nums[mid]) {
-                // analogously, given that nums[i] != nums[i + 1] for all valid i,
-                // it means that there exists at least 1 peak to the right
-                left = mid + 1;
+        while (l < r) {
+            int mid = l + (r - l) / 2;
+            if (nums[mid] < nums[mid + 1]) {
+                l = mid + 1;
+            } else {
+                r = mid;
             }
         }
-        return left;
-    }
-
-    private long getValue(int[] nums, int idx) {
-        if (idx >= 0 && idx < nums.length) {
-            return nums[idx];
-        }
-        return Long.MIN_VALUE;
+        return l;
     }
 }
