@@ -14,12 +14,13 @@ import java.util.List;
  */
 public class ThreeSum {
 
+    // O(N^2) time | O(1) space
     public List<List<Integer>> threeSum(int[] nums) {
         int n = nums.length;
         Arrays.sort(nums);
 
         List<List<Integer>> ans = new ArrayList<>();
-        // need at least 3 nums
+        // need at least 3 numbers for the problem to have a solution
         for (int i = 0; i <= n - 3; i++) {
             // skip over duplicates
             if (i > 0 && nums[i] == nums[i - 1]) {
