@@ -28,7 +28,7 @@ object MajorityElementUsingHashMap : MajorityElement {
     }
 }
 
-// Time complexity: O(N), space complexity: O(N)
+// Time complexity: O(N), space complexity: O(1)
 object MajorityElementUsingBoyerMooreVotingAlgorithm : MajorityElement {
 
     override fun majorityElement(nums: IntArray): Int {
