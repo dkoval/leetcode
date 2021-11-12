@@ -12,20 +12,25 @@ public class RemoveDuplicatesFromSortedList2 {
 
     // O(N) time | O(1) space
     public ListNode deleteDuplicates(ListNode head) {
-        ListNode dummy = new ListNode(0, head);
-        ListNode lastDistinct = dummy, curr = head;
+        ListNode curr = head;
+        ListNode prev = null; // points to the last distinct node
         while (curr != null) {
             if (curr.next != null && curr.next.val == curr.val) {
-                // skip duplicates
+                // skip over duplicates
                 while (curr.next != null && curr.next.val == curr.val) {
                     curr = curr.next;
                 }
-                lastDistinct.next = curr.next;
+                // remove duplicates
+                if (prev != null) {
+                    prev.next = curr.next;
+                } else {
+                    head = curr.next;
+                }
             } else {
-                lastDistinct = lastDistinct.next;
+                prev = curr;
             }
             curr = curr.next;
         }
-        return dummy.next;
+        return head;
     }
 }
