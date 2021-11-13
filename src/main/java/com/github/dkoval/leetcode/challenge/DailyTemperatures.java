@@ -27,6 +27,7 @@ public class DailyTemperatures {
         }
     }
 
+    // O(N) time | O(N) space
     public int[] dailyTemperatures(int[] temperatures) {
         int n = temperatures.length;
         int[] ans = new int[n];
