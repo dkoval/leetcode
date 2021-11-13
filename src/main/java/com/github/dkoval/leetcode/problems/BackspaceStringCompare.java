@@ -19,8 +19,10 @@ public interface BackspaceStringCompare {
 
     boolean backspaceCompare(String s, String t);
 
+    // O(S + T) time | O(S + T) space, where S, T are the lengths of s and t respectively
     class BackspaceStringCompareUsingStack implements BackspaceStringCompare {
 
+        @Override
         public boolean backspaceCompare(String s, String t) {
             Stack<Character> sStack = clean(s);
             Stack<Character> tStack = clean(t);
@@ -39,6 +41,33 @@ public interface BackspaceStringCompare {
                 }
             }
             return stack;
+        }
+    }
+
+    // O(S + T) time | O(S + T) space, where S, T are the lengths of s and t respectively
+    class BackspaceStringCompareUsingStringBuilder implements BackspaceStringCompare {
+
+        @Override
+        public boolean backspaceCompare(String s, String t) {
+            String sClean = clean(s);
+            String tClean = clean(t);
+            return sClean.equals(tClean);
+        }
+
+        private String clean(String s) {
+            int n = s.length();
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+                if (c == '#') {
+                    if (sb.length() != 0) {
+                        sb.deleteCharAt(sb.length() - 1);
+                    }
+                } else {
+                    sb.append(c);
+                }
+            }
+            return sb.toString();
         }
     }
 }
