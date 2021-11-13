@@ -70,4 +70,58 @@ public interface BackspaceStringCompare {
             return sb.toString();
         }
     }
+
+    // Resource: https://leetcode.com/problems/backspace-string-compare/solution/
+    // O(S + T) time | O(1) space, where S, T are the lengths of s and t respectively
+    class BackspaceStringCompareUsingTwoPointers implements BackspaceStringCompare {
+
+        @Override
+        public boolean backspaceCompare(String s, String t) {
+            int i = s.length() - 1;
+            int j = t.length() - 1;
+
+            // While there are chars in either s or t
+            while (i >= 0 || j >= 0) {
+                // Find position of the next possible char in s
+                i = readCharFromRight(s, i);
+
+                // Find position of the next possible char in t
+                j = readCharFromRight(t, j);
+
+                // If two actual characters are different
+                if (i >= 0 && j >= 0 && s.charAt(i) != t.charAt(j)) {
+                    return false;
+                }
+
+                // If expecting to compare char vs nothing:
+                if ((i >= 0 && j < 0) || (j >= 0 && i < 0)) {
+                    return false;
+                }
+
+                // Proceed to the next char in both s and t
+                i--;
+                j--;
+            }
+            return true;
+        }
+
+        private int readCharFromRight(String s, int start) {
+            int i = start;
+            int numBackspaces = 0;
+            while (i >= 0) {
+                if (s.charAt(i) == '#') {
+                    numBackspaces++;
+                    i--;
+                } else if (numBackspaces > 0) {
+                    // skip a letter if there was a backspace to the right of it
+                    numBackspaces--;
+                    i--;
+                } else {
+                    // take a letter at index i
+                    break;
+                }
+            }
+            return i;
+        }
+    }
 }

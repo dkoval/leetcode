@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.problems
 
-import com.github.dkoval.leetcode.problems.BackspaceStringCompare.BackspaceStringCompareUsingStack
-import com.github.dkoval.leetcode.problems.BackspaceStringCompare.BackspaceStringCompareUsingStringBuilder
+import com.github.dkoval.leetcode.problems.BackspaceStringCompare.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -49,6 +48,21 @@ internal class BackspaceStringCompareTest {
             expected: Boolean
         ) {
             val actual = BackspaceStringCompareUsingStringBuilder().backspaceCompare(s, t)
+            assertEquals(expected, actual)
+        }
+    }
+
+    @Nested
+    inner class BackspaceStringCompareUsingTwoPointersTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return true if both strings s and t are equal  after removing backspace characters`(
+            s: String,
+            t: String,
+            expected: Boolean
+        ) {
+            val actual = BackspaceStringCompareUsingTwoPointers().backspaceCompare(s, t)
             assertEquals(expected, actual)
         }
     }
