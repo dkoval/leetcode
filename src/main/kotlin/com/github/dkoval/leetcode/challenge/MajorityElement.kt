@@ -32,18 +32,14 @@ object MajorityElementUsingHashMap : MajorityElement {
 object MajorityElementUsingBoyerMooreVotingAlgorithm : MajorityElement {
 
     override fun majorityElement(nums: IntArray): Int {
-        var candidate: Int? = null
-        var count = 0
-        for (num in nums) {
-            when {
-                candidate == num -> count++
-                count == 0 -> {
-                    candidate = num
-                    count++
-                }
-                else -> count--
+        var candidate = nums[0]
+        var count = 1
+        for (i in 1 until nums.size) {
+            if (count == 0) {
+                candidate = nums[i]
             }
+            count += if (nums[i] == candidate) 1 else -1
         }
-        return candidate!!
+        return candidate
     }
 }
