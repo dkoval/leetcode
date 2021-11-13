@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.problems.MajorityElementDivideAndConquer
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -32,6 +33,16 @@ internal class MajorityElementTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should ind the majority element`(nums: IntArray, expected: Int) {
             MajorityElementUsingHashMap.test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class MajorityElementDivideAndConquerTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should ind the majority element`(nums: IntArray, expected: Int) {
+            MajorityElementDivideAndConquer().test(nums, expected)
         }
     }
 
