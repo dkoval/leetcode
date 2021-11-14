@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
 import com.github.dkoval.leetcode.problems.MinimumSizeSubarraySum.MinimumSizeSubarraySumBruteForceWithPrefixSum
+import com.github.dkoval.leetcode.problems.MinimumSizeSubarraySum.MinimumSizeSubarraySumUsingTwoPointers
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -44,6 +45,20 @@ internal class MinimumSizeSubarraySumTest {
             expected: Int
         ) {
             MinimumSizeSubarraySumBruteForceWithPrefixSum().test(target, nums, expected)
+        }
+    }
+
+    @Nested
+    inner class MinimumSizeSubarraySumUsingTwoPointersTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimal length of a contiguous subarray with sum greater or equal to target`(
+            target: Int,
+            nums: IntArray,
+            expected: Int
+        ) {
+            MinimumSizeSubarraySumUsingTwoPointers().test(target, nums, expected)
         }
     }
 

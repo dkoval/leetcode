@@ -45,4 +45,27 @@ public interface MinimumSizeSubarraySum {
             return (ans != Integer.MAX_VALUE) ? ans : 0;
         }
     }
+
+    // Resource: https://leetcode.com/problems/minimum-size-subarray-sum/solution/
+    // O(N) time | O(1) space
+    class MinimumSizeSubarraySumUsingTwoPointers implements MinimumSizeSubarraySum {
+
+        @Override
+        public int minSubArrayLen(int target, int[] nums) {
+            int n = nums.length;
+            int start = 0;
+            int ans = Integer.MAX_VALUE;
+            int sum = 0;
+            for (int end = 0; end < n; end++) {
+                sum += nums[end];
+                while (sum >= target) {
+                    // no better could be done with this index as the starting index
+                    ans = Math.min(ans, end - start + 1);
+                    sum -= nums[start];
+                    start++;
+                }
+            }
+            return (ans != Integer.MAX_VALUE) ? ans : 0;
+        }
+    }
 }
