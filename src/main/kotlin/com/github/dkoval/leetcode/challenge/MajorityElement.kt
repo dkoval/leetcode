@@ -31,14 +31,15 @@ object MajorityElementUsingHashMap : MajorityElement {
 // Time complexity: O(N), space complexity: O(1)
 object MajorityElementUsingBoyerMooreVotingAlgorithm : MajorityElement {
 
+    // Good read: https://gregable.com/2013/10/majority-vote-algorithm-find-majority.html
     override fun majorityElement(nums: IntArray): Int {
-        var candidate = nums[0]
-        var count = 1
-        for (i in 1 until nums.size) {
+        var candidate = 42 // can be set to any value
+        var count = 0
+        for (x in nums) {
             if (count == 0) {
-                candidate = nums[i]
+                candidate = x
             }
-            count += if (nums[i] == candidate) 1 else -1
+            count += if (x == candidate) 1 else -1
         }
         return candidate
     }
