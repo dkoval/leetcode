@@ -40,6 +40,7 @@ object SubarrayProductLessThanKUsingWindow : SubarrayProductLessThanK {
             product *= nums[r]
             // shift window's left boundary to make window's elements product < k
             while (product >= k) {
+                // nothing better could be done with this index as the starting index
                 product /= nums[l]
                 l++
             }

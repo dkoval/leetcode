@@ -27,6 +27,16 @@ internal class SubarrayProductLessThanKTest {
                 intArrayOf(10, 9, 10, 4, 3, 8, 3, 3, 6, 2, 10, 10, 9, 3),
                 19,
                 18
+            ),
+            Arguments.of(
+                intArrayOf(1, 2, 3),
+                0,
+                0
+            ),
+            Arguments.of(
+                intArrayOf(1, 1, 1),
+                1,
+                0
             )
         )
     }
