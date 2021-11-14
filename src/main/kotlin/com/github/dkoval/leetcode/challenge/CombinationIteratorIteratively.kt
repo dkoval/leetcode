@@ -11,7 +11,8 @@ import java.util.*
  * - A function next() that returns the next combination of length combinationLength in lexicographical order.
  * - A function hasNext() that returns True if and only if there exists a next combination.
  */
-class CombinationIterator(characters: String, combinationLength: Int) {
+class CombinationIteratorIteratively(characters: String, combinationLength: Int) : CombinationIterator {
+
     private val iterator = combinationsOf(characters, combinationLength).iterator()
 
     private fun combinationsOf(characters: String, combinationLength: Int): Iterable<String> {
@@ -38,7 +39,7 @@ class CombinationIterator(characters: String, combinationLength: Int) {
         return combinations
     }
 
-    fun next(): String = iterator.next()
+    override fun next(): String = iterator.next()
 
-    fun hasNext(): Boolean = iterator.hasNext()
+    override fun hasNext(): Boolean = iterator.hasNext()
 }
