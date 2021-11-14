@@ -8,27 +8,41 @@ package com.github.dkoval.leetcode.challenge;
 public class SpiralMatrix2 {
 
     public int[][] generateMatrix(int n) {
-        int[][] matrix = new int[n][n];
-        int numCircles = (n + 1) / 2;
+        int startRow = 0;
+        int endRow = n - 1;
+
+        int startCol = 0;
+        int endCol = n - 1;
+
         int x = 1;
-        for (int c = 0; c < numCircles; c++) {
+        int[][] ans = new int[n][n];
+        while (startRow <= endRow && startCol <= endCol) {
             // top row  - left to right
-            for (int j = c; j < n - c; j++) {
-                matrix[c][j] = x++;
+            for (int col = startCol; col <= endCol; col++) {
+                ans[startRow][col] = x++;
             }
+
             // right column - top to bottom
-            for (int i = c + 1; i < n - c; i++) {
-                matrix[i][n - c - 1] = x++;
+            for (int row = startRow + 1; row <= endRow; row++) {
+                ans[row][endCol] = x++;
             }
+
             // bottom row - right to left
-            for (int j = n - c - 2; j >= c; j--) {
-                matrix[n - c - 1][j] = x++;
+            for (int col = endCol - 1; col >= startCol; col--) {
+                ans[endRow][col] = x++;
             }
+
             // left column - bottom to up
-            for (int i = n - c - 2; i > c; i--) {
-                matrix[i][c] = x++;
+            for (int row = endRow - 1; row > startRow; row--) {
+                ans[row][startCol] = x++;
             }
+
+            startRow++;
+            endRow--;
+
+            startCol++;
+            endCol--;
         }
-        return matrix;
+        return ans;
     }
 }
