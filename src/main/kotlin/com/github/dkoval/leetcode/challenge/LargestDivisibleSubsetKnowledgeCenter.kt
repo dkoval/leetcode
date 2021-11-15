@@ -8,9 +8,10 @@ package com.github.dkoval.leetcode.challenge
  *
  * If there are multiple solutions, return any subset is fine.
  */
-object LargestDivisibleSubset {
+object LargestDivisibleSubsetKnowledgeCenter : LargestDivisibleSubset {
 
-    fun largestDivisibleSubset(nums: IntArray): List<Int> {
+    // Resource: https://www.youtube.com/watch?v=8tDM_pfmlrw
+    override fun largestDivisibleSubset(nums: IntArray): List<Int> {
         if (nums.size <= 1) {
             return nums.toList()
         }
