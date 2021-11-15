@@ -8,24 +8,30 @@ package com.github.dkoval.leetcode.challenge
  */
 object NonOverlappingIntervals {
 
+    // Resource: https://www.youtube.com/watch?v=BW7LeuJIMhE
+    // O(N*logN) time | O(1) space
     fun eraseOverlapIntervals(intervals: Array<IntArray>): Int {
         if (intervals.size < 2) return 0
         intervals.sortBy { (start, _) -> start }
-        var result = 0
-        var lastIntervalIdx = 0
+
+        var count = 0
+        var lastIncludedIntervalIdx = 0
         for (i in 1..intervals.lastIndex) {
-            val (currIntervalStart, currIntervalEnd) = intervals[i]
-            val (_, lastIntervalEnd) = intervals[lastIntervalIdx]
-            if (currIntervalStart < lastIntervalEnd) {
-                // overlap
-                result++
-                if (currIntervalEnd < lastIntervalEnd) {
-                    lastIntervalIdx = i
+            val curr = intervals[i] // current interval
+            val last = intervals[lastIncludedIntervalIdx] // last included interval
+            if (curr[0] < last[1]) {
+                // overlap - either `last` or `curr` interval needs to be removed
+                count++
+                if (curr[1] < last[1]) {
+                    // `last` includes `curr`, therefore remove `last` and set new `last` to `curr`;
+                    // otherwise simply remove `curr` (`last` remains the same)
+                    lastIncludedIntervalIdx = i
                 }
             } else {
-                lastIntervalIdx = i
+                // no overlap - include `curr`
+                lastIncludedIntervalIdx = i
             }
         }
-        return result
+        return count
     }
 }
