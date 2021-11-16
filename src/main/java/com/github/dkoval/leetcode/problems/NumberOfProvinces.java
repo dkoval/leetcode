@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.problems;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * <a href="https://leetcode.com/problems/number-of-provinces/">Number of Provinces</a>
@@ -30,37 +31,24 @@ public class NumberOfProvinces {
     private static final int[][] DIRECTIONS = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
     public int findCircleNum(int[][] connected) {
-        Map<Integer, List<Integer>> adj = adj(connected);
-        Set<Integer> visited = new HashSet<>();
+        int n = connected.length;
         int count = 0;
-        for (int city : adj.keySet()) {
+        Set<Integer> visited = new HashSet<>();
+        for (int city = 0; city < n; city++) {
             if (!visited.contains(city)) {
-                visited.add(city);
-                dfs(adj, city, visited);
+                dfs(connected, city, visited);
                 count++;
             }
         }
         return count;
     }
 
-    private Map<Integer, List<Integer>> adj(int[][] connected) {
+    private void dfs(int[][] connected, int city, Set<Integer> visited) {
         int n = connected.length;
-        Map<Integer, List<Integer>> adj = new HashMap<>();
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (connected[i][j] == 1) {
-                    adj.computeIfAbsent(i, key -> new ArrayList<>()).add(j);
-                }
-            }
-        }
-        return adj;
-    }
-
-    private void dfs(Map<Integer, List<Integer>> adj, int source, Set<Integer> visited) {
-        for (int x : adj.get(source)) {
-            if (!visited.contains(x)) {
-                visited.add(x);
-                dfs(adj, x, visited);
+        visited.add(city);
+        for (int neighbour = 0; neighbour < n; neighbour++) {
+            if (connected[city][neighbour] == 1 && !visited.contains(neighbour)) {
+                dfs(connected, neighbour, visited);
             }
         }
     }
