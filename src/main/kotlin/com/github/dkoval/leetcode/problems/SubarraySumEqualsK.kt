@@ -32,6 +32,7 @@ object SubarraySumEqualsKBruteForce : SubarraySumEqualsK {
 // Space complexity: O(N). Hashmap can contain upto N distinct entries in the worst case.
 object SubarraySumEqualsKUsingHashMap : SubarraySumEqualsK {
 
+    // Resource: https://www.youtube.com/watch?v=fFVZt-6sgyo
     override fun subarraySum(nums: IntArray, k: Int): Int {
         // Prefix sum of first i elements of nums, i.e.
         // sum(nums[0 : i]) = nums[0] + nums[1] + ... + nums[i]
