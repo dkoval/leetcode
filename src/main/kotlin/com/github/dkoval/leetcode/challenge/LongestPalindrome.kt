@@ -10,6 +10,7 @@ package com.github.dkoval.leetcode.challenge
  */
 object LongestPalindrome {
 
+    // O(N) time | O(ALPHA) space, where ALPHA is the number of characters in the alphabet
     fun longestPalindrome(s: String): Int {
         val counts = mutableMapOf<Char, Int>()
         for (c in s) {
