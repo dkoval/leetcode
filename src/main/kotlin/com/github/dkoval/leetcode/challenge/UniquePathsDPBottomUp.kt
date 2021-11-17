@@ -17,16 +17,17 @@ import com.github.dkoval.leetcode.problems.UniquePaths
 object UniquePathsDPBottomUp : UniquePaths {
 
     override fun uniquePaths(m: Int, n: Int): Int {
-        val dp = Array(n) { IntArray(m) { 0 } }
-        for (i in 0 until n) {
-            for (j in 0 until m) {
+        val dp = Array(m) { IntArray(n) { 0 } }
+        for (i in 0 until m) {
+            for (j in 0 until n) {
                 if (i == 0 || j == 0) {
+                    // either 1st row or 1st column
                     dp[i][j] = 1
                 } else {
                     dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
                 }
             }
         }
-        return dp[n - 1][m - 1]
+        return dp[m - 1][n - 1]
     }
 }
