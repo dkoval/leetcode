@@ -42,14 +42,15 @@ object SubarraySumEqualsKUsingHashMap : SubarraySumEqualsK {
         // we can have multiple prefixes that sum up to the same value, for example:
         // nums = [1, -1, 1, ...], sum([1]) = sum([1, -1, 1]) = 1
         val sumCounts = mutableMapOf<Int, Int>()
+        // base case: an empty prefix sum([]) = 1
         sumCounts[0] = 1
 
-        // sum(nums[i : j]) = sum(nums[0 : j]) - sum(nums[0 : i - 1])
         var ans = 0
         for (num in nums) {
             sum += num
 
             // Can we chop off x first elements from the current prefix to make sum == k?
+            // sum(nums[i : j]) = sum(nums[0 : j]) - sum(nums[0 : i - 1])
             val complementSum = sum - k
             if (complementSum in sumCounts) {
                 ans += sumCounts[complementSum]!!
