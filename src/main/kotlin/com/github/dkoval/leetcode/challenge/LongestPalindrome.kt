@@ -12,18 +12,26 @@ object LongestPalindrome {
 
     fun longestPalindrome(s: String): Int {
         val counts = mutableMapOf<Char, Int>()
-        for (ch in s) {
-            counts[ch] = counts.getOrDefault(ch, 0) + 1
+        for (c in s) {
+            counts[c] = counts.getOrDefault(c, 0) + 1
         }
-        var result = 0
-        var oddFound = false
-        for ((_, count) in counts) {
-            result += count
+
+        // Example: "xbcbxxcxcx"
+        // b -> 2
+        // c -> 3 (odd)
+        // candidate: "bcccb"
+        // x -> 5 (odd) - can form a better palindrome "bcxxxxxcb"
+        // take 2 "c" (instead of 3) and include 5 "x"
+        // also note that it doesn't matter in which order we discover "c" and "x", in both cases we decrement answer by 1
+        var ans = 0
+        var oddCountFound = false
+        for (count in counts.values) {
+            ans += count
             if (count % 2 != 0) {
-                result--
-                oddFound = true
+                ans--
+                oddCountFound = true
             }
         }
-        return if (oddFound) result + 1 else result
+        return if (oddCountFound) ans + 1 else ans
     }
 }
