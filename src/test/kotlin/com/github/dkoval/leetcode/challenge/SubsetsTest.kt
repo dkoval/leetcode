@@ -60,6 +60,16 @@ internal class SubsetsTest {
         }
     }
 
+    @Nested
+    inner class SubsetsRecursive2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return all possible subsets`(nums: IntArray, expected: List<List<Int>>) {
+            SubsetsRecursive2.test(nums, expected)
+        }
+    }
+
     private fun Subsets.test(nums: IntArray, expected: List<List<Int>>) {
         val actual = subsets(nums)
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)

@@ -74,3 +74,21 @@ object SubsetsRecursive: Subsets {
         doSubsets(nums, idx + 1, subset, result)
     }
 }
+
+object SubsetsRecursive2: Subsets {
+
+    override fun subsets(nums: IntArray): List<List<Int>> {
+        val result = mutableListOf<List<Int>>()
+        doSubsets(nums, 0, mutableListOf(), result)
+        return result
+    }
+
+    private fun doSubsets(nums: IntArray, idx: Int, subset: MutableList<Int>, result: MutableList<List<Int>>) {
+        result.add(ArrayList(subset))
+        for (i in idx until nums.size) {
+            subset.add(nums[i])
+            doSubsets(nums, i + 1, subset, result)
+            subset.removeAt(subset.size - 1)
+        }
+    }
+}
