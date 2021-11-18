@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.FindAllNumbersDisappearedInArray.FindAllNumbersDisappearedInArrayNoExtraSpace
 import com.github.dkoval.leetcode.challenge.FindAllNumbersDisappearedInArray.FindAllNumbersDisappearedInArrayUsingSet
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -36,6 +37,19 @@ internal class FindAllNumbersDisappearedInArrayTest {
             expected: List<Int>
         ) {
             FindAllNumbersDisappearedInArrayUsingSet().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class FindAllNumbersDisappearedInArrayNoExtraSpaceTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return an array of all the integers in the range (1, n) that do not appear in nums`(
+            nums: IntArray,
+            expected: List<Int>
+        ) {
+            FindAllNumbersDisappearedInArrayNoExtraSpace().test(nums, expected)
         }
     }
 
