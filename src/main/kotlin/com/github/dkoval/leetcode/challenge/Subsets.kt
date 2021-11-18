@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+
 /**
  * [Subsets](https://leetcode.com/explore/challenge/card/july-leetcoding-challenge/545/week-2-july-8th-july-14th/3387/)
  *
@@ -52,19 +53,24 @@ object SubsetsIter: Subsets {
 
 object SubsetsRecursive: Subsets {
 
-    override fun subsets(nums: IntArray): List<List<Int>> = doSubsets(nums, 0)
-
-    private fun doSubsets(nums: IntArray, startIndex: Int): MutableList<List<Int>> {
-        if (startIndex == nums.lastIndex) {
-            return mutableListOf(emptyList(), listOf(nums.last()))
-        }
-        val result = doSubsets(nums, startIndex + 1)
-        val subsetsToAdd = mutableListOf<List<Int>>()
-        for (subset in result) {
-            val subsetToAdd = mutableListOf(nums[startIndex]).apply { addAll(subset) }
-            subsetsToAdd.add(subsetToAdd)
-        }
-        result.addAll(subsetsToAdd)
+    override fun subsets(nums: IntArray): List<List<Int>> {
+        val result = mutableListOf<List<Int>>()
+        doSubsets(nums, 0, mutableListOf(), result)
         return result
+    }
+
+    private fun doSubsets(nums: IntArray, idx: Int, subset: MutableList<Int>, result: MutableList<List<Int>>) {
+        if (idx == nums.size) {
+            result.add(subset.toList())
+            return
+        }
+
+        // option #1: take nums[idx]
+        subset.add(nums[idx])
+        doSubsets(nums, idx + 1, subset, result)
+        subset.removeLast()
+
+        // option #2: skip nums[idx]
+        doSubsets(nums, idx + 1, subset, result)
     }
 }
