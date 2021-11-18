@@ -1,6 +1,8 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * <a href="https://leetcode.com/explore/challenge/card/august-leetcoding-challenge-2021/613/week-1-august-1st-august-7th/3837/">Subsets II</a>
@@ -13,18 +15,20 @@ public class Subsets2 {
 
     public List<List<Integer>> subsetsWithDup(int[] nums) {
         Arrays.sort(nums);
-        Set<List<Integer>> result = new LinkedHashSet<>();
-        result.add(Collections.emptyList());
+        List<List<Integer>> ans = new ArrayList<>();
+        doSubsetsWithDup(nums, 0, new ArrayList<>(), ans);
+        return ans;
+    }
 
-        for (int num : nums) {
-            Set<List<Integer>> newSubsets = new LinkedHashSet<>();
-            for (List<Integer> subset : result) {
-                List<Integer> newSubset = new ArrayList<>(subset);
-                newSubset.add(num);
-                newSubsets.add(newSubset);
+    private void doSubsetsWithDup(int[] nums, int idx, List<Integer> subset, List<List<Integer>> ans) {
+        ans.add(new ArrayList<>(subset));
+        for (int i = idx; i < nums.length; i++) {
+            if (i > idx && nums[i] == nums[i - 1]) {
+                continue;
             }
-            result.addAll(newSubsets);
+            subset.add(nums[i]);
+            doSubsetsWithDup(nums, i + 1, subset, ans);
+            subset.remove(subset.size() - 1);
         }
-        return new ArrayList<>(result);
     }
 }
