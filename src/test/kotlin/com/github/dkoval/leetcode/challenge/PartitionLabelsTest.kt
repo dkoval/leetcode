@@ -13,6 +13,10 @@ internal class PartitionLabelsTest {
             Arguments.of(
                 "ababcbacadefegdehijhklij",
                 listOf(9, 7, 8)
+            ),
+            Arguments.of(
+                "eccbbbbdec",
+                listOf(10)
             )
         )
     }

@@ -8,25 +8,28 @@ package com.github.dkoval.leetcode.challenge
  */
 object PartitionLabels {
 
-    // Time complexity: O(N), space complexity: O(1)
+    // O(N) time | O(ALPHA) = 0(1) space, where ALPHA is the number of characters in the alphabet
     fun partitionLabels(S: String): List<Int> {
-        val lastIndexOfLabel = mutableMapOf<Char, Int>()
+        // lastIdx[c] is the index of the last occurrence of character c in S
+        val lastIdx = mutableMapOf<Char, Int>()
         for (i in S.indices) {
-            lastIndexOfLabel[S[i]] = i
+            lastIdx[S[i]] = i
         }
-        var partitionStart = 0
-        var partitionEnd = 0
-        val result = mutableListOf<Int>()
+
+        var start = 0
+        var end = 0
+        val ans = mutableListOf<Int>()
         for (i in S.indices) {
-            partitionEnd = maxOf(partitionEnd, lastIndexOfLabel[S[i]]!!)
-            if (i == partitionEnd) {
+            // try to expand the current partition further to the right
+            end = maxOf(end, lastIdx[S[i]]!!)
+            // is S[i] the last character of the current partition?
+            if (i == end) {
                 // reached the end of the current partition, hence
                 // update the result and start a new partition
-                result.add(partitionEnd - partitionStart + 1)
-                partitionStart = i + 1
-                partitionEnd = partitionStart
+                ans.add(end - start + 1)
+                start = i + 1
             }
         }
-        return result
+        return ans
     }
 }
