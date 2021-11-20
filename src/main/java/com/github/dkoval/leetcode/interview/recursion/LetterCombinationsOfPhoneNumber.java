@@ -14,9 +14,9 @@ public abstract class LetterCombinationsOfPhoneNumber {
 
     public abstract List<String> letterCombinations(String digits);
 
-    // Time complexity: O(3^N * 4^N) where N is the number of digits in the input that maps to 3 letters (e.g. 2, 3, 4, 5, 6, 8)
+    // Time complexity: O(3^N * 4^M) where N is the number of digits in the input that maps to 3 letters (e.g. 2, 3, 4, 5, 6, 8)
     // and M is the number of digits in the input that maps to 4 letters (e.g. 7, 9), and N + M is the total number digits in the input.
-    // Space complexity: O(3^N * 4^N) since one has to keep 3^N * 4^N solutions.
+    // Space complexity: O(3^N * 4^M) since one has to keep 3^N * 4^M solutions.
     public static class LetterCombinationsOfPhoneNumberRecursive extends LetterCombinationsOfPhoneNumber {
 
         private static final Map<Character, List<Character>> mapping = new HashMap<>();
