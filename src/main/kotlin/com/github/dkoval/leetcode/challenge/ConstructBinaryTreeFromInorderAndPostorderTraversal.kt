@@ -13,40 +13,39 @@ import com.github.dkoval.leetcode.TreeNode
 object ConstructBinaryTreeFromInorderAndPostorderTraversal {
 
     fun buildTree(inorder: IntArray, postorder: IntArray): TreeNode? {
-        if (inorder.isEmpty()) return null
-        val inorderIndex = inorder.asSequence().withIndex().associate { it.value to it.index }
-        return doBuildTree(inorderIndex, 0, inorder.size, postorder, 0, postorder.size)
+        // postorder.length == inorder.length
+        val n = inorder.size
+        val inorderIndices = inorder.asSequence().withIndex().associate { it.value to it.index }
+        return doBuildTree(inorderIndices, 0, n - 1, postorder, 0, n - 1)
     }
 
     private fun doBuildTree(
-        inorderIndex: Map<Int, Int>,
-        inorderStartIndex: Int,
-        inorderEndIndex: Int,
-        postorder: IntArray,
-        postorderStartIndex: Int,
-        postorderEndIndex: Int
+        inorderIndices: Map<Int, Int>, inorderStart: Int, inorderEnd: Int,
+        postorder: IntArray, postorderStart: Int, postorderEnd: Int
     ): TreeNode? {
-        if (inorderStartIndex == inorderEndIndex || postorderStartIndex == postorderEndIndex) return null
-        val rootValue = postorder[postorderEndIndex - 1]
-        val rootIndex = inorderIndex[rootValue] ?: return null
-        val offset = rootIndex - inorderStartIndex
+        // base case
+        if (inorderStart > inorderEnd || postorderStart > postorderEnd) {
+            return null
+        }
+
+        val rootValue = postorder[postorderEnd]
+        // lookup index of the current root in inorder[]
+        val inorderRootIdx = inorderIndices[rootValue] ?: return null
+        // in essence, offset = number of nodes in the left sub-tree
+        val offset = inorderRootIdx - inorderStart
+
         val root = TreeNode(rootValue)
+
         root.left = doBuildTree(
-            inorderIndex,
-            inorderStartIndex,
-            rootIndex,
-            postorder,
-            postorderStartIndex,
-            postorderStartIndex + offset
+            inorderIndices, inorderStart, inorderRootIdx - 1,
+            postorder, postorderStart, postorderStart + offset - 1
         )
+
         root.right = doBuildTree(
-            inorderIndex,
-            rootIndex + 1,
-            inorderEndIndex,
-            postorder,
-            postorderStartIndex + offset,
-            postorderEndIndex - 1
+            inorderIndices, inorderRootIdx + 1, inorderEnd,
+            postorder, postorderStart + offset, postorderEnd - 1
         )
+
         return root
     }
 }
