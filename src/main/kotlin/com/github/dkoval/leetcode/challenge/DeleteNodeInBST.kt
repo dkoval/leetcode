@@ -73,11 +73,14 @@ object DeleteNodeInBSTRecursive : DeleteNodeInBST {
     override fun deleteNode(root: TreeNode?, key: Int): TreeNode? {
         if (root == null) return null
         when {
+            // find an delete in the left sub-tree of BST
             key < root.`val` -> root.left = deleteNode(root.left, key)
+            // find an delete in the right sub-tree of BST
             key > root.`val` -> root.right = deleteNode(root.right, key)
             else -> {
                 // delete current node
                 if (root.left == null && root.right == null) {
+                    // current node is a leaf node
                     return null
                 } else if (root.left != null) {
                     // find inorder predecessor
@@ -94,18 +97,18 @@ object DeleteNodeInBSTRecursive : DeleteNodeInBST {
     }
 
     private fun findMinNode(root: TreeNode): TreeNode {
-        var node = root
-        while (node.left != null) {
-            node = node.left!!
+        var curr = root
+        while (curr.left != null) {
+            curr = curr.left!!
         }
-        return node
+        return curr
     }
 
     private fun findMaxNode(root: TreeNode): TreeNode {
-        var node = root
-        while (node.right != null) {
-            node = node.right!!
+        var curr = root
+        while (curr.right != null) {
+            curr = curr.right!!
         }
-        return node
+        return curr
     }
 }
