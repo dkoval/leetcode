@@ -55,7 +55,7 @@ object LargestComponentSizeByCommonFactor {
 
         // compute the size of the largest connected component in the graph
         var maxSize = 1
-        // (component id -> size)
+        // (component_id -> size), where component_id is the top-level parent of a connected component
         val sizes = mutableMapOf<Int, Int>()
         for (a in A) {
             val p = uf.find(a)
