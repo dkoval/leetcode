@@ -11,16 +11,37 @@ import com.github.dkoval.leetcode.ListNode;
  */
 public class SwapNodesInPairs {
 
+    // Resource: https://www.youtube.com/watch?v=o811TZLAWOo
+    // O(N) time | O(1) space
     public ListNode swapPairs(ListNode head) {
-        ListNode dummy = new ListNode(42), curr = dummy;
-        dummy.next = head;
-        while (curr.next != null && curr.next.next != null) {
-            ListNode first = curr.next;
-            ListNode second = curr.next.next;
-            first.next = second.next;
-            curr.next = second;
-            second.next = first;
-            curr = first;
+        ListNode dummy = new ListNode(-1, head);
+        ListNode prev = dummy;
+        ListNode curr = head;
+
+        // make sure we have at lest 2 nodes to work with
+        while (curr != null && curr.next != null) {
+            // save pointers that are going to be altered
+            ListNode next = curr.next;
+            ListNode nextPair = next.next;
+
+            // Before: D -> 1 -> 2 | -> 3 -> 4 | -> ...
+            //         ^    ^    ^
+            //       prev curr next
+            // ---
+            // After:  D -> 2 -> 1 | -> 3 -> 4 | -> ...
+            //                   ^      ^
+            //                 prev    curr
+
+            // reverse (curr, next) pair of nodes
+            next.next = curr;
+            curr.next = nextPair;
+
+            // connect previous pair
+            prev.next = next;
+
+            // prepare for the next iteration
+            prev = curr;
+            curr = nextPair;
         }
         return dummy.next;
     }
