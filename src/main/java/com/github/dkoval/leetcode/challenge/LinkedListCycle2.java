@@ -20,39 +20,22 @@ import com.github.dkoval.leetcode.ListNode;
 public class LinkedListCycle2 {
 
     public ListNode detectCycle(ListNode head) {
-        // step 1 - detect if there is a cycle
-        ListNode slow = head, fast = head;
-        boolean found = false;
+        ListNode slow = head;
+        ListNode fast = head;
         while (fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
             if (slow == fast) {
-                found = true;
-                break;
+                // there's the cycle in the list
+                slow = head;
+                // now, move both pointers by 1 step at a time until they eventually meet
+                while (slow != fast) {
+                    slow = slow.next;
+                    fast = fast.next;
+                }
+                return slow;
             }
         }
-        if (!found) return null;
-
-        // step 2 - compute length of the cycle
-        slow = slow.next;
-        int length = 1;
-        while (slow != fast) {
-            slow = slow.next;
-            length++;
-        }
-
-        // step 3 - advance fast pointer by `length` steps ahead
-        slow = head;
-        fast = head;
-        while (length-- > 0) {
-            fast = fast.next;
-        }
-
-        // step 4 - advance slow and fast pointers by 1 step at a time until they meet
-        while (slow != fast) {
-            slow = slow.next;
-            fast = fast.next;
-        }
-        return slow;
+        return null;
     }
 }
