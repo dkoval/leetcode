@@ -16,7 +16,7 @@ object LargestComponentSizeByCommonFactor {
 
     class UnionFind(size: Int) {
         // parent[i] is the parent of i
-        private val parent = IntArray(size) { i -> i }
+        private val parent = IntArray(size) { it }
 
         fun find(x: Int): Int {
             var i = x
@@ -29,15 +29,15 @@ object LargestComponentSizeByCommonFactor {
         }
 
         fun union(x: Int, y: Int) {
-            val parentX = find(x)
-            val parentY = find(y)
-            if (parentX != parentY) {
-                parent[parentY] = parentX
-            }
+            val px = find(x)
+            val py = find(y)
+            parent[py] = px
         }
     }
 
-    // Resource: https://www.youtube.com/watch?v=2mva2YRgrW8
+    // Resources:
+    // https://www.youtube.com/watch?v=2mva2YRgrW8
+    // https://www.youtube.com/watch?v=DNfNZwilaC4
     fun largestComponentSize(A: IntArray): Int {
         // for each number in the array, brute forcely find its prime factors and connect them
         // (there exist prime factors between 2 and sqrt(a))
@@ -54,14 +54,15 @@ object LargestComponentSizeByCommonFactor {
         }
 
         // compute the size of the largest connected component in the graph
-        var result = 1
-        val componentSizes = mutableMapOf<Int, Int>()
+        var maxSize = 1
+        // (component id -> size)
+        val sizes = mutableMapOf<Int, Int>()
         for (a in A) {
-            val parent = uf.find(a)
-            val componentSize = componentSizes.getOrDefault(parent, 0) + 1
-            componentSizes[parent] = componentSize
-            result = maxOf(result, componentSize)
+            val p = uf.find(a)
+            val size = sizes.getOrDefault(p, 0) + 1
+            sizes[p] = size
+            maxSize = maxOf(maxSize, size)
         }
-        return result
+        return maxSize
     }
 }
