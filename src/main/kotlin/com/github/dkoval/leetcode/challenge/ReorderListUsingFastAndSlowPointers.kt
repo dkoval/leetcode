@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.ListNode
+import com.github.dkoval.leetcode.problems.ReorderList
 
 /**
  * [Reorder List](https://leetcode.com/explore/challenge/card/august-leetcoding-challenge/551/week-3-august-15th-august-21st/3430/)
@@ -10,9 +11,9 @@ import com.github.dkoval.leetcode.ListNode
  *
  * You may not modify the values in the list's nodes, only nodes itself may be changed.
  */
-object ReorderList {
+object ReorderListUsingFastAndSlowPointers : ReorderList {
 
-    fun reorderList(head: ListNode?) {
+    override fun reorderList(head: ListNode?) {
         if (head?.next == null) return
         val (head1, head2) = splitIntoHalves(head)
         val head2Reversed = reverse(head2)
