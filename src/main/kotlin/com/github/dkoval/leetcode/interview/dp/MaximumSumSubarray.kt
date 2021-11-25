@@ -71,8 +71,8 @@ object MaximumSumSubarrayDivideAndConquer : MaximumSumSubarray {
     }
 }
 
-// Time complexity: O(N), space O(1)
-object MaximumSumSubarrayKadane : MaximumSumSubarray {
+// O(N) time | O(1) space
+object MaximumSumSubarrayKadaneBottomUp : MaximumSumSubarray {
 
     override fun maxSubArray(nums: IntArray): Int {
         // DP: Kadane's algorithm
@@ -86,5 +86,43 @@ object MaximumSumSubarrayKadane : MaximumSumSubarray {
             bestMaxSum = maxOf(bestMaxSum, maxSumSoFar)
         }
         return bestMaxSum
+    }
+}
+
+// O(N) time | O(N) space
+object MaximumSumSubarrayKadaneTopDown : MaximumSumSubarray {
+
+    // Resource: https://www.youtube.com/watch?v=E4pqeFgG4bo
+    override fun maxSubArray(nums: IntArray): Int {
+        var bestMaxSum = Int.MIN_VALUE
+        val memo = arrayOfNulls<Int>(nums.size)
+        for (i in nums.indices) {
+            bestMaxSum = maxOf(bestMaxSum, getMaxSum(nums, i, memo))
+        }
+        return bestMaxSum
+    }
+
+    // Returns max sum for nums[i:] suffix
+    private fun getMaxSum(nums: IntArray, idx: Int, memo: Array<Int?>): Int {
+        if (idx == nums.lastIndex) {
+            return nums[idx]
+        }
+
+        if (memo[idx] != null) {
+            return memo[idx]!!
+        }
+
+        var sum = getMaxSum(nums, idx + 1, memo)
+
+        if (sum > 0) {
+            // expand the current subarray with nums[idx]
+            sum += nums[idx]
+        } else {
+            // start a new subarray at index idx
+            sum = nums[idx]
+        }
+
+        memo[idx] = sum
+        return sum
     }
 }

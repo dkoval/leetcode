@@ -65,7 +65,7 @@ internal class MaximumSumSubarrayTest {
     }
 
     @Nested
-    inner class MaximumSumSubarrayKadaneTest {
+    inner class MaximumSumSubarrayKadaneBottomUpTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -73,7 +73,20 @@ internal class MaximumSumSubarrayTest {
             nums: IntArray,
             expected: Int
         ) {
-            MaximumSumSubarrayKadane.test(nums, expected)
+            MaximumSumSubarrayKadaneBottomUp.test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class MaximumSumSubarrayKadaneTopDownTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the contiguous subarray (containing at least one number) which has the largest sum `(
+            nums: IntArray,
+            expected: Int
+        ) {
+            MaximumSumSubarrayKadaneTopDown.test(nums, expected)
         }
     }
 
