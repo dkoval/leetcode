@@ -13,48 +13,45 @@ import java.util.Map;
  */
 public class ConstructBinaryTreeFromPreorderAndInorderTraversal {
 
-    private static class MutableInt {
-        int val;
-
-        MutableInt(int val) {
-            this.val = val;
-        }
-    }
-
     // Resource: https://www.youtube.com/watch?v=PoBGyrIWisE
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        return buildTree(inorder, 0, inorder.length - 1, buildIndex(inorder), preorder, new MutableInt(0));
+        // inorder.length == preorder.length
+        int n = preorder.length;
+        return doBuildTree(preorder, 0, n - 1, inorder, 0, n - 1, indices(inorder));
     }
 
-    private Map<Integer, Integer> buildIndex(int[] elements) {
+    private Map<Integer, Integer> indices(int[] nums) {
         Map<Integer, Integer> index = new HashMap<>();
-        for (int i = 0; i < elements.length; i++) {
-            index.put(elements[i], i);
+        for (int i = 0; i < nums.length; i++) {
+            index.put(nums[i], i);
         }
         return index;
     }
 
-    private TreeNode buildTree(int[] inorder,
-                               int inorderStartIdx,
-                               int inorderEndIdx,
-                               Map<Integer, Integer> inorderIndex,
-                               int[] preorder,
-                               MutableInt preorderIdx) {
+    private TreeNode doBuildTree(int[] preorder, int preorderStart, int preorderEnd,
+                                 int[] inorder, int inorderStart, int inorderEnd,
+                                 Map<Integer, Integer> inorderIndices) {
 
-        if (inorderEndIdx < inorderStartIdx) {
+        if (preorderStart > preorderEnd || inorderStart > inorderEnd) {
             return null;
         }
 
-        int rootVal = preorder[preorderIdx.val++];
-        TreeNode root = new TreeNode(rootVal);
+        TreeNode root = new TreeNode(preorder[preorderStart]);
 
         // Now, get the root's value index in inorder[].
-        // Values from inorder[inorderStartIdx:inorderRootIdx - 1] and inorder[inorderRootIdx + 1:inorderEndIdx] subarrays
+        // Values from inorder[inorderStart : inorderRootIdx - 1] and inorder[inorderRootIdx + 1 : inorderEnd] subarrays
         // form left and right subtrees respectively.
-        int inorderRootIdx = inorderIndex.get(rootVal);
+        int inorderRootIdx = inorderIndices.get(preorder[preorderStart]);
+        int numNodesLeft = inorderRootIdx - inorderStart;
 
-        root.left = buildTree(inorder, inorderStartIdx, inorderRootIdx - 1, inorderIndex, preorder, preorderIdx);
-        root.right = buildTree(inorder, inorderRootIdx + 1, inorderEndIdx, inorderIndex, preorder, preorderIdx);
+        root.left = doBuildTree(
+                preorder, preorderStart + 1, preorderStart + numNodesLeft,
+                inorder, inorderStart, inorderRootIdx - 1, inorderIndices);
+
+        root.right = doBuildTree(
+                preorder, preorderStart + numNodesLeft + 1, preorderEnd,
+                inorder, inorderRootIdx + 1, inorderEnd, inorderIndices);
+
         return root;
     }
 }
