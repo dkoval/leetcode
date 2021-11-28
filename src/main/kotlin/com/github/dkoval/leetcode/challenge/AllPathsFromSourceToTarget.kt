@@ -10,25 +10,27 @@ package com.github.dkoval.leetcode.challenge
 object AllPathsFromSourceToTarget {
 
     fun allPathsSourceTarget(graph: Array<IntArray>): List<List<Int>> {
-        val paths = mutableListOf<List<Int>>()
-        dfs(graph, 0, graph.lastIndex, mutableListOf(), paths)
-        return paths
+        val ans = mutableListOf<List<Int>>()
+        // Given graph is a directed acyclic graph, therefore
+        // we can omit keeping track of visited vertices here
+        dfs(graph, 0, graph.lastIndex, mutableListOf(), ans)
+        return ans
     }
 
     private fun dfs(
         graph: Array<IntArray>,
-        source: Int,
+        vertex: Int,
         target: Int,
         path: MutableList<Int>,
-        paths: MutableList<List<Int>>
+        ans: MutableList<List<Int>>
     ) {
-        path.add(source)
-        if (source == target) {
+        path.add(vertex)
+        if (vertex == target) {
             val copy = mutableListOf<Int>().apply { addAll(path) }
-            paths.add(copy)
+            ans.add(copy)
         } else {
-            for (v in graph[source]) {
-                dfs(graph, v, target, path, paths)
+            for (neighbour in graph[vertex]) {
+                dfs(graph, neighbour, target, path, ans)
             }
         }
         path.removeAt(path.lastIndex)

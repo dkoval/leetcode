@@ -37,6 +37,31 @@ internal class AllPathsFromSourceToTargetTest {
                     listOf(0, 1, 2, 3, 4),
                     listOf(0, 1, 4)
                 )
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(1, 2, 3),
+                    intArrayOf(2),
+                    intArrayOf(3),
+                    intArrayOf()
+                ),
+                listOf(
+                    listOf(0, 1, 2, 3),
+                    listOf(0, 2, 3),
+                    listOf(0, 3)
+                )
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(1, 3),
+                    intArrayOf(2),
+                    intArrayOf(3),
+                    intArrayOf()
+                ),
+                listOf(
+                    listOf(0, 1, 2, 3),
+                    listOf(0, 3)
+                )
             )
         )
     }
