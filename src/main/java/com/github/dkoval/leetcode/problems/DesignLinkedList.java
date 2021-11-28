@@ -55,29 +55,11 @@ public abstract class DesignLinkedList {
         }
 
         public void addAtHead(int val) {
-            Node node = new Node(val);
-            if (head != null) {
-                node.next = head;
-                head.prev = node;
-            }
-            head = node;
-            if (tail == null) {
-                tail = node;
-            }
-            size++;
+            addAtIndex(0, val);
         }
 
         public void addAtTail(int val) {
-            Node node = new Node(val);
-            if (tail != null) {
-                tail.next = node;
-                node.prev = tail;
-            }
-            tail = node;
-            if (head == null) {
-                head = node;
-            }
-            size++;
+            addAtIndex(size, val);
         }
 
         public void addAtIndex(int index, int val) {
@@ -85,21 +67,35 @@ public abstract class DesignLinkedList {
                 return;
             }
 
+            Node node = new Node(val);
             if (index == 0) {
-                addAtHead(val);
+                // add a new node before the `head` of the list
+                if (head != null) {
+                    node.next = head;
+                    head.prev = node;
+                } else {
+                    tail = node;
+                }
+                head = node;
             } else if (index == size) {
-                addAtTail(val);
+                // add a new node after the `tail` of the list
+                if (tail != null) {
+                    tail.next = node;
+                    node.prev = tail;
+                } else {
+                    head = node;
+                }
+                tail = node;
             } else {
+                // add a new node in the middle of the list
                 Node curr = getNodeAtIndex(index);
-                Node node = new Node(val);
-
                 Node prev = curr.prev;
                 prev.next = node;
                 node.prev = prev;
                 node.next = curr;
                 curr.prev = node;
-                size++;
             }
+            size++;
         }
 
         public void deleteAtIndex(int index) {
