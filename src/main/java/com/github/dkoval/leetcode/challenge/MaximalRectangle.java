@@ -41,12 +41,13 @@ public class MaximalRectangle {
         return maxArea;
     }
 
+    // Resource: https://www.youtube.com/watch?v=ZmnqCZp9bBs
     // O(N) time | O(N) space
     private int areaOfLargestRectangleInHistogram(int[] hist) {
         int n = hist.length;
         int maxArea = 0;
 
-        // stores indices of hist[]
+        // mono stack: stores indices of hist[] such that for any pair of indices i < j, h[i] <= h[j]
         Stack<Integer> stack = new Stack<>();
         stack.push(0);
 
@@ -59,6 +60,7 @@ public class MaximalRectangle {
             stack.push(i);
         }
 
+        // at this stage, i == n
         while (!stack.isEmpty()) {
             int height = hist[stack.pop()];
             int area = stack.isEmpty() ? height * n : height * (n - stack.peek() - 1);
