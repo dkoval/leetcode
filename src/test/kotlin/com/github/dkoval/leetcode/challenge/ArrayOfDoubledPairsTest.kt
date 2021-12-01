@@ -25,10 +25,6 @@ internal class ArrayOfDoubledPairsTest {
             Arguments.of(
                 intArrayOf(1, 2, 4, 16, 8, 4),
                 false
-            ),
-            Arguments.of(
-                intArrayOf(),
-                false
             )
         )
     }
