@@ -18,21 +18,24 @@ object TopKFrequentElements {
     fun topKFrequent(nums: IntArray, k: Int): IntArray {
         if (nums.size == k) return nums // all nums are unique
 
-        val frequencies = mutableMapOf<Int, Int>()
-        for (num in nums) {
-            frequencies[num] = frequencies.getOrPut(num) { 0 } + 1
+        val counts = mutableMapOf<Int, Int>()
+        for (x in nums) {
+            counts[x] = counts.getOrPut(x) { 0 } + 1
         }
 
-        val pq = PriorityQueue<Int>(compareByDescending { num -> frequencies[num]  })
-        for (num in frequencies.keys) {
-            pq.add(num)
+        val minHeap = PriorityQueue<Int>(compareBy { x -> counts[x] })
+        for (x in counts.keys) {
+            minHeap.offer(x)
+            if (minHeap.size > k) {
+                minHeap.poll()
+            }
         }
 
         // k is always valid
-        val result = IntArray(k)
-        for (i in 0 until k) {
-            result[i] = pq.poll()
+        val ans = IntArray(k)
+        for (i in k - 1 downTo 0) {
+            ans[i] = minHeap.poll()
         }
-        return result
+        return ans
     }
 }
