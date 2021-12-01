@@ -1,5 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.problems.FindTheTownJudge
+
 /**
  * [Find the Town Judge](https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/535/week-2-may-8th-may-14th/3325/)
  *
@@ -13,9 +15,9 @@ package com.github.dkoval.leetcode.challenge
  * You are given trust, an array of pairs ```trust[i] = [a, b]``` representing that the person labelled a trusts the person labelled b.
  * If the town judge exists and can be identified, return the label of the town judge. Otherwise, return -1.
  */
-object FindTheTownJudge {
+object FindTheTownJudgeByComputingTrustTable : FindTheTownJudge {
 
-    fun findJudge(N: Int, trust: Array<IntArray>): Int {
+    override fun findJudge(N: Int, trust: Array<IntArray>): Int {
         val trustTable = buildTrustTable(trust)
         if (trustTable.keys.size == N - 1) {
             val looksLikeJudge = looksLikeJudge(trustTable.keys, N)
