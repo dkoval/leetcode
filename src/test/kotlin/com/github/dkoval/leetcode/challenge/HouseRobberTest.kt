@@ -30,7 +30,7 @@ internal class HouseRobberTest {
     }
 
     @Nested
-    inner class HouseRobberDPArrayTest {
+    inner class HouseRobberDPTopDownTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -38,12 +38,12 @@ internal class HouseRobberTest {
             nums: IntArray,
             expected: Int
         ) {
-            HouseRobberDPArray.test(nums, expected)
+            HouseRobberDPTopDown.test(nums, expected)
         }
     }
 
     @Nested
-    inner class HouseRobberDPSpaceOptimizedTest {
+    inner class HouseRobberDPBottomUpTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -51,7 +51,20 @@ internal class HouseRobberTest {
             nums: IntArray,
             expected: Int
         ) {
-            HouseRobberDPSpaceOptimized.test(nums, expected)
+            HouseRobberDPBottomUp.test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class HouseRobberDPBottomUpSpaceOptimizedTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should determine the maximum amount of money you can rob tonight without alerting the police`(
+            nums: IntArray,
+            expected: Int
+        ) {
+            HouseRobberDPBottomUpSpaceOptimized.test(nums, expected)
         }
     }
 
