@@ -2,6 +2,7 @@ package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.ListNode
 
+
 /**
  * [Odd Even Linked List](https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/536/week-3-may-15th-may-21st/3331/)
  *
@@ -12,42 +13,31 @@ import com.github.dkoval.leetcode.ListNode
  */
 object OddEvenLinkedList {
 
+    // O(N) time | O(1) space
     fun oddEvenList(head: ListNode?): ListNode? {
-        if (head == null) {
-            return null
-        }
+        val dummyHeadOdd = ListNode(-1)
+        var currOdd = dummyHeadOdd
 
-        val odd = ListNodeExt()
-        val even = ListNodeExt()
+        val dummyHeadEven = ListNode(-1)
+        var currEven = dummyHeadEven
 
-        var current = head
-        var count = 1
-        while (current != null) {
-            val target = if (count % 2 == 1) odd else even
-            target.append(current)
-            current = current.next
-            count++
-        }
-
-        odd.last?.next = even.head
-        even.last?.next = null
-        return odd.head
-    }
-
-    private class ListNodeExt(
-        var head: ListNode? = null,
-        var last: ListNode? = head
-    ) {
-
-        fun append(node: ListNode): ListNodeExt {
-            if (head == null) {
-                head = node
-                last = head
+        var curr = head
+        var odd = true
+        while (curr != null) {
+            val next = curr.next
+            if (odd) {
+                currOdd.next = curr
+                currOdd = currOdd.next!!
             } else {
-                last?.next = node
-                last = node
+                currEven.next = curr
+                currEven = currEven.next!!
             }
-            return this
+            curr.next = null
+            odd = !odd
+            curr = next
         }
+
+        currOdd.next = dummyHeadEven.next
+        return dummyHeadOdd.next
     }
 }
