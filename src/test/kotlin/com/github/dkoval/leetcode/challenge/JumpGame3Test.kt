@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.JumpGame3.JumpGame3BFS
 import com.github.dkoval.leetcode.challenge.JumpGame3.JumpGame3DFS
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -29,6 +30,11 @@ internal class JumpGame3Test {
                 intArrayOf(3, 0, 2, 1, 2),
                 2,
                 false
+            ),
+            Arguments.of(
+                intArrayOf(0),
+                0,
+                true
             )
         )
     }
@@ -44,6 +50,20 @@ internal class JumpGame3Test {
             expected: Boolean
         ) {
             JumpGame3DFS().test(arr, start, expected)
+        }
+    }
+
+    @Nested
+    inner class JumpGame3BFSTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should check check if you can reach to any index with value 0`(
+            arr: IntArray,
+            start: Int,
+            expected: Boolean
+        ) {
+            JumpGame3BFS().test(arr, start, expected)
         }
     }
 
