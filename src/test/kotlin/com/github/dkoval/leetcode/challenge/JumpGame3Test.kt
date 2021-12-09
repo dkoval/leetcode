@@ -1,6 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.JumpGame3.JumpGame3DPTopDown
+import com.github.dkoval.leetcode.challenge.JumpGame3.JumpGame3DFS
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -34,7 +34,7 @@ internal class JumpGame3Test {
     }
 
     @Nested
-    inner class JumpGame3DPTopDownTest {
+    inner class JumpGame3DFSTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -43,7 +43,7 @@ internal class JumpGame3Test {
             start: Int,
             expected: Boolean
         ) {
-            JumpGame3DPTopDown().test(arr, start, expected)
+            JumpGame3DFS().test(arr, start, expected)
         }
     }
 

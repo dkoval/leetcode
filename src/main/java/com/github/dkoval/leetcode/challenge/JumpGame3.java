@@ -1,5 +1,8 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * <a href="https://leetcode.com/problems/jump-game-iii/">Jump Game III</a>
  * <p>
@@ -20,19 +23,14 @@ public interface JumpGame3 {
     boolean canReach(int[] arr, int start);
 
     // O(N) time | O(N) space
-    class JumpGame3DPTopDown implements JumpGame3 {
+    class JumpGame3DFS implements JumpGame3 {
 
         public boolean canReach(int[] arr, int start) {
-            Boolean[] memo = new Boolean[arr.length];
-            return canReach(arr, start, memo);
+            return dfs(arr, start, new HashSet<>());
         }
 
-        private boolean canReach(int[] arr, int idx, Boolean[] memo) {
-            if (idx < 0 || idx >= arr.length) {
-                return false;
-            }
-
-            if (arr[idx] < 0) {
+        private boolean dfs(int[] arr, int idx, Set<Integer> visited) {
+            if (idx < 0 || idx >= arr.length || visited.contains(idx)) {
                 return false;
             }
 
@@ -40,19 +38,11 @@ public interface JumpGame3 {
                 return true;
             }
 
-            if (memo[idx] != null) {
-                return memo[idx];
-            }
-
             // mark the current index as visited to avoid going in cycles
-            int numSteps = arr[idx];
-            arr[idx] = -1;
+            visited.add(idx);
 
             // check if we can reach to any index with value 0 by jumping arr[i] steps in both directions
-            memo[idx] = canReach(arr, idx + numSteps, memo) || canReach(arr, idx - numSteps, memo);
-
-            arr[idx] = numSteps;
-            return memo[idx];
+            return dfs(arr, idx + arr[idx], visited) || dfs(arr, idx - arr[idx], visited);
         }
     }
 }
