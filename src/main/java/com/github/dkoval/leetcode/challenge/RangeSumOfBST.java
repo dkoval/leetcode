@@ -18,6 +18,7 @@ import com.github.dkoval.leetcode.TreeNode;
  */
 public class RangeSumOfBST {
 
+    // O(N) time | O(H), where H is the height of a BST; H = N in the worst case
     public int rangeSumBST(TreeNode root, int low, int high) {
         if (root == null) {
             return 0;
