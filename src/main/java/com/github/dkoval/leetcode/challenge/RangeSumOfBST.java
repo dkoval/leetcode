@@ -27,12 +27,12 @@ public class RangeSumOfBST {
         int sum = 0;
         if (root.val >= low && root.val <= high) {
             sum += root.val;
+        }
+        if (root.val >= low) {
             sum += rangeSumBST(root.left, low, high);
+        }
+        if (root.val <= high) {
             sum += rangeSumBST(root.right, low, high);
-        } else if (root.val < low) {
-            sum += rangeSumBST(root.right, low, high);
-        } else {
-            sum += rangeSumBST(root.left, low, high);
         }
         return sum;
     }
