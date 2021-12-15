@@ -34,6 +34,30 @@ internal class InsertionSortListTest {
             ),
             Arguments.of(
                 ListNode(1)
+            ),
+            Arguments.of(
+                ListNode(1).apply {
+                    next = ListNode(2).apply {
+                        next = ListNode(3).apply {
+                            next = ListNode(5).apply {
+                                next = ListNode(4)
+                            }
+                        }
+                    }
+                }
+            ),
+            Arguments.of(
+                ListNode(1).apply {
+                    next = ListNode(2).apply {
+                        next = ListNode(3).apply {
+                            next = ListNode(5).apply {
+                                next = ListNode(4).apply {
+                                    next = ListNode(6)
+                                }
+                            }
+                        }
+                    }
+                }
             )
         )
     }
