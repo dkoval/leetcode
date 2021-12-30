@@ -32,14 +32,14 @@ public interface SmallestIntegerDivisibleByK {
 
             // Given N1 = 11...1, rem1 = N1 % k, where k >= 1, let's compute next N2 and rem2 values:
             // N2 = N1 * 10 + 1 (add digit 1 to the right of N1)
-            // rem2 = N2 % k = (N1 * 10 + 1) % k = ((N1 * 10) % k + 1 % k) % k = ((N1 % k * 10 % k) % k + 1 % k) % k =
-            // = (N1 % k * 10 % k + 1) % k = (rem1 * 10 % k + 1) % k
+            // rem2 = N2 % k = (N1 * 10 + 1) % k = ((N1 * 10) % k + 1 % k) % k = (((N1 % k) * (10 % k)) % k + 1 % k) % k =
+            // = ((N1 % k) * (10 % k) + 1) % k = (rem1 * (10 % k) + 1) % k
 
             // seen[] stores all possible remainders of N % k, i.e. {0, 1, ..., k - 1}.
             // The array is used to avoid running into infinite loop if N = 11...1 such that N % k = 0 doesn't exist.
             boolean[] seen = new boolean[k];
             while (rem != 0) {
-                rem = (rem * 10 % k + 1) % k;
+                rem = (rem * (10 % k) + 1) % k;
                 length++;
                 if (seen[rem]) {
                     return -1;
@@ -59,7 +59,7 @@ public interface SmallestIntegerDivisibleByK {
             // if N = 11...1 such that N % k = 0 exists, the while-loop executes <= k times.
             int rem = 0;
             for (int i = 1; i <= k; i++) {
-                rem = (rem * 10 % k + 1) % k;
+                rem = (rem * (10 % k) + 1) % k;
                 if (rem == 0) {
                     return i;
                 }
