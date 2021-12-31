@@ -1,16 +1,22 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.TreeNode
+import com.github.dkoval.leetcode.challenge.MaximumDifferenceBetweenNodeAndAncestor.MaximumDifferenceBetweenNodeAndAncestorMaxMinusMin
+import com.github.dkoval.leetcode.challenge.MaximumDifferenceBetweenNodeAndAncestor.MaximumDifferenceBetweenNodeAndAncestorPostOrderTraversal
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
 
 internal class MaximumDifferenceBetweenNodeAndAncestorTest {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 TreeNode(8).apply {
                     left = TreeNode(3).apply {
@@ -41,10 +47,28 @@ internal class MaximumDifferenceBetweenNodeAndAncestorTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should maximum difference between node and ancestor`(root: TreeNode, expected: Int) {
-        val actual = MaximumDifferenceBetweenNodeAndAncestor().maxAncestorDiff(root)
+    @Nested
+    inner class MaximumDifferenceBetweenNodeAndAncestorPostOrderTraversalTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should maximum difference between node and ancestor`(root: TreeNode, expected: Int) {
+            MaximumDifferenceBetweenNodeAndAncestorPostOrderTraversal().test(root, expected)
+        }
+    }
+
+    @Nested
+    inner class MaximumDifferenceBetweenNodeAndAncestorMaxMinusMinTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should maximum difference between node and ancestor`(root: TreeNode, expected: Int) {
+            MaximumDifferenceBetweenNodeAndAncestorMaxMinusMin().test(root, expected)
+        }
+    }
+
+    private fun MaximumDifferenceBetweenNodeAndAncestor.test(root: TreeNode, expected: Int) {
+        val actual = maxAncestorDiff(root)
         assertEquals(expected, actual)
     }
 }

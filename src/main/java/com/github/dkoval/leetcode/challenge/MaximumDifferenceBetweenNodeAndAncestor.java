@@ -15,47 +15,76 @@ import com.github.dkoval.leetcode.TreeNode;
  *  <li>0 <= Node.val <= 10^5</li>
  * </ul>
  */
-public class MaximumDifferenceBetweenNodeAndAncestor {
+public interface MaximumDifferenceBetweenNodeAndAncestor {
 
-    private static class MinMax {
-        final int min;
-        final int max;
+    int maxAncestorDiff(TreeNode root);
 
-        MinMax(int min, int max) {
-            this.min = min;
-            this.max = max;
+    // O(N) time | O(N) space
+    class MaximumDifferenceBetweenNodeAndAncestorPostOrderTraversal implements MaximumDifferenceBetweenNodeAndAncestor {
+
+        private static class MinMax {
+            final int min;
+            final int max;
+
+            MinMax(int min, int max) {
+                this.min = min;
+                this.max = max;
+            }
         }
-    }
 
-    private static class TreeInfo {
-        final int maxDiff;
-        final MinMax bounds;
+        private static class TreeInfo {
+            final int maxDiff;
+            final MinMax bounds;
 
-        TreeInfo(int maxDiff, MinMax bounds) {
-            this.maxDiff = maxDiff;
-            this.bounds = bounds;
+            TreeInfo(int maxDiff, MinMax bounds) {
+                this.maxDiff = maxDiff;
+                this.bounds = bounds;
+            }
+        }
+
+        @Override
+        public int maxAncestorDiff(TreeNode root) {
+            return getMaxDiff(root).maxDiff;
+        }
+
+        private TreeInfo getMaxDiff(TreeNode node) {
+            if (node == null) {
+                return new TreeInfo(-1, new MinMax(Integer.MAX_VALUE, Integer.MIN_VALUE));
+            }
+
+            TreeInfo left = getMaxDiff(node.left);
+            TreeInfo right = getMaxDiff(node.right);
+
+            int min = Math.min(node.val, Math.min(left.bounds.min, right.bounds.min));
+            int max = Math.max(node.val, Math.max(left.bounds.max, right.bounds.max));
+
+            int maxDiff = Math.max(left.maxDiff, right.maxDiff);
+            maxDiff = Math.max(maxDiff, max - node.val);
+            maxDiff = Math.max(maxDiff, node.val - min);
+            return new TreeInfo(maxDiff, new MinMax(min, max));
         }
     }
 
     // O(N) time | O(N) space
-    public int maxAncestorDiff(TreeNode root) {
-        return getMaxDiff(root).maxDiff;
-    }
+    class MaximumDifferenceBetweenNodeAndAncestorMaxMinusMin implements MaximumDifferenceBetweenNodeAndAncestor {
 
-    private TreeInfo getMaxDiff(TreeNode node) {
-        if (node == null) {
-            return new TreeInfo(-1, new MinMax(Integer.MAX_VALUE, Integer.MIN_VALUE));
+        @Override
+        public int maxAncestorDiff(TreeNode root) {
+            return getMaxDiff(root, root.val, root.val);
         }
 
-        TreeInfo left = getMaxDiff(node.left);
-        TreeInfo right = getMaxDiff(node.right);
+        private int getMaxDiff(TreeNode node, int currMin, int currMax) {
+            // return the maximum difference between max and min values of all root-to-leaf paths
+            if (node == null) {
+                return currMax - currMin;
+            }
 
-        int min = Math.min(node.val, Math.min(left.bounds.min, right.bounds.min));
-        int max = Math.max(node.val, Math.max(left.bounds.max, right.bounds.max));
+            currMin = Math.min(currMin, node.val);
+            currMax = Math.max(currMax, node.val);
 
-        int maxDiff = Math.max(left.maxDiff, right.maxDiff);
-        maxDiff = Math.max(maxDiff, max - node.val);
-        maxDiff = Math.max(maxDiff, node.val - min);
-        return new TreeInfo(maxDiff, new MinMax(min, max));
+            int leftDiff = getMaxDiff(node.left, currMin, currMax);
+            int rightDiff = getMaxDiff(node.right, currMin, currMax);
+            return Math.max(leftDiff, rightDiff);
+        }
     }
 }
