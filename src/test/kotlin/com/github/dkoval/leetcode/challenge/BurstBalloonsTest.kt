@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.BurstBalloons.BurstBalloonsInitial
-import com.github.dkoval.leetcode.challenge.BurstBalloons.BurstBalloonsRemastered
+import com.github.dkoval.leetcode.challenge.BurstBalloons.BurstBalloonsDPBottomUp
+import com.github.dkoval.leetcode.challenge.BurstBalloons.BurstBalloonsDPTopDown
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -28,7 +28,7 @@ internal class BurstBalloonsTest {
     }
 
     @Nested
-    inner class BurstBalloonsInitialTest {
+    inner class BurstBalloonsDPTopDownTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -36,12 +36,13 @@ internal class BurstBalloonsTest {
             nums: IntArray,
             expected: Int
         ) {
-            BurstBalloonsInitial().test(nums, expected)
+            BurstBalloonsDPTopDown()
+                .test(nums, expected)
         }
     }
 
     @Nested
-    inner class BurstBalloonsRemasteredTest {
+    inner class BurstBalloonsDPBottomUpTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -49,7 +50,8 @@ internal class BurstBalloonsTest {
             nums: IntArray,
             expected: Int
         ) {
-            BurstBalloonsRemastered().test(nums, expected)
+            BurstBalloonsDPBottomUp()
+                .test(nums, expected)
         }
     }
 

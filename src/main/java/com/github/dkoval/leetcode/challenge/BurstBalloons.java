@@ -1,5 +1,8 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * <a href="https://leetcode.com/explore/challenge/card/december-leetcoding-challenge/570/week-2-december-8th-december-14th/3564/">Burst Balloons</a>
  * Difficulty: Hard
@@ -19,48 +22,45 @@ public interface BurstBalloons {
 
     int maxCoins(int[] nums);
 
-    class BurstBalloonsInitial implements BurstBalloons {
+    class BurstBalloonsDPTopDown implements BurstBalloons {
 
+        // Resource: https://www.youtube.com/watch?v=Hps6bHDGtqQ
         @Override
         public int maxCoins(int[] nums) {
-            int n = nums.length;
-            if (n == 0) {
-                return 0;
-            }
-
-            int[] balloons = new int[n + 2];
+            int n = nums.length + 2;
+            int[] balloons = new int[n];
+            // append imaginary balloon painted with 1 to the left and to the right of nums[]
             balloons[0] = 1;
-            for (int i = 1; i <= n; i++) {
-                balloons[i] = nums[i - 1];
+            balloons[n - 1] = 1;
+            for (int i = 0; i < nums.length; i++) {
+                balloons[i + 1] = nums[i];
             }
-            balloons[n + 1] = 1;
+            return maxCoins(balloons, 0, n - 1, new HashMap<>());
+        }
 
-            int[][] dp = new int[n + 1][n + 1];
-            for (int left = n; left >= 1; left--) {
-                for (int right = left; right <= n; right++) {
-                    if (left == right) {
-                        // burst left balloon
-                        dp[left][right] = balloons[left - 1] * balloons[left] * balloons[left + 1];
-                    } else {
-                        // p == left
-                        dp[left][right] = dp[left + 1][right] + balloons[left - 1] * balloons[left] * balloons[right + 1];
-                        // p == right
-                        dp[left][right] = Math.max(dp[left][right], dp[left][right - 1] + balloons[left - 1] * balloons[right] * balloons[right + 1]);
-                        // left < p < right
-                        for (int p = left + 1; p < right; p++) {
-                            dp[left][right] = Math.max(dp[left][right], dp[left][p - 1] + dp[p + 1][right] + balloons[p] * balloons[left - 1] * balloons[right + 1]);
-                        }
-                    }
-                }
+        // Find the maximum coins you can collect by bursting balloons between l and r
+        private int maxCoins(int[] balloons, int l, int r, Map<String, Integer> memo) {
+            String key = l + "," + r;
+            if (memo.containsKey(key)) {
+                return memo.get(key);
             }
-            return dp[1][n];
+
+            // balloon[k] is the last balloon to burst in (l:r)
+            int maxCoins = 0;
+            for (int k = l + 1; k < r; k++) {
+                int numCoins = balloons[l] * balloons[k] * balloons[r];
+                maxCoins = Math.max(maxCoins, numCoins + maxCoins(balloons, l, k, memo) + maxCoins(balloons, k, r, memo));
+            }
+
+            memo.put(key, maxCoins);
+            return maxCoins;
         }
     }
 
     // O(N^3) time | O(N^2) space
-    class BurstBalloonsRemastered implements BurstBalloons {
+    class BurstBalloonsDPBottomUp implements BurstBalloons {
 
-        // Explanation of the algorithm: https://www.youtube.com/watch?v=IFNibRVgFBo
+        // Resource: https://www.youtube.com/watch?v=IFNibRVgFBo
         @Override
         public int maxCoins(int[] nums) {
             int n = nums.length;
@@ -69,16 +69,16 @@ public interface BurstBalloons {
             int[][] dp = new int[n][n];
             // consider all sub-arrays of balloons[i:j] and find the last balloon to burst in the sub-array to maximize the number of collected coins
             for (int len = 1; len <= n; len++) {
-                for (int i = 0; i <= n - len; i++) {
-                    int j = i + len - 1;
-                    // balloons[k] is the last balloon to burst in balloons[i:j]
-                    for (int k = i; k <= j; k++) {
-                        int numCoins = (k == i ? 0 : dp[i][k - 1]) // left side: if k = i, there is nothing to the left
-                                + (i == 0 ? 1 : nums[i - 1]) * nums[k] * (j == n - 1 ? 1 : nums[j + 1]) // balloon to burst
-                                + (k == j ? 0 : dp[k + 1][j]); // right side: if k = j, there is nothing to the right
+                for (int l = 0; l <= n - len; l++) {
+                    int r = l + len - 1;
+                    // balloons[k] is the last balloon to burst in balloons[l:r]
+                    for (int k = l; k <= r; k++) {
+                        int numCoins = (k == l ? 0 : dp[l][k - 1]) // left side: if k = l, there is nothing to the left
+                                + (l == 0 ? 1 : nums[l - 1]) * nums[k] * (r == n - 1 ? 1 : nums[r + 1]) // balloon to burst
+                                + (k == r ? 0 : dp[k + 1][r]); // right side: if k = r, there is nothing to the right
 
-                        //System.out.printf("Length = %d, sub-array = [%d:%d], last balloon to burst = %d, coins = %d\n", len, i, j, k, numCoins);
-                        dp[i][j] = Math.max(dp[i][j], numCoins);
+                        //System.out.printf("Length = %d, sub-array = [%d:%d], last balloon to burst = %d, coins = %d\n", len, l, r, k, numCoins);
+                        dp[l][r] = Math.max(dp[l][r], numCoins);
                     }
                 }
             }
