@@ -76,8 +76,8 @@ public interface BurstBalloons {
             int maxCoins = 0;
             for (int k = l; k <= r; k++) {
                 int numCoins = balloons[l - 1] * balloons[k] * balloons[r + 1];
-                numCoins += maxCoins(balloons, l, k - 1, memo); // add additional coins we get from the left sub-array
-                numCoins += maxCoins(balloons, k + 1, r, memo); // add additional coins we get from the right sub-array
+                numCoins += maxCoins(balloons, l, k - 1, memo); // add additional coins we can get from the left sub-array
+                numCoins += maxCoins(balloons, k + 1, r, memo); // add additional coins we can get from the right sub-array
                 maxCoins = Math.max(maxCoins, numCoins);
             }
 
@@ -92,26 +92,32 @@ public interface BurstBalloons {
         // Resource: https://www.youtube.com/watch?v=IFNibRVgFBo
         @Override
         public int maxCoins(int[] nums) {
-            int n = nums.length;
+            int n = nums.length + 2;
+            int[] balloons = new int[n];
+            // append imaginary balloon painted with 1 to the left and to the right of nums[]
+            balloons[0] = 1;
+            balloons[n - 1] = 1;
+            for (int i = 0; i < nums.length; i++) {
+                balloons[i + 1] = nums[i];
+            }
 
-            // dp[i][j] - the maximum coins you can collect considering balloons[i:j]
+            // dp[i][j] - the maximum coins you can collect from balloons[i:j] sub-array
             int[][] dp = new int[n][n];
-            // consider all sub-arrays of balloons[i:j] and find the last balloon to burst in the sub-array to maximize the number of collected coins
-            for (int len = 1; len <= n; len++) {
-                for (int l = 0; l <= n - len; l++) {
+            // consider all sub-arrays [l:r] of balloons[] and choose l <= k <= r, the index of last balloon to burst in [l:r],
+            // so that the number of coins collected from [l:r] is the maximum possible
+            for (int len = 1; len <= n - 2; len++) {
+                for (int l = 1; l <= n - 1 - len; l++) {
                     int r = l + len - 1;
                     // balloons[k] is the last balloon to burst in balloons[l:r]
                     for (int k = l; k <= r; k++) {
-                        int numCoins = (k == l ? 0 : dp[l][k - 1]) // left side: if k = l, there is nothing to the left
-                                + (l == 0 ? 1 : nums[l - 1]) * nums[k] * (r == n - 1 ? 1 : nums[r + 1]) // balloon to burst
-                                + (k == r ? 0 : dp[k + 1][r]); // right side: if k = r, there is nothing to the right
-
-                        //System.out.printf("Length = %d, sub-array = [%d:%d], last balloon to burst = %d, coins = %d\n", len, l, r, k, numCoins);
+                        int numCoins = balloons[l - 1] * balloons[k] * balloons[r + 1];
+                        numCoins += dp[l][k - 1]; // add additional coins we can get from the left sub-array
+                        numCoins += dp[k + 1][r]; // add additional coins we can get from the right sub-array
                         dp[l][r] = Math.max(dp[l][r], numCoins);
                     }
                 }
             }
-            return dp[0][n - 1];
+            return dp[1][n - 2];
         }
     }
 }
