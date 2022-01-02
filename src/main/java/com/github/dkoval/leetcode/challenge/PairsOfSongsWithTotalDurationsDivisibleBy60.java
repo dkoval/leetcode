@@ -14,13 +14,13 @@ package com.github.dkoval.leetcode.challenge;
  * <li>1 <= time[i] <= 500</li>
  * </ul>
  */
-public abstract class PairsOfSongsWithTotalDurationsDivisibleBy60 {
+public interface PairsOfSongsWithTotalDurationsDivisibleBy60 {
 
-    public abstract int numPairsDivisibleBy60(int[] time);
+    int numPairsDivisibleBy60(int[] time);
 
     // Brute force: O(N^2) time | O(1) space
     // Results in TLE
-    public static class PairsOfSongsWithTotalDurationsDivisibleBy60BruteForce extends PairsOfSongsWithTotalDurationsDivisibleBy60 {
+    class PairsOfSongsWithTotalDurationsDivisibleBy60BruteForce implements PairsOfSongsWithTotalDurationsDivisibleBy60 {
 
         @Override
         public int numPairsDivisibleBy60(int[] time) {
@@ -36,45 +36,58 @@ public abstract class PairsOfSongsWithTotalDurationsDivisibleBy60 {
         }
     }
 
-    public static class PairsOfSongsWithTotalDurationsDivisibleBy60CountingRemainders extends PairsOfSongsWithTotalDurationsDivisibleBy60 {
+    // O(N) time | O(60) = O(1) space
+    class PairsOfSongsWithTotalDurationsDivisibleBy60CountingRemainders implements PairsOfSongsWithTotalDurationsDivisibleBy60 {
 
         @Override
         public int numPairsDivisibleBy60(int[] time) {
+            // Theory:
+            // (time[i] + time[j]) % 60 = 0
+            // (time[i] % 60 + time[j] % 60) % 60 = 0
+
+            // Reduce times into their congruence classes of mod 60.
+            // remainders[i] is the number of remainders equal to i
             int[] remainders = new int[60];
             for (int t : time) {
                 remainders[t % 60]++;
             }
-            int count = choose2(remainders[0]) + choose2(remainders[30]);
+
+            // Corner cases: handle 0 and 30 remainders separately.
+            // The umber of pairs that can be formed out of n elements is
+            // C(n, 2) = n * (n - 1) / 2
+            int count = numPairs(remainders[0]) + numPairs(remainders[30]);
             for (int i = 1; i <= 29; i++) {
                 count += remainders[i] * remainders[60 - i];
             }
             return count;
         }
 
-        private int choose2(int n) {
+        private int numPairs(int n) {
             // C(n, 2) = n * (n - 1) / 2
             return n * (n - 1) / 2;
         }
     }
 
-    public static class PairsOfSongsWithTotalDurationsDivisibleBy60CountingRemaindersRefactored extends PairsOfSongsWithTotalDurationsDivisibleBy60 {
+    // O(N) time | O(60) = O(1) space
+    class PairsOfSongsWithTotalDurationsDivisibleBy60CountingRemaindersRefactored implements PairsOfSongsWithTotalDurationsDivisibleBy60 {
 
         @Override
         public int numPairsDivisibleBy60(int[] time) {
+            // remainders[i] is the number of remainders equal to i
             int[] remainders = new int[60];
+
+            // (prev + curr) % 60 = 0
+            // (prev % 60 + curr % 60) = 0
+            // prev % 60 = -curr % 60 = (60 - curr % 60) % 60
             int count = 0;
             for (int t : time) {
-                int r1 = t % 60;
-                // count made pairs
-                if (r1 % 60 == 0) {
-                    count += remainders[0];
-                } else {
-                    int r2 = 60 - r1;
-                    count += remainders[r2];
-                }
-                remainders[r1]++;
+                int prev = (60 - t % 60) % 60;
+                // can form remainders[prev] number of pairs with time t
+                count += remainders[prev];
+                remainders[t % 60]++;
             }
             return count;
+
         }
     }
 }
