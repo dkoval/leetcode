@@ -2,6 +2,7 @@ package com.github.dkoval.leetcode.challenge;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * <a href="https://leetcode.com/explore/challenge/card/december-leetcoding-challenge/570/week-2-december-8th-december-14th/3564/">Burst Balloons</a>
@@ -22,9 +23,35 @@ public interface BurstBalloons {
 
     int maxCoins(int[] nums);
 
+    // O(N^3) time | O(N^2) space
     class BurstBalloonsDPTopDown implements BurstBalloons {
 
-        // Resource: https://www.youtube.com/watch?v=Hps6bHDGtqQ
+        private static class Pair {
+            final int first;
+            final int second;
+
+            private Pair(int first, int second) {
+                this.first = first;
+                this.second = second;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                Pair that = (Pair) o;
+                return (first == that.first) && (second == that.second);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(first, second);
+            }
+        }
+
+        // Resources:
+        // https://www.youtube.com/watch?v=VFskby7lUbw
+        // https://www.youtube.com/watch?v=Hps6bHDGtqQ
         @Override
         public int maxCoins(int[] nums) {
             int n = nums.length + 2;
@@ -35,21 +62,23 @@ public interface BurstBalloons {
             for (int i = 0; i < nums.length; i++) {
                 balloons[i + 1] = nums[i];
             }
-            return maxCoins(balloons, 0, n - 1, new HashMap<>());
+            // do not include imaginary balloons
+            return maxCoins(balloons, 1, n - 2, new HashMap<>());
         }
 
-        // Find the maximum coins you can collect by bursting balloons between l and r
-        private int maxCoins(int[] balloons, int l, int r, Map<String, Integer> memo) {
-            String key = l + "," + r;
+        private int maxCoins(int[] balloons, int l, int r, Map<Pair, Integer> memo) {
+            Pair key = new Pair(l, r);
             if (memo.containsKey(key)) {
                 return memo.get(key);
             }
 
-            // balloon[k] is the last balloon to burst in (l:r)
+            // balloon[k] is the last balloon to burst in [l:r]
             int maxCoins = 0;
-            for (int k = l + 1; k < r; k++) {
-                int numCoins = balloons[l] * balloons[k] * balloons[r];
-                maxCoins = Math.max(maxCoins, numCoins + maxCoins(balloons, l, k, memo) + maxCoins(balloons, k, r, memo));
+            for (int k = l; k <= r; k++) {
+                int numCoins = balloons[l - 1] * balloons[k] * balloons[r + 1];
+                numCoins += maxCoins(balloons, l, k - 1, memo); // add additional coins we get from the left sub-array
+                numCoins += maxCoins(balloons, k + 1, r, memo); // add additional coins we get from the right sub-array
+                maxCoins = Math.max(maxCoins, numCoins);
             }
 
             memo.put(key, maxCoins);
