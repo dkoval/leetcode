@@ -16,13 +16,12 @@ object MajorityElementUsingHashMap : MajorityElement {
 
     override fun majorityElement(nums: IntArray): Int {
         val counts = mutableMapOf<Int, Int>()
-        for (num in nums) {
-            val count = counts[num]
-            if (count != null && count + 1 > nums.size / 2) {
-                return num
-            } else {
-                counts[num] = (count ?: 0) + 1
+        for (x in nums) {
+            val count = (counts[x] ?: 0) + 1
+            if (count > nums.size / 2) {
+                return x
             }
+            counts[x] = count
         }
         return -1
     }
