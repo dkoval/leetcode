@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.SortColors.SortColorsInTwoPasses
+import com.github.dkoval.leetcode.challenge.SortColors.SortColorsWithCountingSort
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -32,6 +33,16 @@ internal class SortColorsTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should sort colors`(nums: IntArray, expected: IntArray) {
             SortColorsInTwoPasses().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class SortColorsWithCountingSortTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should sort colors`(nums: IntArray, expected: IntArray) {
+            SortColorsWithCountingSort().test(nums, expected)
         }
     }
 

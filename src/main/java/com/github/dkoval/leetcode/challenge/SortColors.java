@@ -47,4 +47,28 @@ public interface SortColors {
             nums[j] = tmp;
         }
     }
+
+    // O(N) time | O(1) space
+    class SortColorsWithCountingSort implements SortColors {
+
+        @Override
+        public void sortColors(int[] nums) {
+            int n = nums.length;
+
+            // 1st pass: count number of 0's, 1's and 2's
+            int[] counts = new int[3];
+            for (int x : nums) {
+                counts[x]++;
+            }
+
+            // 2nd pass: override nums[] array
+            int i = 0;
+            for (int x = 0; x < counts.length; x++) {
+                int count = counts[x];
+                while (count-- > 0) {
+                    nums[i++] = x;
+                }
+            }
+        }
+    }
 }
