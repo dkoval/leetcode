@@ -21,6 +21,10 @@ internal class SortColorsTest {
                 intArrayOf(0, 0, 1, 1, 2, 2)
             ),
             Arguments.of(
+                intArrayOf(0, 0, 2, 1, 1, 0),
+                intArrayOf(0, 0, 0, 1, 1, 2)
+            ),
+            Arguments.of(
                 intArrayOf(2, 0, 1),
                 intArrayOf(0, 1, 2)
             ),
