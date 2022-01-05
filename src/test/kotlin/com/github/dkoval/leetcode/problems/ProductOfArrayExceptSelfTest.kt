@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
 import com.github.dkoval.leetcode.problems.ProductOfArrayExceptSelf.ProductOfArrayExceptSelfUsingExtraSpace
+import com.github.dkoval.leetcode.problems.ProductOfArrayExceptSelf.ProductOfArrayExceptSelfWithoutExtraSpace
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -36,6 +37,19 @@ internal class ProductOfArrayExceptSelfTest {
             expected: IntArray
         ) {
             ProductOfArrayExceptSelfUsingExtraSpace().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class ProductOfArrayExceptSelfWithoutExtraSpaceTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return an array answer such that answer(i) is equal to the product of all the elements of nums except nums(i)`(
+            nums: IntArray,
+            expected: IntArray
+        ) {
+            ProductOfArrayExceptSelfWithoutExtraSpace().test(nums, expected)
         }
     }
 
