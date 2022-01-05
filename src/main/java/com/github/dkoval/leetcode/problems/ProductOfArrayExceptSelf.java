@@ -64,6 +64,8 @@ public interface ProductOfArrayExceptSelf {
             // Also note that ans[i] = prefix[i] * suffix[i] yields the product of all numbers of nums[] except nums[i]
             int suffix = 1;
             for (int i = n - 1; i >= 0; i--) {
+                // at ths stage, ans[i] stores prefix = nums[0] * ... * nums[i - 1],
+                // therefore ans[i] * suffix gives the desired product at index i
                 ans[i] *= suffix;
                 suffix *= nums[i];
             }
