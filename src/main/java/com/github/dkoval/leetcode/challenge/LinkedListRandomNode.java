@@ -48,7 +48,7 @@ public abstract class LinkedListRandomNode {
         }
     }
 
-    // Reservoir sampling is an randomized algorithm that is used to select K out of N samples, where
+    // Reservoir sampling is a randomized algorithm that is used to select K out of N samples, where
     // N is usually a very large or unknown number.
     public static class LinkedListRandomNodeUsingReservoirSampling extends LinkedListRandomNode {
         private final ListNode head;
