@@ -72,6 +72,25 @@ object MaximumSumSubarrayDivideAndConquer : MaximumSumSubarray {
 }
 
 // O(N) time | O(1) space
+object MaximumSumSubarrayByRemovingNegativePrefixes : MaximumSumSubarray {
+
+    override fun maxSubArray(nums: IntArray): Int {
+        // Observation: prefixes with negative sum do not contribute to the overall result
+        var maxSum = nums[0]
+        var sum = nums[0]
+        for (i in 1 until nums.size) {
+            if (sum < 0) {
+                // "remove" the previous negative prefix and "start" a new sub-array at index i
+                sum = 0
+            }
+            sum += nums[i]
+            maxSum = maxOf(maxSum, sum)
+        }
+        return maxSum
+    }
+}
+
+// O(N) time | O(1) space
 object MaximumSumSubarrayKadaneBottomUp : MaximumSumSubarray {
 
     override fun maxSubArray(nums: IntArray): Int {

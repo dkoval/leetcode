@@ -24,6 +24,10 @@ internal class MaximumSumSubarrayTest {
                 1
             ),
             Arguments.of(
+                intArrayOf(5, 4, -1, 7, 8),
+                23
+            ),
+            Arguments.of(
                 intArrayOf(0),
                 0
             ),
@@ -61,6 +65,19 @@ internal class MaximumSumSubarrayTest {
             expected: Int
         ) {
             MaximumSumSubarrayDivideAndConquer.test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class MaximumSumSubarrayByRemovingNegativePrefixesTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the contiguous subarray (containing at least one number) which has the largest sum `(
+            nums: IntArray,
+            expected: Int
+        ) {
+            MaximumSumSubarrayByRemovingNegativePrefixes.test(nums, expected)
         }
     }
 
