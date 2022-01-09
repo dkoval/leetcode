@@ -52,7 +52,8 @@ public interface IncreasingTripletSubsequence {
         public boolean increasingTriplet(int[] nums) {
             if (nums.length < 3) return false;
             // The idea is to keep track of the first two numbers in increasing order and
-            // find the last number which will be bigger than the first two numbers.
+            // find the last number which will be bigger than the first two numbers, i,e.
+            // first < second < nums[i]
             int first = Integer.MAX_VALUE;
             int second = Integer.MAX_VALUE;
             for (int num : nums) {
