@@ -43,7 +43,7 @@ object LongestPalindromicSubstringBruteForce : LongestPalindromicSubstring {
 }
 
 // Time complexity: O(N^2)
-object LongestPalindromicSubstringUsingExpandOutApproach : LongestPalindromicSubstring {
+object LongestPalindromicSubstringExpandAroundCenter : LongestPalindromicSubstring {
 
     // Resources:
     // https://www.youtube.com/watch?v=ZJUGtWObroc

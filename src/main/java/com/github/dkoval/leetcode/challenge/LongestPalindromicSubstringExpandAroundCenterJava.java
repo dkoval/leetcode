@@ -3,7 +3,7 @@ package com.github.dkoval.leetcode.challenge;
 import com.github.dkoval.leetcode.interview.array.LongestPalindromicSubstring;
 import org.jetbrains.annotations.NotNull;
 
-public class LongestPalindromicSubstringUsingExpandOutApproachJava implements LongestPalindromicSubstring {
+public class LongestPalindromicSubstringExpandAroundCenterJava implements LongestPalindromicSubstring {
 
     @NotNull
     @Override

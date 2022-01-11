@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.interview.array
 
-import com.github.dkoval.leetcode.challenge.LongestPalindromicSubstringUsingExpandOutApproachJava
-import com.github.dkoval.leetcode.problems.LongestPalindromicSubstringUsingExpandOutApproachRevisedJava
+import com.github.dkoval.leetcode.challenge.LongestPalindromicSubstringExpandAroundCenterJava
+import com.github.dkoval.leetcode.problems.LongestPalindromicSubstringExpandAroundCenterRevisedJava
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -39,32 +39,32 @@ internal class LongestPalindromicSubstringTest {
     }
 
     @Nested
-    inner class LongestPalindromicSubstringUsingExpandOutApproachTest {
+    inner class LongestPalindromicSubstringExpandAroundCenterTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the longest palindromic substring`(s: String, expected: String) {
-            LongestPalindromicSubstringUsingExpandOutApproach.test(s, expected)
+            LongestPalindromicSubstringExpandAroundCenter.test(s, expected)
         }
     }
 
     @Nested
-    inner class LongestPalindromicSubstringUsingExpandOutApproachJavaTest {
+    inner class LongestPalindromicSubstringExpandAroundCenterJavaTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the longest palindromic substring`(s: String, expected: String) {
-            LongestPalindromicSubstringUsingExpandOutApproachJava().test(s, expected)
+            LongestPalindromicSubstringExpandAroundCenterJava().test(s, expected)
         }
     }
 
     @Nested
-    inner class LongestPalindromicSubstringUsingExpandOutApproachJavaRevisedTest {
+    inner class LongestPalindromicSubstringExpandAroundCenterRevisedJavaTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the longest palindromic substring`(s: String, expected: String) {
-            LongestPalindromicSubstringUsingExpandOutApproachRevisedJava().test(s, expected)
+            LongestPalindromicSubstringExpandAroundCenterRevisedJava().test(s, expected)
         }
     }
 
