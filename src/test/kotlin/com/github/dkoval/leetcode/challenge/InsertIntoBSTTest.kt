@@ -60,6 +60,11 @@ internal class InsertIntoBSTTest {
                         right = TreeNode(70)
                     }
                 }
+            ),
+            Arguments.of(
+                null,
+                42,
+                TreeNode(42)
             )
         )
     }

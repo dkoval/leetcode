@@ -12,11 +12,11 @@ import com.github.dkoval.leetcode.TreeNode;
  * Notice that there may exist multiple valid ways for the insertion, as long as the tree remains a BST after insertion.
  * You can return any of them.
  */
-public abstract class InsertIntoBST {
+public interface InsertIntoBST {
 
-    public abstract TreeNode insertIntoBST(TreeNode root, int val);
+    TreeNode insertIntoBST(TreeNode root, int val);
 
-    public static class InsertIntoBSTRecursive extends InsertIntoBST {
+    class InsertIntoBSTRecursive implements InsertIntoBST {
 
         @Override
         public TreeNode insertIntoBST(TreeNode root, int val) {
