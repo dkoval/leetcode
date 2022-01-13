@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.MinimumNumberOfArrowsToBurstBalloons.MinimumNumberOfArrowsToBurstBalloonsSortByEndPoint
-import com.github.dkoval.leetcode.challenge.MinimumNumberOfArrowsToBurstBalloons.MinimumNumberOfArrowsToBurstBalloonsSortByStartPoint
+import com.github.dkoval.leetcode.challenge.MinimumNumberOfArrowsToBurstBalloons.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -82,6 +81,19 @@ internal class MinimumNumberOfArrowsToBurstBalloonsTest {
             expected: Int
         ) {
             MinimumNumberOfArrowsToBurstBalloonsSortByStartPoint().test(points, expected)
+        }
+    }
+
+    @Nested
+    inner class MinimumNumberOfArrowsToBurstSweepLineTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum number of arrows that must be shot to burst all balloons`(
+            points: Array<IntArray>,
+            expected: Int
+        ) {
+            MinimumNumberOfArrowsToBurstSweepLine().test(points, expected)
         }
     }
 
