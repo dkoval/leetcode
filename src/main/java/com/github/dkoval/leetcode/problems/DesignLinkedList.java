@@ -41,10 +41,10 @@ public abstract class DesignLinkedList {
             if (index < 0 || index >= size) {
                 return -1;
             }
-            return getNodeAtIndex(index).val;
+            return getAtIndex(index).val;
         }
 
-        private Node getNodeAtIndex(int index) {
+        private Node getAtIndex(int index) {
             int i = 0;
             Node curr = head;
             while (i < index) {
@@ -69,7 +69,8 @@ public abstract class DesignLinkedList {
 
             Node node = new Node(val);
             if (index == 0) {
-                // add a new node before the `head` of the list
+                // add a new node before the `head` of the list:
+                // [+N] <-> head
                 if (head != null) {
                     node.next = head;
                     head.prev = node;
@@ -78,7 +79,8 @@ public abstract class DesignLinkedList {
                 }
                 head = node;
             } else if (index == size) {
-                // add a new node after the `tail` of the list
+                // add a new node after the `tail` of the list:
+                // tail <-> [+N]
                 if (tail != null) {
                     tail.next = node;
                     node.prev = tail;
@@ -87,12 +89,12 @@ public abstract class DesignLinkedList {
                 }
                 tail = node;
             } else {
-                // add a new node in the middle of the list
-                Node curr = getNodeAtIndex(index);
-                Node prev = curr.prev;
-                prev.next = node;
-                node.prev = prev;
+                // add a new node in the middle of the list:
+                // prev <-> [+N] <-> curr
+                Node curr = getAtIndex(index);
                 node.next = curr;
+                node.prev = curr.prev;
+                curr.prev.next = node;
                 curr.prev = node;
             }
             size++;
@@ -107,13 +109,17 @@ public abstract class DesignLinkedList {
                 head = null;
                 tail = null;
             } else if (index == 0) {
+                // delete the first node from the list
                 head = head.next;
                 head.prev = null;
             } else if (index == size - 1) {
+                // delete the last node from the list
                 tail = tail.prev;
                 tail.next = null;
             } else {
-                Node curr = getNodeAtIndex(index);
+                // delete a middle node from the list
+                // prev <-> [-curr] <-> next
+                Node curr = getAtIndex(index);
                 curr.prev.next = curr.next;
                 curr.next.prev = curr.prev;
             }
