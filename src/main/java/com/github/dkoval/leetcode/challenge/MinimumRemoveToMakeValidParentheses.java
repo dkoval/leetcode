@@ -73,6 +73,8 @@ public interface MinimumRemoveToMakeValidParentheses {
 
         @Override
         public String minRemoveToMakeValid(String s) {
+            // Each prefix for a balanced parentheses string has a number of '(' >= ')'.
+            // Similar idea with each suffix.
             int n = s.length();
             Stack<Character> stack = new Stack<>();
             Set<Integer> badIndices = new HashSet<>();
