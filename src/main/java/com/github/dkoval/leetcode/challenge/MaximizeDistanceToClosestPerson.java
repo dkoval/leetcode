@@ -15,29 +15,32 @@ package com.github.dkoval.leetcode.challenge;
 public class MaximizeDistanceToClosestPerson {
 
     public int maxDistToClosest(int[] seats) {
+        int n = seats.length;
         int maxDist = 0;
 
         // leading empty seats
         int i = 0;
         int numEmptySeats = 0;
-        while (seats[i] == 0) {
+        while (i < n && seats[i] == 0) {
             numEmptySeats++;
             i++;
         }
+
         maxDist = Math.max(maxDist, numEmptySeats);
 
         // tailing empty seats
-        int j = seats.length - 1;
+        int j = n - 1;
         numEmptySeats = 0;
-        while (seats[j] == 0) {
+        while (j >= 0 && seats[j] == 0) {
             numEmptySeats++;
             j--;
         }
+        
         maxDist = Math.max(maxDist, numEmptySeats);
 
         // empty seats in the middle
         numEmptySeats = 0;
-        while (++i <= j) {
+        while (i++ < j) {
             if (seats[i] == 0) {
                 numEmptySeats++;
             } else {
