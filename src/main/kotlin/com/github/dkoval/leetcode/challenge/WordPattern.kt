@@ -15,13 +15,22 @@ object WordPattern {
 
     fun wordPattern(pattern: String, str: String): Boolean {
         val words = str.split(" ")
-        if (pattern.length != words.size) return false
+        if (pattern.length != words.size) {
+            return false
+        }
         val charToWord = mutableMapOf<Char, String>()
         val wordToChar = mutableMapOf<String, Char>()
         for (i in pattern.indices) {
-            val word = charToWord.getOrPut(pattern[i]) { words[i] }
-            val char = wordToChar.getOrPut(words[i]) { pattern[i] }
-            if (word != words[i] || char != pattern[i]) return false
+            val c = pattern[i]
+            val word = words[i]
+            if (c in charToWord && charToWord[c] != word) {
+                return false
+            }
+            if (word in wordToChar && wordToChar[word] != c) {
+                return false
+            }
+            charToWord[c] = word
+            wordToChar[word] = c
         }
         return true
     }
