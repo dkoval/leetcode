@@ -73,9 +73,9 @@ object DeleteNodeInBSTRecursive : DeleteNodeInBST {
     override fun deleteNode(root: TreeNode?, key: Int): TreeNode? {
         if (root == null) return null
         when {
-            // find an delete in the left sub-tree of BST
+            // find and delete key in the left subtree
             key < root.`val` -> root.left = deleteNode(root.left, key)
-            // find an delete in the right sub-tree of BST
+            // find and delete key in the right subtree
             key > root.`val` -> root.right = deleteNode(root.right, key)
             else -> {
                 // delete current node
