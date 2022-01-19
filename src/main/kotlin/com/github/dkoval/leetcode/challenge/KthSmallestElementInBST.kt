@@ -10,31 +10,36 @@ import com.github.dkoval.leetcode.TreeNode
  * Note:
  * You may assume k is always valid, 1 ≤ k ≤ BST's total elements.
  */
-object KthSmallestElementInBST {
+interface KthSmallestElementInBST {
 
-    fun kthSmallest(root: TreeNode?, k: Int): Int {
-        val i = CountAndValue(0, Int.MAX_VALUE)
-        inorder(root, k, i);
-        return i.value
+    fun kthSmallest(root: TreeNode, k: Int): Int
+}
+
+object KthSmallestElementInBSTRecursiveInorder : KthSmallestElementInBST {
+
+    override fun kthSmallest(root: TreeNode, k: Int): Int {
+        val ans = IndexAndValue(0, -1)
+        inorder(root, k, ans);
+        return ans.value
     }
 
-    private data class CountAndValue(var count: Int, var value: Int)
+    private data class IndexAndValue(var index: Int, var value: Int)
 
     // Fact: In-order traversal of a BST returns the node in ascending order.
     // Idea: Keep track of the number of nodes processed so far while traversing the BST in in-order fashion.
     // When the number of nodes processed becomes equal to k, the current node is k-th smallest.
-    private fun inorder(root: TreeNode?, k: Int, i: CountAndValue) {
+    private fun inorder(root: TreeNode?, k: Int, ans: IndexAndValue) {
         if (root == null) {
             return
         }
         // search in the left subtree
-        inorder(root.left, k, i)
+        inorder(root.left, k, ans)
         // if the current node is k-th, return its node
-        if (++i.count == k) {
-            i.value = root.`val`
+        if (++ans.index == k) {
+            ans.value = root.`val`
             return
         }
         // search in the right subtree
-        inorder(root.right, k, i)
+        inorder(root.right, k, ans)
     }
 }
