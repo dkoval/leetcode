@@ -43,19 +43,16 @@ public abstract class SerializeAndDeserializeBinaryTree {
         }
 
         private void preorder(TreeNode root, StringBuilder sb) {
+            if (sb.length() > 0) {
+                sb.append(",");
+            }
+
             if (root == null) {
-                if (sb.length() > 0) {
-                    sb.append(",");
-                }
                 sb.append("null");
                 return;
             }
 
-            if (sb.length() > 0) {
-                sb.append(",");
-            }
             sb.append(root.val);
-
             preorder(root.left, sb);
             preorder(root.right, sb);
         }
