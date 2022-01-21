@@ -12,32 +12,22 @@ public interface FindTheTownJudge {
                 return 1;
             }
 
-            // for a vertex i,
-            // counts[i][0] is the number of incoming edges
-            // counts[i][1] is the number of outgoing edges
-            int[][] counts = new int[n + 1][2];
-            for (int[] pair : trust) {
-                get(counts, pair[0])[1]++;
-                get(counts, pair[1])[0]++;
+            // for every label i, count the number incoming and outgoing edges
+            int[] incoming = new int[n]; // incoming[i] is the number of people who trust i
+            int[] outgoing = new int[n]; // outgoing[i] is the number of people i trusts to
+
+            for (int[] t : trust) {
+                // a -> b
+                incoming[t[1] - 1]++;
+                outgoing[t[0] - 1]++;
             }
 
-            for (int i = 1; i <= n; i++) {
-                if (counts[i] == null) {
-                    return -1;
-                }
-
-                if (counts[i][0] == n - 1 && counts[i][1] == 0) {
-                    return i;
+            for (int i = 0; i < n; i++) {
+                if (outgoing[i] == 0 && incoming[i] == n - 1) {
+                    return i + 1;
                 }
             }
             return -1;
-        }
-
-        private int[] get(int[][] counts, int i) {
-            if (counts[i] == null) {
-                counts[i] = new int[2];
-            }
-            return counts[i];
         }
     }
 }

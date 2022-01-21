@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.problems.FindTheTownJudge
+import com.github.dkoval.leetcode.problems.FindTheTownJudge.FindTheTownJudgeByCountingEdges
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -14,7 +15,7 @@ internal class FindTheTownJudgeTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 2,
                 arrayOf(
@@ -82,7 +83,7 @@ internal class FindTheTownJudgeTest {
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the town judge`(N: Int, trust: Array<IntArray>, expected: Int) {
-            FindTheTownJudgeByComputingTrustTable.test(N, trust, expected)
+            FindTheTownJudgeByCountingEdges().test(N, trust, expected)
         }
     }
 
