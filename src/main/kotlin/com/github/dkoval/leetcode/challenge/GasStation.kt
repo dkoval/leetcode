@@ -49,10 +49,15 @@ object GasStationGreedy : GasStation {
     override fun canCompleteCircuit(gas: IntArray, cost: IntArray): Int {
         var start = 0
         var tank = 0 // amount of gas in the tank
-        var sumOfDiffs = 0 // sum of gas[i] - cost[i] differences
+
+        // Solution exists IFF
+        // sum(gas[]) >= sum(cost[])
+        // <=> sum(gas[]) - sum(cost[]) >= 0
+        // <=> sum(diff[]) >= 0, where diff[i] = gas[i] - cost[i]
+        var sumDiff = 0 // sum of gas[i] - cost[i] differences
         for (i in gas.indices) {
             val diff = gas[i] - cost[i]
-            sumOfDiffs += diff
+            sumDiff += diff
             tank += diff
             if (tank < 0) {
                 // we won't be able to get to (i + 1)-th gas station if we start at any index [0:i];
@@ -61,6 +66,6 @@ object GasStationGreedy : GasStation {
                 tank = 0
             }
         }
-        return if (sumOfDiffs >= 0) start else -1
+        return if (sumDiff >= 0) start else -1
     }
 }
