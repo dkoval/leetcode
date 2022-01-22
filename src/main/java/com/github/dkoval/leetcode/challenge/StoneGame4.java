@@ -20,23 +20,37 @@ public abstract class StoneGame4 {
     // Time complexity: O(N^1.5)
     // Space complexity: O(N)
     public static class StoneGame4DPTopDown extends StoneGame4 {
-        private final Boolean[] dp = new Boolean[100_000 + 1]; // 1 <= n <= 10^5
 
         @Override
         public boolean winnerSquareGame(int n) {
-            if (n == 0) return false;
-            if (dp[n] != null) return dp[n];
+            // DP top-down
+            Boolean[] dp = new Boolean[n + 1];
+            doWinnerSquareGame(n, dp);
+            return dp[n];
+        }
+
+        private boolean doWinnerSquareGame(int n, Boolean[] dp) {
+            // base case
+            if (n == 0) {
+                return false;
+            }
+
+            // already solved?
+            if (dp[n] != null) {
+                return dp[n];
+            }
+
             boolean aliceWins = false;
-            // this loop runs sqrt(n) times
             for (int i = 1; i * i <= n; i++) {
-                // Simulate Bob's turns. If Bob loses, Alice wins.
-                if (!winnerSquareGame(n - i * i)) {
+                // Now, it's Bob's turn. If Bob loses, Alice wins.
+                if (!doWinnerSquareGame(n - i * i, dp)) {
                     aliceWins = true;
                     break;
                 }
             }
+
             dp[n] = aliceWins;
-            return dp[n];
+            return aliceWins;
         }
     }
 
