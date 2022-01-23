@@ -27,18 +27,13 @@ object KClosestPointsToOriginUsingPriorityQueue: KClosestPointsToOrigin {
 
     // Resource: https://www.youtube.com/watch?v=XcblB8JVrX8
     override fun kClosest(points: Array<IntArray>, K: Int): Array<IntArray> {
-        //  PQ holds K closest points to the origin (0, 0) in descending order
+        //  PQ (max heap) holds K closest points to the origin (0, 0) in descending order
         val pq = PriorityQueue<IntArray>(compareByDescending { point -> distanceToOriginSquared(point[0], point[1]) })
         for (point in points) {
-            if (pq.size < K) {
-                pq.add(point)
-            } else {
-                val head = pq.peek() // head is the max element in the PQ at this stage
-                if (distanceToOriginSquared(head[0], head[1]) > distanceToOriginSquared(point[0], point[1])) {
-                    // replace max element with the point that is closest to the origin
-                    pq.poll()
-                    pq.add(point)
-                }
+            pq.offer(point)
+            if (pq.size > K) {
+                // poll the max element seen so far from PQ
+                pq.poll()
             }
         }
         return pq.toTypedArray()
