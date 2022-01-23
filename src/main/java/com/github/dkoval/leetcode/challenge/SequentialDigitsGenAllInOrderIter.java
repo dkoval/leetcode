@@ -2,8 +2,10 @@ package com.github.dkoval.leetcode.challenge;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 public class SequentialDigitsGenAllInOrderIter implements SequentialDigits {
 
@@ -26,26 +28,26 @@ public class SequentialDigitsGenAllInOrderIter implements SequentialDigits {
         // 9
         List<Integer> ans = new ArrayList<>();
 
-        List<Integer> nums = new ArrayList<>();
+        Queue<Integer> nums = new ArrayDeque<>();
         for (int digit = 1; digit < 10; digit++) {
-            nums.add(digit);
+            nums.offer(digit);
         }
 
         int repeat = 9;
         while (repeat-- > 0) {
-            // prepare numbers for the next iteration
-            List<Integer> next = new ArrayList<>();
-            for (int x : nums) {
+            int size = nums.size();
+            while (size-- > 0) {
+                int x = nums.poll();
                 if (x >= low && x <= high) {
                     ans.add(x);
                 }
 
+                // take numbers for the next iteration
                 int lastDigit = x % 10;
                 if (lastDigit < 9) {
-                    next.add(x * 10 + lastDigit + 1);
+                    nums.offer(x * 10 + lastDigit + 1);
                 }
             }
-            nums = next;
         }
         return ans;
     }
