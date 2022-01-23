@@ -43,8 +43,8 @@ object SequentialDigitsIterOptimized : SequentialDigits {
         val numDigitsInLow = countDigits(low)
         val numDigitsInHigh = countDigits(high)
         for (numDigits in numDigitsInLow..numDigitsInHigh) {
-            for (i in 1..10 - numDigits) {
-                val num = numWithSequentialDigits(i, i + numDigits - 1)
+            for (digit in 1..10 - numDigits) {
+                val num = numWithSequentialDigits(digit, digit + numDigits - 1)
                 if (num in low..high) {
                     result += num
                 }
