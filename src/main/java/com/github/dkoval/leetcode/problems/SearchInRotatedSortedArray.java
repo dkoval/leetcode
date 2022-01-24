@@ -40,9 +40,11 @@ public class SearchInRotatedSortedArray {
         int right = n - 1;
         while (left < right) {
             int mid = left + (right - left) / 2;
-            if (nums[mid] > nums[right]) {
+            if (nums[mid] >= nums[right]) {
+                // answer is to the right of `mid` index
                 left = mid + 1;
             } else {
+                // nums[mid] is a possible answer as well as numbers to the left of `mid` index
                 right = mid;
             }
         }
