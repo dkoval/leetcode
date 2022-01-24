@@ -23,45 +23,39 @@ package com.github.dkoval.leetcode.problems;
  */
 public class SearchInRotatedSortedArray {
 
-    // Resource: https://www.youtube.com/watch?v=QdVrY3stDD4&t=515s
+    // Resource: https://www.youtube.com/watch?v=QdVrY3stDD4
     // O(logN) time | O(1) space
     public int search(int[] nums, int target) {
         int n = nums.length;
-
-        int start = findIndexOfMinElement(nums);
-        int l = 0;
-        int r = n - 1;
-
-        if (target >= nums[start] && target <= nums[r]) {
-            return binarySearch(nums, start, r, target);
+        int idxOfMin = indexOfMin(nums);
+        if (target >= nums[idxOfMin] && target <= nums[n - 1]) {
+            return binarySearch(nums, idxOfMin, n - 1, target);
         }
-        return binarySearch(nums, 0, start - 1, target);
+        return binarySearch(nums, 0, idxOfMin - 1, target);
     }
 
-    private int findIndexOfMinElement(int[] nums) {
+    private int indexOfMin(int[] nums) {
         int n = nums.length;
-        int l = 0;
-        int r = n - 1;
-        while (l < r) {
-            int mid = l + (r - l) / 2;
-            if (nums[mid] > nums[r]) {
-                l = mid + 1;
+        int left = 0;
+        int right = n - 1;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] > nums[right]) {
+                left = mid + 1;
             } else {
-                r = mid;
+                right = mid;
             }
         }
-        return l;
+        return left;
     }
 
-    private int binarySearch(int[] nums, int start, int end, int target) {
-        int l = start;
-        int r = end;
-        while (l <= r) {
-            int mid = l + (r - l) / 2;
+    private int binarySearch(int[] nums, int left, int right, int target) {
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
             if (nums[mid] < target) {
-                l = mid + 1;
+                left = mid + 1;
             } else if (nums[mid] > target) {
-                r = mid - 1;
+                right = mid - 1;
             } else {
                 return mid;
             }
