@@ -11,7 +11,7 @@ package com.github.dkoval.leetcode.challenge;
  */
 public class SumOfTwoIntegers {
 
-    // Nice explanation of used technique: https://www.youtube.com/watch?v=qq64FrA2UXQ&
+    // Nice explanation of the used technique: https://www.youtube.com/watch?v=qq64FrA2UXQ&
     public int getSum(int a, int b) {
         // a ^ b        - bit by bit sum ignoring carries
         // (a & b) << 1 - carry bits; not that carry gets applied in the next position to the left, that is why we do << 1
