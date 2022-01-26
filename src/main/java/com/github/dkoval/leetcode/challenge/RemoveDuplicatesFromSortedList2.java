@@ -8,29 +8,60 @@ import com.github.dkoval.leetcode.ListNode;
  * Given the head of a sorted linked list, delete all nodes that have duplicate numbers,
  * leaving only distinct numbers from the original list. Return the linked list sorted as well.
  */
-public class RemoveDuplicatesFromSortedList2 {
+public interface RemoveDuplicatesFromSortedList2 {
+
+    ListNode deleteDuplicates(ListNode head);
 
     // O(N) time | O(1) space
-    public ListNode deleteDuplicates(ListNode head) {
-        ListNode curr = head;
-        ListNode prev = null; // points to the last distinct node
-        while (curr != null) {
-            if (curr.next != null && curr.next.val == curr.val) {
-                // skip over duplicates
-                while (curr.next != null && curr.next.val == curr.val) {
+    class RemoveDuplicatesFromSortedList2Rev1 implements RemoveDuplicatesFromSortedList2 {
+
+        @Override
+        public ListNode deleteDuplicates(ListNode head) {
+            ListNode dummy = new ListNode(101, head);
+            ListNode last = dummy; // points to the last unique node in the resulting list
+            ListNode curr = head;  // points to the current node
+            while (curr != null) {
+                if (curr.next != null && curr.next.val == curr.val) {
+                    // skip over duplicates
+                    while (curr.next != null && curr.next.val == curr.val) {
+                        curr = curr.next;
+                    }
+                    // remove duplicates
+                    last.next = curr.next;
+                } else {
+                    last = curr;
+                }
+                curr = curr.next;
+            }
+            return dummy.next;
+        }
+    }
+
+    // O(N) time | O(1) space
+    class RemoveDuplicatesFromSortedList2Rev2 implements RemoveDuplicatesFromSortedList2 {
+
+        @Override
+        public ListNode deleteDuplicates(ListNode head) {
+            ListNode dummy = new ListNode(101, head);
+            ListNode last = dummy; // points to the last unique node in the resulting list
+            ListNode curr = head;  // points to the current node
+            while (curr != null) {
+                if (curr.next != null && curr.next.val == curr.val) {
+                    // skip over duplicates
+                    ListNode prev = curr;
+                    curr = curr.next;
+                    while (curr != null && curr.val == prev.val) {
+                        prev = curr;
+                        curr = curr.next;
+                    }
+                    // remove duplicates
+                    last.next = curr;
+                } else {
+                    last = curr;
                     curr = curr.next;
                 }
-                // remove duplicates
-                if (prev != null) {
-                    prev.next = curr.next;
-                } else {
-                    head = curr.next;
-                }
-            } else {
-                prev = curr;
             }
-            curr = curr.next;
+            return dummy.next;
         }
-        return head;
     }
 }
