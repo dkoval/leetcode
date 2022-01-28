@@ -22,28 +22,29 @@ class WordDictionary {
     /** Adds a word into the data structure. */
     fun addWord(word: String) {
         var curr = root
-        for (letter in word) {
-            val node = curr.children.getOrPut(letter) { TrieNode() }
-            curr = node
+        for (c in word) {
+            curr = curr.children.getOrPut(c) { TrieNode() }
         }
         curr.endOfWord = true
     }
 
     /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
-    fun search(word: String): Boolean = doSearch(word, 0, word.length, root)
+    fun search(word: String): Boolean = doSearch(root, word, 0)
 
-    private fun doSearch(word: String, startIndexInclusive: Int, endIndexExclusive: Int, root: TrieNode): Boolean {
+    private fun doSearch(root: TrieNode, word: String, start: Int): Boolean {
         var curr = root
-        for (i in startIndexInclusive until endIndexExclusive) {
-            val letter = word[i]
-            if (letter == '.') {
-                for ((_, node) in curr.children) {
-                    if (doSearch(word, i + 1, endIndexExclusive, node)) return true
+        for (i in start until word.length) {
+            val c = word[i]
+            if (c == '.') {
+                for ((_, next) in curr.children) {
+                    val found = doSearch(next, word, i + 1)
+                    if (found) {
+                        return true
+                    }
                 }
                 return false
             }
-            val node = curr.children[letter] ?: return false
-            curr = node
+            curr = curr.children[c] ?: return false
         }
         return curr.endOfWord
     }
