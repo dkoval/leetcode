@@ -32,7 +32,7 @@ public interface MinimumSizeSubarraySum {
                 sum[i] = sum[i - 1] + nums[i];
             }
 
-            int ans = Integer.MAX_VALUE;
+            int ans = n + 1;
             // starting from index `start`, consider all sub-arrays of length 1, 2, ..., n
             for (int start = 0; start < n; start++) {
                 for (int end = start; end < n; end++) {
@@ -42,7 +42,7 @@ public interface MinimumSizeSubarraySum {
                     }
                 }
             }
-            return (ans != Integer.MAX_VALUE) ? ans : 0;
+            return (ans <= n) ? ans : 0;
         }
     }
 
@@ -54,7 +54,7 @@ public interface MinimumSizeSubarraySum {
         public int minSubArrayLen(int target, int[] nums) {
             int n = nums.length;
             int start = 0;
-            int ans = Integer.MAX_VALUE;
+            int ans = n + 1;
             int sum = 0;
             for (int end = 0; end < n; end++) {
                 sum += nums[end];
@@ -65,7 +65,7 @@ public interface MinimumSizeSubarraySum {
                     start++;
                 }
             }
-            return (ans != Integer.MAX_VALUE) ? ans : 0;
+            return (ans <= n) ? ans : 0;
         }
     }
 }
