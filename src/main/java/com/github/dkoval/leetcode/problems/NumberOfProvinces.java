@@ -1,8 +1,5 @@
 package com.github.dkoval.leetcode.problems;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * <a href="https://leetcode.com/problems/number-of-provinces/">Number of Provinces</a>
  * <p>
@@ -33,9 +30,9 @@ public class NumberOfProvinces {
     public int findCircleNum(int[][] connected) {
         int n = connected.length;
         int count = 0;
-        Set<Integer> visited = new HashSet<>();
+        boolean[] visited = new boolean[n];
         for (int city = 0; city < n; city++) {
-            if (!visited.contains(city)) {
+            if (!visited[city]) {
                 dfs(connected, city, visited);
                 count++;
             }
@@ -43,11 +40,11 @@ public class NumberOfProvinces {
         return count;
     }
 
-    private void dfs(int[][] connected, int city, Set<Integer> visited) {
+    private void dfs(int[][] connected, int city, boolean[] visited) {
         int n = connected.length;
-        visited.add(city);
+        visited[city] = true;
         for (int neighbour = 0; neighbour < n; neighbour++) {
-            if (connected[city][neighbour] == 1 && !visited.contains(neighbour)) {
+            if (connected[city][neighbour] == 1 && !visited[neighbour]) {
                 dfs(connected, neighbour, visited);
             }
         }
