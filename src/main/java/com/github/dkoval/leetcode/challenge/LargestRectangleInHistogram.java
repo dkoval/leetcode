@@ -65,7 +65,7 @@ public interface LargestRectangleInHistogram {
                 stack.push(new Rectangle(startAt, heights[i]));
             }
 
-            // stack is still not empty?
+            // is stack still not empty?
             while (!stack.isEmpty()) {
                 Rectangle top = stack.pop();
                 maxArea = Math.max(maxArea, (n - top.startAt) * top.height);
