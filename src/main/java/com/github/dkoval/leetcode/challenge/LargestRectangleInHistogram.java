@@ -33,29 +33,42 @@ public interface LargestRectangleInHistogram {
     // O(N) time | O(N) space
     class LargestRectangleInHistogramUsingStack implements LargestRectangleInHistogram {
 
+        private static class Rectangle {
+            final int startAt;
+            final int height;
+
+            Rectangle(int startAt, int height) {
+                this.startAt = startAt;
+                this.height = height;
+            }
+        }
+
+        // Resource: https://www.youtube.com/watch?v=zx5Sw9130L0
         @Override
         public int largestRectangleArea(int[] heights) {
             int n = heights.length;
             int maxArea = 0;
 
-            // stores indices such that for any indices k < l < m, heights[k] < heights[l] < heights[m]
-            Deque<Integer> stack = new ArrayDeque<>();
-            stack.push(-1); // marks the end
-
+            Deque<Rectangle> stack = new ArrayDeque<>();
             for (int i = 0; i < n; i++) {
-                while (stack.peek() != -1 && heights[stack.peek()] >= heights[i]) {
-                    int currHeight =  heights[stack.pop()];
-                    int currWidth = i - stack.peek() - 1;
-                    maxArea = Math.max(maxArea, currHeight * currWidth);
+                // fix the starting index of the current rectangle
+                int startAt = i;
+                // check if we can further extend the previous rectangle to the right
+                while (!stack.isEmpty() &&  stack.peek().height > heights[i]) {
+                    // we can't longer extend the previous rectangle to the right,
+                    // therefore compute the covered area and pop it from the stack
+                    Rectangle top = stack.pop();
+                    maxArea = Math.max(maxArea, (i - top.startAt) * top.height);
+                    // the previous rectangle of larger height has gone now, therefore we can now extend the current rectangle to the left
+                    startAt = top.startAt;
                 }
-                stack.push(i);
+                stack.push(new Rectangle(startAt, heights[i]));
             }
 
-            // check if we have something left in the stack
-            while (stack.peek() != -1) {
-                int currHeight = heights[stack.pop()];
-                int currWidth = n - stack.peek() - 1;
-                maxArea = Math.max(maxArea, currHeight * currWidth);
+            // stack is still not empty?
+            while (!stack.isEmpty()) {
+                Rectangle top = stack.pop();
+                maxArea = Math.max(maxArea, (n - top.startAt) * top.height);
             }
             return maxArea;
         }
