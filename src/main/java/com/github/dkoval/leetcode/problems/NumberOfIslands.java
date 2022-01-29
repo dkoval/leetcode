@@ -10,10 +10,15 @@ package com.github.dkoval.leetcode.problems;
  */
 public class NumberOfIslands {
 
+    private static final int[][] DIRS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+
     public int numIslands(char[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+
         int count = 0;
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[0].length; j++) {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
                 if (grid[i][j] == '1') {
                     dfs(grid, i, j);
                     count++;
@@ -23,16 +28,25 @@ public class NumberOfIslands {
         return count;
     }
 
-    private void dfs(char[][] grid, int i, int j) {
-        if (grid[i][j] == '0' || grid[i][j] == '#') return;
-        grid[i][j] = '#'; // mark as visited
-        // look up
-        if (i > 0) dfs(grid, i - 1, j);
-        // look down
-        if (i < grid.length - 1) dfs(grid, i + 1, j);
-        // look left
-        if (j > 0) dfs(grid, i, j - 1);
-        // look right
-        if (j < grid[0].length - 1) dfs(grid, i, j + 1);
+    private void dfs(char[][] grid, int row, int col) {
+        int m = grid.length;
+        int n = grid[0].length;
+
+        // check boundaries
+        if (row < 0 || row >= m || col < 0 || col >= n) {
+            return;
+        }
+
+        if (grid[row][col] != '1') {
+            return;
+        }
+
+        // mark current cell as visited
+        grid[row][col] = '#';
+
+        // explore adjacent cells
+        for (int[] d : DIRS) {
+            dfs(grid, row + d[0], col + d[1]);
+        }
     }
 }
