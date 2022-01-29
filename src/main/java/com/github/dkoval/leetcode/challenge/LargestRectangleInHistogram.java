@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * <a href="https://leetcode.com/explore/challenge/card/december-leetcoding-challenge/573/week-5-december-29th-december-31st/3587/">Largest Rectangle in Histogram</a>
@@ -8,12 +9,12 @@ import java.util.Stack;
  * Given n non-negative integers representing the histogram's bar height where the width of each bar is 1,
  * find the area of largest rectangle in the histogram.
  */
-public abstract class LargestRectangleInHistogram {
+public interface LargestRectangleInHistogram {
 
-    public abstract int largestRectangleArea(int[] heights);
+    int largestRectangleArea(int[] heights);
 
     // O(N^2) time | O(1) space
-    public static class LargestRectangleInHistogramBruteForce extends LargestRectangleInHistogram {
+    class LargestRectangleInHistogramBruteForce implements LargestRectangleInHistogram {
 
         @Override
         public int largestRectangleArea(int[] heights) {
@@ -30,14 +31,18 @@ public abstract class LargestRectangleInHistogram {
     }
 
     // O(N) time | O(N) space
-    public static class LargestRectangleInHistogramUsingStack extends LargestRectangleInHistogram {
+    class LargestRectangleInHistogramUsingStack implements LargestRectangleInHistogram {
 
         @Override
         public int largestRectangleArea(int[] heights) {
+            int n = heights.length;
             int maxArea = 0;
-            Stack<Integer> stack = new Stack<>();
+
+            // stores indices such that for any indices k < l < m, heights[k] < heights[l] < heights[m]
+            Deque<Integer> stack = new ArrayDeque<>();
             stack.push(-1); // marks the end
-            for (int i = 0; i < heights.length; i++) {
+
+            for (int i = 0; i < n; i++) {
                 while (stack.peek() != -1 && heights[stack.peek()] >= heights[i]) {
                     int currHeight =  heights[stack.pop()];
                     int currWidth = i - stack.peek() - 1;
@@ -45,10 +50,11 @@ public abstract class LargestRectangleInHistogram {
                 }
                 stack.push(i);
             }
+
             // check if we have something left in the stack
             while (stack.peek() != -1) {
                 int currHeight = heights[stack.pop()];
-                int currWidth = heights.length - stack.peek() - 1;
+                int currWidth = n - stack.peek() - 1;
                 maxArea = Math.max(maxArea, currHeight * currWidth);
             }
             return maxArea;
