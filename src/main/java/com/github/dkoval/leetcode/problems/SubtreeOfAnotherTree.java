@@ -26,22 +26,23 @@ public class SubtreeOfAnotherTree {
             return false;
         }
 
-        return equals(root, subRoot)
-                || isSubtree(root.left, subRoot)
-                || isSubtree(root.right, subRoot);
+        return isSameTree(root, subRoot)
+                || isSubtree(root.left, subRoot)   // check if subRoot is a subtree of the root.left tree
+                || isSubtree(root.right, subRoot); // check if subRoot is a subtree of the root.right tree
     }
 
-    private boolean equals(TreeNode root, TreeNode subRoot) {
+    private boolean isSameTree(TreeNode root, TreeNode subRoot) {
         if (root == null && subRoot == null) {
             return true;
         }
 
+        // root and subRoot either have to be null or non-null at the same time
         if (root == null || subRoot == null) {
             return false;
         }
 
         return (root.val == subRoot.val)
-                && equals(root.left, subRoot.left)
-                && equals(root.right, subRoot.right);
+                && isSameTree(root.left, subRoot.left)
+                && isSameTree(root.right, subRoot.right);
     }
 }
