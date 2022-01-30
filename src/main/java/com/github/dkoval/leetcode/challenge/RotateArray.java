@@ -10,12 +10,16 @@ public interface RotateArray {
 
         @Override
         public void rotate(int[] nums, int k) {
-            k %= nums.length;
-            if (k == 0 || nums.length == 1) return;
-            int[] answer = new int[nums.length];
-            copy(nums, nums.length - k, answer, 0, k);
-            copy(nums, 0, answer, k, nums.length - k);
-            copy(answer, 0, nums, 0, nums.length);
+            int n = nums.length;
+            k %= n;
+            if (k == 0) {
+                return;
+            }
+
+            int[] answer = new int[n];
+            copy(nums, n - k, answer, 0, k);
+            copy(nums, 0, answer, k, n - k);
+            copy(answer, 0, nums, 0, n);
         }
 
         private void copy(int[] src, int srcStart, int[] dst, int dstStart, int length) {
@@ -33,6 +37,10 @@ public interface RotateArray {
         public void rotate(int[] nums, int k) {
             int n = nums.length;
             k %= n;
+            if (k == 0) {
+                return;
+            }
+
             reverse(nums, 0, n - 1);
             reverse(nums, 0, k - 1);
             reverse(nums, k, n - 1);
@@ -42,10 +50,8 @@ public interface RotateArray {
             int l = start, r = end;
             while (l < r) {
                 int tmp = nums[l];
-                nums[l] = nums[r];
-                nums[r] = tmp;
-                l++;
-                r--;
+                nums[l++] = nums[r];
+                nums[r--] = tmp;
             }
         }
     }
