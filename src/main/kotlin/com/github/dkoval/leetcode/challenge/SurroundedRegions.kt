@@ -64,9 +64,9 @@ object SurroundedRegions {
         board[row][col] = '#'
 
         // run DFS for 4-directionally adjacent cells
-        for ((dx, dy) in directions) {
-            val nextRow = row + dx
-            val nextCol = col + dy
+        for ((dy, dx) in directions) {
+            val nextRow = row + dy
+            val nextCol = col + dx
 
             // boundaries check
             if (nextRow !in board.indices || nextCol !in board[0].indices) {
