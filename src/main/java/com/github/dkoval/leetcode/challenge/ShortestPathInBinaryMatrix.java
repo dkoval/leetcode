@@ -22,12 +22,12 @@ public class ShortestPathInBinaryMatrix {
     private static class Cell {
         final int row;
         final int col;
-        final int path;
+        final int distance;
 
-        private Cell(int row, int col, int path) {
+        private Cell(int row, int col, int distance) {
             this.row = row;
             this.col = col;
-            this.path = path;
+            this.distance = distance;
         }
     }
 
@@ -40,25 +40,25 @@ public class ShortestPathInBinaryMatrix {
         while (!queue.isEmpty()) {
             Cell cell = queue.poll();
             if (cell.row == n - 1 && cell.col == n - 1) {
-                return cell.path;
+                return cell.distance;
             }
             // 8-directionally adjacent cells
-            for (int dx = -1; dx <= 1; dx++) {
-                for (int dy = -1; dy <= 1; dy++) {
-                    int nextRow = cell.row + dx;
-                    int nextCol = cell.col + dy;
-                    enqueue(queue, grid, nextRow, nextCol, cell.path + 1);
+            for (int dy = -1; dy <= 1; dy++) {
+                for (int dx = -1; dx <= 1; dx++) {
+                    int nextRow = cell.row + dy;
+                    int nextCol = cell.col + dx;
+                    enqueue(queue, grid, nextRow, nextCol, cell.distance + 1);
                 }
             }
         }
         return -1;
     }
 
-    private void enqueue(Queue<Cell> queue, int[][] grid, int row, int col, int path) {
+    private void enqueue(Queue<Cell> queue, int[][] grid, int row, int col, int distance) {
         int n = grid.length;
         if (row >= 0 && row < n && col >= 0 && col < n && grid[row][col] == 0) {
             grid[row][col] = -1; // mark current cell as visited
-            queue.offer(new Cell(row, col, path));
+            queue.offer(new Cell(row, col, distance));
         }
     }
 }
