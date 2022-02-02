@@ -19,14 +19,14 @@ object CombinationSumKt : CombinationSum {
 
     override fun combinationSum(candidates: IntArray, target: Int): List<List<Int>> {
         val result = mutableListOf<List<Int>>()
-        generateCombinations(candidates, target, 0, mutableListOf(), result)
+        genCombinationSum(candidates, target, 0, mutableListOf(), result)
         return result
     }
 
-    private fun generateCombinations(
+    private fun genCombinationSum(
         candidates: IntArray,
         target: Int,
-        start: Int,
+        idx: Int,
         combination: MutableList<Int>,
         result: MutableList<List<Int>>
     ) {
@@ -35,10 +35,10 @@ object CombinationSumKt : CombinationSum {
             result.add(ArrayList(combination))
             return
         }
-        for (i in start until candidates.size) {
+        for (i in idx until candidates.size) {
             if (candidates[i] > target) continue
             combination.add(candidates[i])
-            generateCombinations(candidates, target - candidates[i], i, combination, result)
+            genCombinationSum(candidates, target - candidates[i], i, combination, result)
             combination.removeAt(combination.lastIndex) // backtrack
         }
     }

@@ -26,11 +26,11 @@ public class CombinationSum2 {
         // this will allow us to handle duplicates
         Arrays.sort(candidates);
         List<List<Integer>> result = new ArrayList<>();
-        combinations(candidates, target, 0, new ArrayList<>(), result);
+        genCombinationSum2(candidates, target, 0, new ArrayList<>(), result);
         return result;
     }
 
-    private void combinations(int[] candidates, int target, int idx, List<Integer> combination, List<List<Integer>> result) {
+    private void genCombinationSum2(int[] candidates, int target, int idx, List<Integer> combination, List<List<Integer>> result) {
         int n = candidates.length;
         if (target == 0) {
             result.add(new ArrayList<>(combination));
@@ -52,7 +52,7 @@ public class CombinationSum2 {
             }
 
             combination.add(candidates[i]);
-            combinations(candidates, target - candidates[i], i + 1, combination, result);
+            genCombinationSum2(candidates, target - candidates[i], i + 1, combination, result);
             combination.remove(combination.size() - 1);
         }
     }
