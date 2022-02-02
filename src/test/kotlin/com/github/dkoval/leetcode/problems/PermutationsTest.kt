@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.problems
 
-import com.github.dkoval.leetcode.problems.Permutations.PermutationsHeapAlgorithm
-import com.github.dkoval.leetcode.problems.Permutations.PermutationsRecursive
+import com.github.dkoval.leetcode.problems.Permutations.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -26,6 +25,19 @@ internal class PermutationsTest {
                     listOf(3, 1, 2),
                     listOf(3, 2, 1)
                 )
+            ),
+            Arguments.of(
+                intArrayOf(0, 1),
+                listOf(
+                    listOf(0, 1),
+                    listOf(1, 0)
+                )
+            ),
+            Arguments.of(
+                intArrayOf(1),
+                listOf(
+                    listOf(1)
+                )
             )
         )
     }
@@ -37,6 +49,16 @@ internal class PermutationsTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return all possible permutations`(nums: IntArray, expected: List<List<Int>>) {
             PermutationsRecursive().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class PermutationsRecursive2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return all possible permutations`(nums: IntArray, expected: List<List<Int>>) {
+            PermutationsRecursive2().test(nums, expected)
         }
     }
 
