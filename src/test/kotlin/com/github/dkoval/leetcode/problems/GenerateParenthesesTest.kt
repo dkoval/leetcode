@@ -11,12 +11,16 @@ internal class GenerateParenthesesTest {
         @JvmStatic
         fun input(): List<Arguments> = listOf(
             Arguments.of(
-                3,
-                listOf("((()))", "(()())", "(())()", "()(())", "()()()")
-            ),
-            Arguments.of(
                 1,
                 listOf("()")
+            ),
+            Arguments.of(
+                2,
+                listOf("(())", "()()")
+            ),
+            Arguments.of(
+                3,
+                listOf("((()))", "(()())", "(())()", "()(())", "()()()")
             )
         )
     }

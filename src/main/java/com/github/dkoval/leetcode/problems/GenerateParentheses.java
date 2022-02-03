@@ -12,23 +12,29 @@ public class GenerateParentheses {
 
     public List<String> generateParenthesis(int n) {
         List<String> result = new ArrayList<>();
-        generateParenthesis(n, n, "", result);
+        generateParenthesis(n, n, new StringBuilder(), result);
         return result;
     }
 
-    private void generateParenthesis(int numOpenParenthesis, int numClosedParenthesis, String prefix, List<String> result) {
+    private void generateParenthesis(int numOpen, int numClose, StringBuilder prefix, List<String> result) {
         // base case
-        if (numOpenParenthesis == 0 && numClosedParenthesis == 0) {
-            result.add(prefix);
+        if (numOpen == 0 && numClose == 0) {
+            result.add(prefix.toString());
             return;
         }
-        // try to include '('
-        if (numOpenParenthesis > 0) {
-            generateParenthesis(numOpenParenthesis - 1, numClosedParenthesis, prefix + "(", result);
+
+        // include '(' if there are any
+        if (numOpen > 0) {
+            prefix.append('(');
+            generateParenthesis(numOpen - 1, numClose, prefix, result);
+            prefix.deleteCharAt(prefix.length() - 1); // backtrack
         }
-        // try to include ')'
-        if (numOpenParenthesis < numClosedParenthesis) {
-            generateParenthesis(numOpenParenthesis, numClosedParenthesis - 1, prefix + ")", result);
+
+        // include ')' IFF there is >= 1 '(' placed before
+        if (numClose > numOpen) {
+            prefix.append(')');
+            generateParenthesis(numOpen, numClose - 1, prefix, result);
+            prefix.deleteCharAt(prefix.length() - 1); // backtrack
         }
     }
 }
