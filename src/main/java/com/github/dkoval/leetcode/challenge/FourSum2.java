@@ -14,6 +14,7 @@ import java.util.Map;
  */
 public class FourSum2 {
 
+    // O(N^2) time | O(N^2) space
     public int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
         Map<Integer, Integer> sums = new HashMap<>();
         for (int a : A) {
