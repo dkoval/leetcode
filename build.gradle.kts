@@ -1,7 +1,6 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("jvm") version "1.6.10"
+    jacoco
 }
 
 group = "com.github.dkoval.leetcode"
@@ -17,18 +16,35 @@ dependencies {
 }
 
 tasks {
+    compileJava {
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
+    }
+
+    compileTestJava {
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
+    }
+
+    compileKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
     test {
         useJUnitPlatform()
-        testLogging {
-            events("passed", "skipped", "failed")
-        }
+        testLogging { events("passed", "skipped", "failed") }
+        finalizedBy(jacocoTestReport)
+    }
+
+    jacocoTestReport {
+        dependsOn(test)
     }
 
     wrapper {
         gradleVersion = "7.3.3"
     }
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
 }
