@@ -36,20 +36,21 @@ public class LetterCombinationsOfPhoneNumber {
             return Collections.emptyList();
         }
         List<String> result = new ArrayList<>();
-        letterCombinations(digits, 0, "", result);
+        letterCombinations(digits, 0, new StringBuilder(), result);
         return result;
     }
 
-    private void letterCombinations(String digits, int idx, String combination, List<String> result) {
+    private void letterCombinations(String digits, int idx, StringBuilder combination, List<String> result) {
         if (combination.length() == digits.length()) {
-            result.add(combination);
+            result.add(combination.toString());
             return;
         }
         char digit = digits.charAt(idx);
         String letters = mapping.get(digit);
         for (int i = 0; i < letters.length(); i++) {
-            char letter = letters.charAt(i);
-            letterCombinations(digits, idx + 1, combination + letter, result);
+            combination.append(letters.charAt(i));
+            letterCombinations(digits, idx + 1, combination, result);
+            combination.deleteCharAt(combination.length() - 1); // backtrack
         }
     }
 }
