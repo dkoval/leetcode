@@ -1,15 +1,20 @@
 package com.github.dkoval.leetcode.problems
 
+import com.github.dkoval.leetcode.problems.CombinationSum2.CombinationSum2Recursive
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
 
 internal class CombinationSum2Test {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(10, 1, 2, 7, 6, 1, 5),
                 8,
@@ -31,14 +36,22 @@ internal class CombinationSum2Test {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should find all unique combinations in candidates where the candidate numbers sum to target`(
-        candidates: IntArray,
-        target: Int,
-        expected: List<List<Int>>
-    ) {
-        val actual = CombinationSum2().combinationSum2(candidates, target)
+    @Nested
+    inner class CombinationSum2RecursiveTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find all unique combinations in candidates where the candidate numbers sum to target`(
+            candidates: IntArray,
+            target: Int,
+            expected: List<List<Int>>
+        ) {
+            CombinationSum2Recursive().test(candidates, target, expected)
+        }
+    }
+
+    private fun CombinationSum2.test(candidates: IntArray, target: Int, expected: List<List<Int>>) {
+        val actual = combinationSum2(candidates, target)
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
     }
 }

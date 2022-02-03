@@ -20,40 +20,47 @@ import java.util.List;
  *  <li>1 <= target <= 30</li>
  * </ul>
  */
-public class CombinationSum2 {
+public interface CombinationSum2 {
 
-    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
-        // this will allow us to handle duplicates
-        Arrays.sort(candidates);
-        List<List<Integer>> result = new ArrayList<>();
-        genCombinationSum2(candidates, target, 0, new ArrayList<>(), result);
-        return result;
-    }
+    List<List<Integer>> combinationSum2(int[] candidates, int target);
 
-    private void genCombinationSum2(int[] candidates, int target, int idx, List<Integer> combination, List<List<Integer>> result) {
-        int n = candidates.length;
-        if (target == 0) {
-            result.add(new ArrayList<>(combination));
-            return;
+    // Resource: https://www.youtube.com/watch?v=rSA3t6BDDwg
+    class CombinationSum2Recursive implements CombinationSum2 {
+
+        @Override
+        public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+            // this will allow us to handle duplicates
+            Arrays.sort(candidates);
+            List<List<Integer>> result = new ArrayList<>();
+            genCombinationSum2(candidates, target, 0, new ArrayList<>(), result);
+            return result;
         }
 
-        for (int i = idx; i < n; i++) {
-            // ..., 1, 1, 1, 1, 1, ...,
-            //      ^
-            // skip over duplicates as they were already processed at this stage
-            if (i > idx && candidates[i] == candidates[i - 1]) {
-                continue;
+        private void genCombinationSum2(int[] candidates, int target, int idx, List<Integer> combination, List<List<Integer>> result) {
+            int n = candidates.length;
+            if (target == 0) {
+                result.add(new ArrayList<>(combination));
+                return;
             }
 
-            if (candidates[i] > target) {
-                // since candidates[] is sorted, all element to the right of candidates[i] are also > target,
-                // therefore it makes sense to terminate early here
-                break;
-            }
+            for (int i = idx; i < n; i++) {
+                // ..., 1, 1, 1, 1, 1, ...,
+                //      ^
+                // skip over duplicates as they were already processed at this stage
+                if (i > idx && candidates[i] == candidates[i - 1]) {
+                    continue;
+                }
 
-            combination.add(candidates[i]);
-            genCombinationSum2(candidates, target - candidates[i], i + 1, combination, result);
-            combination.remove(combination.size() - 1);
+                if (candidates[i] > target) {
+                    // since candidates[] is sorted, all element to the right of candidates[i] are also > target,
+                    // therefore it makes sense to terminate early here
+                    break;
+                }
+
+                combination.add(candidates[i]);
+                genCombinationSum2(candidates, target - candidates[i], i + 1, combination, result);
+                combination.remove(combination.size() - 1);
+            }
         }
     }
 }
