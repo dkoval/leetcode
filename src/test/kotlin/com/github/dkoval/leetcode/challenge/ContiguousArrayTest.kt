@@ -25,6 +25,10 @@ internal class ContiguousArrayTest {
             Arguments.of(
                 intArrayOf(0, 0, 1, 0, 0, 0, 1, 1),
                 6
+            ),
+            Arguments.of(
+                intArrayOf(0, 1, 1, 0, 1, 1, 1, 0),
+                4
             )
         )
     }

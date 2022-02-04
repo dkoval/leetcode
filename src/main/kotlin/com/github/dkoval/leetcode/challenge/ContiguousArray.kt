@@ -10,19 +10,21 @@ import kotlin.math.max
 object ContiguousArray {
 
     fun findMaxLength(nums: IntArray): Int {
-        val countToIndexPairs = mutableMapOf<Int, Int>()
-        var maxLength = 0
+        // stores relative number of 1's and 0's encountered so far while
         var count = 0
+        var maxLength = 0
+        val countToIndex = mutableMapOf<Int, Int>()
         for (i in nums.indices) {
             count += if (nums[i] == 1) 1 else -1
             if (count == 0) {
                 maxLength = i + 1
             } else {
-                val index = countToIndexPairs[count]
-                if (index != null) {
-                    maxLength = max(maxLength, i - index)
+                if (count in countToIndex) {
+                    // there's equal number of 1's and 0's in nums[idx + 1 : i] subarray
+                    val idx = countToIndex[count]!!
+                    maxLength = max(maxLength, i - idx)
                 } else {
-                    countToIndexPairs[count] = i
+                    countToIndex[count] = i
                 }
             }
         }
