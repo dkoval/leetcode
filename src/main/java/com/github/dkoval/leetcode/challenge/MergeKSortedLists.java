@@ -24,6 +24,7 @@ import java.util.PriorityQueue;
  */
 public class MergeKSortedLists {
 
+    // Resource: https://www.youtube.com/watch?v=QG7AVdPbgb4
     // O(N * logK) time | O(K) space
     public ListNode mergeKLists(ListNode[] lists) {
         // Min heap is used to take min of at most k values
