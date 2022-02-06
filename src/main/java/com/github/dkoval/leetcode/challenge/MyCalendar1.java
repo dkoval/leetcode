@@ -63,13 +63,13 @@ public interface MyCalendar1 {
 
         @Override
         public boolean book(int start, int end) {
-            Integer prevBookingStart = bookings.floorKey(start);
-            if (prevBookingStart != null && bookings.get(prevBookingStart) > start) {
+            Integer prevStart = bookings.floorKey(start);
+            if (prevStart != null && bookings.get(prevStart) /* end of the previous booking */ > start) {
                 return false;
             }
 
-            Integer nextBookingStart = bookings.ceilingKey(start);
-            if (nextBookingStart != null && end > nextBookingStart) {
+            Integer nextStart = bookings.ceilingKey(start);
+            if (nextStart != null && end > nextStart) {
                 return false;
             }
 
