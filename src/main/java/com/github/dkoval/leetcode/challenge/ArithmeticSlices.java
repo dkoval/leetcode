@@ -17,23 +17,25 @@ package com.github.dkoval.leetcode.challenge;
 public class ArithmeticSlices {
 
     public int numberOfArithmeticSlices(int[] A) {
-        if (A.length < 3) {
+        int n = A.length;
+        if (n < 3) {
             return 0;
         }
-        int numSlices = 0;
-        int i = 0;
+
+        int count = 0;
+        int start = 0;
         int prevDiff = A[1] - A[0];
-        for (int j = 2; j < A.length; j++) {
-            int currDiff = A[j] - A[j - 1];
+        for (int end = 2; end < n; end++) {
+            int currDiff = A[end] - A[end - 1];
             if (currDiff != prevDiff) {
                 // start new sequence
-                i = j - 1;
+                start = end - 1;
                 prevDiff = currDiff;
             } else {
                 // expand current sequence
-                numSlices += j - i - 1;
+                count += end - start - 1;
             }
         }
-        return numSlices;
+        return count;
     }
 }
