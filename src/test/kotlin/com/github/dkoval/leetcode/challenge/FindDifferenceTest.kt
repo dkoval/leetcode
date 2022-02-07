@@ -62,6 +62,16 @@ internal class FindDifferenceTest {
         }
     }
 
+    @Nested
+    inner class FindDifferenceUsingCountsJavaTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the letter that was added in t`(s: String, t: String, expected: Char) {
+            FindDifferenceUsingCountsJava().test(s, t, expected)
+        }
+    }
+
     private fun FindDifference.test(s: String, t: String, expected: Char) {
         val actual = findTheDifference(s, t)
         assertEquals(expected, actual)
