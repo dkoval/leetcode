@@ -35,6 +35,34 @@ object KDiffPairsInArrayBruteForce : KDiffPairsInArray {
     }
 }
 
+// Time complexity: O(N), space complexity: O(N)
+object KDiffPairsInArrayUsingSet : KDiffPairsInArray {
+
+    override fun findPairs(nums: IntArray, k: Int): Int {
+        // |x - y| = k, k > 0
+        // x - y = k  <=> y = x - k
+        // x - y = -k <=> y = x + k
+        val seen = mutableSetOf<Int>()
+        // To make pairs are unique, i.e. (1, 3) and (3, 1) are considered the same,
+        // keep track of a pair's first number, the smaller one.
+        val pairFirstNumbers = mutableSetOf<Int>()
+        for (x in nums) {
+            // x - y = k
+            if (x - k in seen) {
+                pairFirstNumbers += x
+            }
+
+            // x - y = -k
+            if (x + k in seen) {
+                pairFirstNumbers += x + k
+            }
+
+            seen += x;
+        }
+        return pairFirstNumbers.size
+    }
+}
+
 // Time complexity: O(N*LogN), space complexity: O(1)
 object KDiffPairsInArrayInNLogNTime : KDiffPairsInArray {
 

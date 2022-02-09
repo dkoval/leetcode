@@ -13,7 +13,7 @@ internal class KDiffPairsInArrayTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(3, 1, 4, 1, 5),
                 2,
@@ -52,6 +52,16 @@ internal class KDiffPairsInArrayTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the number of unique k-diff pairs in the array`(nums: IntArray, k: Int, expected: Int) {
             KDiffPairsInArrayBruteForce.test(nums, k, expected)
+        }
+    }
+
+    @Nested
+    inner class KDiffPairsInArrayUsingSetTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of unique k-diff pairs in the array`(nums: IntArray, k: Int, expected: Int) {
+            KDiffPairsInArrayUsingSet.test(nums, k, expected)
         }
     }
 
