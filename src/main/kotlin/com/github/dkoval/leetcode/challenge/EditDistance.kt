@@ -1,7 +1,5 @@
 package com.github.dkoval.leetcode.challenge
 
-import kotlin.math.min
-
 /**
  * [Edit Distance](https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/538/week-5-may-29th-may-31st/3346/)
  *
@@ -12,12 +10,17 @@ import kotlin.math.min
  * - Delete a character
  * - Replace a character
  */
-object EditDistance {
+interface EditDistance {
+
+    fun minDistance(word1: String, word2: String): Int
+}
+
+object EditDistanceDPBottomUp : EditDistance {
 
     // Resources:
     // https://www.youtube.com/watch?v=We3YDTzNXEk
     // https://www.gohired.in/2019/10/10/leetcode-edit-distance/
-    fun minDistance(word1: String, word2: String): Int {
+    override fun minDistance(word1: String, word2: String): Int {
         // DP solution, where
         // dp[i][j] is the min number of operations to make
         // word1 upto length i and word2 upto length j equal
@@ -35,7 +38,7 @@ object EditDistance {
                 if (word1[i - 1] == word2[j - 1]) {
                     dp[i][j] = dp[i - 1][j - 1]
                 } else {
-                    dp[i][j] = 1 + min(min(dp[i - 1][j], dp[i - 1][j - 1]), dp[i][j - 1])
+                    dp[i][j] = 1 + minOf(dp[i - 1][j], dp[i - 1][j - 1], dp[i][j - 1])
                 }
             }
         }
