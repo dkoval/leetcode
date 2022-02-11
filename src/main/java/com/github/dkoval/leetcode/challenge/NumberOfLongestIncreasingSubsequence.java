@@ -1,7 +1,5 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.Arrays;
-
 /**
  * <a href="https://leetcode.com/explore/challenge/card/october-leetcoding-challenge/563/week-5-october-29th-october-31st/3513/">Number of Longest Increasing Subsequence</a>
  * <p>
@@ -12,39 +10,38 @@ public class NumberOfLongestIncreasingSubsequence {
     // Time complexity: O(N^2)
     // Space complexity: O(N)
     public int findNumberOfLIS(int[] nums) {
-        if (nums.length <= 1) {
-            return nums.length;
-        }
-        // lengths[i] - length of LIS ending at index i (DP array)
-        int[] lengths = new int[nums.length];
-        // counts[i] - number of LISs ending at index i
-        int[] counts = new int[nums.length];
-        Arrays.fill(lengths, 1);
-        Arrays.fill(counts, 1);
-        int lisLength = 1;
-        for (int j = 1; j < nums.length; j++) {
-            // look all elements before nums[j]
-            for (int i = 0; i < j; i++) {
-                // can we extend subsequence?
+        int n = nums.length;
+
+        // lis[i] - the length of LIS starting at index i
+        int[] lis = new int[n];
+        // count[i] - number of LIS' starting at index i
+        int[] count = new int[n];
+
+        int bestLength = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            // nums[i] is a LIS of length 1
+            lis[i] = 1;
+            count[i] = 1;
+            for (int j = i + 1; j < n; j++) {
                 if (nums[i] < nums[j]) {
-                    if (lengths[i] >= lengths[j]) {
-                        // append nums[j] to a subsequence ending at index i
-                        lengths[j] = lengths[i] + 1;
-                        counts[j] = counts[i];
-                    } else if (lengths[i] + 1 == lengths[j]) {
-                        // special case
-                        counts[j] += counts[i];
+                    // extend count[j] subsequences starting at index j by prepending nums[i] to all of them
+                    if (lis[i] < lis[j] + 1) {
+                        lis[i] = lis[j] + 1;
+                        count[i] = count[j];
+                    } else if (lis[i] == lis[j] + 1) {
+                        count[i] += count[j];
                     }
                 }
-                lisLength = Math.max(lisLength, lengths[j]);
+            }
+            bestLength = Math.max(bestLength, lis[i]);
+        }
+
+        int total = 0;
+        for (int i = 0; i < n; i++) {
+            if (lis[i] == bestLength) {
+                total += count[i];
             }
         }
-        int count = 0;
-        for (int i = 0; i < nums.length; i++) {
-            if (lengths[i] == lisLength) {
-                count += counts[i];
-            }
-        }
-        return count;
+        return total;
     }
 }
