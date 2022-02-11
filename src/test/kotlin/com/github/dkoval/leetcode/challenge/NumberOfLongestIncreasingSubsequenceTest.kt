@@ -17,7 +17,7 @@ class NumberOfLongestIncreasingSubsequenceTest {
             ),
             Arguments.of(
                 intArrayOf(2, 2, 2, 2, 2),
-                // The length of longest continuous increasing subsequence is 1, and there are 5 subsequences' length is 1, so output 5.
+                // The length of the longest continuous increasing subsequence is 1, and there are 5 subsequences' length is 1, so output 5.
                 5
             )
         )

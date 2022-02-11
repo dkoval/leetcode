@@ -14,7 +14,7 @@ public class NumberOfLongestIncreasingSubsequence {
 
         // lis[i] - the length of LIS starting at index i
         int[] lis = new int[n];
-        // count[i] - number of LIS' starting at index i
+        // count[i] - number of LISs starting at index i
         int[] count = new int[n];
 
         int bestLength = 1;
