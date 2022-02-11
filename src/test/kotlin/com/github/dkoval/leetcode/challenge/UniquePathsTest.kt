@@ -19,7 +19,8 @@ internal class UniquePathsTest {
             Arguments.of(3, 7, 28),
             Arguments.of(3, 2, 3),
             Arguments.of(7, 3, 28),
-            Arguments.of(3, 3, 6)
+            Arguments.of(3, 3, 6),
+            Arguments.of(10, 10, 48620)
         )
     }
 
