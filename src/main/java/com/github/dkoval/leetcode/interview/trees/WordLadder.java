@@ -22,42 +22,47 @@ public class WordLadder {
 
     // Resource: https://www.youtube.com/watch?v=5iFZP-f40iI
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        Set<String> words = new HashSet<>(wordList);
-        if (!words.contains(endWord)) {
+        Set<String> dict = new HashSet<>(wordList);
+        if (!dict.contains(endWord)) {
             return 0;
         }
-        // BFS
-        Queue<String> q = new LinkedList<>();
-        q.add(beginWord);
+
+        // BFS to find the shortest path from source = beginWord to target = endWord
+        int count = 1;
+        Queue<String> q = new ArrayDeque<>();
         Set<String> visited = new HashSet<>();
-        int numChanges = 1;
+        q.offer(beginWord);
+        visited.add(beginWord);
         while (!q.isEmpty()) {
+            count++;
             int size = q.size();
             while (size-- > 0) {
-                String currWord = q.poll();
-                visited.add(beginWord);
-                char[] currWordChars = currWord.toCharArray();
-                for (int i = 0; i < currWordChars.length; i++) {
-                    char originalCh = currWordChars[i];
-                    // generate new words by replacing i-th character with 'a'..'z'
-                    for (char ch = 'a'; ch <= 'z'; ch++) {
-                        if (ch == originalCh) continue;
-                        currWordChars[i] = ch;
-                        String newWord = String.valueOf(currWordChars);
-                        if (newWord.equals(endWord)) {
-                            return numChanges + 1;
+                String word = q.poll();
+                // generate new words be replacing word[i] char with a..z
+                char[] chars = word.toCharArray();
+                for (int i = 0; i < chars.length; i++) {
+                    char orig = chars[i];
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        if (c == orig) {
+                            continue;
                         }
-                        // add in valid non-visited word to the next level of BFS
-                        if (words.contains(newWord) && !visited.contains(newWord)) {
-                            q.add(newWord);
+
+                        chars[i] = c;
+                        String newWord = String.valueOf(chars);
+                        if (newWord.equals(endWord)) {
+                            return count;
+                        }
+
+                        // add in valid non-visited word to the next level of
+                        if (dict.contains(newWord) && !visited.contains(newWord)) {
+                            q.offer(newWord);
+                            visited.add(newWord);
                         }
                     }
-                    // restore the original i-th character before proceeding to i+1
-                    currWordChars[i] = originalCh;
+                    // restore word[i] char before proceeding to i + 1
+                    chars[i] = orig;
                 }
-                words.remove(currWord);
             }
-            numChanges++;
         }
         return 0;
     }
