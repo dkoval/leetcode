@@ -53,7 +53,7 @@ public class WordLadder {
                             return count;
                         }
 
-                        // add in valid non-visited word to the next level of
+                        // add in valid non-visited word to the next level
                         if (dict.contains(newWord) && !visited.contains(newWord)) {
                             q.offer(newWord);
                             visited.add(newWord);
