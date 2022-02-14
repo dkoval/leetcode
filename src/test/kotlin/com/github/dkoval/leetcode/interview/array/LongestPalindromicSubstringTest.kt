@@ -1,8 +1,9 @@
 package com.github.dkoval.leetcode.interview.array
 
 import com.github.dkoval.leetcode.challenge.LongestPalindromicSubstringExpandAroundCenterJava
+import com.github.dkoval.leetcode.problems.LongestPalindromicSubstringDPBottomUp
 import com.github.dkoval.leetcode.problems.LongestPalindromicSubstringExpandAroundCenterRevisedJava
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
@@ -18,12 +19,11 @@ internal class LongestPalindromicSubstringTest {
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 "babad",
-                "bab",
-                "aba"
+                setOf("bab", "aba"),
             ),
             Arguments.of(
                 "cbbd",
-                "bb"
+                setOf("bb")
             )
         )
     }
@@ -33,7 +33,7 @@ internal class LongestPalindromicSubstringTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
-        fun `should find the longest palindromic substring`(s: String, expected: String) {
+        fun `should find the longest palindromic substring`(s: String, expected: Set<String>) {
             LongestPalindromicSubstringBruteForce.test(s, expected)
         }
     }
@@ -43,7 +43,7 @@ internal class LongestPalindromicSubstringTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
-        fun `should find the longest palindromic substring`(s: String, expected: String) {
+        fun `should find the longest palindromic substring`(s: String, expected: Set<String>) {
             LongestPalindromicSubstringExpandAroundCenter.test(s, expected)
         }
     }
@@ -53,7 +53,7 @@ internal class LongestPalindromicSubstringTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
-        fun `should find the longest palindromic substring`(s: String, expected: String) {
+        fun `should find the longest palindromic substring`(s: String, expected: Set<String>) {
             LongestPalindromicSubstringExpandAroundCenterJava().test(s, expected)
         }
     }
@@ -63,13 +63,23 @@ internal class LongestPalindromicSubstringTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
-        fun `should find the longest palindromic substring`(s: String, expected: String) {
+        fun `should find the longest palindromic substring`(s: String, expected: Set<String>) {
             LongestPalindromicSubstringExpandAroundCenterRevisedJava().test(s, expected)
         }
     }
 
-    private fun LongestPalindromicSubstring.test(s: String, expected: String) {
+    @Nested
+    inner class LongestPalindromicSubstringDPBottomUpTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the longest palindromic substring`(s: String, expected: Set<String>) {
+            LongestPalindromicSubstringDPBottomUp().test(s, expected)
+        }
+    }
+
+    private fun LongestPalindromicSubstring.test(s: String, expected: Set<String>) {
         val actual = longestPalindrome(s)
-        assertEquals(expected, actual)
+        assertThat(actual).isIn(expected)
     }
 }
