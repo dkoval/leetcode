@@ -20,10 +20,10 @@ public class ReverseNodesInKGroup {
             return head;
         }
 
-        ListNode dummy = new ListNode(-1);
-        ListNode last = dummy; // points to the last node of the previous k-group
+        ListNode dummy = new ListNode(-1, head);
+        ListNode prev = dummy; // points to the last node of the previous group
 
-        ListNode start = head; // start of a k-group
+        ListNode start = head; // points to the first node of the current group
         ListNode curr = head;
         int count = 0;
         while (curr != null) {
@@ -33,12 +33,17 @@ public class ReverseNodesInKGroup {
                 // reverse next k nodes of the list
                 reverse(start, curr);
 
-                // point the last node of the previous k-node to the 1st node of the current k-group
-                last.next = curr;
-                last = start;
+                // at this stage,
+                // `curr` points to the first node of the current group
+                // `start` points to the last node of the current group
 
-                // point the last node of the current k-group to the next node
+                // point the last node of the previous group to the first node of the current group
+                prev.next = curr;
+                // point the last node of the current group to `next`
                 start.next = next;
+
+                // prepare for the next iteration
+                prev = start;
                 start = next;
                 count = 0;
             }
