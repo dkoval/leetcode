@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
 import com.github.dkoval.leetcode.ListNode
+import com.github.dkoval.leetcode.problems.MaximumTwinSumOfLinkedList.MaximumTwinSumOfLinkedListByReversingSecondHalf
 import com.github.dkoval.leetcode.problems.MaximumTwinSumOfLinkedList.MaximumTwinSumOfLinkedListUsingExtraSpace
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -52,6 +53,16 @@ internal class MaximumTwinSumOfLinkedListTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should  return the maximum twin sum of the linked list`(head: ListNode, expected: Int) {
             MaximumTwinSumOfLinkedListUsingExtraSpace().test(head, expected)
+        }
+    }
+
+    @Nested
+    inner class MaximumTwinSumOfLinkedListByReversingSecondHalfTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should  return the maximum twin sum of the linked list`(head: ListNode, expected: Int) {
+            MaximumTwinSumOfLinkedListByReversingSecondHalf().test(head, expected)
         }
     }
 

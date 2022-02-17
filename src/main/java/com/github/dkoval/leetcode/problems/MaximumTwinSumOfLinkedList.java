@@ -48,4 +48,47 @@ public interface MaximumTwinSumOfLinkedList {
             return ans;
         }
     }
+
+    // O(N) time | O(1) space
+    class MaximumTwinSumOfLinkedListByReversingSecondHalf implements MaximumTwinSumOfLinkedList {
+
+        @Override
+        public int pairSum(ListNode head) {
+            ListNode prev = null;
+            ListNode slow = head;
+            ListNode fast = head;
+            while (fast != null && fast.next != null) {
+                fast = fast.next.next;
+                prev = slow;
+                slow = slow.next;
+            }
+
+            // 1st half of the list
+            fast = head;
+            prev.next = null;
+
+            // 2nd half of the list
+            slow = reverse(slow);
+            int ans = -1;
+
+            while (fast != null) {
+                ans = Math.max(ans, fast.val + slow.val);
+                fast = fast.next;
+                slow = slow.next;
+            }
+            return ans;
+        }
+
+        private ListNode reverse(ListNode start) {
+            ListNode prev = null;
+            ListNode curr = start;
+            while (curr != null) {
+                ListNode next = curr.next;
+                curr.next = prev;
+                prev = curr;
+                curr = next;
+            }
+            return prev;
+        }
+    }
 }
