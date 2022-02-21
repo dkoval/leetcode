@@ -8,17 +8,39 @@ package com.github.dkoval.leetcode.challenge;
  * <p>
  * Follow up: Could you implement a solution using only O(1) extra space complexity and O(n) runtime complexity?
  */
-public class MissingNumber {
+public interface MissingNumber {
 
-    // O(N) time | O(1) space
-    public int missingNumber(int[] nums) {
-        int n = nums.length;
-        // 0 + 1 + 2 + ... + n = n * (n + 1) / 2
-        int expectedSum = n * (n + 1) / 2;
-        int actualSum = 0;
-        for (int num : nums) {
-            actualSum += num;
+    int missingNumber(int[] nums);
+
+    class MissingNumberByCalculatingSums implements MissingNumber {
+
+        // O(N) time | O(1) space
+        @Override
+        public int missingNumber(int[] nums) {
+            int n = nums.length;
+            // 0 + 1 + 2 + ... + n = n * (n + 1) / 2
+            int expectedSum = n * (n + 1) / 2;
+            int actualSum = 0;
+            for (int num : nums) {
+                actualSum += num;
+            }
+            return expectedSum - actualSum;
         }
-        return expectedSum - actualSum;
+    }
+
+    class MissingNumberUsingXOR implements MissingNumber {
+
+        // O(N) time | O(1) space
+        @Override
+        public int missingNumber(int[] nums) {
+            // Property of XOR: a ^ a = 0
+            int n = nums.length;
+            int ans = n;
+            for (int i = 0; i < n; i++) {
+                ans ^= i;
+                ans ^= nums[i];
+            }
+            return ans;
+        }
     }
 }
