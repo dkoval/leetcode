@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
 import java.util.stream.Stream
 
-internal class IsBinarySearchTreeTest {
+internal class ValidateBinarySearchTreeTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
@@ -64,46 +64,46 @@ internal class IsBinarySearchTreeTest {
     }
 
     @Nested
-    inner class IsBinarySearchTreeRecursivelyBruteForceTest {
+    inner class ValidateBinarySearchTreeRecursivelyBruteForceTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should check if a given tree is a binary search tree (BST)`(root: TreeNode?, expected: Boolean) {
-            IsBinarySearchTreeRecursivelyBruteForce.test(root, expected)
+            ValidateBinarySearchTreeRecursivelyBruteForce.test(root, expected)
         }
     }
 
     @Nested
-    inner class IsBinarySearchTreeRecursivelyWithRangesTest {
+    inner class ValidateBinarySearchTreeRecursivelyWithRangesTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should check if a given tree is a binary search tree (BST)`(root: TreeNode?, expected: Boolean) {
-            IsBinarySearchTreeRecursivelyWithRanges.test(root, expected)
+            ValidateBinarySearchTreeRecursivelyWithRanges.test(root, expected)
         }
     }
 
     @Nested
-    inner class IsBinarySearchTreeUsingInorderTraversalTest {
+    inner class ValidateBinarySearchTreeUsingInorderTraversalTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should check if a given tree is a binary search tree (BST)`(root: TreeNode?, expected: Boolean) {
-            IsBinarySearchTreeUsingInorderTraversal.test(root, expected)
+            ValidateBinarySearchTreeUsingInorderTraversal.test(root, expected)
         }
     }
 
     @Nested
-    inner class IsBinarySearchTreeUsingInorderTraversalWithStackTest {
+    inner class ValidateBinarySearchTreeUsingInorderTraversalWithStackTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should check if a given tree is a binary search tree (BST)`(root: TreeNode?, expected: Boolean) {
-            IsBinarySearchTreeUsingInorderTraversalWithStack.test(root, expected)
+            ValidateBinarySearchTreeUsingInorderTraversalWithStack.test(root, expected)
         }
     }
 
-    private fun IsBinarySearchTree.test(root: TreeNode?, expected: Boolean) {
+    private fun ValidateBinarySearchTree.test(root: TreeNode?, expected: Boolean) {
         val actual = isValidBST(root)
         assertEquals(expected, actual)
     }

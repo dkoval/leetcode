@@ -12,14 +12,18 @@ import java.util.*
  * - The left subtree of a node contains only nodes with keys less than the node's key.
  * - The right subtree of a node contains only nodes with keys greater than the node's key.
  * - Both the left and right subtrees must also be binary search trees.
+ *
+ * Constraints:
+ * - The number of nodes in the tree is in the range [1, 104].
+ * -2^31 <= Node.val <= 2^31 - 1
  */
-interface IsBinarySearchTree {
+interface ValidateBinarySearchTree {
 
     fun isValidBST(root: TreeNode?): Boolean
 }
 
 // Time complexity: O(N^2)
-object IsBinarySearchTreeRecursivelyBruteForce : IsBinarySearchTree {
+object ValidateBinarySearchTreeRecursivelyBruteForce : ValidateBinarySearchTree {
 
     override fun isValidBST(root: TreeNode?): Boolean {
         if (root == null) return true
@@ -46,7 +50,7 @@ object IsBinarySearchTreeRecursivelyBruteForce : IsBinarySearchTree {
 
 // Time complexity: O(N) - since we visit each node exactly once,
 // Space complexity: O(N) - since we keep up to the entire tree
-object IsBinarySearchTreeRecursivelyWithRanges : IsBinarySearchTree {
+object ValidateBinarySearchTreeRecursivelyWithRanges : ValidateBinarySearchTree {
 
     override fun isValidBST(root: TreeNode?): Boolean = doIsValidBST(root, null, null)
 
@@ -65,7 +69,7 @@ object IsBinarySearchTreeRecursivelyWithRanges : IsBinarySearchTree {
 
 // Time complexity: O(N) - since we visit each node exactly once,
 // Space complexity: O(N) - since we keep up to the entire tree
-object IsBinarySearchTreeUsingInorderTraversal : IsBinarySearchTree {
+object ValidateBinarySearchTreeUsingInorderTraversal : ValidateBinarySearchTree {
 
     private class ValueHolder<T>(var value: T)
 
@@ -84,7 +88,7 @@ object IsBinarySearchTreeUsingInorderTraversal : IsBinarySearchTree {
 
 // Time complexity: O(N) - since we visit each node exactly once,
 // Space complexity: O(N) - to keep stack
-object IsBinarySearchTreeUsingInorderTraversalWithStack : IsBinarySearchTree {
+object ValidateBinarySearchTreeUsingInorderTraversalWithStack : ValidateBinarySearchTree {
 
     override fun isValidBST(root: TreeNode?): Boolean {
         // Idea: inorder traversal of a BST explores nodes in sorted order
