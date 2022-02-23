@@ -26,21 +26,24 @@ public class CloneGraph {
     }
 
     public Node cloneGraph(Node node) {
-        if (node == null) return null;
-        return cloneGraph(node, new HashMap<>());
+        if (node == null) {
+            return null;
+        }
+        // `visited` map holds (original node -> copy of this node) mapping
+        return doCloneGraph(node, new HashMap<>());
     }
 
-    private Node cloneGraph(Node node, Map<Integer, Node> visited) {
-        Node nodeCopy = new Node(node.val);
-        visited.put(node.val, nodeCopy);
+    private Node doCloneGraph(Node node, Map<Node, Node> visited) {
+        Node copyOfNode = new Node(node.val);
+        visited.put(node, copyOfNode);
         for (Node neighbor : node.neighbors) {
-            Node neighborCopy = visited.get(neighbor.val);
-            if (neighborCopy == null) {
-                // if not visited, start DFS
-                neighborCopy = cloneGraph(neighbor, visited);
-            }
-            nodeCopy.neighbors.add(neighborCopy);
+            // if not visited, start DFS
+            Node copyOfNeighbor = visited.containsKey(neighbor)
+                    ? visited.get(neighbor)
+                    : doCloneGraph(neighbor, visited);
+
+            copyOfNode.neighbors.add(copyOfNeighbor);
         }
-        return nodeCopy;
+        return copyOfNode;
     }
 }
