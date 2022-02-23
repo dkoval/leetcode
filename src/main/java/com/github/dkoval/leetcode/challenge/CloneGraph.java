@@ -29,19 +29,21 @@ public class CloneGraph {
         if (node == null) {
             return null;
         }
-        // `visited` map holds (original node -> copy of this node) mapping
+        // `visited` map holds (original node -> cloned node) mapping
         return doCloneGraph(node, new HashMap<>());
     }
 
     private Node doCloneGraph(Node node, Map<Node, Node> visited) {
+        // has `node` already been cloned?
+        if (visited.containsKey(node)) {
+            return visited.get(node);
+        }
+
         Node copyOfNode = new Node(node.val);
         visited.put(node, copyOfNode);
         for (Node neighbor : node.neighbors) {
-            // if not visited, start DFS
-            Node copyOfNeighbor = visited.containsKey(neighbor)
-                    ? visited.get(neighbor)
-                    : doCloneGraph(neighbor, visited);
-
+            // recursively clone all neighbors of the current node
+            Node copyOfNeighbor = doCloneGraph(neighbor, visited);
             copyOfNode.neighbors.add(copyOfNeighbor);
         }
         return copyOfNode;
