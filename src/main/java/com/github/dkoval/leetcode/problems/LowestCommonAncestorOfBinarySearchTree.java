@@ -25,37 +25,41 @@ import java.util.List;
 public class LowestCommonAncestorOfBinarySearchTree {
 
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        List<TreeNode> pPath = new ArrayList<>();
-        List<TreeNode> qPath = new ArrayList<>();
+        List<TreeNode> pPath = path(root, p);
+        List<TreeNode> qPath = path(root, q);
 
-        findInBST(root, p, pPath);
-        findInBST(root, q, qPath);
-
+        int i = 0;
         TreeNode lca = root;
-        int pIter = 0;
-        int qIter = 0;
-        while (pIter < pPath.size() && qIter < qPath.size()) {
-            TreeNode pNode = pPath.get(pIter++);
-            TreeNode qNode = qPath.get(qIter++);
+        while (i < pPath.size() && i < qPath.size()) {
+            TreeNode pNode = pPath.get(i);
+            TreeNode qNode = qPath.get(i);
             if (pNode != qNode) {
-                return lca;
+                break;
             }
             lca = pNode;
+            i++;
         }
         return lca;
     }
 
-    private boolean findInBST(TreeNode root, TreeNode target, List<TreeNode> path) {
+    private List<TreeNode> path(TreeNode root, TreeNode target) {
+        List<TreeNode> path = new ArrayList<>();
+        dfs(root, target, path);
+        return path;
+    }
+
+    private boolean dfs(TreeNode root, TreeNode target, List<TreeNode> path) {
         if (root == null) {
             return false;
         }
 
         path.add(root);
 
-        if (root.val < target.val) {
-            return findInBST(root.right, target, path);
-        } else if (root.val > target.val) {
-            return findInBST(root.left, target, path);
+        // leverage BST property
+        if (root.val > target.val) {
+            return dfs(root.left, target, path);
+        } else if (root.val < target.val) {
+            return dfs(root.right, target, path);
         } else {
             return true;
         }
