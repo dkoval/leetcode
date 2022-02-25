@@ -1,15 +1,19 @@
 package com.github.dkoval.leetcode.challenge
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
 
 internal class CompareVersionNumbersTest {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 "0.1",
                 "1.1",
@@ -43,10 +47,28 @@ internal class CompareVersionNumbersTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should compare version`(version1: String, version2: String, expected: Int) {
-        val actual = CompareVersionNumbers.compareVersion(version1, version2)
+    @Nested
+    inner class CompareVersionNumbersUsingTokenizationTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should compare version`(version1: String, version2: String, expected: Int) {
+            CompareVersionNumbersUsingTokenization.test(version1, version2, expected)
+        }
+    }
+
+    @Nested
+    inner class CompareVersionNumbersOldSchoolTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should compare version`(version1: String, version2: String, expected: Int) {
+            CompareVersionNumbersOldSchool().test(version1, version2, expected)
+        }
+    }
+
+    private fun CompareVersionNumbers.test(version1: String, version2: String, expected: Int) {
+        val actual = compareVersion(version1, version2)
         assertEquals(expected, actual)
     }
 }

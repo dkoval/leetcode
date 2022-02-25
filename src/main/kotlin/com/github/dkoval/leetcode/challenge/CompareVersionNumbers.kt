@@ -29,9 +29,14 @@ package com.github.dkoval.leetcode.challenge
  * - version1 and version2 are valid version numbers
  * - All the given revisions in version1 and version2 can be stored in a 32-bit integer
  */
-object CompareVersionNumbers {
+interface CompareVersionNumbers {
 
-    fun compareVersion(version1: String, version2: String): Int {
+    fun compareVersion(version1: String, version2: String): Int
+}
+
+object CompareVersionNumbersUsingTokenization : CompareVersionNumbers {
+
+    override fun compareVersion(version1: String, version2: String): Int {
         val tokens1 = version1.split(".")
         val tokens2 = version2.split(".")
         val maxLength = maxOf(tokens1.size, tokens2.size)
