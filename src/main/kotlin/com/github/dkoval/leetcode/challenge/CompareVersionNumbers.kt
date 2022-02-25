@@ -1,25 +1,33 @@
 package com.github.dkoval.leetcode.challenge
 
 /**
- * [Compare Version Numbers](https://leetcode.com/explore/featured/card/september-leetcoding-challenge/555/week-2-september-8th-september-14th/3454/)
+ * [Compare Version Numbers](https://leetcode.com/problems/compare-version-numbers/)
  *
- * Compare two version numbers version1 and version2
- * If version1 > version2 return 1; if version1 < version2 return -1;otherwise return 0.
+ * Given two version numbers, version1 and version2, compare them.
  *
- * You may assume that the version strings are non-empty and contain only digits and the . character.
+ * Version numbers consist of one or more revisions joined by a dot '.'.
+ * Each revision consists of digits and may contain leading zeros.
+ * Every revision contains at least one character.
+ * Revisions are 0-indexed from left to right, with the leftmost revision being revision 0,
+ * the next revision being revision 1, and so on. For example 2.5.33 and 0.1 are valid version numbers.
  *
- * The . character does not represent a decimal point and is used to separate number sequences.
+ * To compare version numbers, compare their revisions in left-to-right order.
+ * Revisions are compared using their integer value ignoring any leading zeros.
+ * This means that revisions 1 and 001 are considered equal.
+ * If a version number does not specify a revision at an index, then treat the revision as 0.
+ * For example, version 1.0 is less than version 1.1 because their revision 0s are the same,
+ * but their revision 1s are 0 and 1 respectively, and 0 < 1.
  *
- * For instance, 2.5 is not "two and a half" or "half way to version three",
- * it is the fifth second-level revision of the second first-level revision.
+ * Return the following:
+ * - If version1 < version2, return -1.
+ * - If version1 > version2, return 1.
+ * - Otherwise, return 0.
  *
- * You may assume the default revision number for each level of a version number to be 0.
- * For example, version number 3.4 has a revision number of 3 and 4 for its first and second level revision number.
- * Its third and fourth level revision number are both 0.
- *
- * Note:
- * - Version strings are composed of numeric strings separated by dots . and this numeric strings may have leading zeroes.
- * - Version strings do not start or end with dots, and they will not be two consecutive dots.
+ * Constraints:
+ * - 1 <= version1.length, version2.length <= 500
+ * - version1 and version2 only contain digits and '.'
+ * - version1 and version2 are valid version numbers
+ * - All the given revisions in version1 and version2 can be stored in a 32-bit integer
  */
 object CompareVersionNumbers {
 
@@ -28,12 +36,11 @@ object CompareVersionNumbers {
         val tokens2 = version2.split(".")
         val maxLength = maxOf(tokens1.size, tokens2.size)
         for (i in 0 until maxLength) {
-            val v1 = if (i < tokens1.size) tokens1[i].toInt() else 0
-            val v2 = if (i < tokens2.size) tokens2[i].toInt() else 0
-            if (v1 < v2)
-                return -1
-            else if (v1 > v2)
-                return 1
+            val rev1 = if (i < tokens1.size) tokens1[i].toInt() else 0
+            val rev2 = if (i < tokens2.size) tokens2[i].toInt() else 0
+            if (rev1 != rev2) {
+                return if (rev1 < rev2) -1 else 1
+            }
         }
         return 0
     }

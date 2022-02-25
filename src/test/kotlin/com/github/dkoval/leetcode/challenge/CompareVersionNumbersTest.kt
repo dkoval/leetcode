@@ -34,6 +34,11 @@ internal class CompareVersionNumbersTest {
                 "1.0",
                 "1.0.0",
                 0 // The first version number does not have a third level revision number, which means its third level revision number is default to "0"
+            ),
+            Arguments.of(
+                "1.05",
+                "1.1",
+                1
             )
         )
     }
