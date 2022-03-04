@@ -25,20 +25,24 @@ public class ChampagneTower {
 
     private static final int NUM_ROWS = 100;
 
-    public double champagneTower(int poured, int query_row, int query_glass) {
-        // extra row and column simulate floor, cause it's still possible that
+    public double champagneTower(int poured, int query_row, int query_col) {
+        // extra row and column simulate floor, because it's still possible that
         // the liquid pours out of the glasses at the last row
         double[][] glasses = new double[NUM_ROWS + 1][NUM_ROWS + 1];
         glasses[0][0] = poured;
-        for (int r = 0; r <= query_row; r++) {
-            for (int c = 0; c <= r; c++) {
-                if (glasses[r][c] > 1) {
-                    double overflow = (glasses[r][c] - 1.0) / 2;
-                    glasses[r + 1][c] += overflow;
-                    glasses[r + 1][c + 1] += overflow;
+        for (int row = 0; row <= query_row; row++) {
+            for (int col = 0; col <= row; col++) {
+                if (glasses[row][col] > 1) {
+                    double overflow = (glasses[row][col] - 1.0) / 2;
+                    glasses[row][col] = 1.0;
+                    glasses[row + 1][col] += overflow;
+                    glasses[row + 1][col + 1] += overflow;
+                }
+                if (row == query_row && col == query_col) {
+                    return glasses[row][col];
                 }
             }
         }
-        return Math.min(1, glasses[query_row][query_glass]);
+        return Math.min(1, glasses[query_row][query_col]);
     }
 }
