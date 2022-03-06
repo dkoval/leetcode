@@ -33,7 +33,7 @@ public class CountAllValidPickupAndDeliveryOptions {
         //      ^ => 2 possibilities to place D2
         // ---
         // _ P1 _ D1 _
-        //           ^ 1 possibility to place D2
+        //           ^ => 1 possibility to place D2
         //
         // 1 + 2 + 3 = 6 possibilities in total
         // ---
