@@ -9,26 +9,50 @@ import com.github.dkoval.leetcode.ListNode;
  */
 public class RotateList {
 
+    private static class ListInfo {
+        final ListNode tail;
+        final int size;
+
+        ListInfo(ListNode tail, int size) {
+            this.tail = tail;
+            this.size = size;
+        }
+    }
+
     public ListNode rotateRight(ListNode head, int k) {
-        if (head == null || k == 0) {
+        if (head == null || head.next == null || k == 0) {
             return head;
         }
-        ListNode slow = head, fast = head;
-        int length = 1;
-        while (fast.next != null) {
-            fast = fast.next;
-            length++;
-        }
-        if (k % length == 0) {
+
+        ListInfo info = info(head);
+        k %= info.size;
+
+        if (k == 0) {
             return head;
         }
-        int m = length - k % length - 1;
-        while (m-- > 0) {
-            slow = slow.next;
+
+        // skip first (n - k - 1) nodes
+        ListNode curr = head;
+        int skip = info.size - k - 1;
+        while (skip-- > 0) {
+            curr = curr.next;
         }
-        ListNode newHead = slow.next;
-        slow.next = null;
-        fast.next = head;
+
+        ListNode newHead = curr.next;
+        curr.next = null;
+        info.tail.next = head;
         return newHead;
+    }
+
+    private ListInfo info(ListNode head) {
+        ListNode curr = head;
+        ListNode prev = null;
+        int size = 0;
+        while (curr != null) {
+            size++;
+            prev = curr;
+            curr = curr.next;
+        }
+        return new ListInfo(prev, size);
     }
 }
