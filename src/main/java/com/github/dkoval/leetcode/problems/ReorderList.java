@@ -24,6 +24,55 @@ public interface ReorderList {
     void reorderList(ListNode head);
 
     // O(N) time | O(1) space
+    class ReorderListUsingFastAndSlowPointers implements ReorderList {
+
+        @Override
+        public void reorderList(ListNode head) {
+            // split the list into 2 halves
+            ListNode first = head;
+            ListNode second = head;
+            while (second != null && second.next != null) {
+                first = first.next;
+                second = second.next.next;
+            }
+
+            second = first.next;
+            first.next = null;
+
+            // reverse the 2nd half
+            ListNode prev = null;
+            while (second != null) {
+                ListNode next = second.next;
+                second.next = prev;
+                prev = second;
+                second = next;
+            }
+
+            // reorder the list
+            first = head;
+            second = prev;
+            ListNode last = null;
+            while (first != null && second != null) {
+                ListNode next1 = first.next;
+                ListNode next2 = second.next;
+
+                first.next = second;
+                if (last != null) {
+                    last.next = first;
+                }
+
+                last = second;
+                first = next1;
+                second = next2;
+            }
+
+            if (last != null && first != null) {
+                last.next = first;
+            }
+        }
+    }
+
+    // O(N) time | O(1) space
     class ReorderListByCalculatingNumberPairsToConnect implements ReorderList {
 
         @Override

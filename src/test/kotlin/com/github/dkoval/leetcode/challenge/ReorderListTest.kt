@@ -3,6 +3,7 @@ package com.github.dkoval.leetcode.challenge
 import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.problems.ReorderList
 import com.github.dkoval.leetcode.problems.ReorderList.ReorderListByCalculatingNumberPairsToConnect
+import com.github.dkoval.leetcode.problems.ReorderList.ReorderListUsingFastAndSlowPointers
 import com.github.dkoval.leetcode.toList
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -18,6 +19,24 @@ internal class ReorderListTest {
     class InputArgumentsProvider : ArgumentsProvider {
 
         override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+            Arguments.of(
+                ListNode(1),
+                listOf(1)
+            ),
+            Arguments.of(
+                ListNode(1).apply {
+                    next = ListNode(2)
+                },
+                listOf(1, 2)
+            ),
+            Arguments.of(
+                ListNode(1).apply {
+                    next = ListNode(2).apply {
+                        next = ListNode(3)
+                    }
+                },
+                listOf(1, 3, 2)
+            ),
             Arguments.of(
                 ListNode(1).apply {
                     next = ListNode(2).apply {
@@ -44,22 +63,22 @@ internal class ReorderListTest {
     }
 
     @Nested
+    inner class ReorderListUsingFastAndSlowPointersTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should reorder list`(head: ListNode?, expected: List<Int>) {
+            ReorderListUsingFastAndSlowPointers().test(head, expected)
+        }
+    }
+
+    @Nested
     inner class ReorderListByCalculatingNumberPairsToConnectTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should reorder list`(head: ListNode?, expected: List<Int>) {
             ReorderListByCalculatingNumberPairsToConnect().test(head, expected)
-        }
-    }
-
-    @Nested
-    inner class ReorderListUsingFastAndSlowPointersTest {
-
-        @ParameterizedTest
-        @ArgumentsSource(InputArgumentsProvider::class)
-        fun `should reorder list`(head: ListNode?, expected: List<Int>) {
-            ReorderListUsingFastAndSlowPointers.test(head, expected)
         }
     }
 
