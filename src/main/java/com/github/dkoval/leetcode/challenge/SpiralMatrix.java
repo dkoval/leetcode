@@ -16,33 +16,35 @@ public class SpiralMatrix {
 
         int startRow = 0, endRow = m - 1;
         int startCol = 0, endCol = n - 1;
-        List<Integer> result = new ArrayList<>(m * n);
 
+        List<Integer> ans = new ArrayList<>(m * n);
         while (startRow <= endRow && startCol <= endCol) {
-            // top row - left to right
+            // top row
             for (int j = startCol; j <= endCol; j++) {
-                result.add(matrix[startRow][j]);
+                ans.add(matrix[startRow][j]);
             }
+
+            // right column
+            for (int i = startRow + 1; i <= endRow; i++) {
+                ans.add(matrix[i][endCol]);
+            }
+
+            // bottom row
+            for (int j = endCol - 1; j >= startCol && startRow < endRow; j--) {
+                ans.add(matrix[endRow][j]);
+            }
+
+            // left column
+            for (int i = endRow - 1; i > startRow && startCol < endCol; i--) {
+                ans.add(matrix[i][startCol]);
+            }
+
             startRow++;
-
-            // right column - top to bottom
-            for (int i = startRow; i <= endRow; i++) {
-                result.add(matrix[i][endCol]);
-            }
-            endCol--;
-
-            // bottom row - right to left
-            for (int j = endCol; j >= startCol && startRow <= endRow; j--) {
-                result.add(matrix[endRow][j]);
-            }
             endRow--;
 
-            // left column - bottom to top
-            for (int i = endRow; i >= startRow && startCol <= endCol; i--) {
-                result.add(matrix[i][startCol]);
-            }
             startCol++;
+            endCol--;
         }
-        return result;
+        return ans;
     }
 }
