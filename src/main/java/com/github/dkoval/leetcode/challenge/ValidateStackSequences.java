@@ -12,8 +12,11 @@ public class ValidateStackSequences {
 
     // O(N) time | O(N) space
     public boolean validateStackSequences(int[] pushed, int[] popped) {
+        // pop() can only be done after at least one push() operation,
+        // therefore, at each iteration, push the current item into the stack
+        // and then keep on popping as many items as we can
         Stack<Integer> stack = new Stack<>();
-        int i = 0;
+        int i = 0; // index in popped[]
         for (int x : pushed) {
             stack.push(x);
             while (!stack.isEmpty() && i < popped.length && stack.peek() == popped[i]) {
