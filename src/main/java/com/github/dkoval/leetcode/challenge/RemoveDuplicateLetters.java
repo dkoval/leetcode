@@ -19,15 +19,14 @@ public abstract class RemoveDuplicateLetters {
 
         @Override
         public String removeDuplicateLetters(String s) {
-            // As we iterate over our string, if character i is greater than character i+1 and another occurrence of
+            // As we iterate over our string, if character i is greater than character (i + 1) and another occurrence of
             // character i exists later in the string, deleting character i will always lead to the optimal solution.
-
             Map<Character, Integer> lastAppearedIndex = new HashMap<>();
             for (int i = 0; i < s.length(); i++) {
                 lastAppearedIndex.put(s.charAt(i), i);
             }
 
-            // Each iteration we add the current character to the solution if it hasn't already been used.
+            // At each iteration we add the current character to the solution if it hasn't already been used.
             // We try to remove as many characters as possible off the top of the stack, and then add
             // the current character.
             //
