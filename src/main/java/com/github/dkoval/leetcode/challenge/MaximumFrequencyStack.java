@@ -15,27 +15,78 @@ import java.util.*;
  */
 public class MaximumFrequencyStack {
 
-    public static class FreqStack {
-        private final Map<Integer, Integer> freqByNum = new HashMap<>();
-        private final List<Stack<Integer>> stackByFreq = new ArrayList<>();
+    interface FreqStack {
 
-        public void push(int x) {
-            int freq = freqByNum.getOrDefault(x, 0) + 1;
-            freqByNum.put(x, freq);
-            if (stackByFreq.size() < freq) {
-                stackByFreq.add(new Stack<>());
+        void push(int val);
+
+        int pop();
+    }
+
+    public static class FreqStackUsingFrequencyStacks implements FreqStack {
+        // (val -> frequency) mapping
+        private final Map<Integer, Integer> freqs = new HashMap<>();
+        // freqStacks[i] holds a stack for storing values with frequency i
+        private final List<Stack<Integer>> freqStacks = new ArrayList<>();
+
+        @Override
+        public void push(int val) {
+            int freq = freqs.getOrDefault(val, 0) + 1;
+            freqs.put(val, freq);
+            if (freqStacks.size() < freq) {
+                freqStacks.add(new Stack<>());
             }
-            stackByFreq.get(freq - 1).push(x);
+            freqStacks.get(freq - 1).push(val);
         }
 
+        @Override
         public int pop() {
-            Stack<Integer> stack = stackByFreq.get(stackByFreq.size() - 1);
-            int x = stack.pop();
+            Stack<Integer> stack = freqStacks.get(freqStacks.size() - 1);
+            int val = stack.pop();
             if (stack.isEmpty()) {
-                stackByFreq.remove(stackByFreq.size() - 1);
+                freqStacks.remove(freqStacks.size() - 1);
             }
-            freqByNum.put(x, freqByNum.get(x) - 1);
-            return x;
+            freqs.put(val, freqs.get(val) - 1);
+            return val;
+        }
+    }
+
+    public static class FreqStackUsingMaxHeap implements FreqStack {
+        // (val -> frequency) mapping
+        private final Map<Integer, Integer> freqs = new HashMap<>();
+        // max heap holds values sorted by their frequencies
+        private final PriorityQueue<Entry> pq = new PriorityQueue<>(Comparator.reverseOrder());
+        // global monotonically increasing sequence number
+        private int seqNo = 0;
+
+        @Override
+        public void push(int val) {
+            int freq = freqs.getOrDefault(val, 0) + 1;
+            pq.offer(new Entry(val, freq, seqNo++));
+            freqs.put(val, freq);
+        }
+
+        @Override
+        public int pop() {
+            Entry entry = pq.poll();
+            freqs.put(entry.val, freqs.get(entry.val) - 1);
+            return entry.val;
+        }
+
+        private static class Entry implements Comparable<Entry> {
+            final int val;
+            final int freq;
+            final int seqNo;
+
+            Entry(int val, int freq, int seqNo) {
+                this.val = val;
+                this.freq = freq;
+                this.seqNo = seqNo;
+            }
+
+            @Override
+            public int compareTo(Entry that) {
+                return (freq == that.freq) ? Integer.compare(seqNo, that.seqNo) : Integer.compare(freq, that.freq);
+            }
         }
     }
 }
