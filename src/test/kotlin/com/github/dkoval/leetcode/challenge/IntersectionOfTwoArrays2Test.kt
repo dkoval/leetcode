@@ -15,7 +15,7 @@ internal class IntersectionOfTwoArrays2Test {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(1, 2, 2, 1),
                 intArrayOf(2, 2),

@@ -15,7 +15,7 @@ internal class ComplementOfBase10IntegerJavaTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(5, 2),
             Arguments.of(7, 0),
             Arguments.of(10, 5)

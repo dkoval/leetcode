@@ -15,7 +15,7 @@ internal class BestSightseeingPairTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(8, 1, 5, 2, 6),
                 // i = 0, j = 2, values[i] + values[j] + i - j = 8 + 5 + 0 - 2 = 11

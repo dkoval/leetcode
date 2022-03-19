@@ -14,7 +14,7 @@ internal class CoinChange2Test {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             // 5=5
             // 5=2+2+1
             // 5=2+1+1+1

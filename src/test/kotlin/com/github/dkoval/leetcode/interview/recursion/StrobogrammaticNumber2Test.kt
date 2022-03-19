@@ -15,7 +15,7 @@ internal class StrobogrammaticNumber2Test {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(p0: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 1,
                 listOf("0", "1", "8")

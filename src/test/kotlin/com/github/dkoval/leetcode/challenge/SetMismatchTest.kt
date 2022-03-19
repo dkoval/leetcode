@@ -15,7 +15,7 @@ internal class SetMismatchTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(1, 2, 2, 4),
                 intArrayOf(2, 3)

@@ -16,7 +16,7 @@ internal class BalancedBinaryTreeTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 TreeNode(3).apply {
                     left = TreeNode(9)

@@ -15,7 +15,7 @@ internal class BestTimeToBuyAndSellStockWithTransactionFeeTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(1, 3, 2, 8, 4, 9),
                 2,

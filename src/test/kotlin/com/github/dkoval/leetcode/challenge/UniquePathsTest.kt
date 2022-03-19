@@ -15,7 +15,7 @@ internal class UniquePathsTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(3, 7, 28),
             Arguments.of(3, 2, 3),
             Arguments.of(7, 3, 28),

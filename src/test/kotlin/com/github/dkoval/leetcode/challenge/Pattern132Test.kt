@@ -15,7 +15,7 @@ internal class Pattern132Test {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(p0: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(1, 2, 3, 4),
                 false

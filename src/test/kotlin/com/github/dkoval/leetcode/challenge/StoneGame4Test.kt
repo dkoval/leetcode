@@ -15,7 +15,7 @@ internal class StoneGame4Test {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(p0: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(1, true),
             Arguments.of(2, false),
             Arguments.of(4, true),

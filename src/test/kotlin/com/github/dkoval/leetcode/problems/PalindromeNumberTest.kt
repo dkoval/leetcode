@@ -15,7 +15,7 @@ internal class PalindromeNumberTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(p0: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(121, true),
             Arguments.of(-121, false),
             Arguments.of(10, false),

@@ -15,7 +15,7 @@ internal class RansomNoteTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of("a", "b", false),
             Arguments.of("aa", "ab", false),
             Arguments.of("aa", "aab", true)

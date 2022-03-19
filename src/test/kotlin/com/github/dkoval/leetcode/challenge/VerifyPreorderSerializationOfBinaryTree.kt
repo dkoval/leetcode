@@ -15,7 +15,7 @@ internal class VerifyPreorderSerializationOfBinaryTreeTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of("9,3,4,#,#,1,#,#,2,#,6,#,#", true),
             Arguments.of("1,#", false),
             Arguments.of("9,#,#,1", false),

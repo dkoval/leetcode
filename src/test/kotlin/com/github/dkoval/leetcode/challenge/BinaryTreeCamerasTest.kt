@@ -14,7 +14,7 @@ import java.util.stream.Stream
 internal class BinaryTreeCamerasTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
-        override fun provideArguments(p0: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 TreeNode(0).apply {
                     left = TreeNode(0).apply {

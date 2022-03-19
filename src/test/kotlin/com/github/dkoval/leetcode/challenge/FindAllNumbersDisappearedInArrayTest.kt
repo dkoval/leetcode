@@ -15,7 +15,7 @@ internal class FindAllNumbersDisappearedInArrayTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(4, 3, 2, 7, 8, 2, 3, 1),
                 listOf(5, 6)

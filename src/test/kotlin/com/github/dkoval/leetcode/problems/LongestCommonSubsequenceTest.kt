@@ -15,7 +15,7 @@ class LongestCommonSubsequenceTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of("abcde", "ace", 3),
             Arguments.of("abc", "abc", 3),
             Arguments.of("abc", "def", 0),

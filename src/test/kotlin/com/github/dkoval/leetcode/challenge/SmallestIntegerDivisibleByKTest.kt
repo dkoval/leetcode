@@ -15,7 +15,7 @@ internal class SmallestIntegerDivisibleByKTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(1, 1),
             Arguments.of(2, -1),
             Arguments.of(3, 3)

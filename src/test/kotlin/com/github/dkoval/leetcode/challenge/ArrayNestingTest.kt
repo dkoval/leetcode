@@ -15,7 +15,7 @@ internal class ArrayNestingTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(p0: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(5, 4, 0, 3, 1, 6, 2),
                 4

@@ -13,7 +13,7 @@ internal class PartitionToKEqualSumSubsetsTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(4, 3, 2, 3, 5, 2, 1),
                 4,

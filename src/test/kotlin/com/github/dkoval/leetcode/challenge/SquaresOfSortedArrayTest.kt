@@ -15,7 +15,7 @@ internal class SquaresOfSortedArrayTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(-4, -1, 0, 3, 10),
                 intArrayOf(0, 1, 9, 16, 100)

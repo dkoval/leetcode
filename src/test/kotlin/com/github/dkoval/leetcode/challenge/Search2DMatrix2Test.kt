@@ -15,7 +15,7 @@ internal class Search2DMatrix2Test {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 arrayOf(
                     intArrayOf(1, 4, 7, 11, 15),

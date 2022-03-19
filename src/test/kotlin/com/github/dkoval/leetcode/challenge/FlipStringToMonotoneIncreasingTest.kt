@@ -15,7 +15,7 @@ internal class FlipStringToMonotoneIncreasingTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of("00110", 1),
             Arguments.of("010110", 2),
             Arguments.of("010101011100011111", 6),

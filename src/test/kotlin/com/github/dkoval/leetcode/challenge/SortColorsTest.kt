@@ -15,7 +15,7 @@ internal class SortColorsTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(2, 0, 2, 1, 1, 0),
                 intArrayOf(0, 0, 1, 1, 2, 2)

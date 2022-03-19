@@ -15,7 +15,7 @@ internal class MinimumSizeSubarraySumTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 7,
                 intArrayOf(2, 3, 1, 2, 4, 3),

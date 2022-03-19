@@ -12,7 +12,7 @@ class WordSquaresTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 arrayOf("area", "lead", "wall", "lady", "ball"),
                 listOf(

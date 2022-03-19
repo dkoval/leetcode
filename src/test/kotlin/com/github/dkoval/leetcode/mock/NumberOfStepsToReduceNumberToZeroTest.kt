@@ -14,7 +14,7 @@ internal class NumberOfStepsToReduceNumberToZeroTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(14, 6),
             Arguments.of(8, 4),
             Arguments.of(123, 12),

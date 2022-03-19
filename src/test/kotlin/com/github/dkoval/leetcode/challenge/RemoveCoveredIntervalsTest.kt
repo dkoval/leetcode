@@ -13,7 +13,7 @@ internal class RemoveCoveredIntervalsTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 arrayOf(
                     intArrayOf(1, 4),

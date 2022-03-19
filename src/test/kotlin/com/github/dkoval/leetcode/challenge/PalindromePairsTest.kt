@@ -14,7 +14,7 @@ internal class PalindromePairsTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(p0: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 arrayOf("abcd", "dcba", "lls", "s", "sssll"),
                 listOf(

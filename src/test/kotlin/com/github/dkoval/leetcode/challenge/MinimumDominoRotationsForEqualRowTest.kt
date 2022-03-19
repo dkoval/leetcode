@@ -12,7 +12,7 @@ internal class MinimumDominoRotationsForEqualRowTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(p0: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(2, 1, 2, 4, 2, 2),
                 intArrayOf(5, 2, 6, 2, 3, 2),

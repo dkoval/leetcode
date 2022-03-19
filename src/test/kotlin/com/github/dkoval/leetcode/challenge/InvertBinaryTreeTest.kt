@@ -16,7 +16,7 @@ internal class InvertBinaryTreeTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 TreeNode(4).apply {
                     left = TreeNode(2).apply {

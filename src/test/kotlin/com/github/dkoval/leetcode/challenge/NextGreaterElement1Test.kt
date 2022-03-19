@@ -15,7 +15,7 @@ internal class NextGreaterElement1Test {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(4, 1, 2),
                 intArrayOf(1, 3, 4, 2),

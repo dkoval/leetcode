@@ -15,7 +15,7 @@ internal class ShortestUnsortedContinuousSubarrayTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(2, 6, 4, 8, 10, 9, 15),
                 // You need to sort [6, 4, 8, 10, 9] in asc order to make the whole array sorted in asc order
