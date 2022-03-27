@@ -14,11 +14,11 @@ import java.util.PriorityQueue;
  * or they have the same number of soldiers but i is less than j. Soldiers are always stand in the frontier of a row,
  * that is, always ones may appear first and then zeros.
  */
-public abstract class KWeakestRowsInMatrix {
+public interface KWeakestRowsInMatrix {
 
-    public abstract int[] kWeakestRows(int[][] mat, int k);
+    int[] kWeakestRows(int[][] mat, int k);
 
-    public static class KWeakestRowsInMatrixBySortingRows extends KWeakestRowsInMatrix {
+    class KWeakestRowsInMatrixBySortingRows implements KWeakestRowsInMatrix {
 
         @Override
         public int[] kWeakestRows(int[][] mat, int k) {
@@ -60,43 +60,40 @@ public abstract class KWeakestRowsInMatrix {
         }
     }
 
-    public static class KWeakestRowsInMatrixUsingPriorityQueue extends KWeakestRowsInMatrix {
+    class KWeakestRowsInMatrixUsingPriorityQueue implements KWeakestRowsInMatrix {
 
         @Override
         public int[] kWeakestRows(int[][] mat, int k) {
-            PriorityQueue<Row> pq = new PriorityQueue<>(
-                    k,
-                    (row1, row2) -> (row1.numSoldiers != row2.numSoldiers)
-                            ? row1.numSoldiers - row2.numSoldiers
-                            : row1.idx - row2.idx);
+            Comparator<Integer> comp = (i, j) -> {
+                int count1 = countSoldiers(mat[i]);
+                int count2 = countSoldiers(mat[j]);
+                return (count1 == count2) ? Integer.compare(i, j) : Integer.compare(count1, count2);
+            };
 
+            // max heap
+            PriorityQueue<Integer> pq = new PriorityQueue<>(comp.reversed());
             for (int i = 0; i < mat.length; i++) {
-                int numSoldiers = 0;
-                for (int j = 0; j < mat[0].length; j++) {
-                    if (mat[i][j] == 1) {
-                        numSoldiers++;
-                    } else {
-                        break;
-                    }
+                pq.offer(i);
+                if (pq.size() > k) {
+                    pq.poll();
                 }
-                pq.offer(new Row(i, numSoldiers));
             }
 
-            int[] result = new int[k];
-            for (int i = 0; i < k; i++) {
-                result[i] = pq.poll().idx;
+            int[] ans = new int[pq.size()];
+            int i = k - 1;
+            while (!pq.isEmpty()) {
+                ans[i--] = pq.poll();
             }
-            return result;
+            return ans;
         }
 
-        private static class Row {
-            final int idx;
-            final int numSoldiers;
-
-            Row(int idx, int numSoldiers) {
-                this.idx = idx;
-                this.numSoldiers = numSoldiers;
+        private int countSoldiers(int[] row) {
+            int count = 0;
+            int i = 0;
+            while (i < row.length && row[i++] == 1) {
+                count++;
             }
+            return count;
         }
     }
 }
