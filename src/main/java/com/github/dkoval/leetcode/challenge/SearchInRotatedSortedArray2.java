@@ -29,23 +29,17 @@ public class SearchInRotatedSortedArray2 {
         int l = 0;
         int r = nums.length - 1;
         while (l <= r) {
+            // idea: in a rotated sorted array at least one part [l : mid] or [mid + 1 : r] is sorted
             int mid = l + (r - l) / 2;
 
+            // found?
             if (nums[mid] == target) {
                 return true;
             }
 
-            // corner case
-            if (nums[l] == nums[mid] && nums[r] == nums[mid]) {
-                // don't know which part to search in
-                l++;
-                r--;
-                continue;
-            }
-
-            // check which part is sorted
-            if (nums[l] <= nums[mid]) {
-                // now we know that the left part is sorted
+            // check which part, i.e. left or right, is sorted
+            if (nums[mid] > nums[l]) {
+                // left part is sorted, check whether target lies in this part
                 if (nums[l] <= target && nums[mid] > target) {
                     // target lies in the left part
                     r = mid - 1;
@@ -53,8 +47,8 @@ public class SearchInRotatedSortedArray2 {
                     // target lies in the right part
                     l = mid + 1;
                 }
-            } else {
-                // now we know that the right part is sorted
+            } else if (nums[mid] < nums[l]) {
+                // right part is sorted, check whether target lies in this part
                 if (nums[mid] < target && nums[r] >= target) {
                     // target lies in the right part
                     l = mid + 1;
@@ -62,6 +56,9 @@ public class SearchInRotatedSortedArray2 {
                     // target lies in the left part
                     r = mid - 1;
                 }
+            } else {
+                // corner case: don't know which part to search in
+                l++;
             }
         }
         return false;
