@@ -23,7 +23,7 @@ package com.github.dkoval.leetcode.challenge;
  */
 public class SearchInRotatedSortedArray2 {
 
-    // O(logN) time in average, O(N) time in the worst case, for example nums = [2, 2, 2, 1, 2, 2 , 2, 2] |
+    // O(logN) time in average, O(N) time in the worst case, for example nums = [1, 1, 1, 1, 1] |
     // O(1) space
     public boolean search(int[] nums, int target) {
         int l = 0;
