@@ -40,7 +40,11 @@ public class SearchInRotatedSortedArray2 {
                 // don't know which part to search in
                 l++;
                 r--;
-            } else if (nums[l] <= nums[mid]) {
+                continue;
+            }
+
+            // check which part is sorted
+            if (nums[l] <= nums[mid]) {
                 // now we know that the left part is sorted
                 if (nums[l] <= target && nums[mid] > target) {
                     // target lies in the left part
