@@ -1,5 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
+import kotlin.math.abs
+
 /**
  * [Find the Duplicate Number](https://leetcode.com/problems/find-the-duplicate-number)
  *
@@ -15,9 +17,39 @@ package com.github.dkoval.leetcode.challenge
  * - 1 <= nums(i) <= n
  * - All the integers in nums appear only once except for precisely one integer which appears two or more times
  */
-object FindDuplicateNumber {
+interface FindDuplicateNumber {
 
-    fun findDuplicate(nums: IntArray): Int {
+    fun findDuplicate(nums: IntArray): Int
+}
+
+object FindDuplicateNumberByNegativeMarking : FindDuplicateNumber {
+
+    // O(N) time | O(1) extra space, but modifies nums[]
+    override fun findDuplicate(nums: IntArray): Int {
+        var duplicate = -1
+        for (x in nums) {
+            val idx = abs(x)
+            if (nums[idx] < 0) {
+                duplicate = idx
+                break
+            }
+            nums[idx] *= -1
+        }
+
+        // 2nd pass restores nums[]
+        for (i in nums.indices) {
+            if (nums[i] < 0) {
+                nums[i] *= -1
+            }
+        }
+        return duplicate
+    }
+}
+
+object FindDuplicateNumberByAddingExtraWeight : FindDuplicateNumber {
+
+    // O(N) time | O(1) extra space, but modifies nums[]
+    override fun findDuplicate(nums: IntArray): Int {
         val n = nums.size
         for (x in nums) {
             // map x from [1 : n] range to index from [0 : n - 1] range
