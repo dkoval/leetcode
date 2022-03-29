@@ -25,6 +25,10 @@ internal class FindDuplicateNumberTest {
             Arguments.of(
                 intArrayOf(2, 2, 2, 2, 2),
                 2
+            ),
+            Arguments.of(
+                intArrayOf(1, 1),
+                1
             )
         )
     }
@@ -46,6 +50,16 @@ internal class FindDuplicateNumberTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the duplicate number`(nums: IntArray, expected: Int) {
             FindDuplicateNumberByAddingExtraWeight.test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class FindDuplicateNumberWithBinarySearchTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the duplicate number`(nums: IntArray, expected: Int) {
+            FindDuplicateNumberWithBinarySearch.test(nums, expected)
         }
     }
 
