@@ -91,7 +91,7 @@ object FindDuplicateNumberWithBinarySearch : FindDuplicateNumber {
             // ok(): count > mid (there's a duplicate)
             // [F, F, ..., F, T, T, ..., T]
             //                ^ find min number x such that ok(x) is true
-            val count: Int = countLessThenOrEqualTo(nums, mid)
+            val count: Int = countLessThanOrEqualTo(nums, mid)
             if (count > mid) {
                 duplicate = mid
                 // check if there's a better solution to the left of `mid`
@@ -104,7 +104,7 @@ object FindDuplicateNumberWithBinarySearch : FindDuplicateNumber {
         return duplicate
     }
 
-    private fun countLessThenOrEqualTo(nums: IntArray, target: Int): Int {
+    private fun countLessThanOrEqualTo(nums: IntArray, target: Int): Int {
         var count = 0
         for (x in nums) {
             if (x <= target) {
