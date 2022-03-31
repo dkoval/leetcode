@@ -31,7 +31,7 @@ public interface SplitArrayLargestSum {
             // for each sum = x, count how many continuous subarrays with their individual sums <= maxSum there are in nums
             while (l < r) {
                 int mid = l + (r - l) / 2;
-                int count = countContinuousSubarraysWithSum(nums, mid);
+                int count = countContinuousSubarrays(nums, mid);
                 // note that even if count < m, we can still split nums[] in m contiguous subarrays
                 // FF...FTT...T
                 //       ^ want to find
@@ -54,7 +54,7 @@ public interface SplitArrayLargestSum {
             return sum;
         }
 
-        private int countContinuousSubarraysWithSum(int[] nums, int maxSum) {
+        private int countContinuousSubarrays(int[] nums, int maxSum) {
             // Greedy
             int count = 1;
             int currSum = 0;
