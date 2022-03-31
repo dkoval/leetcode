@@ -18,6 +18,60 @@ public interface SplitArrayLargestSum {
 
     int splitArray(int[] nums, int m);
 
+
+    class SplitArrayLargestSumDPTopDown implements SplitArrayLargestSum {
+
+        // O(N^2 * M) time | O(N * M) space
+        @Override
+        public int splitArray(int[] nums, int m) {
+            // Optimized brute force: consider every possibility when trying to split nums[] into m continuous subarrays
+            int n = nums.length;
+            // dp[start][m] is the minimum largest sum among m continuous subarrays of nums[start : ] prefix
+            Integer[][] dp = new Integer[n + 1][m + 1];
+            return doSplitArray(nums, 0, m, dp);
+        }
+
+        // start: [0 : N)
+        // m: [1 : M]
+        private int doSplitArray(int[] nums, int start, int m, Integer[][] dp) {
+            int n = nums.length;
+
+            // base case
+            if (m == 1) {
+                return sum(nums, start);
+            }
+
+            // already solved?
+            if (dp[start][m] != null) {
+                return dp[start][m];
+            }
+
+            // O(N) time
+            int sum = 0;
+            int best = Integer.MAX_VALUE;
+            for (int end = start; end <= n - m; end++) {
+                // keep on expanding subarray nums[start : end]
+                sum += nums[end];
+                best = Math.min(best, Math.max(sum, doSplitArray(nums, end + 1, m - 1, dp)));
+
+                // early termination
+                if (sum > best) {
+                    break;
+                }
+            }
+            // cache and return
+            return dp[start][m] = best;
+        }
+
+        private int sum(int[] nums, int start) {
+            int sum = 0;
+            for (int i = start; i < nums.length; i++) {
+                sum += nums[i];
+            }
+            return sum;
+        }
+    }
+
     class SplitArrayLargestSumUsingBinarySearch implements SplitArrayLargestSum {
 
         // O(N * logS) time, where S = sum(nums) | O(1) space

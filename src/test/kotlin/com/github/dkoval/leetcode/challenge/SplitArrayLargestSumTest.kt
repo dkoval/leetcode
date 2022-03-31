@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.SplitArrayLargestSum.SplitArrayLargestSumDPTopDown
 import com.github.dkoval.leetcode.challenge.SplitArrayLargestSum.SplitArrayLargestSumUsingBinarySearch
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -36,6 +37,20 @@ class SplitArrayLargestSumTest {
                 4
             )
         )
+    }
+
+    @Nested
+    inner class SplitArrayLargestSumDPTopDownTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should minimize the largest sum among m non-empty continuous subarrays of nums`(
+            nums: IntArray,
+            m: Int,
+            expected: Int
+        ) {
+            SplitArrayLargestSumDPTopDown().test(nums, m, expected)
+        }
     }
 
     @Nested
