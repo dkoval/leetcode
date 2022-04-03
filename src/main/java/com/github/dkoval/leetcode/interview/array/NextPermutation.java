@@ -1,7 +1,5 @@
 package com.github.dkoval.leetcode.interview.array;
 
-import java.util.Arrays;
-
 /**
  * <a href="https://leetcode.com/explore/interview/card/google/59/array-and-strings/3050/">Next Permutation</a>
  * <p>
@@ -17,30 +15,33 @@ public class NextPermutation {
     // Time complexity: O(N)
     // Space complexity: O(1)
     public void nextPermutation(int[] nums) {
-        // Find the longest decreasing suffix, i.e. k such that nums[k] < nums[k + 1]
-        // and all elements after k appear in decreasing order.
-        // We can't get the next permutation by modifying this suffix, since it is alreay
-        // the maximum it can be.
-        int k = nums.length - 2;
-        while (k >= 0 && nums[k] >= nums[k + 1]) k--;
-        if (k < 0) {
-            Arrays.sort(nums);
+        int n = nums.length;
+        // Find the longest decreasing suffix of nums[]; nums[k] denotes the start of the suffix.
+        // We can't get the next permutation by modifying this suffix, since it is already the maximum it can be.
+        int k = n - 1;
+        while (k > 0 && nums[k - 1] >= nums[k]) {
+            k--;
+        }
+
+        if (k == 0) {
+            // nums[] is sorted in desc order, therefore reverse(nums) will make the array sorted in asc order
+            reverse(nums, 0, n - 1);
             return;
         }
 
-        // Find smallest nums[i] in suffix > nums[k], then swap nums[i] and nums[k]
-        for (int i = nums.length - 1; i > k; i--) {
-            if (nums[i] > nums[k]) {
-                swap(nums, k, i);
+        // Swap nums[k - 1] with the first nums[i] > nums[k - 1] in nums[k:] suffix
+        for (int i = n - 1; i >= k; i--) {
+            if (nums[i] > nums[k - 1]) {
+                swap(nums, k - 1, i);
                 break;
             }
         }
 
         // At this stage, new prefix is the smallest possible for all permutations that are
         // greater than the initial one. But the new suffix may not be the smallest. We can obtain
-        // the smallest suffix by it sorted in asc order. Since the new suffix is already
+        // the smallest suffix by sorting it in asc order. Since the new suffix is already
         // sorted in desc order, we can just reverse it to make it sorted in asc order.
-        reverse(nums, k + 1, nums.length - 1);
+        reverse(nums, k, n - 1);
     }
 
     private void swap(int[] nums, int i, int j) {
