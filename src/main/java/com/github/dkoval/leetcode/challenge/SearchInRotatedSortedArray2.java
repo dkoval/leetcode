@@ -21,46 +21,103 @@ package com.github.dkoval.leetcode.challenge;
  * -104 <= target <= 104
  * </ul>
  */
-public class SearchInRotatedSortedArray2 {
+public interface SearchInRotatedSortedArray2 {
 
-    // O(logN) time in average, O(N) time in the worst case, for example nums = [1, 1, 1, 1, 1] |
-    // O(1) space
-    public boolean search(int[] nums, int target) {
-        int l = 0;
-        int r = nums.length - 1;
-        while (l <= r) {
-            // idea: in a rotated sorted array at least one part [l : mid] or [mid + 1 : r] is sorted
-            int mid = l + (r - l) / 2;
+    boolean search(int[] nums, int target);
 
-            // found?
-            if (nums[mid] == target) {
-                return true;
-            }
+    class SearchInRotatedSortedArray2Rev1 implements SearchInRotatedSortedArray2 {
 
-            // check which part, i.e. left or right, is sorted
-            if (nums[mid] > nums[l]) {
-                // left part is sorted, check whether target lies in this part
-                if (nums[l] <= target && nums[mid] > target) {
-                    // target lies in the left part
-                    r = mid - 1;
-                } else {
-                    // target lies in the right part
-                    l = mid + 1;
+        // O(logN) time in average, O(N) time in the worst case, for example nums = [1, 1, 1, 1, 1] |
+        // O(1) space
+        @Override
+        public boolean search(int[] nums, int target) {
+            int l = 0;
+            int r = nums.length - 1;
+            while (l <= r) {
+                // idea: in a rotated sorted array at least one part [l : mid] or [mid + 1 : r] is sorted
+                int mid = l + (r - l) / 2;
+
+                // found?
+                if (nums[mid] == target) {
+                    return true;
                 }
-            } else if (nums[mid] < nums[l]) {
-                // right part is sorted, check whether target lies in this part
-                if (nums[mid] < target && nums[r] >= target) {
-                    // target lies in the right part
-                    l = mid + 1;
+
+                // check which part, i.e. left or right, is sorted
+                if (nums[mid] > nums[l]) {
+                    // left part is sorted, check whether target lies in this part
+                    if (nums[l] <= target && nums[mid] > target) {
+                        // target lies in the left part
+                        r = mid - 1;
+                    } else {
+                        // target lies in the right part
+                        l = mid + 1;
+                    }
+                } else if (nums[mid] < nums[l]) {
+                    // right part is sorted, check whether target lies in this part
+                    if (nums[mid] < target && nums[r] >= target) {
+                        // target lies in the right part
+                        l = mid + 1;
+                    } else {
+                        // target lies in the left part
+                        r = mid - 1;
+                    }
                 } else {
-                    // target lies in the left part
-                    r = mid - 1;
+                    // corner case: don't know which part to search in
+                    l++;
                 }
-            } else {
-                // corner case: don't know which part to search in
-                l++;
             }
+            return false;
         }
-        return false;
+    }
+
+    class SearchInRotatedSortedArray2Rev2 implements SearchInRotatedSortedArray2 {
+
+        // O(logN) time in average, O(N) time in the worst case, for example nums = [1, 1, 1, 1, 1] |
+        // O(1) space
+        @Override
+        public boolean search(int[] nums, int target) {
+            int n = nums.length;
+            int l = 0;
+            int r = n - 1;
+            while (l <= r) {
+                int mid = l + (r - l) / 2;
+
+                // found?
+                if (nums[mid] == target) {
+                    return true;
+                }
+
+                // skip over duplicates: nums[l] == nums[mid] and/or nums[r] == nums[mid]
+                while (l < mid && nums[l] == nums[mid]) {
+                    l++;
+                }
+
+                while (r > mid && nums[r] == nums[mid]) {
+                    r--;
+                }
+
+                // `mid` index splits nums[] into 2 parts; check which part is sorted to be able to binary search on it.
+                if (nums[l] <= nums[mid]) {
+                    // left part is sorted; check if `target` is within its bounds.
+                    if (target >= nums[l] && target < nums[mid]) {
+                        // indeed, `target` may exist in the left part
+                        r = mid - 1;
+                    } else {
+                        // oops, search in the right part
+                        l = mid + 1;
+                    }
+                } else {
+                    // right part is sorted; check if target is within its bounds.
+                    if (target > nums[mid] && target <= nums[r]) {
+                        // indeed, `target` may exist in the right part
+                        l = mid + 1;
+                    } else {
+                        // oops, search in the left part
+                        r = mid - 1;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }
