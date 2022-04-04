@@ -21,47 +21,94 @@ package com.github.dkoval.leetcode.problems;
  *  <li>-10^4 <= target <= 10^4</li>
  * </ul>
  */
-public class SearchInRotatedSortedArray {
+public interface SearchInRotatedSortedArray {
 
-    // Resource: https://www.youtube.com/watch?v=QdVrY3stDD4
-    // O(logN) time | O(1) space
-    public int search(int[] nums, int target) {
-        int n = nums.length;
-        int idxOfMin = indexOfMin(nums);
-        if (target >= nums[idxOfMin] && target <= nums[n - 1]) {
-            return binarySearch(nums, idxOfMin, n - 1, target);
+    int search(int[] nums, int target);
+
+    class SearchInRotatedSortedArrayByChoosingSortedPart implements SearchInRotatedSortedArray {
+
+        // O(logN) time | O(1) space
+        @Override
+        public int search(int[] nums, int target) {
+            int n = nums.length;
+            int l = 0;
+            int r = n - 1;
+            while (l <= r) {
+                int mid = l + (r - l) / 2;
+
+                // found?
+                if (nums[mid] == target) {
+                    return mid;
+                }
+
+                // `mid` index splits nums[] into 2 parts; check which part is sorted to be able to binary search on it.
+                if (nums[l] <= nums[mid]) {
+                    // left part is sorted; check if `target` is within its bounds.
+                    if (target >= nums[l] && target < nums[mid]) {
+                        // indeed, `target` may exist in the left part
+                        r = mid - 1;
+                    } else {
+                        // oops, search in the right part
+                        l = mid + 1;
+                    }
+                } else {
+                    // right part is sorted; check if target is within its bounds.
+                    if (target > nums[mid] && target <= nums[r]) {
+                        // indeed, `target` may exist in the right part
+                        l = mid + 1;
+                    } else {
+                        // oops, search in the left part
+                        r = mid - 1;
+                    }
+                }
+            }
+            return -1;
         }
-        return binarySearch(nums, 0, idxOfMin - 1, target);
     }
 
-    private int indexOfMin(int[] nums) {
-        int n = nums.length;
-        int left = 0;
-        int right = n - 1;
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] >= nums[right]) {
-                // answer is to the right of `mid` index
-                left = mid + 1;
-            } else {
-                // nums[mid] is a possible answer as well as numbers to the left of `mid` index
-                right = mid;
-            }
-        }
-        return left;
-    }
+    class SearchInRotatedSortedArrayByFindingIndexOfPivot implements SearchInRotatedSortedArray {
 
-    private int binarySearch(int[] nums, int left, int right, int target) {
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] < target) {
-                left = mid + 1;
-            } else if (nums[mid] > target) {
-                right = mid - 1;
-            } else {
-                return mid;
+        // Resource: https://www.youtube.com/watch?v=QdVrY3stDD4
+        // O(logN) time | O(1) space
+        @Override
+        public int search(int[] nums, int target) {
+            int n = nums.length;
+            int idxOfMin = findPivot(nums);
+            if (target >= nums[idxOfMin] && target <= nums[n - 1]) {
+                return binarySearch(nums, idxOfMin, n - 1, target);
             }
+            return binarySearch(nums, 0, idxOfMin - 1, target);
         }
-        return -1;
+
+        private int findPivot(int[] nums) {
+            int n = nums.length;
+            int left = 0;
+            int right = n - 1;
+            while (left < right) {
+                int mid = left + (right - left) / 2;
+                if (nums[mid] >= nums[right]) {
+                    // answer is to the right of `mid` index
+                    left = mid + 1;
+                } else {
+                    // nums[mid] is a possible answer as well as numbers to the left of `mid` index
+                    right = mid;
+                }
+            }
+            return left;
+        }
+
+        private int binarySearch(int[] nums, int left, int right, int target) {
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+                if (nums[mid] < target) {
+                    left = mid + 1;
+                } else if (nums[mid] > target) {
+                    right = mid - 1;
+                } else {
+                    return mid;
+                }
+            }
+            return -1;
+        }
     }
 }
