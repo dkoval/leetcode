@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.LongestSubstringWithoutRepeatingCharacters.LongestSubstringWithoutRepeatingCharactersRev1
-import com.github.dkoval.leetcode.challenge.LongestSubstringWithoutRepeatingCharacters.LongestSubstringWithoutRepeatingCharactersRev2
+import com.github.dkoval.leetcode.challenge.LongestSubstringWithoutRepeatingCharacters.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -40,6 +39,16 @@ internal class LongestSubstringWithoutRepeatingCharactersTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the length of the longest substring without repeating characters`(s: String, expected: Int) {
             LongestSubstringWithoutRepeatingCharactersRev2().test(s, expected)
+        }
+    }
+
+    @Nested
+    inner class LongestSubstringWithoutRepeatingCharactersRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the length of the longest substring without repeating characters`(s: String, expected: Int) {
+            LongestSubstringWithoutRepeatingCharactersRev3().test(s, expected)
         }
     }
 

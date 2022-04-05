@@ -69,4 +69,27 @@ public interface LongestSubstringWithoutRepeatingCharacters {
             return maxLength;
         }
     }
+
+    class LongestSubstringWithoutRepeatingCharactersRev3 implements LongestSubstringWithoutRepeatingCharacters {
+
+        // O(N) time | O(min(alphabet, N)) space
+        @Override
+        public int lengthOfLongestSubstring(String s) {
+            int maxLength = 0;
+            Map<Character, Integer> seen = new HashMap<>();
+            int start = 0;
+            for (int end = 0; end < s.length(); end++) {
+                char c = s.charAt(end);
+                if (seen.containsKey(c)) {
+                    int idx = seen.get(c);
+                    if (idx >= start) {
+                        start = idx + 1;
+                    }
+                }
+                seen.put(c, end);
+                maxLength = Math.max(maxLength, end - start + 1);
+            }
+            return maxLength;
+        }
+    }
 }
