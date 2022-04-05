@@ -22,37 +22,27 @@ import java.util.Set;
 public class ValidSudoku {
 
     private static final int N = 9;
+    private static final int M = 3;
 
     // O(N^2) time | O(1) space
     public boolean isValidSudoku(char[][] board) {
-        // validate rows
+        // check 9 rows, 9 columns and 9 squares 3x3
         for (int i = 0; i < N; i++) {
-            if (!isValid(board, i, i, 0, N - 1)) {
+            boolean validRow = isValid(board, i, 0, i, N - 1);
+            boolean validCol = isValid(board, 0, i, N - 1, i);
+
+            int fatRow = i / M;
+            int fatCol = i % M;
+            boolean validSquare = isValid(board, fatRow * M, fatCol * M, fatRow * M + M - 1 , fatCol * M + M - 1);
+
+            if (!validRow || !validCol || !validSquare) {
                 return false;
             }
         }
-
-        // validate columns
-        for (int j = 0; j < N; j++) {
-            if (!isValid(board, 0, N - 1, j, j)) {
-                return false;
-            }
-        }
-
-        // validate squares
-        int d = (int) Math.sqrt(N);
-        for (int i = 0; i < d; i++) {
-            for (int j = 0; j < d; j++) {
-                if (!isValid(board, i * d, (i + 1) * d - 1, j * d, (j + 1) * d - 1)) {
-                    return false;
-                }
-            }
-        }
-
         return true;
     }
 
-    private boolean isValid(char[][] board, int startRow, int endRow, int startCol, int endCol) {
+    private boolean isValid(char[][] board, int startRow, int startCol, int endRow, int endCol) {
         Set<Character> seen = new HashSet<>();
         for (int row = startRow; row <= endRow; row++) {
             for (int col = startCol; col <= endCol; col++) {
