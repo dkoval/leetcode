@@ -25,6 +25,7 @@ import java.util.PriorityQueue;
  */
 public class LastStoneWeight {
 
+    // O(NlogN) time | O(N) space
     public int lastStoneWeight(int[] stones) {
         // max heap
         PriorityQueue<Integer> pq = new PriorityQueue<>(Comparator.reverseOrder());
@@ -32,7 +33,9 @@ public class LastStoneWeight {
             pq.offer(x);
         }
 
+        // O(N) iterations
         while (pq.size() >= 2) {
+            // O(logN) time
             int x = pq.poll();
             int y = pq.poll();
             if (x != y) {
