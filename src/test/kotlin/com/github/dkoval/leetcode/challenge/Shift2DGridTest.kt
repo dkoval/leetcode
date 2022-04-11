@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.Shift2DGrid.Shift2DGridRev1
-import com.github.dkoval.leetcode.challenge.Shift2DGrid.Shift2DGridRev2
+import com.github.dkoval.leetcode.challenge.Shift2DGrid.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -85,6 +84,20 @@ internal class Shift2DGridTest {
             expected: List<List<Int>>
         ) {
             Shift2DGridRev2().test(grid, k, expected)
+        }
+    }
+
+    @Nested
+    inner class Shift2DGridRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the 2D grid after applying shift operation k times`(
+            grid: Array<IntArray>,
+            k: Int,
+            expected: List<List<Int>>
+        ) {
+            Shift2DGridRev3().test(grid, k, expected)
         }
     }
 

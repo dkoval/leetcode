@@ -116,4 +116,44 @@ public interface Shift2DGrid {
             }
         }
     }
+
+    class Shift2DGridRev3 implements Shift2DGrid {
+
+        private static class Cell {
+            final int row;
+            final int col;
+
+            Cell(int row, int col) {
+                this.row = row;
+                this.col = col;
+            }
+        }
+
+        @Override
+        public List<List<Integer>> shiftGrid(int[][] grid, int k) {
+            int m = grid.length;
+            int n = grid[0].length;
+
+            // allocate the result list
+            List<List<Integer>> board = new ArrayList<>(m);
+            for (int i = 0; i < m; i++) {
+                List<Integer> row = new ArrayList<>(n);
+                for (int j = 0; j < n; j++) {
+                    row.add(1001); // any number
+                }
+                board.add(row);
+            }
+
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    // shift
+                    int idx = (i * n + j + k) % (m * n);
+                    int row = idx / n;
+                    int col = idx % n;
+                    board.get(row).set(col, grid[i][j]);
+                }
+            }
+            return board;
+        }
+    }
 }
