@@ -1,9 +1,14 @@
 package com.github.dkoval.leetcode.challenge;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/december-leetcoding-challenge/569/week-1-december-1st-december-7th/3557/">Spiral Matrix II</a>
+ * <a href="https://leetcode.com/problems/spiral-matrix-ii/">Spiral Matrix II</a>
  * <p>
- * Given a positive integer n, generate an n x n matrix filled with elements from 1 to n2 in spiral order.
+ * Given a positive integer n, generate an n x n matrix filled with elements from 1 to n^2 in spiral order.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= n <= 20</li>
+ * </ul>
  */
 public class SpiralMatrix2 {
 
