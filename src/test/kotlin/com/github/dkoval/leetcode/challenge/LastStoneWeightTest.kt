@@ -11,7 +11,7 @@ internal class LastStoneWeightTest {
         @JvmStatic
         fun input(): List<Arguments> = listOf(
             Arguments.of(
-                intArrayOf(2,7,4,1,8,1),
+                intArrayOf(2, 7, 4, 1, 8, 1),
                 1
             ),
             Arguments.of(
