@@ -18,28 +18,42 @@ import java.util.LinkedList;
  *  <li>Both the left and right subtrees must also be binary search trees.</li>
  * </ul>
  */
-public abstract class ConvertBSTToGreaterTree {
+public interface ConvertBSTToGreaterTree {
 
-    public abstract TreeNode convertBST(TreeNode root);
+    TreeNode convertBST(TreeNode root);
 
     // O(N) time | O(H) space, where H - height of a BST
-    public static class ConvertBSTToGreaterTreeWithRecursiveReverseInorderTraversal extends ConvertBSTToGreaterTree {
-        private int sum = 0;
+    class ConvertBSTToGreaterTreeWithRecursiveReverseInorderTraversal implements ConvertBSTToGreaterTree {
+
+        private static class TreeInfo {
+            int sum;
+
+            TreeInfo(int sum) {
+                this.sum = sum;
+            }
+        }
 
         @Override
         public TreeNode convertBST(TreeNode root) {
-            if (root != null) {
-                convertBST(root.right);
-                sum += root.val;
-                root.val = sum;
-                convertBST(root.left);
+            return doConvertBST(root, new TreeInfo(0));
+        }
+
+        private TreeNode doConvertBST(TreeNode root, TreeInfo info) {
+            if (root == null) {
+                return null;
             }
+
+            // reversed inorder traversal
+            doConvertBST(root.right, info);
+            info.sum += root.val;
+            root.val = info.sum;
+            doConvertBST(root.left, info);
             return root;
         }
     }
 
     // O(N) time | O(H) space, where H - height of a BST
-    public static class ConvertBSTToGreaterTreeWithStackForReverseInorderTraversal extends ConvertBSTToGreaterTree {
+    class ConvertBSTToGreaterTreeWithStackForReverseInorderTraversal implements ConvertBSTToGreaterTree {
 
         @Override
         public TreeNode convertBST(TreeNode root) {
@@ -62,7 +76,7 @@ public abstract class ConvertBSTToGreaterTree {
 
     // O(N) time | O(1) space
     // Resource: https://leetcode.com/problems/convert-bst-to-greater-tree/solution/
-    public static class ConvertBSTToGreaterTreeWithReverseMorrisInorderTraversal extends ConvertBSTToGreaterTree {
+    class ConvertBSTToGreaterTreeWithReverseMorrisInorderTraversal implements ConvertBSTToGreaterTree {
 
         @Override
         public TreeNode convertBST(TreeNode root) {

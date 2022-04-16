@@ -46,6 +46,14 @@ internal class ConvertBSTToGreaterTreeTest {
                         }
                     }
                 }
+            ),
+            Arguments.of(
+                TreeNode(0).apply {
+                    right = TreeNode(1)
+                },
+                TreeNode(1).apply {
+                    right = TreeNode(1)
+                }
             )
         )
     }
@@ -56,8 +64,7 @@ internal class ConvertBSTToGreaterTreeTest {
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should convert a BST a Greater Tree`(root: TreeNode?, expected: TreeNode?) {
-            ConvertBSTToGreaterTreeWithRecursiveReverseInorderTraversal()
-                .test(root, expected)
+            ConvertBSTToGreaterTreeWithRecursiveReverseInorderTraversal().test(root, expected)
         }
     }
 
@@ -67,8 +74,7 @@ internal class ConvertBSTToGreaterTreeTest {
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should convert a BST a Greater Tree`(root: TreeNode?, expected: TreeNode?) {
-            ConvertBSTToGreaterTreeWithStackForReverseInorderTraversal()
-                .test(root, expected)
+            ConvertBSTToGreaterTreeWithStackForReverseInorderTraversal().test(root, expected)
         }
     }
 
@@ -78,8 +84,7 @@ internal class ConvertBSTToGreaterTreeTest {
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should convert a BST a Greater Tree`(root: TreeNode?, expected: TreeNode?) {
-            ConvertBSTToGreaterTreeWithReverseMorrisInorderTraversal()
-                .test(root, expected)
+            ConvertBSTToGreaterTreeWithReverseMorrisInorderTraversal().test(root, expected)
         }
     }
 
