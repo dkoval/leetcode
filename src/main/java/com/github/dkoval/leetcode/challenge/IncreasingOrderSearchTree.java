@@ -10,6 +10,12 @@ import java.util.List;
  * <p>
  * Given the root of a binary search tree, rearrange the tree in in-order so that the leftmost node in the tree is now
  * the root of the tree, and every node has no left child and only one right child.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>The number of nodes in the given tree will be in the range [1, 100]</li>
+ *  <li>0 <= Node.val <= 1000</li>
+ * </ul>
  */
 public abstract class IncreasingOrderSearchTree {
 
@@ -20,23 +26,27 @@ public abstract class IncreasingOrderSearchTree {
 
         @Override
         public TreeNode increasingBST(TreeNode root) {
-            // Idea: inorder traversal of a BST will yield all the values in increasing order
-            List<Integer> traversal = new ArrayList<>();
+            // Idea: inorder traversal of a BST visits nodes in the increasing order of their values
+            List<TreeNode> traversal = new ArrayList<>();
             inorder(root, traversal);
-            TreeNode dummyRoot = new TreeNode(42), curr = dummyRoot;
-            for (int val : traversal) {
-                curr.right = new TreeNode(val);
+
+            TreeNode dummy = new TreeNode(42);
+            TreeNode curr = dummy;
+            for (TreeNode node : traversal) {
+                curr.right = node;
                 curr = curr.right;
+                curr.left = null;
             }
-            return dummyRoot.right;
+            return dummy.right;
         }
 
-        private void inorder(TreeNode root, List<Integer> traversal) {
+        private void inorder(TreeNode root, List<TreeNode> traversal) {
             if (root == null) {
                 return;
             }
+
             inorder(root.left, traversal);
-            traversal.add(root.val);
+            traversal.add(root);
             inorder(root.right, traversal);
         }
     }
