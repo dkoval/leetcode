@@ -34,8 +34,8 @@ public abstract class IncreasingOrderSearchTree {
             TreeNode curr = dummy;
             for (TreeNode node : traversal) {
                 curr.right = node;
+                node.left = null;
                 curr = curr.right;
-                curr.left = null;
             }
             return dummy.right;
         }
