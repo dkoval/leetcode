@@ -45,8 +45,10 @@ public abstract class IncreasingOrderSearchTree {
                 return;
             }
 
+            // visit left subtree
             inorder(root.left, traversal);
             traversal.add(root);
+            // visit right subtree
             inorder(root.right, traversal);
         }
     }
@@ -66,10 +68,15 @@ public abstract class IncreasingOrderSearchTree {
             if (root == null) {
                 return;
             }
+
+            // visit left subtree
             inorder(root.left, curr);
+
             curr[0].right = root;
-            curr[0] = curr[0].right;
             root.left = null;
+            curr[0] = curr[0].right;
+
+            // visit right subtree
             inorder(root.right, curr);
         }
     }
