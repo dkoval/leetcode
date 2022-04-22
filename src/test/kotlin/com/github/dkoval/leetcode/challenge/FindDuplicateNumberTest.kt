@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.problems.FindDuplicateNumberUsingFloydAlgorithm
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -60,6 +61,16 @@ internal class FindDuplicateNumberTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the duplicate number`(nums: IntArray, expected: Int) {
             FindDuplicateNumberWithBinarySearch.test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class FindDuplicateNumberUsingFloydAlgorithmTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the duplicate number`(nums: IntArray, expected: Int) {
+            FindDuplicateNumberUsingFloydAlgorithm().test(nums, expected)
         }
     }
 
