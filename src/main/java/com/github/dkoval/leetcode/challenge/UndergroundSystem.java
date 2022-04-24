@@ -27,7 +27,9 @@ import java.util.Map;
  * they get out at time t2 with t2 > t1. All events happen in chronological order.
  */
 public class UndergroundSystem {
+    // cardId -> (checkInStation, checkInTime)
     private final Map<Integer, CheckIn> checkIns = new HashMap<>();
+    // route (startStation, endStation) -> avg time
     private final Map<String, AvgTime> avgTimePerRoute = new HashMap<>();
 
     private static class CheckIn {
@@ -44,13 +46,13 @@ public class UndergroundSystem {
         private int sum = 0;
         private int n = 0;
 
-        void add(int time) {
+        void update(int time) {
             sum += time;
             n++;
         }
 
         double get() {
-            return (n == 0) ? 0.0 : (double) sum / n;
+            return (n == 0) ? Double.POSITIVE_INFINITY : (double) sum / n;
         }
     }
 
@@ -63,15 +65,17 @@ public class UndergroundSystem {
     public void checkOut(int id, String stationName, int t) {
         if (checkIns.containsKey(id)) {
             CheckIn checkIn = checkIns.get(id);
-            avgTimePerRoute.computeIfAbsent(route(checkIn.station, stationName), key -> new AvgTime())
-                    .add(t - checkIn.time);
-            checkIns.remove(id);
+            String route = route(checkIn.station, stationName);
+            AvgTime avgTime = avgTimePerRoute.computeIfAbsent(route, key -> new AvgTime());
+            avgTime.update(t - checkIn.time);
+            checkIns.remove(id); // information about check-in is no longer needed
         }
     }
 
     public double getAverageTime(String startStation, String endStation) {
-        AvgTime avgTime = avgTimePerRoute.get(route(startStation, endStation));
-        return (avgTime == null) ? 0.0 : avgTime.get();
+        String route = route(startStation, endStation);
+        AvgTime avgTime = avgTimePerRoute.get(route);
+        return (avgTime != null) ? avgTime.get() : Double.POSITIVE_INFINITY;
     }
 
     private static String route(String startStation, String endStation) {
