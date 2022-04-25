@@ -10,33 +10,37 @@ import java.util.Iterator;
  */
 public class PeekingIterator implements Iterator<Integer> {
     private final Iterator<Integer> iterator;
-    private Integer next;
-    private Boolean lastCalledNext;
+    private Integer cachedNext;
 
     public PeekingIterator(Iterator<Integer> iterator) {
         this.iterator = iterator;
+        move();
+    }
+
+    private void move() {
+        if (iterator.hasNext()) {
+            this.cachedNext = iterator.next();
+        } else {
+            this.cachedNext = null;
+        }
     }
 
     // Returns the next element in the iteration without advancing the iterator.
     public Integer peek() {
-        if (lastCalledNext == null || lastCalledNext == Boolean.TRUE) {
-            next = iterator.next();
-        }
-        lastCalledNext = Boolean.FALSE;
-        return next;
+        return cachedNext;
     }
 
     // hasNext() and next() should behave the same as in the Iterator interface.
     // Override them if needed.
     @Override
     public Integer next() {
-        Integer result = (lastCalledNext == Boolean.FALSE) ? next : iterator.next();
-        lastCalledNext = Boolean.TRUE;
-        return result;
+        Integer ans = cachedNext;
+        move();
+        return ans;
     }
 
     @Override
     public boolean hasNext() {
-        return iterator.hasNext() || lastCalledNext == Boolean.FALSE;
+        return (cachedNext != null);
     }
 }
