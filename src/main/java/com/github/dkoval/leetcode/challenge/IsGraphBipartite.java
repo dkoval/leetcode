@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/february-leetcoding-challenge-2021/585/week-2-february-8th-february-14th/3639/">Is Graph Bipartite?</a>
+ * <a href="https://leetcode.com/problems/is-graph-bipartite/">Is Graph Bipartite?</a>
  * <p>
  * There is an undirected graph with n nodes, where each node is numbered between 0 and n - 1.
  * You are given a 2D array graph, where graph[u] is an array of nodes that node u is adjacent to.
@@ -20,49 +20,56 @@ import java.util.Queue;
  * connects a node in set A and a node in set B.
  * <p>
  * Return true if and only if it is bipartite.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>graph.length == n</li>
+ *  <li>1 <= n <= 100</li>
+ *  <li>0 <= graph[u].length < n</li>
+ *  <li>0 <= graph[u][i] <= n - 1</li>
+ *  <li>graph[u] does not contain u</li>
+ *  <li>All the values of graph[u] are unique</li>
+ *  <li>If graph[u] contains v, then graph[v] contains u</li>
+ * </ul>
  */
 public class IsGraphBipartite {
 
-    private enum Label {
-        RED, BLUE
+    private enum Color {
+        RED, BLUE;
     }
 
-    private static class LabeledVertex {
-        final int idx;
-        final Label label;
-
-        LabeledVertex(int idx, Label label) {
-            this.idx = idx;
-            this.label = label;
-        }
-    }
-
+    // O(V + E) time
+    // O(V) space
     public boolean isBipartite(int[][] graph) {
         int n = graph.length;
-        Label[] labels = new Label[n];
+        Color[] colors = new Color[n];
         for (int u = 0; u < n; u++) {
-            if (labels[u] == null) {
-                if (!canLabel(graph, labels, u)) {
-                    return false;
-                }
+            if (colors[u] != null) {
+                // skip already colored vertices
+                continue;
+            }
+
+            if (!canColor(graph, u, colors)) {
+                return false;
             }
         }
         return true;
     }
 
-    private boolean canLabel(int[][] graph, Label[] labels, int u) {
-        Queue<LabeledVertex> queue = new LinkedList<>();
-        labels[u] = Label.RED;
-        queue.offer(new LabeledVertex(u, Label.RED));
-
-        while (!queue.isEmpty()) {
-            LabeledVertex x = queue.poll();
-            Label adjLabel = (x.label == Label.RED) ? Label.BLUE : Label.RED;
-            for (int v : graph[x.idx]) {
-                if (labels[v] == null) {
-                    labels[v] = adjLabel;
-                    queue.offer(new LabeledVertex(v, adjLabel));
-                } else if (labels[v] != adjLabel) {
+    private boolean canColor(int[][] graph, int start, Color[] colors) {
+        // BFS
+        Queue<Integer> q = new LinkedList<>();
+        colors[start] = Color.RED;
+        q.offer(start);
+        while (!q.isEmpty()) {
+            int u = q.poll();
+            // adjacent vertices are expected to have the opposite color
+            Color adjColor = (colors[u] == Color.RED) ? Color.BLUE : Color.RED;
+            for (int v : graph[u]) {
+                if (colors[v] == null) {
+                    colors[v] = adjColor;
+                    q.offer(v);
+                } else if (colors[v] != adjColor) {
                     return false;
                 }
             }
