@@ -19,10 +19,10 @@ public class CountGoodNodesInBinaryTree {
 
     // O(N) time, where N is the number of nodes in a binary tree | O(H) space, where H is the height of a binary tree
     public int goodNodes(TreeNode root) {
-        return goodNodes(root, root.val, 0);
+        return goodNodes(root, root.val);
     }
 
-    private int goodNodes(TreeNode root, int currPathMax, int count) {
+    private int goodNodes(TreeNode root, int currPathMax) {
         // DFS
         if (root == null) {
             return 0;
@@ -30,6 +30,6 @@ public class CountGoodNodesInBinaryTree {
 
         int x = (root.val >= currPathMax) ? 1 : 0;
         currPathMax = Math.max(currPathMax, root.val);
-        return x + goodNodes(root.left, currPathMax, count) + goodNodes(root.right, currPathMax, count);
+        return x + goodNodes(root.left, currPathMax) + goodNodes(root.right, currPathMax);
     }
 }
