@@ -8,40 +8,75 @@ import com.github.dkoval.leetcode.TreeNode;
  * Given a binary tree, you need to compute the length of the diameter of the tree.
  * The diameter of a binary tree is the length of the longest path between any two nodes in a tree.
  * This path may or may not pass through the root.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>The number of nodes in the tree is in the range [1, 104]</li>
+ *  <li>-100 <= Node.val <= 100</li>
+ * </ul>
  */
-public class DiameterOfBinaryTree {
+public interface DiameterOfBinaryTree {
 
-    private static class TreeInfo {
-        // The diameter of the bin tree, considering the current node as the root
-        final int diameter;
-        // The height of the bin tree (in number of nodes) at the current node, going bottom-up in the tree
-        final int height;
+    int diameterOfBinaryTree(TreeNode root);
 
-        TreeInfo(int diameter, int height) {
-            this.diameter = diameter;
-            this.height = height;
+    class DiameterOfBinaryTreeRecursive implements DiameterOfBinaryTree {
+
+        @Override
+        public int diameterOfBinaryTree(TreeNode root) {
+            if (root == null) {
+                return 0;
+            }
+
+            // d = max(dL, dR, hL + hR)
+            // option #1: path doesn't pass through the root node
+            int ans = Math.max(diameterOfBinaryTree(root.left), diameterOfBinaryTree(root.right));
+            // option #2: path passes through the root node
+            return Math.max(ans, height(root.left) + height(root.right));
+        }
+
+        private int height(TreeNode root) {
+            if (root == null) {
+                return 0;
+            }
+            return 1 + Math.max(height(root.left), height(root.right));
         }
     }
 
-    public int diameterOfBinaryTree(TreeNode root) {
-        return dfs(root).diameter;
-    }
+    class DiameterOfBinaryTreeRecursiveOptimized implements DiameterOfBinaryTree {
 
-    private TreeInfo dfs(TreeNode root) {
-        if (root == null) {
-            return new TreeInfo(0, 0);
+        private static class TreeInfo {
+            // The diameter of the bin tree, considering the current node as the root
+            final int diameter;
+            // The height of the bin tree (in number of nodes) at the current node, going bottom-up in the tree
+            final int height;
+
+            TreeInfo(int diameter, int height) {
+                this.diameter = diameter;
+                this.height = height;
+            }
         }
 
-        TreeInfo left = dfs(root.left);
-        TreeInfo right = dfs(root.right);
+        @Override
+        public int diameterOfBinaryTree(TreeNode root) {
+            return dfs(root).diameter;
+        }
 
-        // option #1: path doesn't pass through the root node
-        int diameter = Math.max(left.diameter, right.diameter);
-        // option #2: path passes through the root node
-        diameter = Math.max(diameter, left.height + right.height); // longest path through the root
+        private TreeInfo dfs(TreeNode root) {
+            if (root == null) {
+                return new TreeInfo(0, 0);
+            }
 
-        // now, compute the height of the root node
-        int height = 1 + Math.max(left.height, right.height);
-        return new TreeInfo(diameter, height);
+            TreeInfo left = dfs(root.left);
+            TreeInfo right = dfs(root.right);
+
+            // option #1: path doesn't pass through the root node
+            int diameter = Math.max(left.diameter, right.diameter);
+            // option #2: path passes through the root node
+            diameter = Math.max(diameter, left.height + right.height); // longest path through the root
+
+            // now, compute the height of the root node
+            int height = 1 + Math.max(left.height, right.height);
+            return new TreeInfo(diameter, height);
+        }
     }
 }
