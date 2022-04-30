@@ -10,9 +10,9 @@ package com.github.dkoval.leetcode.challenge
  * The input is always valid. You may assume that evaluating the queries will result in no division by zero
  * and there is no contradiction.
  */
-object EvaluateDivision {
+object EvaluateDivisionUsingDFSKt : EvaluateDivision {
 
-    fun calcEquation(equations: List<List<String>>, values: DoubleArray, queries: List<List<String>>): DoubleArray {
+    override fun calcEquation(equations: List<List<String>>, values: DoubleArray, queries: List<List<String>>): DoubleArray {
         val graph = buildGraph(equations, values)
         return processQueries(queries, graph)
     }

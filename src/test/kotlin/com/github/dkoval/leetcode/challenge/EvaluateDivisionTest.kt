@@ -1,5 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.EvaluateDivision.EvaluateDivisionUsingBFS
+import com.github.dkoval.leetcode.challenge.EvaluateDivision.EvaluateDivisionUsingDFS
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -61,7 +63,7 @@ internal class EvaluateDivisionTest {
     }
 
     @Nested
-    inner class EvaluateDivisionTest {
+    inner class EvaluateDivisionUsingDFSKetTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -71,12 +73,12 @@ internal class EvaluateDivisionTest {
             queries: List<List<String>>,
             expected: DoubleArray
         ) {
-            EvaluateDivision.test(equations, values, queries, expected)
+            EvaluateDivisionUsingDFSKt.test(equations, values, queries, expected)
         }
     }
 
     @Nested
-    inner class EvaluateDivisionJavaTest {
+    inner class EvaluateDivisionUsingDFSTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -86,21 +88,26 @@ internal class EvaluateDivisionTest {
             queries: List<List<String>>,
             expected: DoubleArray
         ) {
-            EvaluateDivisionJava().test(equations, values, queries, expected)
+            EvaluateDivisionUsingDFS().test(equations, values, queries, expected)
+        }
+    }
+
+    @Nested
+    inner class EvaluateDivisionUsingBFSTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should evaluate equation`(
+            equations: List<List<String>>,
+            values: DoubleArray,
+            queries: List<List<String>>,
+            expected: DoubleArray
+        ) {
+            EvaluateDivisionUsingBFS().test(equations, values, queries, expected)
         }
     }
 
     private fun EvaluateDivision.test(
-        equations: List<List<String>>,
-        values: DoubleArray,
-        queries: List<List<String>>,
-        expected: DoubleArray
-    ) {
-        val actual = calcEquation(equations, values, queries)
-        assertArrayEquals(expected, actual, 1E-6)
-    }
-
-    private fun EvaluateDivisionJava.test(
         equations: List<List<String>>,
         values: DoubleArray,
         queries: List<List<String>>,
