@@ -105,20 +105,22 @@ public interface BackspaceStringCompare {
             return true;
         }
 
-        private int readCharFromRight(String s, int start) {
-            int i = start;
+        private int readCharFromRight(String s, int from) {
+            int i = from;
             int numBackspaces = 0;
             while (i >= 0) {
                 if (s.charAt(i) == '#') {
                     numBackspaces++;
                     i--;
-                } else if (numBackspaces > 0) {
-                    // skip a letter if there was a backspace to the right of it
-                    numBackspaces--;
-                    i--;
                 } else {
-                    // take a letter at index i
-                    break;
+                    if (numBackspaces > 0) {
+                        // skip a letter if there was a backspace to the right of it
+                        numBackspaces--;
+                        i--;
+                    } else {
+                        // take a letter at index i
+                        break;
+                    }
                 }
             }
             return i;
