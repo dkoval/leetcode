@@ -27,20 +27,16 @@ public abstract class LRUCache {
 
     public abstract void put(int key, int value);
 
-    public static class LRUCacheUsingSinglyLinkedList extends LRUCache {
+    public static class LRUCacheUsingDoublyLinkedList extends LRUCache {
         private final int capacity;
         private final Map<Integer, Node> cache = new HashMap<>();
         // least frequently used key is the first element in the list
-        private final Node head;
+        private Node head;
         // most frequently used key is the last element in the list
-        private final Node tail;
+        private Node tail;
 
-        public LRUCacheUsingSinglyLinkedList(int capacity) {
+        public LRUCacheUsingDoublyLinkedList(int capacity) {
             this.capacity = capacity;
-            head = new Node(-42, -42);
-            tail = new Node(+42, +42);
-            head.next = tail;
-            tail.prev = head;
         }
 
         @Override
@@ -62,29 +58,50 @@ public abstract class LRUCache {
                 remove(node);
             } else {
                 node = new Node(key, value);
-                if (cache.size() == capacity) {
+                cache.put(key, node);
+                if (cache.size() > capacity) {
                     // remove the least frequently used key
-                    Node firstNode = head.next;
-                    remove(firstNode);
-                    cache.remove(firstNode.key);
+                    cache.remove(head.key);
+                    remove(head);
                 }
             }
             addLast(node);
-            cache.put(key, node);
-        }
-
-        private void remove(Node node) {
-            // before: x <-> n <-> y, after: x <-> y
-            node.prev.next = node.next;
-            node.next.prev = node.prev;
         }
 
         private void addLast(Node node) {
-            // before: x <-> tail, after: x <-> n <-> tail
-            tail.prev.next = node;
-            node.prev = tail.prev;
-            node.next = tail;
-            tail.prev = node;
+            // H <-> ... <-> T <-> x
+            if (tail != null) {
+                tail.next = node;
+                node.prev = tail;
+            } else {
+                head = node;
+                node.prev = null;
+            }
+            tail = node;
+            node.next = null;
+        }
+
+        private void remove(Node node) {
+            // H <-> ... <-> x <-> ... <-> T
+            if (node.prev != null) {
+                node.prev.next = node.next;
+            } else {
+                // remove head of the list
+                head = head.next;
+                if (head != null) {
+                    head.prev = null;
+                }
+            }
+
+            if (node.next != null) {
+                node.next.prev = node.prev;
+            } else {
+                // remove tail of the list
+                tail = tail.prev;
+                if (tail != null) {
+                    tail.next = null;
+                }
+            }
         }
 
         private static class Node {
