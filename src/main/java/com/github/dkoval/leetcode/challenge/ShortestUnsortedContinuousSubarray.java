@@ -10,12 +10,12 @@ import java.util.Arrays;
  * <p>
  * Return the shortest such subarray and output its length.
  */
-public abstract class ShortestUnsortedContinuousSubarray {
+public interface ShortestUnsortedContinuousSubarray {
 
-    public abstract int findUnsortedSubarray(int[] nums);
+    int findUnsortedSubarray(int[] nums);
 
     // O(NlogN) time | O(N) space
-    public static class ShortestUnsortedContinuousSubarrayNaive extends ShortestUnsortedContinuousSubarray {
+    class ShortestUnsortedContinuousSubarrayNaive implements ShortestUnsortedContinuousSubarray {
 
         @Override
         public int findUnsortedSubarray(int[] nums) {
@@ -45,7 +45,7 @@ public abstract class ShortestUnsortedContinuousSubarray {
     }
 
     // O(N) time | O(1) space
-    public static class ShortestUnsortedContinuousSubarrayInLinerTimeAndConstantSpace extends ShortestUnsortedContinuousSubarray {
+    class ShortestUnsortedContinuousSubarrayInLinerTimeAndConstantSpace implements ShortestUnsortedContinuousSubarray {
 
         @Override
         public int findUnsortedSubarray(int[] nums) {
