@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,26 +13,58 @@ import java.util.Map;
  * <p>
  * Return the maximum number of operations you can perform on the array.
  */
-public class MaxNumberOfKSumPairs {
+public interface MaxNumberOfKSumPairs {
 
-    public int maxOperations(int[] nums, int k) {
-        int numOperations = 0;
-        Map<Integer, Integer> count = new HashMap<>();
-        for (int num : nums) {
-            int complement = k - num;
-            if (count.containsKey(complement)) {
-                // pair num with its complement
-                numOperations++;
-                int currCount = count.get(complement);
-                if (currCount > 1) {
-                    count.put(complement, currCount - 1);
+    int maxOperations(int[] nums, int k);
+
+    class MaxNumberOfKSumPairsUsingHashMap implements MaxNumberOfKSumPairs {
+
+        // O(N) time | O(N) space
+        @Override
+        public int maxOperations(int[] nums, int k) {
+            int numOperations = 0;
+            Map<Integer, Integer> count = new HashMap<>();
+            for (int num : nums) {
+                int complement = k - num;
+                if (count.containsKey(complement)) {
+                    // pair num with its complement
+                    numOperations++;
+                    int currCount = count.get(complement);
+                    if (currCount > 1) {
+                        count.put(complement, currCount - 1);
+                    } else {
+                        count.remove(complement);
+                    }
                 } else {
-                    count.remove(complement);
+                    count.put(num, count.getOrDefault(num, 0) + 1);
                 }
-            } else {
-                count.put(num, count.getOrDefault(num, 0) + 1);
             }
+            return numOperations;
         }
-        return numOperations;
+    }
+
+    class MaxNumberOfKSumPairsUsingSorting implements MaxNumberOfKSumPairs {
+
+        // O(NlogN) time | O(1) space
+        @Override
+        public int maxOperations(int[] nums, int k) {
+            Arrays.sort(nums);
+            int count = 0;
+            int l = 0;
+            int r = nums.length - 1;
+            while (l < r) {
+                int sum = nums[l] + nums[r];
+                if (sum > k) {
+                    r--;
+                } else if (sum < k) {
+                    l++;
+                } else {
+                    count++;
+                    l++;
+                    r--;
+                }
+            }
+            return count;
+        }
     }
 }
