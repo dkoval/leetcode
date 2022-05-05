@@ -37,7 +37,7 @@ public interface ImplementStackUsingQueues {
     int top();
     boolean empty();
 
-    class ImplementStackUsingTwoQueues implements ImplementStackUsingQueues {
+    class ImplementStackUsingTwoQueuesVer1 implements ImplementStackUsingQueues {
         private Queue<Integer> q1 = new ArrayDeque<>();
         private Queue<Integer> q2 = new ArrayDeque<>();
         private int top = -1;
@@ -69,6 +69,44 @@ public interface ImplementStackUsingQueues {
         @Override
         public int top() {
             return top;
+        }
+
+        // O(1) time
+        @Override
+        public boolean empty() {
+            return q1.isEmpty();
+        }
+    }
+
+    class ImplementStackUsingTwoQueuesVer2 implements ImplementStackUsingQueues {
+        private Queue<Integer> q1 = new ArrayDeque<>();
+        private Queue<Integer> q2 = new ArrayDeque<>();
+
+        // O(N) time
+        @Override
+        public void push(int x) {
+            // reverse the order of elements stored in q1 by using q2 as an interim storage
+            q2.offer(x);
+            while (!q1.isEmpty()) {
+                q2.offer(q1.poll());
+            }
+
+            // swap q1 with q2 to avoid copying all elements from q2 to q1
+            Queue<Integer> tmp = q1;
+            q1 = q2;
+            q2 = tmp;
+        }
+
+        // O(1) time
+        @Override
+        public int pop() {
+            return q1.poll();
+        }
+
+        // O(1) time
+        @Override
+        public int top() {
+            return q1.peek();
         }
 
         // O(1) time

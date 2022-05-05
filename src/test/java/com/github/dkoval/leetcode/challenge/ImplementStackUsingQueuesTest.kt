@@ -1,6 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.ImplementStackUsingQueues.ImplementStackUsingOneQueue
+import com.github.dkoval.leetcode.challenge.ImplementStackUsingQueues.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -32,6 +32,26 @@ internal class ImplementStackUsingQueuesTest {
         data class Pop(val expected: Int): Command()
         data class Top(val expected: Int): Command()
         data class Empty(val expected: Boolean): Command()
+    }
+
+    @Nested
+    inner class ImplementStackUsingTwoQueuesVer1Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should validate data structure design`(commands: List<Command>) {
+            ImplementStackUsingTwoQueuesVer1().test(commands)
+        }
+    }
+
+    @Nested
+    inner class ImplementStackUsingTwoQueuesVer2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should validate data structure design`(commands: List<Command>) {
+            ImplementStackUsingTwoQueuesVer2().test(commands)
+        }
     }
 
     @Nested
