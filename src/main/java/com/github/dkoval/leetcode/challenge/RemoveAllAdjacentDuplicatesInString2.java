@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/april-leetcoding-challenge-2021/595/week-3-april-15th-april-21st/3710/">Remove All Adjacent Duplicates in String II</a>
+ * <a href="https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string-ii/">Remove All Adjacent Duplicates in String II</a>
  * <p>
  * Given a string s, a k duplicate removal consists of choosing k adjacent and equal letters from s and removing them
  * causing the left and the right side of the deleted substring to concatenate together.
