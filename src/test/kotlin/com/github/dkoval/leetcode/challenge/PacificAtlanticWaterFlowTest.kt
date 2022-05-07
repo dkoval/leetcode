@@ -27,10 +27,6 @@ internal class PacificAtlanticWaterFlowTest {
                     listOf(3, 1),
                     listOf(4, 0)
                 )
-            ),
-            Arguments.of(
-                arrayOf<IntArray>(),
-                listOf<List<Int>>()
             )
         )
     }

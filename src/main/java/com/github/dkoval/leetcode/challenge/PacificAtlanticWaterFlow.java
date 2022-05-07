@@ -18,6 +18,14 @@ import java.util.List;
  * <p>
  * The order of returned grid coordinates does not matter.
  * Both m and n are less than 150.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>m == heights.length</li>
+ *  <li>n == heights[r].length</li>
+ *  <li>1 <= m, n <= 200</li>
+ *  <li>0 <= heights[r][c] <= 10^5</li>
+ * </ul>
  */
 public class PacificAtlanticWaterFlow {
     private static final int[][] DIRS = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
