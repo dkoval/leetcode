@@ -2,11 +2,10 @@ package com.github.dkoval.leetcode.challenge;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/march-leetcoding-challenge-2021/591/week-4-march-22nd-march-28th/3684/">Pacific Atlantic Water Flow</a>
+ * <a href="Pacific Atlantic Water Flow/">Pacific Atlantic Water Flow</a>
  * <p>
  * Given an m x n matrix of non-negative integers representing the height of each unit cell in a continent,
  * the "Pacific ocean" touches the left and top edges of the matrix and the "Atlantic ocean" touches the right and bottom edges.
@@ -21,63 +20,63 @@ import java.util.List;
  * Both m and n are less than 150.
  */
 public class PacificAtlanticWaterFlow {
-
-    private static final int DUMMY_PREV_VALUE = -1;
     private static final int[][] DIRS = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
-    public List<List<Integer>> pacificAtlantic(int[][] matrix) {
-        int m = matrix.length;
-        if (m == 0) {
-            return Collections.emptyList();
+    public List<List<Integer>> pacificAtlantic(int[][] heights) {
+        int m = heights.length;
+        int n = heights[0].length;
+
+        boolean[][] cameFromPacific = new boolean[m][n];
+        boolean[][] cameFromAtlantic = new boolean[m][n];
+
+        for (int col = 0; col < n; col++) {
+            // 1st row: flow from Pacific
+            dfs(heights, 0, col, cameFromPacific);
+            // last row: flow from Atlantic
+            dfs(heights, m - 1, col, cameFromAtlantic);
         }
 
-        int n = matrix[0].length;
-        if (n == 0) {
-            return Collections.emptyList();
-        }
-
-        boolean[][] pacific = new boolean[m][n];
-        boolean[][] atlantic = new boolean[m][n];
-
-        for (int j = 0; j < n; j++) {
-            dfs(matrix, 0, j, DUMMY_PREV_VALUE, pacific); // 1st row
-            dfs(matrix, m - 1, j, DUMMY_PREV_VALUE, atlantic); // last row
-        }
-
-        for (int i = 0; i < m; i++) {
-            dfs(matrix, i, 0, DUMMY_PREV_VALUE, pacific); // 1st column
-            dfs(matrix, i, n - 1, DUMMY_PREV_VALUE, atlantic); // last column
+        for (int row = 0; row < m; row++) {
+            // 1st column: flow from Pacific
+            dfs(heights, row, 0, cameFromPacific);
+            // last column: flow from Atlantic
+            dfs(heights, row, n - 1, cameFromAtlantic);
         }
 
         // merge individual results
-        List<List<Integer>> result = new ArrayList<>();
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (pacific[i][j] && atlantic[i][j]) {
-                    result.add(Arrays.asList(i, j));
+        List<List<Integer>> ans = new ArrayList<>();
+        for (int row = 0; row < m; row++) {
+            for (int col = 0; col < n; col++) {
+                if (cameFromPacific[row][col] && cameFromAtlantic[row][col]) {
+                    ans.add(Arrays.asList(row, col));
                 }
             }
         }
-        return result;
+        return ans;
     }
 
-    private void dfs(int[][] matrix, int row, int col, int prev, boolean[][] visited) {
-        // boundary check
-        if (row == -1 || row == matrix.length || col == -1 || col == matrix[0].length) {
+    private void dfs(int[][] heights, int row, int col, boolean[][] visited) {
+        int m = heights.length;
+        int n = heights[0].length;
+
+        if (visited[row][col]) {
             return;
         }
 
-        // state transition check
-        if (matrix[row][col] < prev || visited[row][col]) {
-            return;
-        }
-
-        // mark cell (row, col) as visited
         visited[row][col] = true;
 
-        // call DFS for allowed direction
-        for (int[] dir : DIRS) {
-            dfs(matrix, row + dir[0], col + dir[1], matrix[row][col], visited);
+        for (int[] d : DIRS) {
+            int nextRow = row + d[0];
+            int nextCol = col + d[1];
+
+            // check boundaries
+            if (nextRow < 0 || nextRow >= m || nextCol < 0 || nextCol >= n) {
+                continue;
+            }
+
+            if (heights[nextRow][nextCol] >= heights[row][col]) {
+                dfs(heights, nextRow, nextCol, visited);
+            }
         }
     }
 }
