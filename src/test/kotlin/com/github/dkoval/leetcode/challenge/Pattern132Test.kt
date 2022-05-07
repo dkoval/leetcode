@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.Pattern132.Pattern132BruteForceInCubicTime
-import com.github.dkoval.leetcode.challenge.Pattern132.Pattern132BruteForceInQuadraticTime
+import com.github.dkoval.leetcode.challenge.Pattern132.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -48,6 +47,16 @@ internal class Pattern132Test {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should check if there is a 132 pattern in nums`(nums: IntArray, expected: Boolean) {
             Pattern132BruteForceInQuadraticTime().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class Pattern132UsingMonoDecreasingStackTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should check if there is a 132 pattern in nums`(nums: IntArray, expected: Boolean) {
+            Pattern132UsingMonoDecreasingStack().test(nums, expected)
         }
     }
 
