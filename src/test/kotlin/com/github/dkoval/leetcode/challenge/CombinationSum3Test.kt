@@ -25,6 +25,11 @@ internal class CombinationSum3Test {
                     listOf(1, 3, 5),
                     listOf(2, 3, 4)
                 )
+            ),
+            Arguments.of(
+                4,
+                1,
+                emptyList<Int>()
             )
         )
     }

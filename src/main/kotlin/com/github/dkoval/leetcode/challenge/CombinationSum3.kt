@@ -13,9 +13,14 @@ package com.github.dkoval.leetcode.challenge
 object CombinationSum3 {
 
     fun combinationSum3(k: Int, n: Int): List<List<Int>> {
+        // the smallest sum we can get with k numbers:
+        // 1 + 2 + ... + k = k * (k + 1) / 2
+        if (k * (k + 1) / 2 > n) {
+            return emptyList()
+        }
+
         val result = mutableListOf<List<Int>>()
-        val combination = mutableListOf<Int>()
-        generateCombination(k, n, 1, combination, result)
+        generateCombination(k, n, 1, mutableListOf(), result)
         return result
     }
 
@@ -32,10 +37,16 @@ object CombinationSum3 {
             }
             return
         }
+
         // exhaustively generate all possible combinations
-        for (i in start..9) {
-            combination.add(i)
-            generateCombination(k, n - i, i + 1, combination, result)
+        for (x in start..9) {
+            if (n - x < 0) {
+                // next x will be even greater, therefore stop here
+                break
+            }
+
+            combination.add(x)
+            generateCombination(k, n - x, x + 1, combination, result)
             combination.removeAt(combination.lastIndex) // backtrack
         }
     }
