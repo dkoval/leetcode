@@ -1,9 +1,6 @@
 package com.github.dkoval.leetcode.problems;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <a href="https://leetcode.com/problems/permutations-ii/">Permutations II</a>
@@ -14,8 +11,43 @@ public interface Permutations2 {
 
     List<List<Integer>> permuteUnique(int[] nums);
 
+    class Permutations2RecursiveNaive implements Permutations2 {
+
+        @Override
+        public List<List<Integer>> permuteUnique(int[] nums) {
+            Set<List<Integer>> ans = new HashSet<>();
+            generate(nums, 0, new ArrayList<>(), ans);
+            return new ArrayList<>(ans);
+        }
+
+        private void generate(int[] nums, int idx, List<Integer> permutation, Set<List<Integer>> ans) {
+            if (idx == nums.length) {
+                ans.add(new ArrayList<>(permutation));
+                return;
+            }
+
+            for (int i = idx; i < nums.length; i++) {
+                permutation.add(nums[i]);
+                swap(nums, i, idx);
+
+                generate(nums, idx + 1, permutation, ans);
+
+                permutation.remove(permutation.size() - 1);
+                swap(nums, i, idx);
+            }
+        }
+
+        private void swap(int[] nums, int i, int j) {
+            if (i != j) {
+                int tmp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = tmp;
+            }
+        }
+    }
+
     // Resource: https://www.youtube.com/watch?v=qhBVWf0YafA
-    class Permutations2Recursive implements Permutations2 {
+    class Permutations2RecursiveOptimized implements Permutations2 {
 
         @Override
         public List<List<Integer>> permuteUnique(int[] nums) {
