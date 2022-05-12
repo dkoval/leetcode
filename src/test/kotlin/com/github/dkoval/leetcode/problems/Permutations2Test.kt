@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.problems
 
-import com.github.dkoval.leetcode.problems.Permutations2.Permutations2RecursiveNaive
-import com.github.dkoval.leetcode.problems.Permutations2.Permutations2RecursiveOptimized
+import com.github.dkoval.leetcode.problems.Permutations2.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -83,12 +82,21 @@ internal class Permutations2Test {
     }
 
     @Nested
-    inner class Permutations2RecursiveOptimizedTest {
+    inner class Permutations2RecursiveWithSetTest {
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return all possible unique permutations in any order`(nums: IntArray, expected: List<List<Int>>) {
+            Permutations2RecursiveWithSet().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class Permutations2RecursiveWithGroupingTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return all possible unique permutations in any order`(nums: IntArray, expected: List<List<Int>>) {
-            Permutations2RecursiveOptimized().test(nums, expected)
+            Permutations2RecursiveWithGrouping().test(nums, expected)
         }
     }
 

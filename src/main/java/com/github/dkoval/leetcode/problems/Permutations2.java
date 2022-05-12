@@ -46,8 +46,50 @@ public interface Permutations2 {
         }
     }
 
+    class Permutations2RecursiveWithSet implements Permutations2 {
+
+        @Override
+        public List<List<Integer>> permuteUnique(int[] nums) {
+            List<List<Integer>> ans = new ArrayList<>();
+            generate(nums, 0, new ArrayList<>(), ans);
+            return ans;
+        }
+
+        private void generate(int[] nums, int idx, List<Integer> permutation, List<List<Integer>> ans) {
+            if (idx == nums.length) {
+                ans.add(new ArrayList<>(permutation));
+                return;
+            }
+
+            Set<Integer> seen = new HashSet<>();
+            for (int i = idx; i < nums.length; i++) {
+                if (seen.contains(nums[i]) ) {
+                    continue;
+                }
+
+                seen.add(nums[i]);
+
+                permutation.add(nums[i]);
+                swap(nums, i, idx);
+
+                generate(nums, idx + 1, permutation, ans);
+
+                permutation.remove(permutation.size() - 1);
+                swap(nums, i, idx);
+            }
+        }
+
+        private void swap(int[] nums, int i, int j) {
+            if (i != j) {
+                int tmp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = tmp;
+            }
+        }
+    }
+
     // Resource: https://www.youtube.com/watch?v=qhBVWf0YafA
-    class Permutations2RecursiveOptimized implements Permutations2 {
+    class Permutations2RecursiveWithGrouping implements Permutations2 {
 
         @Override
         public List<List<Integer>> permuteUnique(int[] nums) {
