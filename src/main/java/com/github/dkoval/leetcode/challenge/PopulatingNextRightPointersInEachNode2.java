@@ -17,9 +17,9 @@ import java.util.Queue;
  * <li>Recursive approach is fine, you may assume implicit stack space does not count as extra space for this problem.</li>
  * </ul>
  */
-public abstract class PopulatingNextRightPointersInEachNode2 {
+public interface PopulatingNextRightPointersInEachNode2 {
 
-    public static class Node {
+    class Node {
         public int val;
         public Node left;
         public Node right;
@@ -30,10 +30,10 @@ public abstract class PopulatingNextRightPointersInEachNode2 {
         }
     }
 
-    public abstract Node connect(Node root);
+    Node connect(Node root);
 
     // O(N) time since we process each node exactly once | O(N) space
-    public static class PopulatingNextRightPointersInEachNode2UsingDeque extends PopulatingNextRightPointersInEachNode2 {
+    class PopulatingNextRightPointersInEachNode2UsingDeque implements PopulatingNextRightPointersInEachNode2 {
 
         @Override
         public Node connect(Node root) {
@@ -63,14 +63,15 @@ public abstract class PopulatingNextRightPointersInEachNode2 {
         }
     }
 
-    // O(N) time since we process each node exactly once | O(1) space
-    public static class PopulatingNextRightPointersInEachNode2UsingPreviousNextPointers extends PopulatingNextRightPointersInEachNode2 {
+    // O(N) time since we process each node exactly once | O(H) space
+    class PopulatingNextRightPointersInEachNode2UsingPrevPointerRev1 implements PopulatingNextRightPointersInEachNode2 {
 
         @Override
         public Node connect(Node root) {
             if (root == null) {
                 return null;
             }
+
             Node curr = root;
             // process the tree in a BFS manner, i.e. level by level
             while (curr != null) {
@@ -88,6 +89,51 @@ public abstract class PopulatingNextRightPointersInEachNode2 {
                     curr = curr.next;
                 }
                 curr = dummy.next;
+            }
+            return root;
+        }
+    }
+
+    // O(N) time since we process each node exactly once | O(1) space
+    class PopulatingNextRightPointersInEachNode2UsingPrevPointerRev2 implements PopulatingNextRightPointersInEachNode2 {
+
+        @Override
+        public Node connect(Node root) {
+            if (root == null) {
+                return null;
+            }
+
+            // process the tree in a BFS manner, i.e. level by level
+            Node head = root;
+            while (head != null) {
+                Node curr = head;
+                Node prev = null;
+                Node newHead = null; // head of the list at the next level
+
+                // connect nodes at the next level
+                while (curr != null) {
+                    if (curr.left != null) {
+                        if (prev != null) {
+                            prev.next = curr.left;
+                            prev = prev.next;
+                        } else {
+                            prev = curr.left;
+                            newHead = curr.left;
+                        }
+                    }
+
+                    if (curr.right != null) {
+                        if (prev != null) {
+                            prev.next = curr.right;
+                            prev = prev.next;
+                        } else {
+                            prev = curr.right;
+                            newHead = curr.right;
+                        }
+                    }
+                    curr = curr.next;
+                }
+                head = newHead;
             }
             return root;
         }
