@@ -26,6 +26,56 @@ public interface NetworkDelayTime {
 
     int networkDelayTime(int[][] times, int n, int k);
 
+    class NetworkDelayTimeUsingBFS implements NetworkDelayTime {
+
+        private static class Node {
+            final int id;
+            final int time;
+
+            Node(int id, int time) {
+                this.id = id;
+                this.time = time;
+            }
+        }
+
+        @Override
+        public int networkDelayTime(int[][] times, int n, int k) {
+            Map<Integer, List<Node>> graph = new HashMap<>();
+            for (int[] edge : times) {
+                graph.computeIfAbsent(edge[0], key -> new ArrayList<>()).add(new Node(edge[1], edge[2]));
+            }
+
+            // slightly modified BFS
+            Queue<Node> q = new ArrayDeque<>();
+            // visited[v] is the shortest time it takes to reach v from k
+            int[] visited = new int[n + 1];
+            Arrays.fill(visited, Integer.MAX_VALUE);
+
+            q.offer(new Node(k, 0));
+            visited[k] = 0;
+            while (!q.isEmpty()) {
+                Node u = q.poll();
+                for (Node v : graph.getOrDefault(u.id, Collections.emptyList())) {
+                    if (u.time + v.time < visited[v.id]) {
+                        q.offer(new Node(v.id, u.time + v.time));
+                        visited[v.id] = u.time + v.time;
+                    }
+                }
+            }
+
+            // skip 0-th index
+            int ans = 0;
+            for (int i = 1; i <= n; i++) {
+                if (visited[i] == Integer.MAX_VALUE) {
+                    // i-th node was not visited, therefore it is impossible for all the n nodes to receive the signal
+                    return -1;
+                }
+                ans = Math.max(ans, visited[i]);
+            }
+            return ans;
+        }
+    }
+
     class NetworkDelayTimeUsingDijkstra implements NetworkDelayTime {
 
         private static class Node {
@@ -52,15 +102,15 @@ public interface NetworkDelayTime {
 
             enqueue(q, new Node(k, 0), dist);
             while (!q.isEmpty()) {
-                Node curr = q.poll();
+                Node u = q.poll();
 
-                if (dist.get(curr.id) < curr.time) {
+                if (dist.get(u.id) < u.time) {
                     continue;
                 }
 
-                for (Node adj : graph.getOrDefault(curr.id, Collections.emptyList())) {
-                    if (!dist.containsKey(adj.id) || dist.get(curr.id) + adj.time < dist.get(adj.id)) {
-                        enqueue(q, new Node(adj.id, dist.get(curr.id) + adj.time), dist);
+                for (Node v : graph.getOrDefault(u.id, Collections.emptyList())) {
+                    if (!dist.containsKey(v.id) || dist.get(u.id) + v.time < dist.get(v.id)) {
+                        enqueue(q, new Node(v.id, dist.get(u.id) + v.time), dist);
                     }
                 }
             }

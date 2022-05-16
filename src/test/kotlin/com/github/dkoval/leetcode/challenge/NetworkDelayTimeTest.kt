@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.NetworkDelayTime.NetworkDelayTimeUsingBFS
 import com.github.dkoval.leetcode.challenge.NetworkDelayTime.NetworkDelayTimeUsingDijkstra
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -42,6 +43,21 @@ internal class NetworkDelayTimeTest {
                 -1
             )
         )
+    }
+
+    @Nested
+    inner class NetworkDelayTimeUsingBFSTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the time it takes for all the n nodes to receive the signal`(
+            times: Array<IntArray>,
+            n: Int,
+            k: Int,
+            expected: Int
+        ) {
+            NetworkDelayTimeUsingBFS().test(times, n, k, expected)
+        }
     }
 
     @Nested
