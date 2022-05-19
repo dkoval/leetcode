@@ -72,13 +72,11 @@ public interface CriticalConnectionsInNetwork {
 
                 if (!visited[v]) {
                     dfs(graph, v, u, visited, low, ans);
+                    if (currId < low[v]) {
+                        ans.add(Arrays.asList(u, v));
+                    }
                 }
-
                 low[u] = Math.min(low[u], low[v]);
-
-                if (currId < low[v]) {
-                    ans.add(Arrays.asList(u, v));
-                }
             }
         }
     }
