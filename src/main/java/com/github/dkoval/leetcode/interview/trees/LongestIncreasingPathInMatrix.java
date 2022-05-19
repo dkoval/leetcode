@@ -10,7 +10,7 @@ package com.github.dkoval.leetcode.interview.trees;
  */
 public class LongestIncreasingPathInMatrix {
 
-    private static final int[][] directions = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+    private static final int[][] DIRECTIONS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 
     // DFS with memoization
     //
@@ -21,41 +21,47 @@ public class LongestIncreasingPathInMatrix {
     // Space complexity : O(M*N). The cache dominates the space complexity.
     public int longestIncreasingPath(int[][] matrix) {
         // memo[i][j] - longest increasing path starting at matrix[i][j]
-        int[][] memo = new int[matrix.length][matrix[0].length];
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int[][] memo = new int[m][n];
 
-        int result = 1;
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                result = Math.max(result, dfs(matrix, i, j, memo));
+        int ans = 1;
+        for (int row = 0; row < m; row++) {
+            for (int col = 0; col < n; col++) {
+                ans = Math.max(ans, dfs(matrix, row, col, memo));
             }
         }
-        return result;
+        return ans;
     }
 
+    // Returns the length of the longest increasing path starting at (row, col)
     private int dfs(int[][] matrix, int row, int col, int[][] memo) {
+        // already solved?
         if (memo[row][col] != 0) {
             return memo[row][col];
         }
 
-        int longestIncPathSoFar = 0;
-        for (int[] direction : directions) {
-            int nextRow = row + direction[0];
-            int nextCol = col + direction[1];
+        int m = matrix.length;
+        int n = matrix[0].length;
 
-            // boundary check
-            if (nextRow < 0 || nextRow >= matrix.length || nextCol < 0 || nextCol >= matrix[0].length) {
+        // take the longest increasing path length by moving left, right, up, down
+        int best = 1;
+        for (int[] d : DIRECTIONS) {
+            int nextRow = row + d[0];
+            int nextCol = col + d[1];
+
+            // check boundaries
+            if (nextRow < 0 || nextRow >= m || nextCol < 0 || nextCol >= n) {
                 continue;
             }
 
             // check if the next element can be appended to the current increasing path
-            if (matrix[nextRow][nextCol] <= matrix[row][col]) {
-                continue;
+            if (matrix[nextRow][nextCol] > matrix[row][col]) {
+                best = Math.max(best, 1 + dfs(matrix, nextRow, nextCol, memo));
             }
-
-            // take the longest increasing path length by moving left, right, up, down
-            longestIncPathSoFar = Math.max(longestIncPathSoFar, dfs(matrix, nextRow, nextCol, memo));
         }
 
-        return memo[row][col] = longestIncPathSoFar + 1;
+        // cache and return the answer to a sub-problem
+        return memo[row][col] = best;
     }
 }
