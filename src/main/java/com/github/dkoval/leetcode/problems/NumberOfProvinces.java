@@ -23,30 +23,83 @@ package com.github.dkoval.leetcode.problems;
  *  <li>isConnected[i][j] == isConnected[j][i]</li>
  * </ul>
  */
-public class NumberOfProvinces {
+public interface NumberOfProvinces {
 
-    private static final int[][] DIRECTIONS = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    int findCircleNum(int[][] connected);
 
-    public int findCircleNum(int[][] connected) {
-        int n = connected.length;
-        int count = 0;
-        boolean[] visited = new boolean[n];
-        for (int city = 0; city < n; city++) {
-            if (!visited[city]) {
-                dfs(connected, city, visited);
-                count++;
+    class NumberOfProvincesUsingDFS implements NumberOfProvinces {
+
+        private static final int[][] DIRECTIONS = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+        @Override
+        public int findCircleNum(int[][] connected) {
+            int n = connected.length;
+            int count = 0;
+            boolean[] visited = new boolean[n];
+            for (int city = 0; city < n; city++) {
+                if (!visited[city]) {
+                    dfs(connected, city, visited);
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        private void dfs(int[][] connected, int city, boolean[] visited) {
+            int n = connected.length;
+            visited[city] = true;
+            for (int neighbour = 0; neighbour < n; neighbour++) {
+                if (connected[city][neighbour] == 1 && !visited[neighbour]) {
+                    dfs(connected, neighbour, visited);
+                }
             }
         }
-        return count;
     }
 
-    private void dfs(int[][] connected, int city, boolean[] visited) {
-        int n = connected.length;
-        visited[city] = true;
-        for (int neighbour = 0; neighbour < n; neighbour++) {
-            if (connected[city][neighbour] == 1 && !visited[neighbour]) {
-                dfs(connected, neighbour, visited);
+    class NumberOfProvincesUsingUnionFind implements NumberOfProvinces {
+
+        private static class UnionFind {
+            int[] parent;
+
+            UnionFind(int n) {
+                parent = new int[n];
+                for (int i = 0; i < n; i++) {
+                    parent[i] = i;
+                }
             }
+
+            int find(int x) {
+                if (parent[x] != x) {
+                    parent[x] = find(parent[x]);
+                }
+                return parent[x];
+            }
+
+            boolean union(int x, int y) {
+                int px = find(x);
+                int py = find(y);
+                if (px != py) {
+                    parent[px] = py;
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        @Override
+        public int findCircleNum(int[][] connected) {
+            int n = connected.length;
+            UnionFind uf = new UnionFind(n);
+            int count = n;
+            // consider all pairs of connected cities
+            for (int i = 0; i < n; i++) {
+                for (int j = i + 1; j < n; j++) {
+                    if (connected[i][j] == 1 && uf.union(i, j)) {
+                        count--;
+                    }
+                }
+            }
+            return count;
         }
     }
 }
