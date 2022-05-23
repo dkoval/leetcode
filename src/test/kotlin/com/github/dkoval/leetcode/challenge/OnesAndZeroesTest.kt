@@ -1,15 +1,21 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.OnesAndZeroes.OnesAndZeroesDPBottomUp
+import com.github.dkoval.leetcode.challenge.OnesAndZeroes.OnesAndZeroesDPTopDown
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
 
 internal class OnesAndZeroesTest {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 arrayOf("10", "0001", "111001", "1", "0"),
                 5,
@@ -29,15 +35,38 @@ internal class OnesAndZeroesTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should return the size of the largest subset of strs such that there are at most m 0s and n 1s in the subset`(
-        strs: Array<String>,
-        m: Int,
-        n: Int,
-        expected: Int
-    ) {
-        val actual = OnesAndZeroes().findMaxForm(strs, m, n)
+    @Nested
+    inner class OnesAndZeroesDPTopDownTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the size of the largest subset of strs such that there are at most m 0s and n 1s in the subset`(
+            strs: Array<String>,
+            m: Int,
+            n: Int,
+            expected: Int
+        ) {
+            OnesAndZeroesDPTopDown().test(strs, m, n, expected)
+        }
+    }
+
+    @Nested
+    inner class OnesAndZeroesDPBottomUpTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the size of the largest subset of strs such that there are at most m 0s and n 1s in the subset`(
+            strs: Array<String>,
+            m: Int,
+            n: Int,
+            expected: Int
+        ) {
+            OnesAndZeroesDPBottomUp().test(strs, m, n, expected)
+        }
+    }
+
+    private fun OnesAndZeroes.test(strs: Array<String>, m: Int, n: Int, expected: Int) {
+        val actual = findMaxForm(strs, m, n)
         assertEquals(expected, actual)
     }
 }
