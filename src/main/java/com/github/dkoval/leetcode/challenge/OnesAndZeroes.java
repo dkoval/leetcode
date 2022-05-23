@@ -1,9 +1,5 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 /**
  * <a href="https://leetcode.com/explore/challenge/card/april-leetcoding-challenge-2021/593/week-1-april-1st-april-7th/3694/">Ones and Zeroes</a>
  * <p>
@@ -19,35 +15,6 @@ public interface OnesAndZeroes {
 
     class OnesAndZeroesDPTopDown implements OnesAndZeroes {
 
-        private static final class Key {
-            final int idx;
-            final int count0;
-            final int count1;
-
-            Key(int idx, int count0, int count1) {
-                this.idx = idx;
-                this.count0 = count0;
-                this.count1 = count1;
-            }
-
-            @Override
-            public boolean equals(Object o) {
-                if (this == o) {
-                    return true;
-                }
-                if (o == null || getClass() != o.getClass()) {
-                    return false;
-                }
-                Key that = (Key) o;
-                return idx == that.idx && count0 == that.count0 && count1 == that.count1;
-            }
-
-            @Override
-            public int hashCode() {
-                return Objects.hash(idx, count0, count1);
-            }
-        }
-
         @Override
         public int findMaxForm(String[] strs, int m, int n) {
             // count[i][0] - the number of 0's in strs[i]
@@ -58,29 +25,29 @@ public interface OnesAndZeroes {
             }
 
             // DP top-down
-            return doFindMaxForm(strs, 0, m, n, count, new HashMap<>());
+            int[][][] memo = new int[strs.length][m + 1][n + 1];
+            return doFindMaxForm(strs, 0, m, n, count, memo);
         }
 
-        private int doFindMaxForm(String[] strs, int idx, int count0, int count1, int[][] count, Map<Key, Integer> memo) {
+        private int doFindMaxForm(String[] strs, int idx, int m, int n, int[][] count, int[][][] memo) {
             if (idx == strs.length) {
                 return 0;
             }
 
-            Key key = new Key(idx, count0, count1);
-            if (memo.containsKey(key)) {
-                return memo.get(key);
+            if (memo[idx][m][n] > 0) {
+                return memo[idx][m][n];
             }
 
             int best = 0;
             // option #1: include strs[idx] in the subset
-            if (count0 >= count[idx][0] && count1 >= count[idx][1]) {
-                best = Math.max(best, 1 + doFindMaxForm(strs, idx + 1, count0 - count[idx][0], count1 - count[idx][1], count, memo));
+            if (m >= count[idx][0] && n >= count[idx][1]) {
+                best = Math.max(best, 1 + doFindMaxForm(strs, idx + 1, m - count[idx][0], n - count[idx][1], count, memo));
             }
             // option #2: skip strs[idx]
-            best = Math.max(best, doFindMaxForm(strs, idx + 1, count0, count1, count, memo));
+            best = Math.max(best, doFindMaxForm(strs, idx + 1, m, n, count, memo));
 
-            memo.put(key, best);
-            return best;
+            // cache & return
+            return memo[idx][m][n] = best;
         }
 
         private int[] countZerosAndOnes(String str) {
