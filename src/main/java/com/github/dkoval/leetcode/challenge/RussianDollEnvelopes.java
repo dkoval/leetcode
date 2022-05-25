@@ -28,7 +28,7 @@ public interface RussianDollEnvelopes {
     class RussianDollEnvelopesTLE implements RussianDollEnvelopes {
 
         // O(N^2) time | O(N) space
-        // Correct but results with TLE on Leetcode
+        // Correct but fails with TLE on Leetcode
         @Override
         public int maxEnvelopes(int[][] envelopes) {
             // ~ the longest increasing subsequence DP problem
