@@ -4,7 +4,6 @@ import com.github.dkoval.leetcode.challenge.RussianDollEnvelopes.RussianDollEnve
 import com.github.dkoval.leetcode.challenge.RussianDollEnvelopes.RussianDollEnvelopesUsingBinarySearch
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -66,22 +65,5 @@ internal class RussianDollEnvelopesTest {
     private fun RussianDollEnvelopes.test(envelopes: Array<IntArray>, expected: Int) {
         val actual = maxEnvelopes(envelopes)
         assertEquals(expected, actual)
-    }
-
-    @Test
-    fun foo() {
-        val lis = mutableListOf(0, 2, 10)
-        val target = 0
-
-        val idx = RussianDollEnvelopesUsingBinarySearch.findIndexOfMinValueGreaterThan(lis, target)
-        println(idx)
-
-        if (idx >= lis.size) {
-            lis += target
-        } else {
-            lis[idx] = target
-        }
-
-        println(lis)
     }
 }
