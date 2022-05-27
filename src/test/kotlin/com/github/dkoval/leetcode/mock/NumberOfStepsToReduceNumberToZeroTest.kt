@@ -18,6 +18,7 @@ internal class NumberOfStepsToReduceNumberToZeroTest {
             Arguments.of(14, 6),
             Arguments.of(8, 4),
             Arguments.of(123, 12),
+            Arguments.of(0, 0)
         )
     }
 
