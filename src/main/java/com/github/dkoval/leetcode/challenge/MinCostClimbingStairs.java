@@ -83,7 +83,7 @@ public interface MinCostClimbingStairs {
         public int minCostClimbingStairs(int[] cost) {
             int n = cost.length;
 
-            // dp[i] is the min cost to reach the top of the floor from i
+            // dp[i] is the min cost to get to i from either 0 or 1
             int[] dp = new int[n];
             dp[0] = cost[0];
             dp[1] = cost[1];
@@ -103,7 +103,7 @@ public interface MinCostClimbingStairs {
         public int minCostClimbingStairs(int[] cost) {
             int n = cost.length;
 
-            // dp[i] is the min cost to reach the top of the floor from i
+            // dp[i] is the min cost to get to i from either 0 or 1
             int first = cost[0];
             int second = cost[1];
 
