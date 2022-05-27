@@ -27,32 +27,42 @@ internal class MinCostClimbingStairsTest {
     }
 
     @Nested
-    inner class MinCostClimbingStairsTopDownWithMemoizationTest {
+    inner class MinCostClimbingStairsDPTopDownTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the minimum cost to reach the top of the floor`(cost: IntArray, expected: Int) {
-            MinCostClimbingStairsTopDownWithMemoization().test(cost, expected)
+            MinCostClimbingStairsDPTopDown().test(cost, expected)
         }
     }
 
     @Nested
-    inner class MinCostClimbingStairsBottomUpTest {
+    inner class MinCostClimbingStairsDPBottomUpRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the minimum cost to reach the top of the floor`(cost: IntArray, expected: Int) {
-            MinCostClimbingStairsBottomUp().test(cost, expected)
+            MinCostClimbingStairsDPBottomUpRev1().test(cost, expected)
         }
     }
 
     @Nested
-    inner class MinCostClimbingStairsBottomUpSpaceOptimizedTest {
+    inner class MinCostClimbingStairsDPBottomUpRev2Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the minimum cost to reach the top of the floor`(cost: IntArray, expected: Int) {
-            MinCostClimbingStairsBottomUpSpaceOptimized().test(cost, expected)
+            MinCostClimbingStairsDPBottomUpRev2().test(cost, expected)
+        }
+    }
+
+    @Nested
+    inner class MinCostClimbingStairsBottomUpRev2SpaceOptimizedTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum cost to reach the top of the floor`(cost: IntArray, expected: Int) {
+            MinCostClimbingStairsBottomUpRev2SpaceOptimized().test(cost, expected)
         }
     }
 
