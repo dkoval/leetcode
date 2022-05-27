@@ -1,8 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * <a href="https://leetcode.com/explore/challenge/card/june-leetcoding-challenge-2021/603/week-1-june-1st-june-7th/3770/">Min Cost Climbing Stairs</a>
@@ -23,26 +21,29 @@ public interface MinCostClimbingStairs {
 
         @Override
         public int minCostClimbingStairs(int[] cost) {
-            Map<Integer, Integer> memo = new HashMap<>();
+            int n = cost.length;
+            Integer[] memo = new Integer[n];
             return Math.min(minCost(cost, 0, memo), minCost(cost, 1, memo));
         }
 
-        private int minCost(int[] cost, int idx, Map<Integer, Integer> memo) {
+        // Min cost to reach the top of the floor from idx
+        private int minCost(int[] cost, int idx, Integer[] memo) {
             int n = cost.length;
+
             if (idx > n) {
                 return Integer.MAX_VALUE;
             }
+
             if (idx == n) {
                 return 0;
             }
 
-            if (memo.containsKey(idx)) {
-                return memo.get(idx);
+            if (memo[idx] != null) {
+                return memo[idx];
             }
 
             int totalCost = cost[idx] + Math.min(minCost(cost, idx + 1, memo), minCost(cost, idx + 2, memo));
-            memo.put(idx, totalCost);
-            return totalCost;
+            return memo[idx] = totalCost;
         }
     }
 
