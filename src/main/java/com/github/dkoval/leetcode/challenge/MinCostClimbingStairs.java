@@ -3,7 +3,7 @@ package com.github.dkoval.leetcode.challenge;
 import java.util.Arrays;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/june-leetcoding-challenge-2021/603/week-1-june-1st-june-7th/3770/">Min Cost Climbing Stairs</a>
+ * <a href="https://leetcode.com/problems/min-cost-climbing-stairs/">Min Cost Climbing Stairs</a>
  * <p>
  * You are given an integer array cost where cost[i] is the cost of ith step on a staircase. Once you pay the cost,
  * you can either climb one or two steps.
@@ -11,6 +11,12 @@ import java.util.Arrays;
  * You can either start from the step with index 0, or the step with index 1.
  * <p>
  * Return the minimum cost to reach the top of the floor.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>2 <= cost.length <= 1000</li>
+ *  <li>0 <= cost[i] <= 999</li>
+ * </ul>
  */
 public interface MinCostClimbingStairs {
 
@@ -83,7 +89,7 @@ public interface MinCostClimbingStairs {
         public int minCostClimbingStairs(int[] cost) {
             int n = cost.length;
 
-            // dp[i] is the min cost to get to n from i
+            // dp[i] is the min cost if starting from i
             int[] dp = new int[n];
             dp[0] = cost[0];
             dp[1] = cost[1];
@@ -103,7 +109,7 @@ public interface MinCostClimbingStairs {
         public int minCostClimbingStairs(int[] cost) {
             int n = cost.length;
 
-            // dp[i] is the min cost to get to n from i
+            // dp[i] is the min cost if starting from i
             int first = cost[0];
             int second = cost[1];
 
