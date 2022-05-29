@@ -5,10 +5,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/may-leetcoding-challenge-2021/601/week-4-may-22nd-may-28th/3757/">Maximum Product of Word Lengths</a>
+ * <a href="https://leetcode.com/problems/maximum-product-of-word-lengths/">Maximum Product of Word Lengths</a>
  * <p>
  * Given a string array words, return the maximum value of length(word[i]) * length(word[j]) where the two words
  * do not share common letters. If no such two words exist, return 0.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>2 <= words.length <= 1000</li>
+ *  <li>1 <= words[i].length <= 1000</li>
+ *  <li>words[i] consists only of lowercase English letters</li>
+ * </ul>
  */
 public interface MaximumProductOfWordLengths {
 
@@ -47,7 +54,7 @@ public interface MaximumProductOfWordLengths {
         }
     }
 
-    // O(C(n, 2)) time
+    // O(C(N, 2)) time | O(N * L), where L - max length across words[i]
     class MaximumProductOfWordLengthUsingBitSet implements MaximumProductOfWordLengths {
 
         @Override
@@ -85,7 +92,7 @@ public interface MaximumProductOfWordLengths {
         }
     }
 
-    // O(C(n, 2)) time
+    // O(C(N, 2)) time | O(N * L), where L - max length across words[i]
     class MaximumProductOfWordLengthUsingBitmask implements MaximumProductOfWordLengths {
 
         @Override
