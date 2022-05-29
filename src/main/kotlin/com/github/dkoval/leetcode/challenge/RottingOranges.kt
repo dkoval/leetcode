@@ -1,25 +1,12 @@
 package com.github.dkoval.leetcode.challenge
 
-/**
- * [Rotting Oranges](https://leetcode.com/explore/challenge/card/august-leetcoding-challenge/550/week-2-august-8th-august-14th/3418/)
- *
- * In a given grid, each cell can have one of three values:
- * - the value 0 representing an empty cell;
- * - the value 1 representing a fresh orange;
- * - the value 2 representing a rotten orange.
- *
- * Every minute, any fresh orange that is adjacent (4-directionally) to a rotten orange becomes rotten.
- *
- * Return the minimum number of minutes that must elapse until no cell has a fresh orange.
- * If this is impossible, return -1 instead.
- */
-object RottingOranges {
+object RottingOrangesUsingTwoSets : RottingOranges {
 
     private val directions = arrayOf(-1 to 0, 1 to 0, 0 to -1, 0 to 1)
 
     private data class Cell(val row: Int, val col: Int)
 
-    fun orangesRotting(grid: Array<IntArray>): Int {
+    override fun orangesRotting(grid: Array<IntArray>): Int {
         val m = grid.size
         val n = grid[0].size
 
