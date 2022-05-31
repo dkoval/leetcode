@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.CheckIfStringContainsAllBinaryCodesOfSizeK.CheckIfStringContainsAllBinaryCodesOfSizeKAccepted
-import com.github.dkoval.leetcode.challenge.CheckIfStringContainsAllBinaryCodesOfSizeK.CheckIfStringContainsAllBinaryCodesOfSizeKTLE
+import com.github.dkoval.leetcode.challenge.CheckIfStringContainsAllBinaryCodesOfSizeK.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -74,6 +73,21 @@ internal class CheckIfStringContainsAllBinaryCodesOfSizeKTest {
             expected: Boolean
         ) {
             CheckIfStringContainsAllBinaryCodesOfSizeKAccepted().test(s, k, expected)
+        }
+    }
+
+    @Nested
+    inner class CheckIfStringContainsAllBinaryCodesOptimizedTest {
+
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return True if every binary code of length k is a substring of s`(
+            s: String,
+            k: Int,
+            expected: Boolean
+        ) {
+            CheckIfStringContainsAllBinaryCodesOptimized().test(s, k, expected)
         }
     }
 

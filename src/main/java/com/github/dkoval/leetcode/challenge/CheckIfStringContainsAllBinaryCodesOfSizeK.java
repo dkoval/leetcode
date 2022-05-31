@@ -75,4 +75,33 @@ public interface CheckIfStringContainsAllBinaryCodesOfSizeK {
             return seen.size() == need;
         }
     }
+
+    class CheckIfStringContainsAllBinaryCodesOptimized implements CheckIfStringContainsAllBinaryCodesOfSizeK {
+
+        @Override
+        public boolean hasAllCodes(String s, int k) {
+            int n = s.length();
+            int need = 1 << k; // 2^k
+            boolean[] seen = new boolean[need];
+
+            int x = 0; // current binary number of length k
+            int mask = (1 << k) - 1; // k 1's
+            for (int end = 0; end < n; end++) {
+                // step #1: remove starting bit of the previous k-window
+                // mask here makes sure x is always k bits long. For instance:
+                // 11 << 1 = 110, but (11 << 1) & 11 = 10
+                //            ^^
+                x = (x << 1) & mask;
+                // step #2: add ending bit of the current k-window
+                int bit = s.charAt(end) - '0';
+                x = x | bit;
+
+                if (end >= k - 1 && !seen[x]) {
+                    seen[x] = true;
+                    need--;
+                }
+            }
+            return need == 0;
+        }
+    }
 }
