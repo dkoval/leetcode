@@ -17,12 +17,12 @@ import java.util.Set;
  *  <li>1 <= k <= 20</li>
  * </ul>
  */
-public abstract class CheckIfStringContainsAllBinaryCodesOfSizeK {
+public interface CheckIfStringContainsAllBinaryCodesOfSizeK {
 
-    public abstract boolean hasAllCodes(String s, int k);
+    boolean hasAllCodes(String s, int k);
 
-    // Submission fails with Time Limit Exceeded error
-    public static class CheckIfStringContainsAllBinaryCodesOfSizeKTLE extends CheckIfStringContainsAllBinaryCodesOfSizeK {
+    // Submission fails with TLE error
+    class CheckIfStringContainsAllBinaryCodesOfSizeKTLE implements CheckIfStringContainsAllBinaryCodesOfSizeK {
 
         @Override
         public boolean hasAllCodes(String s, int k) {
@@ -55,24 +55,24 @@ public abstract class CheckIfStringContainsAllBinaryCodesOfSizeK {
         }
     }
 
-    public static class CheckIfStringContainsAllBinaryCodesOfSizeKAccepted extends CheckIfStringContainsAllBinaryCodesOfSizeK {
+        class CheckIfStringContainsAllBinaryCodesOfSizeKAccepted implements CheckIfStringContainsAllBinaryCodesOfSizeK {
 
         public boolean hasAllCodes(String s, int k) {
-            int need = 1 << k;
             // Sliding window: for each i in [0, N - k], where N is the length of string s,
             // generate substrings s[i : i + k - 1] of length k
-            Set<String> codes = new HashSet<>();
-            for (int i = 0; i <= s.length() - k; i++) {
-                String code = s.substring(i, i + k);
-                if (!codes.contains(code)) {
-                    codes.add(code);
-                    need--;
-                    if (need == 0) {
-                        return true;
-                    }
+            int n = s.length();
+            int need = 1 << k; // 2^k
+            Set<String> seen = new HashSet<>();
+            for (int i = 0; i <= n - k; i++) {
+                String subs = s.substring(i, i + k);
+                seen.add(subs);
+
+                // early termination
+                if (seen.size() == need) {
+                    return true;
                 }
             }
-            return false;
+            return seen.size() == need;
         }
     }
 }

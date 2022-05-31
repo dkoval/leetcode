@@ -46,7 +46,6 @@ internal class CheckIfStringContainsAllBinaryCodesOfSizeKTest {
                 4,
                 false
             )
-
         )
     }
 
