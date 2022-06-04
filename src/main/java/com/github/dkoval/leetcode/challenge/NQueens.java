@@ -1,8 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -15,56 +13,125 @@ import java.util.stream.Collectors;
  * Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.'
  * both indicate a queen and an empty space, respectively.
  */
-public class NQueens {
+public interface NQueens {
 
-    public List<List<String>> solveNQueens(int n) {
-        List<int[]> result = new ArrayList<>();
-        placeQueenAtRow(0, new int[n], result);
-        return result.stream().map(this::board).collect(Collectors.toList());
-    }
+    List<List<String>> solveNQueens(int n);
 
-    private void placeQueenAtRow(int row, int[] placements, List<int[]> result) {
-        // placements[i] = j denotes a queen placed at i-th row and j-th column on an n x n chessboard
-        int n = placements.length;
-        if (row == n) {
-            result.add(Arrays.copyOf(placements, n));
+    class NQueensRev1 implements NQueens {
+
+        @Override
+        public List<List<String>> solveNQueens(int n) {
+            List<List<String>> ans = new ArrayList<>();
+            placeQueenAtRow(0, createBoard(n), new HashSet<>(), new HashSet<>(), new HashSet<>(), ans);
+            return ans;
         }
-        // generate all possible valid queen placements in the current row
-        for (int col = 0; col < n; col++) {
-            if (isValidPlacement(row, col, placements)) {
-                placements[row] = col; // place queen
-                placeQueenAtRow(row + 1, placements, result);
+
+        private char[][] createBoard(int n) {
+            char[][] board = new char[n][n];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    board[i][j] = '.';
+                }
+            }
+            return board;
+        }
+
+        private List<String> formatBoard(char[][] board) {
+            List<String> res = new ArrayList<>();
+            for (char[] row : board) {
+                res.add(String.valueOf(row));
+            }
+            return res;
+        }
+
+        private void placeQueenAtRow(int row,
+                                     char[][] board,
+                                     Set<Integer> usedColumns,
+                                     Set<Integer> usedDiags1,
+                                     Set<Integer> usedDiags2,
+                                     List<List<String>> ans) {
+            int n = board.length;
+
+            if (row == n) {
+                ans.add(formatBoard(board));
+                return;
+            }
+
+            for (int col = 0; col < n; col++) {
+                // check column and 2 diagonals
+                // trick: use row + col = c1 and row - col = c2 equations to label diagonals
+                if (!usedColumns.contains(col) && !usedDiags1.contains(row - col) && !usedDiags2.contains(row + col)) {
+                    // place a queen at (row, col)
+                    board[row][col] = 'Q';
+                    usedColumns.add(col);
+                    usedDiags1.add(row - col);
+                    usedDiags2.add(row + col);
+
+                    // go to the next row
+                    placeQueenAtRow(row + 1, board, usedColumns, usedDiags1, usedDiags2, ans);
+
+                    // backtrack
+                    board[row][col] = '.';
+                    usedColumns.remove(col);
+                    usedDiags1.remove(row - col);
+                    usedDiags2.remove(row + col);
+                }
             }
         }
     }
 
-    private boolean isValidPlacement(int row, int col, int[] placements) {
-        // check previous rows
-        for (int currRow = 0; currRow < row; currRow++) {
-            int currCol = placements[currRow];
-            if (col == currCol) {
-                // same column
-                return false;
-            }
-            if (Math.abs(row - currRow) == Math.abs(col - currCol)) {
-                // same diagonal
-                return false;
-            }
-        }
-        return true;
-    }
+    class NQueensRev2 implements NQueens {
 
-    private List<String> board(int[] placements) {
-        int n = placements.length;
-        List<String> result = new ArrayList<>();
-        for (int col : placements) {
-            StringBuilder row = new StringBuilder();
-            for (int j = 0; j < n; j++) {
-                char c = (col == j) ? 'Q' : '.';
-                row.append(c);
-            }
-            result.add(row.toString());
+        @Override
+        public List<List<String>> solveNQueens(int n) {
+            List<int[]> result = new ArrayList<>();
+            placeQueenAtRow(0, new int[n], result);
+            return result.stream().map(this::formatBoard).collect(Collectors.toList());
         }
-        return result;
+
+        private void placeQueenAtRow(int row, int[] placements, List<int[]> result) {
+            // placements[i] = j denotes a queen placed at i-th row and j-th column on an n x n chessboard
+            int n = placements.length;
+            if (row == n) {
+                result.add(Arrays.copyOf(placements, n));
+            }
+            // generate all possible valid queen placements in the current row
+            for (int col = 0; col < n; col++) {
+                if (isValidPlacement(row, col, placements)) {
+                    placements[row] = col; // place queen
+                    placeQueenAtRow(row + 1, placements, result);
+                }
+            }
+        }
+
+        private boolean isValidPlacement(int row, int col, int[] placements) {
+            // check previous rows
+            for (int currRow = 0; currRow < row; currRow++) {
+                int currCol = placements[currRow];
+                if (col == currCol) {
+                    // same column
+                    return false;
+                }
+                if (Math.abs(row - currRow) == Math.abs(col - currCol)) {
+                    // same diagonal
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private List<String> formatBoard(int[] placements) {
+            int n = placements.length;
+            List<String> result = new ArrayList<>();
+            for (int col : placements) {
+                StringBuilder row = new StringBuilder();
+                for (int j = 0; j < n; j++) {
+                    char c = (col == j) ? 'Q' : '.';
+                    row.append(c);
+                }
+                result.add(row.toString());
+            }
+            return result;
+        }
     }
 }
