@@ -22,7 +22,7 @@ public interface NQueens {
         @Override
         public List<List<String>> solveNQueens(int n) {
             List<List<String>> ans = new ArrayList<>();
-            placeQueenAtRow(0, createBoard(n), new HashSet<>(), new HashSet<>(), new HashSet<>(), ans);
+            placeQueen(0, createBoard(n), new HashSet<>(), new HashSet<>(), new HashSet<>(), ans);
             return ans;
         }
 
@@ -44,12 +44,12 @@ public interface NQueens {
             return res;
         }
 
-        private void placeQueenAtRow(int row,
-                                     char[][] board,
-                                     Set<Integer> usedColumns,
-                                     Set<Integer> usedDiags1,
-                                     Set<Integer> usedDiags2,
-                                     List<List<String>> ans) {
+        private void placeQueen(int row,
+                                char[][] board,
+                                Set<Integer> usedColumns,
+                                Set<Integer> usedDiags1,
+                                Set<Integer> usedDiags2,
+                                List<List<String>> ans) {
             int n = board.length;
 
             if (row == n) {
@@ -68,7 +68,7 @@ public interface NQueens {
                     usedDiags2.add(row + col);
 
                     // go to the next row
-                    placeQueenAtRow(row + 1, board, usedColumns, usedDiags1, usedDiags2, ans);
+                    placeQueen(row + 1, board, usedColumns, usedDiags1, usedDiags2, ans);
 
                     // backtrack
                     board[row][col] = '.';
@@ -85,11 +85,11 @@ public interface NQueens {
         @Override
         public List<List<String>> solveNQueens(int n) {
             List<int[]> result = new ArrayList<>();
-            placeQueenAtRow(0, new int[n], result);
+            placeQueen(0, new int[n], result);
             return result.stream().map(this::formatBoard).collect(Collectors.toList());
         }
 
-        private void placeQueenAtRow(int row, int[] placements, List<int[]> result) {
+        private void placeQueen(int row, int[] placements, List<int[]> result) {
             // placements[i] = j denotes a queen placed at i-th row and j-th column on an n x n chessboard
             int n = placements.length;
             if (row == n) {
@@ -99,7 +99,7 @@ public interface NQueens {
             for (int col = 0; col < n; col++) {
                 if (isValidPlacement(row, col, placements)) {
                     placements[row] = col; // place queen
-                    placeQueenAtRow(row + 1, placements, result);
+                    placeQueen(row + 1, placements, result);
                 }
             }
         }
