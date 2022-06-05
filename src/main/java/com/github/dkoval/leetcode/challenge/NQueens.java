@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/may-leetcoding-challenge-2021/601/week-4-may-22nd-may-28th/3752/">N-Queens</a>
+ * <a href="https://leetcode.com/problems/n-queens/">N-Queens</a>
  * <p>
  * The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.
  * <p>
