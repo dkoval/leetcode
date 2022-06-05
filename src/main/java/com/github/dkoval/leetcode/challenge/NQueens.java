@@ -28,9 +28,9 @@ public interface NQueens {
 
         private char[][] createBoard(int n) {
             char[][] board = new char[n][n];
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-                    board[i][j] = '.';
+            for (int row = 0; row < n; row++) {
+                for (int col = 0; col < n; col++) {
+                    board[row][col] = '.';
                 }
             }
             return board;
