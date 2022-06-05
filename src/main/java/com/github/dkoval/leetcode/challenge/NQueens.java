@@ -46,7 +46,7 @@ public interface NQueens {
 
         private void placeQueen(int row,
                                 char[][] board,
-                                Set<Integer> usedColumns,
+                                Set<Integer> usedCols,
                                 Set<Integer> usedDiags1,
                                 Set<Integer> usedDiags2,
                                 List<List<String>> ans) {
@@ -60,19 +60,19 @@ public interface NQueens {
             for (int col = 0; col < n; col++) {
                 // check column and 2 diagonals
                 // trick: use row + col = c1 and row - col = c2 equations to label diagonals
-                if (!usedColumns.contains(col) && !usedDiags1.contains(row - col) && !usedDiags2.contains(row + col)) {
+                if (!usedCols.contains(col) && !usedDiags1.contains(row - col) && !usedDiags2.contains(row + col)) {
                     // place a queen at (row, col)
                     board[row][col] = 'Q';
-                    usedColumns.add(col);
+                    usedCols.add(col);
                     usedDiags1.add(row - col);
                     usedDiags2.add(row + col);
 
                     // go to the next row
-                    placeQueen(row + 1, board, usedColumns, usedDiags1, usedDiags2, ans);
+                    placeQueen(row + 1, board, usedCols, usedDiags1, usedDiags2, ans);
 
                     // backtrack
                     board[row][col] = '.';
-                    usedColumns.remove(col);
+                    usedCols.remove(col);
                     usedDiags1.remove(row - col);
                     usedDiags2.remove(row + col);
                 }
