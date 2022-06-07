@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.interview.sortingandsearching
 
 /**
- * [Merge Sorted Array](https://leetcode.com/explore/featured/card/top-interview-questions-easy/96/sorting-and-searching/587/)
+ * [Merge Sorted Array](https://leetcode.com/problems/merge-sorted-array/)
  *
  * Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.
  *
@@ -14,6 +14,7 @@ interface MergeSortedArray {
     fun merge(nums1: IntArray, m: Int, nums2: IntArray, n: Int)
 }
 
+// O(M + N) time | O(M) space, M <= N
 object MergeSortedArrayIntoLargerOneUsingExtraMSpace : MergeSortedArray {
 
     override fun merge(nums1: IntArray, m: Int, nums2: IntArray, n: Int) {
@@ -39,6 +40,7 @@ object MergeSortedArrayIntoLargerOneUsingExtraMSpace : MergeSortedArray {
     }
 }
 
+// O(M + N) time | O(1) space
 object MergeSortedArrayIntoLargerOneUsingNoExtraSpace : MergeSortedArray {
 
     override fun merge(nums1: IntArray, m: Int, nums2: IntArray, n: Int) {
