@@ -21,10 +21,6 @@ internal class RemovePalindromicSubsequencesTest {
             Arguments.of(
                 "baabb",
                 2
-            ),
-            Arguments.of(
-                "",
-                0
             )
         )
     }

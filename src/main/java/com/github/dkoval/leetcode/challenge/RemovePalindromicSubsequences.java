@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/march-leetcoding-challenge-2021/589/week-2-march-8th-march-14th/3665/">Remove Palindromic Subsequences</a>
+ * <a href="https://leetcode.com/problems/remove-palindromic-subsequences/">Remove Palindromic Subsequences</a>
  * <p>
  * Given a string s consisting only of letters 'a' and 'b'. In a single step you can remove one palindromic subsequence
  * from s.
@@ -12,21 +12,29 @@ package com.github.dkoval.leetcode.challenge;
  * changing its order.
  * <p>
  * A string is called palindrome if is one that reads the same backward as well as forward.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= s.length <= 1000</li>
+ *  <li>s[i] is either 'a' or 'b'</li>
+ * </ul>
  */
 public class RemovePalindromicSubsequences {
 
+    // O(N) time | O(1) space
     public int removePalindromeSub(String s) {
-        if (s.isEmpty()) {
-            return 0;
-        }
+        // if s is already a palindrome, its entirety can be removed in a single step
         if (isPalindrome(s)) {
             return 1;
         }
+        // a subsequence composed of only one type of letter is always a palindrome, hence
+        // if s is not a palindrome, its entirety can be removed in 2 steps: remove all a's and then all b's
         return 2;
     }
 
     private boolean isPalindrome(String s) {
-        int i = 0, j = s.length() - 1;
+        int i = 0;
+        int j = s.length() - 1;
         while (i < j) {
             if (s.charAt(i) != s.charAt(j)) {
                 return false;
