@@ -19,37 +19,83 @@ import java.util.Map;
  *  <li>1 <= x <= 10^9</li>
  * </ul>
  */
-public class MinimumOperationsToReduceXToZero {
+public interface MinimumOperationsToReduceXToZero {
 
-    // O(N) time | O(N) space
-    public int minOperations(int[] nums, int x) {
-        int targetSum = -x;
-        for (int num : nums) {
-            targetSum += num;
+    int minOperations(int[] nums, int x);
+
+    class MinimumOperationsToReduceXToZeroRev1 implements MinimumOperationsToReduceXToZero {
+
+        // O(N) time | O(N) space
+        @Override
+        public int minOperations(int[] nums, int x) {
+            int n = nums.length;
+            int minNumOps = Integer.MAX_VALUE;
+
+            Map<Integer, Integer> prefixSumToNumOps = new HashMap<>();
+            prefixSumToNumOps.put(0, 0);
+
+            // process prefix sum
+            int sum = 0;
+            for (int i = 0; i < n; i++) {
+                sum += nums[i];
+                prefixSumToNumOps.put(sum, i + 1);
+            }
+
+            if (sum < x) {
+                return -1;
+            }
+
+            if (prefixSumToNumOps.containsKey(x)) {
+                minNumOps = prefixSumToNumOps.get(x);
+            }
+
+            // process suffix sum
+            sum = 0;
+            for (int i = n - 1; i >= 0; i--) {
+                // x = some prefixSum + some suffixSum
+                sum += nums[i];
+                int complement = x - sum;
+                if (prefixSumToNumOps.containsKey(complement)) {
+                    minNumOps = Math.min(minNumOps, prefixSumToNumOps.get(complement) + (n - i));
+                }
+            }
+
+            return (minNumOps != Integer.MAX_VALUE) ? minNumOps : -1;
         }
-
-        if (targetSum == 0) {
-            return nums.length;
-        }
-
-        int length = maxSumSubarrayLength(nums, targetSum);
-        return (length > 0) ? nums.length - length : -1;
     }
 
-    private int maxSumSubarrayLength(int[] nums, int targetSum) {
-        int prefixSum = 0;
-        int maxLength = 0;
-        Map<Integer, Integer> prefixSumToIndex = new HashMap<>();
-        prefixSumToIndex.put(0, -1);
-        for (int i = 0; i < nums.length; i++) {
-            prefixSum += nums[i];
-            int sum = prefixSum - targetSum;
-            if (prefixSumToIndex.containsKey(sum)) {
-                int currLength = i - prefixSumToIndex.get(sum);
-                maxLength = Math.max(maxLength, currLength);
+    class MinimumOperationsToReduceXToZeroRev2 implements MinimumOperationsToReduceXToZero {
+
+        // O(N) time | O(N) space
+        public int minOperations(int[] nums, int x) {
+            int sum = 0;
+            for (int num : nums) {
+                sum += num;
             }
-            prefixSumToIndex.put(prefixSum, i);
+
+            if (sum == x) {
+                return nums.length;
+            }
+
+            int length = maxSumSubarrayLength(nums, sum - x);
+            return (length > 0) ? nums.length - length : -1;
         }
-        return maxLength;
+
+        private int maxSumSubarrayLength(int[] nums, int targetSum) {
+            int prefixSum = 0;
+            int maxLength = 0;
+            Map<Integer, Integer> prefixSumToIndex = new HashMap<>();
+            prefixSumToIndex.put(0, -1);
+            for (int i = 0; i < nums.length; i++) {
+                prefixSum += nums[i];
+                int sum = prefixSum - targetSum;
+                if (prefixSumToIndex.containsKey(sum)) {
+                    int currLength = i - prefixSumToIndex.get(sum);
+                    maxLength = Math.max(maxLength, currLength);
+                }
+                prefixSumToIndex.put(prefixSum, i);
+            }
+            return maxLength;
+        }
     }
 }
