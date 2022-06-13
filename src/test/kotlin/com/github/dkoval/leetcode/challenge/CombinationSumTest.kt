@@ -1,5 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.CombinationSum.CombinationSumRev1
+import com.github.dkoval.leetcode.challenge.CombinationSum.CombinationSumRev2
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -54,7 +56,7 @@ internal class CombinationSumTest {
     }
 
     @Nested
-    inner class CombinationSumKtTest {
+    inner class CombinationSumRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -63,12 +65,12 @@ internal class CombinationSumTest {
             target: Int,
             expected: List<List<Int>>
         ) {
-            CombinationSumKt.test(candidates, target, expected)
+            CombinationSumRev1().test(candidates, target, expected)
         }
     }
 
     @Nested
-    inner class CombinationSumJavaTest {
+    inner class CombinationSumRev2Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -77,7 +79,7 @@ internal class CombinationSumTest {
             target: Int,
             expected: List<List<Int>>
         ) {
-            CombinationSumJava().test(candidates, target, expected)
+            CombinationSumRev2().test(candidates, target, expected)
         }
     }
 
