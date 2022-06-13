@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.Triangle.TriangleBottomUp
-import com.github.dkoval.leetcode.challenge.Triangle.TriangleTopDown
+import com.github.dkoval.leetcode.challenge.Triangle.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -72,7 +71,7 @@ internal class TriangleTest {
     }
 
     @Nested
-    inner class TriangleBottomUpTest {
+    inner class TriangleBottomUpRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -80,7 +79,20 @@ internal class TriangleTest {
             triangle: List<List<Int>>,
             expected: Int
         ) {
-            TriangleBottomUp().test(triangle, expected)
+            TriangleBottomUpRev1().test(triangle, expected)
+        }
+    }
+
+    @Nested
+    inner class TriangleBottomUpRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum path sum from top to bottom in a triangle`(
+            triangle: List<List<Int>>,
+            expected: Int
+        ) {
+            TriangleBottomUpRev2().test(triangle, expected)
         }
     }
 

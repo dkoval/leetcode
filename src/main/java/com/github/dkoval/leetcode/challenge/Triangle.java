@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,8 +42,29 @@ public interface Triangle {
 
     // Time: O(N^2) since we're visiting all 1 + 2 + ... + N = N  * (N + 1) / 2 numbers,
     // where N is the total number of rows in the triangle
+    // Space: O(N)
+    class TriangleBottomUpRev1 implements Triangle {
+
+        @Override
+        public int minimumTotal(List<List<Integer>> triangle) {
+            int n = triangle.size();
+            List<Integer> row = new ArrayList<>(triangle.get(n - 1));
+            // iterate over rows in reverse order
+            for (int i = n - 1; i >= 1; i--) {
+                // fill in (i - 1)-th row
+                for (int j = 0; j < i; j++) {
+                    int newVal = triangle.get(i - 1).get(j) + Math.min(row.get(j), row.get(j + 1));
+                    row.set(j, newVal);
+                }
+            }
+            return row.get(0);
+        }
+    }
+
+    // Time: O(N^2) since we're visiting all 1 + 2 + ... + N = N  * (N + 1) / 2 numbers,
+    // where N is the total number of rows in the triangle
     // Space: O(1)
-    class TriangleBottomUp implements Triangle {
+    class TriangleBottomUpRev2 implements Triangle {
 
         @Override
         public int minimumTotal(List<List<Integer>> triangle) {
