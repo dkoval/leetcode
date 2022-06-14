@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
-import com.github.dkoval.leetcode.problems.CombinationSum2.CombinationSum2Recursive
+import com.github.dkoval.leetcode.problems.CombinationSum2.CombinationSum2Rev1
+import com.github.dkoval.leetcode.problems.CombinationSum2.CombinationSum2Rev2
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -37,7 +38,7 @@ internal class CombinationSum2Test {
     }
 
     @Nested
-    inner class CombinationSum2RecursiveTest {
+    inner class CombinationSum2Rev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -46,7 +47,21 @@ internal class CombinationSum2Test {
             target: Int,
             expected: List<List<Int>>
         ) {
-            CombinationSum2Recursive().test(candidates, target, expected)
+            CombinationSum2Rev1().test(candidates, target, expected)
+        }
+    }
+
+    @Nested
+    inner class CombinationSum2Rev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find all unique combinations in candidates where the candidate numbers sum to target`(
+            candidates: IntArray,
+            target: Int,
+            expected: List<List<Int>>
+        ) {
+            CombinationSum2Rev2().test(candidates, target, expected)
         }
     }
 

@@ -24,25 +24,66 @@ public interface CombinationSum2 {
 
     List<List<Integer>> combinationSum2(int[] candidates, int target);
 
-    // Resource: https://www.youtube.com/watch?v=rSA3t6BDDwg
-    class CombinationSum2Recursive implements CombinationSum2 {
+    class CombinationSum2Rev1 implements CombinationSum2 {
 
         @Override
         public List<List<Integer>> combinationSum2(int[] candidates, int target) {
             // this will allow us to handle duplicates
             Arrays.sort(candidates);
-            List<List<Integer>> result = new ArrayList<>();
-            genCombinationSum2(candidates, target, 0, new ArrayList<>(), result);
-            return result;
+            List<List<Integer>> ans = new ArrayList<>();
+            backtrack(candidates, target, 0, new ArrayList<>(), ans);
+            return ans;
         }
 
-        private void genCombinationSum2(int[] candidates, int target, int idx, List<Integer> combination, List<List<Integer>> result) {
-            int n = candidates.length;
+        private void backtrack(int[] candidates, int target, int idx, List<Integer> combination, List<List<Integer>> ans) {
             if (target == 0) {
-                result.add(new ArrayList<>(combination));
+                ans.add(new ArrayList<>(combination));
                 return;
             }
 
+            int n = candidates.length;
+            if (idx >= n) {
+                return;
+            }
+
+            if (candidates[idx] > target) {
+                // since candidates[] is sorted, all elements to the right of candidates[i] are also > target,
+                // therefore it makes sense to early terminate here
+                return;
+            }
+
+            // option #1: take candidates[idx]
+            combination.add(candidates[idx]);
+            backtrack(candidates, target - candidates[idx], idx + 1, combination, ans);
+            combination.remove(combination.size() - 1);
+
+            // option #2: skip candidates[idx] along with its duplicates
+            while (idx + 1 < n && candidates[idx + 1] == candidates[idx]) {
+                idx++;
+            }
+            backtrack(candidates, target, idx + 1, combination, ans);
+        }
+    }
+
+    // Resource: https://www.youtube.com/watch?v=rSA3t6BDDwg
+    class CombinationSum2Rev2 implements CombinationSum2 {
+
+        @Override
+        public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+            // this will allow us to handle duplicates
+            Arrays.sort(candidates);
+            List<List<Integer>> ans = new ArrayList<>();
+            backtrack(candidates, target, 0, new ArrayList<>(), ans);
+            return ans;
+        }
+
+        private void backtrack(int[] candidates, int target, int idx, List<Integer> combination, List<List<Integer>> ans) {
+            if (target == 0) {
+                ans.add(new ArrayList<>(combination));
+                return;
+            }
+
+            int n = candidates.length;
             for (int i = idx; i < n; i++) {
                 // ..., 1, 1, 1, 1, 1, ...,
                 //      ^
@@ -52,13 +93,13 @@ public interface CombinationSum2 {
                 }
 
                 if (candidates[i] > target) {
-                    // since candidates[] is sorted, all element to the right of candidates[i] are also > target,
-                    // therefore it makes sense to terminate early here
+                    // since candidates[] is sorted, all elements to the right of candidates[i] are also > target,
+                    // therefore it makes sense to early terminate here
                     break;
                 }
 
                 combination.add(candidates[i]);
-                genCombinationSum2(candidates, target - candidates[i], i + 1, combination, result);
+                backtrack(candidates, target - candidates[i], i + 1, combination, ans);
                 combination.remove(combination.size() - 1);
             }
         }
