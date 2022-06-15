@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/may-leetcoding-challenge-2021/600/week-3-may-15th-may-21st/3746/">Longest String Chain</a>
- *
+ * <a href="https://leetcode.com/problems/longest-string-chain/">Longest String Chain</a>
+ * <p>
  * Given a list of words, each word consists of English lowercase letters.
  * <p>
  * Let's say word1 is a predecessor of word2 if and only if we can add exactly one letter anywhere in word1 to make it
@@ -17,29 +17,35 @@ import java.util.Map;
  * word_2 is a predecessor of word_3, and so on.
  * <p>
  * Return the longest possible length of a word chain with words chosen from the given list of words.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= words.length <= 1000</li>
+ *  <li>1 <= words[i].length <= 16</li>
+ *  <li>words[i] only consists of lowercase English letters</li>
+ * </ul>
  */
 public class LongestStringChain {
 
     public int longestStrChain(String[] words) {
-        // sort array of words by their length
+        // sort words[] by their length
         Arrays.sort(words, Comparator.comparingInt(String::length));
-        // dp[word] holds the length of the longest for `word`
+        // dp[word] is the length of the longest chain ending at word
         Map<String, Integer> dp = new HashMap<>();
 
-        int longestChain = 0;
+        int maxLength = 1;
         for (String word : words) {
-            int longestChainSoFar = 0;
-            // generate all possible words that lead to the current `word` by removing i-th character
+            int currLength = 1;
+            // generate all possible predecessors by removing the word's i-th character
             for (int i = 0; i < word.length(); i++) {
-                String prevWord = word.substring(0, i) + word.substring(i + 1);
-                if (dp.containsKey(prevWord)) {
-                    longestChainSoFar = Math.max(longestChainSoFar, dp.get(prevWord));
+                String predecessor = word.substring(0, i) + word.substring(i + 1);
+                if (dp.containsKey(predecessor)) {
+                    currLength = Math.max(currLength, 1 + dp.get(predecessor));
                 }
             }
-            longestChainSoFar++;
-            dp.put(word, longestChainSoFar);
-            longestChain = Math.max(longestChain, longestChainSoFar);
+            dp.put(word, currLength);
+            maxLength = Math.max(maxLength, currLength);
         }
-        return longestChain;
+        return maxLength;
     }
 }

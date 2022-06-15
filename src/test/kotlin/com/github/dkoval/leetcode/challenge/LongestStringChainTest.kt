@@ -18,6 +18,10 @@ internal class LongestStringChainTest {
             Arguments.of(
                 arrayOf("xbc", "pcxbcf", "xb", "cxbc", "pcxbc"),
                 5
+            ),
+            Arguments.of(
+                arrayOf("abcd","dbqca"),
+                1
             )
         )
     }
