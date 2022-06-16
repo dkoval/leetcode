@@ -1,14 +1,6 @@
 package com.github.dkoval.leetcode.interview.array
 
-/**
- * [Longest Palindromic Substring](https://leetcode.com/explore/interview/card/top-interview-questions-medium/103/array-and-strings/780/)
- *
- * Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
- */
-interface LongestPalindromicSubstring {
-
-    fun longestPalindrome(s: String): String
-}
+import com.github.dkoval.leetcode.challenge.LongestPalindromicSubstring
 
 // Time complexity: O(N^3)
 object LongestPalindromicSubstringBruteForce : LongestPalindromicSubstring {

@@ -1,8 +1,7 @@
 package com.github.dkoval.leetcode.interview.array
 
-import com.github.dkoval.leetcode.challenge.LongestPalindromicSubstringExpandAroundCenterJava
-import com.github.dkoval.leetcode.problems.LongestPalindromicSubstringDPBottomUp
-import com.github.dkoval.leetcode.problems.LongestPalindromicSubstringExpandAroundCenterRevisedJava
+import com.github.dkoval.leetcode.challenge.LongestPalindromicSubstring
+import com.github.dkoval.leetcode.challenge.LongestPalindromicSubstring.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -24,6 +23,18 @@ internal class LongestPalindromicSubstringTest {
             Arguments.of(
                 "cbbd",
                 setOf("bb")
+            ),
+            Arguments.of(
+                "a",
+                1
+            ),
+            Arguments.of(
+                "aa",
+                2
+            ),
+            Arguments.of(
+                "aaa",
+                3
             )
         )
     }
@@ -49,22 +60,22 @@ internal class LongestPalindromicSubstringTest {
     }
 
     @Nested
-    inner class LongestPalindromicSubstringExpandAroundCenterJavaTest {
+    inner class LongestPalindromicSubstringExpandAroundCenterRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the longest palindromic substring`(s: String, expected: Set<String>) {
-            LongestPalindromicSubstringExpandAroundCenterJava().test(s, expected)
+            LongestPalindromicSubstringExpandAroundCenterRev1().test(s, expected)
         }
     }
 
     @Nested
-    inner class LongestPalindromicSubstringExpandAroundCenterRevisedJavaTest {
+    inner class LongestPalindromicSubstringExpandAroundCenterRev2Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the longest palindromic substring`(s: String, expected: Set<String>) {
-            LongestPalindromicSubstringExpandAroundCenterRevisedJava().test(s, expected)
+            LongestPalindromicSubstringExpandAroundCenterRev2().test(s, expected)
         }
     }
 
