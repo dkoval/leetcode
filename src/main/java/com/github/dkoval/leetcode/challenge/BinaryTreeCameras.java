@@ -7,18 +7,18 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * <a href="https://leetcode.com/explore/featured/card/may-leetcoding-challenge-2021/600/week-3-may-15th-may-21st/3745/">Binary Tree Cameras</a>
+ * <a href="https://leetcode.com/problems/binary-tree-cameras//">Binary Tree Cameras (Hard)</a>
  * <p>
- * Given a binary tree, we install cameras on the nodes of the tree.
+ * You are given the root of a binary tree. We install cameras on the tree nodes where each camera at a node can monitor
+ * its parent, itself, and its immediate children.
  * <p>
- * Each camera at a node can monitor its parent, itself, and its immediate children.
+ * Return the minimum number of cameras needed to monitor all nodes of the tree.
  * <p>
- * Calculate the minimum number of cameras needed to monitor all nodes of the tree.
- * <p>
- * Note:
- * <p>
- * The number of nodes in the given tree will be in the range [1, 1000].
- * Every node has value 0.
+ * Constraints:
+ * <ul>
+ *  <li>The number of nodes in the given tree will be in the range [1, 1000]</li>
+ *  <li>Every node has value 0</li>
+ * </ul>
  */
 public interface BinaryTreeCameras {
 
@@ -58,6 +58,7 @@ public interface BinaryTreeCameras {
 
         @Override
         public int minCameraCover(TreeNode root) {
+            // Idea: an arbitrary node can either be monitored by itself or by its parent
             // DP: recursive top-down with memoization
             Map<State, Integer> memo = new HashMap<>();
             return minCameraCover(root, false, false, memo);
@@ -75,37 +76,38 @@ public interface BinaryTreeCameras {
 
             int minCount = Integer.MAX_VALUE;
             if (hasCamera) {
-                int currCount = minCameraCover(node.left, false, true, memo)
-                        + minCameraCover(node.right, false, true, memo);
-                minCount = Math.min(minCount, currCount);
+                // nothing to do since the current node monitors itself, its parent and immediate children
+                minCount = Math.min(minCount,
+                        minCameraCover(node.left, false, true, memo)
+                                + minCameraCover(node.right, false, true, memo));
             } else if (parentHasCamera) {
-                // option #1: don't place a camera into the current node
-                int currCount = minCameraCover(node.left, false, false, memo)
-                        + minCameraCover(node.right, false, false, memo);
-                minCount = Math.min(minCount, currCount);
+                // option #1: don't place a camera at the current node since it gets monitored by its parent
+                minCount = Math.min(minCount,
+                        minCameraCover(node.left, false, false, memo)
+                                + minCameraCover(node.right, false, false, memo));
 
-                // option #2: place a camera into the current node
-                currCount = minCameraCover(node.left, false, true, memo)
-                        + minCameraCover(node.right, false, true, memo) + 1;
-                minCount = Math.min(minCount, currCount);
+                // option #2: place a camera at the current node to get it monitored
+                minCount = Math.min(minCount,
+                        1 + minCameraCover(node.left, false, true, memo)
+                                + minCameraCover(node.right, false, true, memo));
             } else {
-                // option #1: place a camera into the current node
-                int currCount = minCameraCover(node.left, false, true, memo)
-                        + minCameraCover(node.right, false, true, memo) + 1;
-                minCount = Math.min(minCount, currCount);
+                // option #1: place a camera at the current node to get it monitored
+                minCount = Math.min(minCount,
+                        1 + minCameraCover(node.left, false, true, memo)
+                                + minCameraCover(node.right, false, true, memo));
 
-                // option #2: place a camera into the root node of the left subtree
+                // option #2: place a camera at the root node of the left subtree to get the current node monitored
                 if (node.left != null) {
-                    currCount = minCameraCover(node.left, true, false, memo)
-                            + minCameraCover(node.right, false, false, memo) + 1;
-                    minCount = Math.min(minCount, currCount);
+                    minCount = Math.min(minCount,
+                            1 + minCameraCover(node.left, true, false, memo)
+                                    + minCameraCover(node.right, false, false, memo));
                 }
 
-                // option #3: place a camera into the root node of the right subtree
+                // option #3: place a camera at the root node of the right subtree to get the current node monitored
                 if (node.right != null) {
-                    currCount = minCameraCover(node.left, false, false, memo)
-                            + minCameraCover(node.right, true, false, memo) + 1;
-                    minCount = Math.min(minCount, currCount);
+                    minCount = Math.min(minCount,
+                            1 + minCameraCover(node.right, true, false, memo)
+                                    + minCameraCover(node.left, false, false, memo));
                 }
             }
 
