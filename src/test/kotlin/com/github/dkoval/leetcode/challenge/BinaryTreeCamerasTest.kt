@@ -2,6 +2,7 @@ package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.TreeNode
 import com.github.dkoval.leetcode.challenge.BinaryTreeCameras.BinaryTreeCamerasTopDownWithMemoization
+import com.github.dkoval.leetcode.challenge.BinaryTreeCameras.BinaryTreeCamerasUsingPostorderTraversalWithStatuses
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -49,6 +50,19 @@ internal class BinaryTreeCamerasTest {
             expected: Int
         ) {
             BinaryTreeCamerasTopDownWithMemoization().test(root, expected)
+        }
+    }
+
+    @Nested
+    inner class BinaryTreeCamerasUsingPostorderTraversalWithStatusesTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should calculate the minimum number of cameras needed to monitor all nodes of the tree`(
+            root: TreeNode?,
+            expected: Int
+        ) {
+            BinaryTreeCamerasUsingPostorderTraversalWithStatuses().test(root, expected)
         }
     }
 

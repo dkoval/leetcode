@@ -58,13 +58,13 @@ public interface BinaryTreeCameras {
 
         @Override
         public int minCameraCover(TreeNode root) {
-            // Idea: an arbitrary node can either be monitored by itself or by its parent
+            // Idea: an arbitrary node can either be monitored by itself or by its parent, or by its children
             // DP: recursive top-down with memoization
             Map<State, Integer> memo = new HashMap<>();
-            return minCameraCover(root, false, false, memo);
+            return cover(root, false, false, memo);
         }
 
-        private int minCameraCover(TreeNode node, boolean hasCamera, boolean parentHasCamera, Map<State, Integer> memo) {
+        private int cover(TreeNode node, boolean hasCamera, boolean parentHasCamera, Map<State, Integer> memo) {
             if (node == null) {
                 return 0;
             }
@@ -78,41 +78,79 @@ public interface BinaryTreeCameras {
             if (hasCamera) {
                 // nothing to do since the current node monitors itself, its parent and immediate children
                 minCount = Math.min(minCount,
-                        minCameraCover(node.left, false, true, memo)
-                                + minCameraCover(node.right, false, true, memo));
+                        cover(node.left, false, true, memo)
+                                + cover(node.right, false, true, memo));
             } else if (parentHasCamera) {
                 // option #1: don't place a camera at the current node since it gets monitored by its parent
                 minCount = Math.min(minCount,
-                        minCameraCover(node.left, false, false, memo)
-                                + minCameraCover(node.right, false, false, memo));
+                        cover(node.left, false, false, memo)
+                                + cover(node.right, false, false, memo));
 
                 // option #2: place a camera at the current node to get it monitored
                 minCount = Math.min(minCount,
-                        1 + minCameraCover(node.left, false, true, memo)
-                                + minCameraCover(node.right, false, true, memo));
+                        1 + cover(node.left, false, true, memo)
+                                + cover(node.right, false, true, memo));
             } else {
                 // option #1: place a camera at the current node to get it monitored
                 minCount = Math.min(minCount,
-                        1 + minCameraCover(node.left, false, true, memo)
-                                + minCameraCover(node.right, false, true, memo));
+                        1 + cover(node.left, false, true, memo)
+                                + cover(node.right, false, true, memo));
 
                 // option #2: place a camera at the root node of the left subtree to get the current node monitored
                 if (node.left != null) {
                     minCount = Math.min(minCount,
-                            1 + minCameraCover(node.left, true, false, memo)
-                                    + minCameraCover(node.right, false, false, memo));
+                            1 + cover(node.left, true, false, memo)
+                                    + cover(node.right, false, false, memo));
                 }
 
                 // option #3: place a camera at the root node of the right subtree to get the current node monitored
                 if (node.right != null) {
                     minCount = Math.min(minCount,
-                            1 + minCameraCover(node.right, true, false, memo)
-                                    + minCameraCover(node.left, false, false, memo));
+                            1 + cover(node.right, true, false, memo)
+                                    + cover(node.left, false, false, memo));
                 }
             }
 
             memo.put(key, minCount);
             return minCount;
+        }
+    }
+
+    class BinaryTreeCamerasUsingPostorderTraversalWithStatuses implements BinaryTreeCameras {
+
+        private enum Status {
+            NEEDS_CAMERA, HAS_CAMERA, COVERED
+        }
+
+        private int numCameras = 0;
+
+        @Override
+        public int minCameraCover(TreeNode root) {
+            return cover(root) == Status.NEEDS_CAMERA ? numCameras + 1 : numCameras;
+        }
+
+        private Status cover(TreeNode root) {
+            if (root == null) {
+                return Status.COVERED;
+            }
+
+            // post-order traversal
+            Status l = cover(root.left);
+            Status r = cover(root.right);
+
+            // if any one of the children is not covered then we must place a camera at the current node
+            if (l == Status.NEEDS_CAMERA || r == Status.NEEDS_CAMERA) {
+                numCameras++;
+                return Status.HAS_CAMERA;
+            }
+
+            // if any of the children has camera then the current node is also covered
+            if (l == Status.HAS_CAMERA || r == Status.HAS_CAMERA) {
+                return Status.COVERED;
+            }
+
+            // if none of the children is covers the current node then ask its parent to cover
+            return Status.NEEDS_CAMERA;
         }
     }
 }
