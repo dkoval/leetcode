@@ -92,9 +92,10 @@ public interface LongestPalindromicSubstring {
         public String longestPalindrome(String s) {
             int n = s.length();
 
-            // dp[i][j] denotes whether the substring from index i to j is a palindrome or not.
+            // dp[i][j] denotes whether the substring from index i to j is a palindrome or not
+            //
             // case #1: i = j      -> dp[i][i] = true, i.e. a single char is a palindrome of length 1
-            // case #2: j - i = 1  -> dp[i][j] = (s[i] == s[i + 1]), i.e. two equal consecutive chars form a palindrome of length 2
+            // case #2: j - i = 1  -> dp[i][j] = true if s[i] == s[i + 1], i.e. two equal consecutive chars form a palindrome of length 2
             // case #3: j - i >= 2 -> dp[i][j] = dp[i + 1][j - 1] if s[i] == s[j]
             boolean[][] dp = new boolean[n][n];
 
