@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <a href="https://leetcode.com/explore/featured/card/may-leetcoding-challenge-2021/598/week-1-may-1st-may-7th/3728/">Prefix and Suffix Search</a>
+ * <a href="https://leetcode.com/problems/prefix-and-suffix-search/">Prefix and Suffix Search</a>
  * <p>
  * Design a special dictionary which has some words and allows you to search the words in it by a prefix and a suffix.
  * <p>
@@ -30,56 +30,48 @@ public class PrefixAndSuffixSearch {
 
     public static class WordFilter {
 
-        private final Trie trie = new Trie();
+        static final String DELIMITER = "#";
+
+        static class TrieNode {
+            final Map<Character, TrieNode> children = new HashMap<>();
+            int index = -1;
+        }
+
+        private final TrieNode root = new TrieNode();
 
         public WordFilter(String[] words) {
             for (int i = 0; i < words.length; i++) {
-                trie.add(words[i], i);
+                add(words[i], i);
+            }
+        }
+
+        private void add(String word, int index) {
+            // For a word "test", all its possible suffixes are "test", "est", "st", "t".
+            // Add all <suffix> + DELIMITER + <word> combinations to the trie, i.e.
+            // "test#test", "est#test", "st#test", "t#test"
+            String s = word + DELIMITER;
+            int n = s.length();
+            for (int offset = 0; offset < n - 1; offset++) {
+                TrieNode curr = root;
+                for (int i = offset; i < 2 * n - 1; i++) {
+                    char c = s.charAt(i % n);
+                    curr = curr.children.computeIfAbsent(c, key -> new TrieNode());
+                    curr.index = index;
+                }
             }
         }
 
         public int f(String prefix, String suffix) {
-            return trie.search(prefix, suffix);
-        }
-
-        private static class Trie {
-
-            static final String DELIMITER = "#";
-
-            final Node root = new Node();
-
-            void add(String word, int index) {
-                // For a word like "test", all its possible suffixes are "test", "est", "st", "t".
-                // Add all <suffix> + DELIMITER + <word> combinations to the trie, i.e.
-                // "test#test", "est#test", "st#tets", "t#test"
-                String wordToAdd = word + DELIMITER;
-                for (int i = 0; i < wordToAdd.length() - 1; i++) {
-                    Node curr = root;
-                    for (int j = i; j < 2 * wordToAdd.length() - 1; j++) {
-                        char c = wordToAdd.charAt(j % wordToAdd.length());
-                        curr = curr.children.computeIfAbsent(c, key -> new Node());
-                        curr.index = index;
-                    }
+            String prefixToSearch = suffix + DELIMITER + prefix;
+            TrieNode curr = root;
+            for (int i = 0; i < prefixToSearch.length(); i++) {
+                char c = prefixToSearch.charAt(i);
+                if (!curr.children.containsKey(c)) {
+                    return -1;
                 }
+                curr = curr.children.get(c);
             }
-
-            int search(String prefix, String suffix) {
-                String prefixToSearch = suffix + DELIMITER + prefix;
-                Node curr = root;
-                for (int i = 0; i < prefixToSearch.length(); i++) {
-                    char c = prefixToSearch.charAt(i);
-                    curr = curr.children.get(c);
-                    if (curr == null) {
-                        return -1;
-                    }
-                }
-                return curr.index;
-            }
-
-            static class Node {
-                final Map<Character, Node> children = new HashMap<>();
-                int index = -1;
-            }
+            return curr.index;
         }
     }
 }
