@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * <a href="https://leetcode.com/problems/binary-tree-cameras//">Binary Tree Cameras (Hard)</a>
+ * <a href="https://leetcode.com/problems/binary-tree-cameras/">Binary Tree Cameras (Hard)</a>
  * <p>
  * You are given the root of a binary tree. We install cameras on the tree nodes where each camera at a node can monitor
  * its parent, itself, and its immediate children.
