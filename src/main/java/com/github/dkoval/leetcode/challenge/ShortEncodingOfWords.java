@@ -29,18 +29,18 @@ public class ShortEncodingOfWords {
         // Sort words[] by length in desc order
         Arrays.sort(words, Comparator.comparingInt(String::length).reversed());
 
-        int maxLength = 0;
+        int minLength = 0;
         // Given a word, store all of its suffixes, e.g.
         // word = "time", suffixes = ["time", "ime", "me", "e"]
         Set<String> suffixes = new HashSet<>();
         for (String word : words) {
             if (!suffixes.contains(word)) {
-                maxLength += word.length() + 1; // +1 for '#' character
+                minLength += word.length() + 1; // +1 for '#' character
                 for (int offset = 0; offset < word.length(); offset++) {
                     suffixes.add(word.substring(offset));
                 }
             }
         }
-        return maxLength;
+        return minLength;
     }
 }
