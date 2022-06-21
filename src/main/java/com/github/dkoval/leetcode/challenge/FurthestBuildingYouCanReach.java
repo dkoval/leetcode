@@ -3,7 +3,7 @@ package com.github.dkoval.leetcode.challenge;
 import java.util.PriorityQueue;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/april-leetcoding-challenge-2021/596/week-4-april-22nd-april-28th/3721/">Furthest Building You Can Reach</a>
+ * <a href="https://leetcode.com/problems/furthest-building-you-can-reach/">Furthest Building You Can Reach</a>
  * <p>
  * You are given an integer array heights representing the heights of buildings, some bricks, and some ladders.
  * <p>
@@ -16,6 +16,14 @@ import java.util.PriorityQueue;
  * </ul>
  * <p>
  * Return the furthest building index (0-indexed) you can reach if you use the given ladders and bricks optimally.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= heights.length <= 10^5</li>
+ *  <li>1 <= heights[i] <= 10^6</li>
+ *  <li>0 <= bricks <= 10^9</li>
+ *  <li>0 <= ladders <= heights.length</li>
+ * </ul>
  */
 public class FurthestBuildingYouCanReach {
 
@@ -23,7 +31,7 @@ public class FurthestBuildingYouCanReach {
     public int furthestBuilding(int[] heights, int bricks, int ladders) {
         int n = heights.length;
         // Hint #2: You'll have to do a set of jumps, and choose for each one whether to do it using a ladder or bricks.
-        // It's always optimal to use ladder in the largest jumps.
+        // It's always optimal to use ladders in the largest jumps.
         PriorityQueue<Integer> minHeap = new PriorityQueue<>(); // stores L largest jumps
         int bricksRemaining = bricks;
         for (int i = 0; i < n - 1; i++) {
@@ -32,9 +40,10 @@ public class FurthestBuildingYouCanReach {
             }
             int height = heights[i + 1] - heights[i];
             if (minHeap.size() < ladders) {
+                // At first, try to use ladders until there are none available
                 minHeap.offer(height);
             } else {
-                // Optimize: save a ladder for the largest jumps and use bricks, if possible
+                // Optimize: save a ladder for a larger jump and use bricks, if possible
                 int bricksNeeded = height;
                 if (!minHeap.isEmpty() && minHeap.peek() < height) {
                     bricksNeeded = minHeap.poll();
