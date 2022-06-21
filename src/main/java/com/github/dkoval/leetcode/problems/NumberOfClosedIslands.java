@@ -56,8 +56,8 @@ public interface NumberOfClosedIslands {
 
             // count closed islands
             int count = 0;
-            for (int row = 1; row < m; row++) {
-                for (int col = 1; col < n; col++) {
+            for (int row = 1; row < m - 1; row++) {
+                for (int col = 1; col < n - 1; col++) {
                     if (grid[row][col] == LAND) {
                         dfs(grid, row, col);
                         count++;
