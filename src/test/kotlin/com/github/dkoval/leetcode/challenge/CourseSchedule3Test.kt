@@ -31,6 +31,13 @@ internal class CourseSchedule3Test {
                     intArrayOf(4, 3)
                 ),
                 0
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(1, 2),
+                    intArrayOf(2, 3)
+                ),
+                2
             )
         )
     }

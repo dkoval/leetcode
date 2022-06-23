@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 /**
- * <a hrtef="https://leetcode.com/explore/featured/card/may-leetcoding-challenge-2021/598/week-1-may-1st-may-7th/3729/">Course Schedule III</a>
+ * <a hrtef="https://leetcode.com/problems/course-schedule-iii/">Course Schedule III</a>
  * <p>
  * There are n different online courses numbered from 1 to n. You are given an array courses where
  * courses[i] = [durationi, lastDayi] indicate that the ith course should be taken continuously for durationi days
@@ -14,35 +14,41 @@ import java.util.PriorityQueue;
  * You will start on the 1st day and you cannot take two or more courses simultaneously.
  * <p>
  * Return the maximum number of courses that you can take.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= courses.length <= 10^4</li>
+ *  <li>1 <= durationi, lastDayi <= 10^4</li>
+ * </ul>
  */
 public class CourseSchedule3 {
 
     // (N * logN) time | O(N) space
     public int scheduleCourse(int[][] courses) {
-        // Sort `courses` array by `lastDay` attribute
+        // Max heap is used to record durations of taken courses
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(courses.length, Comparator.reverseOrder());
+
+        // Preprocessing step: sort courses array by the `lastDay` attribute
         Arrays.sort(courses, Comparator.comparingInt(course -> course[1]));
 
-        // Max heap is here to keep track of `duration`s of taken courses
-        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(courses.length, Comparator.reverseOrder());
         int currDay = 0;
-
         for (int[] course : courses) {
-            int duration = course[0], lastDay = course[1];
+            int duration = course[0];
+            int lastDay = course[1];
             if (duration > lastDay) {
                 continue;
             }
 
-            currDay += duration;
-            if (currDay <= lastDay) {
-                // take current course
+            if (currDay + duration <= lastDay) {
+                // take the current course
+                currDay += duration;
                 maxHeap.offer(duration);
             } else if (maxHeap.peek() > duration) {
-                // take current course in favour of excluding previously taken course with the largest `duration`
+                // take current course in favour of excluding a previously taken course with the biggest `duration`,
+                // i.e. swap the current course with a previously taken course that has the biggest duration.
+                currDay += duration;
                 currDay -= maxHeap.poll();
                 maxHeap.offer(duration);
-            } else {
-                // ignore current course
-                currDay -= duration;
             }
         }
         return maxHeap.size();
