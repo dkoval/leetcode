@@ -40,6 +40,12 @@ internal class ShortestPathInBinaryMatrixTest {
                     intArrayOf(1, 1, 0)
                 ),
                 -1
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(0)
+                ),
+                1
             )
         )
     }

@@ -1,10 +1,10 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 import java.util.Queue;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/february-leetcoding-challenge-2021/585/week-2-february-8th-february-14th/3638/">Shortest Path in Binary Matrix</a>
+ * <a href="https://leetcode.com/problems/shortest-path-in-binary-matrix/">Shortest Path in Binary Matrix</a>
  * <p>
  * In an N by N square grid, each cell is either empty (0) or blocked (1).
  * <p>
@@ -16,6 +16,14 @@ import java.util.Queue;
  *  <li>If C_i is located at (r, c), then grid[r][c] is empty (ie. grid[r][c] == 0).</li>
  * </ul>
  * Return the length of the shortest such clear path from top-left to bottom-right. If such a path does not exist, return -1.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>n == grid.length</li>
+ *  <li>n == grid[i].length</li>
+ *  <li>1 <= n <= 100</li>
+ *  <li>grid[i][j] is 0 or 1</li>
+ * </ul>
  */
 public class ShortestPathInBinaryMatrix {
 
@@ -34,20 +42,33 @@ public class ShortestPathInBinaryMatrix {
     // O(N^2) time | O(N^2) space
     public int shortestPathBinaryMatrix(int[][] grid) {
         int n = grid.length;
+
+        if (grid[0][0] != 0 || grid[n - 1][n - 1] != 0) {
+            // there's no clear path at all
+            return -1;
+        }
+
+        if (n == 1) {
+            return 1;
+        }
+
         // BFS
-        Queue<Cell> queue = new LinkedList<>();
+        Queue<Cell> queue = new ArrayDeque<>();
         enqueue(queue, grid, 0, 0, 1);
         while (!queue.isEmpty()) {
-            Cell cell = queue.poll();
-            if (cell.row == n - 1 && cell.col == n - 1) {
-                return cell.distance;
-            }
-            // 8-directionally adjacent cells
-            for (int dy = -1; dy <= 1; dy++) {
-                for (int dx = -1; dx <= 1; dx++) {
-                    int nextRow = cell.row + dy;
-                    int nextCol = cell.col + dx;
-                    enqueue(queue, grid, nextRow, nextCol, cell.distance + 1);
+            Cell curr = queue.poll();
+
+            // explore 8-directionally adjacent cells
+            for (int dr = -1; dr <= 1; dr++) {
+                for (int dc = -1; dc <= 1; dc++) {
+                    int nextRow = curr.row + dr;
+                    int nextCol = curr.col + dc;
+
+                    if (nextRow == n - 1 && nextCol == n - 1) {
+                        return curr.distance + 1;
+                    }
+
+                    enqueue(queue, grid, nextRow, nextCol, curr.distance + 1);
                 }
             }
         }
