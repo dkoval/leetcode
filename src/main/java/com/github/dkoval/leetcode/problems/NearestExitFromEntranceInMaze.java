@@ -38,12 +38,10 @@ public interface NearestExitFromEntranceInMaze {
         private static class Cell {
             final int row;
             final int col;
-            final int dist;
 
-            Cell(int row, int col, int dist) {
+            Cell(int row, int col) {
                 this.row = row;
                 this.col = col;
-                this.dist = dist;
             }
         }
 
@@ -57,24 +55,31 @@ public interface NearestExitFromEntranceInMaze {
 
             Queue<Cell> q = new ArrayDeque<>();
             maze[startRow][startCol] = '#'; // mark as visited
-            q.offer(new Cell(startRow, startCol, 0));
+            q.offer(new Cell(startRow, startCol));
+            int dist = 0;
             while (!q.isEmpty()) {
-                Cell curr = q.poll();
-                for (int[] d : DIRS) {
-                    int nextRow = curr.row + d[0];
-                    int nextCol = curr.col + d[1];
+                // number of cells on the current level
+                int size = q.size();
+                while (size-- > 0) {
+                    // number of cell at the current level
+                    Cell curr = q.poll();
+                    for (int[] d : DIRS) {
+                        int nextRow = curr.row + d[0];
+                        int nextCol = curr.col + d[1];
 
-                    if (nextRow < 0 || nextRow >= m || nextCol < 0 || nextCol >= n || maze[nextRow][nextCol] != '.') {
-                        continue;
+                        if (nextRow < 0 || nextRow >= m || nextCol < 0 || nextCol >= n || maze[nextRow][nextCol] != '.') {
+                            continue;
+                        }
+
+                        if (nextRow == 0 || nextRow == m - 1 || nextCol == 0 || nextCol == n - 1) {
+                            return dist + 1;
+                        }
+
+                        maze[nextRow][nextCol] = '#';
+                        q.offer(new Cell(nextRow, nextCol));
                     }
-
-                    if (nextRow == 0 || nextRow == m - 1 || nextCol == 0 || nextCol == n - 1) {
-                        return curr.dist + 1;
-                    }
-
-                    maze[nextRow][nextCol] = '#';
-                    q.offer(new Cell(nextRow, nextCol, curr.dist + 1));
                 }
+                dist++;
             }
             return -1;
         }
