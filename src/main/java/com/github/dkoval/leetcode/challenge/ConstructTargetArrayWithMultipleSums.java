@@ -5,7 +5,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 /**
- * <a href="https://leetcode.com/explore/featured/card/may-leetcoding-challenge-2021/599/week-2-may-8th-may-14th/3737/">Construct Target Array With Multiple Sums</a>
+ * <a href="Construct Target Array With Multiple Sums">Construct Target Array With Multiple Sums</a>
  * <p>
  * Given an array of integers target. From a starting array, A consisting of all 1's, you may perform the following procedure:
  * <ul>
@@ -25,7 +25,6 @@ import java.util.Queue;
  */
 public class ConstructTargetArrayWithMultipleSums {
 
-    // Resource: https://dev.to/seanpgallivan/solution-construct-target-array-with-multiple-sums-24d4
     public boolean isPossible(int[] target) {
         Queue<Integer> maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
         int sum = 0;
@@ -33,16 +32,29 @@ public class ConstructTargetArrayWithMultipleSums {
             sum += x;
             maxHeap.offer(x);
         }
-        // simulation - check if we can convert target[] to A[] consisting of all 1's
+
+        // simulation - check if we can convert target[] to [1, 1, ..., 1]
         while (maxHeap.peek() != 1) {
-            int currMaxValue = maxHeap.poll();
-            sum -= currMaxValue; // remaining sum
-            if (currMaxValue <= sum || sum < 1) {
+            int max = maxHeap.poll();
+            sum -= max;
+
+            // Replace max with y in the next iteration
+            // y = max - sum, where y >= 1 and sum variable stores the remaining sum
+            if (sum <= 0 || max <= sum) {
                 return false;
             }
-            int replacedValue = currMaxValue % sum;
-            sum += replacedValue;
-            maxHeap.offer(replacedValue);
+
+            // Below is an optimization to fix TLE by replacing "-" operation with "%"
+            int y = max % sum;
+
+            // a % a = 0
+            // a % 1 = 0
+            if (y == 0 && sum != 1) {
+                return false;
+            }
+
+            sum += y;
+            maxHeap.offer(y);
         }
         return true;
     }

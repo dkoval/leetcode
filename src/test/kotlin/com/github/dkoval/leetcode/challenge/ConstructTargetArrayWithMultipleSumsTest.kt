@@ -26,6 +26,19 @@ internal class ConstructTargetArrayWithMultipleSumsTest {
             Arguments.of(
                 intArrayOf(8, 5),
                 true
+            ),
+            Arguments.of(
+                // tests TLE
+                intArrayOf(1, 1000000000),
+                true,
+            ),
+            Arguments.of(
+                intArrayOf(2, 900000002),
+                false
+            ),
+            Arguments.of(
+                intArrayOf(1, 1, 10),
+                false
             )
         )
     }
