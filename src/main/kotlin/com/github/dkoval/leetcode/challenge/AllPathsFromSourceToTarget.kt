@@ -1,11 +1,19 @@
 package com.github.dkoval.leetcode.challenge
 
 /**
- * [All Paths From Source to Target](https://leetcode.com/explore/challenge/card/july-leetcoding-challenge/547/week-4-july-22nd-july-28th/3400/)
+ * [All Paths From Source to Target](https://leetcode.com/problems/all-paths-from-source-to-target/)
  *
  * Given a directed, acyclic graph of N nodes.  Find all possible paths from node 0 to node N-1, and return them in any order.
  * The graph is given as follows: the nodes are 0, 1, ..., graph.length - 1.
  * ```graph[i]``` is a list of all nodes j for which the edge (i, j) exists.
+ *
+ * Constraints:
+ * - ```n == graph.length```
+ * - ```2 <= n <= 15```
+ * - ```0 <= graph[i][j] < n```
+ * - ```graph[i][j] != i``` (i.e., there will be no self-loops).
+ * - All the elements of ```graph[i]``` are unique.
+ * - The input graph is guaranteed to be a DAG.
  */
 object AllPathsFromSourceToTarget {
 
@@ -19,20 +27,19 @@ object AllPathsFromSourceToTarget {
 
     private fun dfs(
         graph: Array<IntArray>,
-        vertex: Int,
+        u: Int,
         target: Int,
         path: MutableList<Int>,
         ans: MutableList<List<Int>>
     ) {
-        path.add(vertex)
-        if (vertex == target) {
-            val copy = mutableListOf<Int>().apply { addAll(path) }
-            ans.add(copy)
+        path.add(u)
+        if (u == target) {
+            ans += path.toList()
         } else {
-            for (neighbour in graph[vertex]) {
-                dfs(graph, neighbour, target, path, ans)
+            for (v in graph[u]) {
+                dfs(graph, v, target, path, ans)
             }
         }
-        path.removeAt(path.lastIndex)
+        path.removeLast()
     }
 }
