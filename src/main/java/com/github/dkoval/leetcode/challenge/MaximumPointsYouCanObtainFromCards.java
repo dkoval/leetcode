@@ -53,7 +53,7 @@ public interface MaximumPointsYouCanObtainFromCards {
 
     class MaximumPointsYouCanObtainFromCardsRev2 implements MaximumPointsYouCanObtainFromCards {
 
-        // O(N) time | O(1) space
+        // O(min(N, K)) time | O(1) space
         @Override
         public int maxScore(int[] cardPoints, int k) {
             int n = cardPoints.length;
