@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
-import com.github.dkoval.leetcode.problems.NumberOfOperationsToMakeNetworkConnected.NumberOfOperationsToMakeNetworkConnectedDFS
+import com.github.dkoval.leetcode.problems.NumberOfOperationsToMakeNetworkConnected.NumberOfOperationsToMakeNetworkConnectedDFSRecursive
+import com.github.dkoval.leetcode.problems.NumberOfOperationsToMakeNetworkConnected.NumberOfOperationsToMakeNetworkConnectedDFSWithStack
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -176,7 +177,7 @@ internal class NumberOfOperationsToMakeNetworkConnectedTest {
     }
 
     @Nested
-    inner class NumberOfOperationsToMakeNetworkConnectedDFSTest {
+    inner class NumberOfOperationsToMakeNetworkConnectedDFSRecursiveTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -185,7 +186,21 @@ internal class NumberOfOperationsToMakeNetworkConnectedTest {
             connections: Array<IntArray>,
             expected: Int
         ) {
-            NumberOfOperationsToMakeNetworkConnectedDFS().test(n, connections, expected)
+            NumberOfOperationsToMakeNetworkConnectedDFSRecursive().test(n, connections, expected)
+        }
+    }
+
+    @Nested
+    inner class NumberOfOperationsToMakeNetworkConnectedDFSWithStackTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum number of times you need to do this in order to make all the computers connected`(
+            n: Int,
+            connections: Array<IntArray>,
+            expected: Int
+        ) {
+            NumberOfOperationsToMakeNetworkConnectedDFSWithStack().test(n, connections, expected)
         }
     }
 
