@@ -75,7 +75,7 @@ public interface NumberOfOperationsToMakeNetworkConnected {
         }
     }
 
-    class NumberOfOperationsToMakeNetworkConnectedDFSWithStack implements NumberOfOperationsToMakeNetworkConnected {
+    class NumberOfOperationsToMakeNetworkConnectedDFSIterative implements NumberOfOperationsToMakeNetworkConnected {
 
         @Override
         public int makeConnected(int n, int[][] connections) {
@@ -120,6 +120,57 @@ public interface NumberOfOperationsToMakeNetworkConnected {
                     if (!visited[v]) {
                         visited[v] = true;
                         stack.push(v);
+                    }
+                }
+            }
+        }
+    }
+
+    class NumberOfOperationsToMakeNetworkConnectedBFS implements NumberOfOperationsToMakeNetworkConnected {
+
+        @Override
+        public int makeConnected(int n, int[][] connections) {
+            // Fact: as long as there are at least (n - 1) connections, we can always connect n nodes
+            int numConnections = connections.length;
+            if (numConnections < n - 1) {
+                return -1;
+            }
+
+            // Run BFS to determine the number of connected components
+            int count = 0;
+            Map<Integer, List<Integer>> graph = buildGraph(connections);
+            boolean[] visited = new boolean[n];
+            for (int u = 0; u < n; u++) {
+                if (!visited[u]) {
+                    bfs(graph, u, visited);
+                    count++;
+                }
+            }
+            // Same idea: can always connect m components with (m - 1) connections
+            return count - 1;
+        }
+
+        private Map<Integer, List<Integer>> buildGraph(int[][] connections) {
+            Map<Integer, List<Integer>> graph = new HashMap<>();
+            for (int[] connection : connections) {
+                int a = connection[0];
+                int b = connection[1];
+                graph.computeIfAbsent(a, key -> new ArrayList<>()).add(b);
+                graph.computeIfAbsent(b, key -> new ArrayList<>()).add(a);
+            }
+            return graph;
+        }
+
+        private void bfs(Map<Integer, List<Integer>> graph, int source, boolean[] visited) {
+            Queue<Integer> queue = new ArrayDeque<>();
+            visited[source] = true;
+            queue.offer(source);
+            while (!queue.isEmpty()) {
+                int u = queue.poll();
+                for (int v : graph.getOrDefault(u, Collections.emptyList())) {
+                    if (!visited[v]) {
+                        visited[v] = true;
+                        queue.offer(v);
                     }
                 }
             }
