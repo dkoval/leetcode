@@ -36,21 +36,21 @@ public interface NumberOfProvinces {
             int n = connected.length;
             int count = 0;
             boolean[] visited = new boolean[n];
-            for (int city = 0; city < n; city++) {
-                if (!visited[city]) {
-                    dfs(connected, city, visited);
+            for (int u = 0; u < n; u++) {
+                if (!visited[u]) {
+                    dfs(connected, u, visited);
                     count++;
                 }
             }
             return count;
         }
 
-        private void dfs(int[][] connected, int city, boolean[] visited) {
+        private void dfs(int[][] connected, int u, boolean[] visited) {
             int n = connected.length;
-            visited[city] = true;
-            for (int neighbour = 0; neighbour < n; neighbour++) {
-                if (connected[city][neighbour] == 1 && !visited[neighbour]) {
-                    dfs(connected, neighbour, visited);
+            visited[u] = true;
+            for (int v = 0; v < n; v++) {
+                if (u != v && connected[u][v] == 1 && !visited[v]) {
+                    dfs(connected, v, visited);
                 }
             }
         }
