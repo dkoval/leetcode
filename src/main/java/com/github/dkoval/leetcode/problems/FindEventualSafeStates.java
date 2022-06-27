@@ -49,6 +49,11 @@ public interface FindEventualSafeStates {
         }
 
         private boolean dfs(int[][] graph, int u, int[] visited) {
+            if (visited[u] != UNVISITED) {
+                // either BEING_VISITED or VISITED
+                return visited[u] == VISITED;
+            }
+
             visited[u] = BEING_VISITED;
             for (int v : graph[u]) {
                 if (visited[v] == UNVISITED) {
