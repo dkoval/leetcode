@@ -1,9 +1,6 @@
 package com.github.dkoval.leetcode.mock;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <a href="https://leetcode.com/problems/time-needed-to-inform-all-employees/">Time Needed to Inform All Employees</a>
@@ -20,27 +17,88 @@ import java.util.Map;
  * all his direct subordinates can start spreading the news).
  * <p>
  * Return the number of minutes needed to inform all the employees about the urgent news.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= n <= 10^5</li>
+ *  <li>0 <= headID < n</li>
+ *  <li>manager.length == n</li>
+ *  <li>0 <= manager[i] < n</li>
+ *  <li>manager[headID] == -1</li>
+ *  <li>informTime.length == n</li>
+ *  <li>0 <= informTime[i] <= 1000</li>
+ *  <li>informTime[i] == 0 if employee i has no subordinates</li>
+ *  <li>It is guaranteed that all the employees can be informed</li>
+ * </ul>
  */
-public class TimeNeededToInformAllEmployees {
+public interface TimeNeededToInformAllEmployees {
 
-    public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
-        Map<Integer, List<Integer>> graph = new HashMap<>();
-        for (int i = 0; i < manager.length; i++) {
-            if (manager[i] == -1) continue;
-            graph.computeIfAbsent(manager[i], key -> new ArrayList<>()).add(i);
+    int numOfMinutes(int n, int headID, int[] manager, int[] informTime);
+
+    class TimeNeededToInformAllEmployeesDFS implements TimeNeededToInformAllEmployees {
+
+        @Override
+        public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
+            Map<Integer, List<Integer>> graph = new HashMap<>();
+            for (int i = 0; i < manager.length; i++) {
+                if (manager[i] != -1) {
+                    graph.computeIfAbsent(manager[i], key -> new ArrayList<>()).add(i);
+                }
+            }
+            return dfs(graph, informTime, headID);
         }
-        return dfs(graph, informTime, headID);
+
+        private int dfs(Map<Integer, List<Integer>> graph, int[] informTime, int managerId) {
+            List<Integer> subordinates = graph.get(managerId);
+            if (subordinates == null) {
+                return 0;
+            }
+
+            int propagateTime = 0;
+            for (int subordinateId : subordinates) {
+                propagateTime = Math.max(propagateTime, dfs(graph, informTime, subordinateId));
+            }
+            return informTime[managerId] + propagateTime;
+        }
     }
 
-    private int dfs(Map<Integer, List<Integer>> graph, int[] informTime, int managerId) {
-        List<Integer> subordinates = graph.get(managerId);
-        if (subordinates == null) {
-            return 0;
+    class TimeNeededToInformAllEmployeesBFS implements TimeNeededToInformAllEmployees {
+
+        private static class Employee {
+            final int id;
+            final int awarenessTime;
+
+            Employee(int id, int awarenessTime) {
+                this.id = id;
+                this.awarenessTime = awarenessTime;
+            }
         }
-        int maxSubordinatesInformTime = 0;
-        for (Integer subordinate : subordinates) {
-            maxSubordinatesInformTime = Math.max(maxSubordinatesInformTime, dfs(graph, informTime, subordinate));
+
+        @Override
+        public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
+            Map<Integer, List<Integer>> graph = new HashMap<>();
+            for (int i = 0; i < n; i++) {
+                if (manager[i] != -1) {
+                    graph.computeIfAbsent(manager[i], key -> new ArrayList<>()).add(i);
+                }
+            }
+
+            // BFS
+            int maxTime = 0;
+            Queue<Employee> q = new ArrayDeque<>();
+            q.offer(new Employee(headID, 0));
+            while (!q.isEmpty()) {
+                Employee curr = q.poll();
+                if (!graph.containsKey(curr.id)) {
+                    // no direct subordinates
+                    maxTime = Math.max(maxTime, curr.awarenessTime);
+                } else {
+                    for (int subordinateId : graph.get(curr.id)) {
+                        q.offer(new Employee(subordinateId, curr.awarenessTime + informTime[curr.id]));
+                    }
+                }
+            }
+            return maxTime;
         }
-        return maxSubordinatesInformTime + informTime[managerId];
     }
 }
