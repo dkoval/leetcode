@@ -48,6 +48,8 @@ public interface FindEventualSafeStates {
             return ans;
         }
 
+        // O(V + E) time | O(V) space, where
+        // V - number of nodes in the graph, E - number of edges
         private boolean dfs(int[][] graph, int u, int[] visited) {
             if (visited[u] != UNVISITED) {
                 // either BEING_VISITED or VISITED
