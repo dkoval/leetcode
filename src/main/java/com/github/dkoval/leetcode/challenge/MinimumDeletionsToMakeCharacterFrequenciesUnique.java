@@ -44,7 +44,7 @@ public interface MinimumDeletionsToMakeCharacterFrequenciesUnique {
                     continue;
                 }
 
-                // keep on reducing frequency until it becomes unique
+                // keep on reducing frequency until it is not unique
                 int y = x;
                 while (y > 0 && seen.contains(y)) {
                     y--;
