@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Queue;
 
 /**
  * <a href="https://leetcode.com/problems/jump-game-iii/">Jump Game III</a>
@@ -25,11 +26,12 @@ public interface JumpGame3 {
     class JumpGame3DFS implements JumpGame3 {
 
         public boolean canReach(int[] arr, int start) {
-            return dfs(arr, start, new HashSet<>());
+            int n = arr.length;
+            return dfs(arr, start, new boolean[n]);
         }
 
-        private boolean dfs(int[] arr, int idx, Set<Integer> visited) {
-            if (idx < 0 || idx >= arr.length || visited.contains(idx)) {
+        private boolean dfs(int[] arr, int idx, boolean[] visited) {
+            if (idx < 0 || idx >= arr.length || visited[idx]) {
                 return false;
             }
 
@@ -38,7 +40,7 @@ public interface JumpGame3 {
             }
 
             // mark the current index as visited to avoid going in cycles
-            visited.add(idx);
+            visited[idx] = true;
 
             // check if we can reach to any index with value 0 by jumping arr[i] steps in both directions
             return dfs(arr, idx + arr[idx], visited) || dfs(arr, idx - arr[idx], visited);
@@ -51,26 +53,27 @@ public interface JumpGame3 {
         @Override
         public boolean canReach(int[] arr, int start) {
             int n = arr.length;
+
             // BFS
-            Queue<Integer> q = new LinkedList<>();
-            Set<Integer> visited = new HashSet<>();
-            q.offer(start);
-            visited.add(start);
+            Queue<Integer> q = new ArrayDeque<>();
+            boolean[] visited = new boolean[n];
+            enqueue(q, start, n, visited);
             while (!q.isEmpty()) {
-                int currIdx = q.poll();
-                if (arr[currIdx] == 0) {
+                int i = q.poll();
+                if (arr[i] == 0) {
                     return true;
                 }
-
-                for (int nextIdx : Arrays.asList(currIdx + arr[currIdx], currIdx - arr[currIdx])) {
-                    if (nextIdx < 0 || nextIdx >= n || visited.contains(nextIdx)) {
-                        continue;
-                    }
-                    visited.add(nextIdx);
-                    q.offer(nextIdx);
-                }
+                enqueue(q, i + arr[i], n, visited);
+                enqueue(q, i - arr[i], n, visited);
             }
             return false;
+        }
+
+        private void enqueue(Queue<Integer> q, int i, int n, boolean[] visited) {
+            if (i >= 0 && i < n && !visited[i]) {
+                q.offer(i);
+                visited[i] = true;
+            }
         }
     }
 }
