@@ -55,7 +55,7 @@ public interface ShortestPathVisitingAllNodes {
             for (int i = 0; i < n; i++) {
                 int path = 1 << i;
                 visited[i] = new HashSet<>();
-                visited[i].add(i);
+                visited[i].add(path);
                 q.offer(new Node(i, path));
             }
 
