@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.LinkedList;
+import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Queue;
 
 /**
@@ -32,48 +33,78 @@ import java.util.Queue;
  *  <li>If graph[u] contains v, then graph[v] contains u</li>
  * </ul>
  */
-public class IsGraphBipartite {
+public interface IsGraphBipartite {
 
-    private enum Color {
-        RED, BLUE;
-    }
+    boolean isBipartite(int[][] graph);
 
-    // O(V + E) time
-    // O(V) space
-    public boolean isBipartite(int[][] graph) {
-        int n = graph.length;
-        Color[] colors = new Color[n];
-        for (int u = 0; u < n; u++) {
-            if (colors[u] != null) {
-                // skip already colored vertices
-                continue;
+    class IsGraphBipartiteDFS implements IsGraphBipartite {
+
+        @Override
+        public boolean isBipartite(int[][] graph) {
+            int n = graph.length;
+            int[] colors = new int[n];
+            Arrays.fill(colors, -1);
+
+            for (int u = 0; u < n; u++) {
+                if (colors[u] == -1 && !dfs(graph, u, 0, colors)) {
+                    return false;
+                }
             }
-
-            if (!canColor(graph, u, colors)) {
-                return false;
-            }
+            return true;
         }
-        return true;
-    }
 
-    private boolean canColor(int[][] graph, int start, Color[] colors) {
-        // BFS
-        Queue<Integer> q = new LinkedList<>();
-        colors[start] = Color.RED;
-        q.offer(start);
-        while (!q.isEmpty()) {
-            int u = q.poll();
-            // adjacent vertices are expected to have the opposite color
-            Color adjColor = (colors[u] == Color.RED) ? Color.BLUE : Color.RED;
+        private boolean dfs(int[][] graph, int u, int color, int[] colors) {
+            colors[u] = color;
+            int adjColor = 1 - color;
             for (int v : graph[u]) {
-                if (colors[v] == null) {
-                    colors[v] = adjColor;
-                    q.offer(v);
+                if (colors[v] == -1) {
+                    boolean ok = dfs(graph, v, adjColor, colors);
+                    if (!ok) {
+                        return false;
+                    }
                 } else if (colors[v] != adjColor) {
                     return false;
                 }
             }
+            return true;
         }
-        return true;
+    }
+
+    class IsGraphBipartiteBFS implements IsGraphBipartite {
+
+        // O(V + E) time
+        // O(V) space
+        public boolean isBipartite(int[][] graph) {
+            int n = graph.length;
+            int[] colors = new int[n];
+            Arrays.fill(colors, -1);
+
+            for (int u = 0; u < n; u++) {
+                if (colors[u] == -1 && !bfs(graph, u, colors)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private boolean bfs(int[][] graph, int start, int[] colors) {
+            Queue<Integer> q = new ArrayDeque<>();
+            colors[start] = 0;
+            q.offer(start);
+            while (!q.isEmpty()) {
+                int u = q.poll();
+                // adjacent vertices are expected to have the opposite color
+                int adjColor = 1 - colors[u];
+                for (int v : graph[u]) {
+                    if (colors[v] == -1) {
+                        colors[v] = adjColor;
+                        q.offer(v);
+                    } else if (colors[v] != adjColor) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
     }
 }
