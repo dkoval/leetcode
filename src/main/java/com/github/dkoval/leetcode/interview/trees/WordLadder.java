@@ -3,7 +3,7 @@ package com.github.dkoval.leetcode.interview.trees;
 import java.util.*;
 
 /**
- * <a href="https://leetcode.com/explore/interview/card/google/61/trees-and-graphs/3068/">Word Ladder</a>
+ * <a href="https://leetcode.com/problems/word-ladder/">Word Ladder</a>
  * <p>
  * Given two words (beginWord and endWord), and a dictionary's word list, find the length of shortest transformation sequence
  * from beginWord to endWord, such that:
@@ -17,6 +17,17 @@ import java.util.*;
  * All words contain only lowercase alphabetic characters.
  * You may assume no duplicates in the word list.
  * You may assume beginWord and endWord are non-empty and are not the same.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= beginWord.length <= 10</li>
+ *  <li>endWord.length == beginWord.length</li>
+ *  <li>1 <= wordList.length <= 5000</li>
+ *  <li>wordList[i].length == beginWord.length</li>
+ *  <li>beginWord, endWord, and wordList[i] consist of lowercase English letters</li>
+ *  <li>beginWord != endWord</li>
+ *  <li>All the words in wordList are unique</li>
+ * </ul>
  */
 public class WordLadder {
 
@@ -27,42 +38,40 @@ public class WordLadder {
             return 0;
         }
 
-        // BFS to find the shortest path from source = beginWord to target = endWord
+        // BFS
         int count = 1;
         Queue<String> q = new ArrayDeque<>();
-        Set<String> visited = new HashSet<>();
+        Set<String> seen = new HashSet<>();
         q.offer(beginWord);
-        visited.add(beginWord);
+        seen.add(beginWord);
         while (!q.isEmpty()) {
-            count++;
             int size = q.size();
             while (size-- > 0) {
-                String word = q.poll();
-                // generate new words be replacing word[i] char with a..z
-                char[] chars = word.toCharArray();
-                for (int i = 0; i < chars.length; i++) {
-                    char orig = chars[i];
-                    for (char c = 'a'; c <= 'z'; c++) {
-                        if (c == orig) {
-                            continue;
-                        }
+                String curr = q.poll();
 
-                        chars[i] = c;
-                        String newWord = String.valueOf(chars);
-                        if (newWord.equals(endWord)) {
-                            return count;
-                        }
+                // replace a single letter in `curr` string
+                char[] letters = curr.toCharArray();
+                for (int i = 0; i < letters.length; i++) {
+                    char c = letters[i];
+                    for (char x = 'a'; x <= 'z'; x++) {
+                        if (x != c) {
+                            letters[i] = x;
+                            String nextWord = String.valueOf(letters);
 
-                        // add in valid non-visited word to the next level
-                        if (dict.contains(newWord) && !visited.contains(newWord)) {
-                            q.offer(newWord);
-                            visited.add(newWord);
+                            if (nextWord.equals(endWord)) {
+                                return count + 1;
+                            }
+
+                            if (dict.contains(nextWord) && !seen.contains(nextWord)) {
+                                q.offer(nextWord);
+                                seen.add(nextWord);
+                            }
                         }
                     }
-                    // restore word[i] char before proceeding to i + 1
-                    chars[i] = orig;
+                    letters[i] = c;
                 }
             }
+            count++;
         }
         return 0;
     }
