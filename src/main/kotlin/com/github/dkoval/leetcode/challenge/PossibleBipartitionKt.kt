@@ -1,17 +1,10 @@
 package com.github.dkoval.leetcode.challenge
 
-/**
- * [Possible Bipartition](https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/537/week-4-may-22nd-may-28th/3342/)
- *
- * Given a set of N people (numbered 1, 2, ..., N), we would like to split everyone into two groups of any size.
- * Each person may dislike some other people, and they should not go into the same group.
- * Formally, if ```dislikes[i] = [a, b]```, it means it is not allowed to put the people numbered a and b into the same group.
- *
- * Return true if and only if it is possible to split everyone into two groups in this way.
- */
-object PossibleBipartition {
+import com.github.dkoval.leetcode.problems.PossibleBipartition
 
-    fun possibleBipartition(N: Int, dislikes: Array<IntArray>): Boolean {
+object PossibleBipartitionKt : PossibleBipartition {
+
+    override fun possibleBipartition(N: Int, dislikes: Array<IntArray>): Boolean {
         val adj = adjListOf(N, dislikes)
         val groups = Array<Group?>(N) { null }
         for (i in 0 until N) {
