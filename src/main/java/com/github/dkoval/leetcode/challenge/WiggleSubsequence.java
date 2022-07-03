@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/march-leetcoding-challenge-2021/590/week-3-march-15th-march-21st/3676/">Wiggle Subsequence</a>
+ * <a href="https://leetcode.com/problems/wiggle-subsequence/">Wiggle Subsequence</a>
  * <p>
  * Given an integer array nums, return the length of the longest wiggle sequence.
  * <p>
@@ -16,6 +16,12 @@ package com.github.dkoval.leetcode.challenge;
  * <p>
  * A subsequence is obtained by deleting some elements (eventually, also zero) from the original sequence,
  * leaving the remaining elements in their original order.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= nums.length <= 1000</li>
+ *  <li>0 <= nums[i] <= 1000</li>
+ * </ul>
  */
 public class WiggleSubsequence {
 
@@ -37,7 +43,8 @@ public class WiggleSubsequence {
             return 1;
         }
 
-        // answer to the problem is the number of peaks in nums[]
+        // answer to the problem is the number of peaks in nums[];
+        // at this stage we know that nums[] contains at least 2 elements
         int count = 2;
         boolean inc = nums[i] > nums[i - 1];
         while (i < nums.length) {
@@ -47,6 +54,7 @@ public class WiggleSubsequence {
                     i++;
                 }
                 if (i < nums.length) {
+                    // from index i, a subsequence starts to decrease
                     count++;
                 }
                 inc = false;
@@ -56,6 +64,7 @@ public class WiggleSubsequence {
                     i++;
                 }
                 if (i < nums.length) {
+                    // from index i, a subsequence starts to increase
                     count++;
                 }
                 inc = true;
