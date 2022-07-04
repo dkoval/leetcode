@@ -16,6 +16,8 @@ package com.github.dkoval.leetcode.challenge
  */
 object QueueReconstructionByHeight {
 
+    // O(N^2) time (we may need to shift elements to insert new ones into the result[])
+    // O(N) space
     fun reconstructQueue(people: Array<IntArray>): Array<IntArray> {
         people.sortWith { (h1, k1), (h2, k2) ->
             // if persons are of the same height, sort by k in ascending order;
