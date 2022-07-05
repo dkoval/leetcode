@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,6 +21,7 @@ public interface LongestConsecutiveSequence {
 
     int longestConsecutive(int[] nums);
 
+    // O(N) time | O(N) space
     class LongestConsecutiveSequenceRev1 implements LongestConsecutiveSequence {
 
         @Override
@@ -42,6 +44,39 @@ public interface LongestConsecutiveSequence {
                     }
                     maxLength = Math.max(maxLength, length);
                 }
+            }
+            return maxLength;
+        }
+    }
+
+    // O(N*logN) time | O(1) space
+    class LongestConsecutiveSequenceRev2 implements LongestConsecutiveSequence {
+
+        @Override
+        public int longestConsecutive(int[] nums) {
+            int n = nums.length;
+            if (n == 0) {
+                return 0;
+            }
+
+            Arrays.sort(nums);
+
+            int maxLength = 1;
+            int length = 1;
+            for (int i = 1; i < n; i++) {
+                if (nums[i] == nums[i - 1]) {
+                    // the current sequence is neither extended nor broken, so we simply move on to the next number
+                    continue;
+                }
+
+                if (nums[i] == nums[i - 1] + 1) {
+                    // nums[i] extends the current sequence
+                    length++;
+                } else {
+                    // at this stage, the current sequence is broken, therefore start a new sequence from nums[i]
+                    length = 1;
+                }
+                maxLength = Math.max(maxLength, length);
             }
             return maxLength;
         }

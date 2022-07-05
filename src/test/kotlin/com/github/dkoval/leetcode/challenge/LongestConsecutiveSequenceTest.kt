@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.LongestConsecutiveSequence.LongestConsecutiveSequenceRev1
+import com.github.dkoval.leetcode.challenge.LongestConsecutiveSequence.LongestConsecutiveSequenceRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -41,6 +42,16 @@ internal class LongestConsecutiveSequenceTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `return the length of the longest consecutive elements sequence`(nums: IntArray, expected: Int) {
             LongestConsecutiveSequenceRev1().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class LongestConsecutiveSequenceRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `return the length of the longest consecutive elements sequence`(nums: IntArray, expected: Int) {
+            LongestConsecutiveSequenceRev2().test(nums, expected)
         }
     }
 
