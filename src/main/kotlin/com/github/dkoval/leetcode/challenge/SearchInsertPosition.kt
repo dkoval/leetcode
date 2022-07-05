@@ -1,11 +1,17 @@
 package com.github.dkoval.leetcode.challenge
 
 /**
- * [Search Insert Position](https://leetcode.com/explore/challenge/card/june-leetcoding-challenge/540/week-2-june-8th-june-14th/3356/)
+ * [Search Insert Position](https://leetcode.com/problems/search-insert-position/)
  *
  * Given a sorted array and a target value, return the index if the target is found.
  * If not, return the index where it would be if it were inserted in order.
  * You may assume no duplicates in the array.
+ *
+ * Constraints:
+ * - ```1 <= nums.length <= 10^4```
+ * - ```-10^4 <= nums[i] <= 10^4```
+ * - nums contains distinct values sorted in ascending order
+ * - ```-10^4 <= target <= 10^4```
  */
 object SearchInsertPosition {
 
