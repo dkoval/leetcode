@@ -1,17 +1,12 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.problems.ValidPerfectSquare
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
-/**
- * [Valid Perfect Square](https://leetcode.com/explore/featured/card/may-leetcoding-challenge/535/week-2-may-8th-may-14th/3324/)
- *
- * Given a positive integer num, write a function which returns True if num is a perfect square else False.
- * Note: Do not use any built-in library function such as sqrt.
- */
-object ValidPerfectSquare {
+object ValidPerfectSquareNewton : ValidPerfectSquare {
 
-    fun isPerfectSquare(num: Int): Boolean {
+    override fun isPerfectSquare(num: Int): Boolean {
         fun isGoodApproximation(estimate: Double): Boolean =
             abs(estimate * estimate - num) / num < 1e-6
 
