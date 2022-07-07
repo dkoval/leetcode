@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
 import com.github.dkoval.leetcode.problems.FindSmallestLetterGreaterThanTarget.FindSmallestLetterGreaterThanTargetBinarySearch
+import com.github.dkoval.leetcode.problems.FindSmallestLetterGreaterThanTarget.FindSmallestLetterGreaterThanTargetRecordLettersSeen
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -36,6 +37,20 @@ internal class FindSmallestLetterGreaterThanTargetTest {
                 'c'
             )
         )
+    }
+
+    @Nested
+    inner class FindSmallestLetterGreaterThanTargetRecordLettersSeenTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the smallest character in the array that is larger than target`(
+            letters: CharArray,
+            target: Char,
+            expected: Char
+        ) {
+            FindSmallestLetterGreaterThanTargetRecordLettersSeen().test(letters, target, expected)
+        }
     }
 
     @Nested

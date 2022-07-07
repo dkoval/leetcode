@@ -23,8 +23,34 @@ public interface FindSmallestLetterGreaterThanTarget {
 
     char nextGreatestLetter(char[] letters, char target);
 
+    class FindSmallestLetterGreaterThanTargetRecordLettersSeen implements FindSmallestLetterGreaterThanTarget {
+
+        // O(N) time | O(ALPHA) space, ALPHA = 26
+        @Override
+        public char nextGreatestLetter(char[] letters, char target) {
+            boolean[] seen = new boolean[26];
+            for (int c : letters) {
+                seen[c - 'a']  = true;
+            }
+
+            char next = ++target;
+            while (true) {
+                // wrap around
+                if (next > 'z') {
+                    next = 'a';
+                }
+
+                if (seen[next - 'a']) {
+                    return next;
+                }
+                next++;
+            }
+        }
+    }
+
     class FindSmallestLetterGreaterThanTargetBinarySearch implements FindSmallestLetterGreaterThanTarget {
 
+        // O(logN) time | O(1) space
         @Override
         public char nextGreatestLetter(char[] letters, char target) {
             int left = 0;
