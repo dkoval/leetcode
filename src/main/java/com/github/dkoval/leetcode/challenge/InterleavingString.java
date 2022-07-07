@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <a href="https://leetcode.com/explore/featured/card/june-leetcoding-challenge-2021/603/week-1-june-1st-june-7th/3765/">Interleaving String</a>
+ * <a href="https://leetcode.com/problems/interleaving-string/">Interleaving String</a>
  * <p>
  * Given strings s1, s2, and s3, find whether s3 is formed by an interleaving of s1 and s2.
  * <p>
@@ -17,6 +17,13 @@ import java.util.Map;
  * The interleaving is s1 + t1 + s2 + t2 + s3 + t3 + ... or t1 + s1 + t2 + s2 + t3 + s3 + ...
  * <p>
  * Note: a + b is the concatenation of strings a and b.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>0 <= s1.length, s2.length <= 100</li>
+ *  <li>0 <= s3.length <= 200</li>
+ *  <li>s1, s2, and s3 consist of lowercase English letters</li>
+ * </ul>
  */
 public interface InterleavingString {
 
@@ -35,34 +42,33 @@ public interface InterleavingString {
         }
 
         private boolean checkIfInterleave(String s1, int idx1, String s2, int idx2, String s3, Map<String, Boolean> memo) {
-            String key = key(idx1, idx2);
+            String key = idx1 + "|" + idx2;
             if (memo.containsKey(key)) {
                 return memo.get(key);
             }
 
+            // position in s3 we're currently trying to place a char at from either s1 or s2
             int idx3 = idx1 + idx2;
+
+            // base case
             if (idx3 == s3.length()) {
-                return cacheAndReturn(memo, key, true);
+                return true;
             }
 
+            // option #1: take s1's char
             if (idx1 < s1.length() && s1.charAt(idx1) == s3.charAt(idx3) && checkIfInterleave(s1, idx1 + 1, s2, idx2, s3, memo)) {
-                return cacheAndReturn(memo, key, true);
+                memo.put(key, true);
+                return true;
             }
 
+            // option #2: take s2's char
             if (idx2 < s2.length() && s2.charAt(idx2) == s3.charAt(idx3) && checkIfInterleave(s1, idx1, s2, idx2 + 1, s3, memo)) {
-                return cacheAndReturn(memo, key, true);
+                memo.put(key, true);
+                return true;
             }
 
-            return cacheAndReturn(memo, key, false);
-        }
-
-        private String key(int idx1, int idx2) {
-            return idx1 + "|" + idx2;
-        }
-
-        private boolean cacheAndReturn(Map<String, Boolean> memo, String key, boolean value) {
-            memo.put(key, value);
-            return value;
+            memo.put(key, false);
+            return false;
         }
     }
 
@@ -96,7 +102,7 @@ public interface InterleavingString {
                 for (int idx2 = 1; idx2 <= n2; idx2++) {
                     int idx3 = idx1 + idx2;
                     dp[idx1][idx2] = (dp[idx1 - 1][idx2] && (s1.charAt(idx1 - 1) == s3.charAt(idx3 - 1)))
-                            || (dp[idx1][idx2  - 1] && (s2.charAt(idx2 - 1) == s3.charAt(idx3 - 1)));
+                            || (dp[idx1][idx2 - 1] && (s2.charAt(idx2 - 1) == s3.charAt(idx3 - 1)));
                 }
             }
             return dp[n1][n2];
