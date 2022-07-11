@@ -2,22 +2,25 @@ package com.github.dkoval.leetcode.challenge;
 
 import com.github.dkoval.leetcode.TreeNode;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/february-leetcoding-challenge-2021/584/week-1-february-1st-february-7th/3630/">Binary Tree Right Side View</a>
- *
+ * <a href="https://leetcode.com/problems/binary-tree-right-side-view/">Binary Tree Right Side View</a>
+ * <p>
  * Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see
  * ordered from top to bottom.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>The number of nodes in the tree is in the range [0, 100]</li>
+ *  <li>-100 <= Node.val <= 100</li>
+ * </ul>
  */
-public abstract class BinaryTreeRightSideView {
+public interface BinaryTreeRightSideView {
 
-    public abstract List<Integer> rightSideView(TreeNode root);
+    List<Integer> rightSideView(TreeNode root);
 
-    public static class BinaryTreeRightSideViewLevelOrderTraversal extends BinaryTreeRightSideView {
+    class BinaryTreeRightSideViewLevelOrderTraversalRev1 implements BinaryTreeRightSideView {
 
         @Override
         public List<Integer> rightSideView(TreeNode root) {
@@ -47,7 +50,35 @@ public abstract class BinaryTreeRightSideView {
         }
     }
 
-    public static class BinaryTreeRightSideViewPreorderTraversal extends BinaryTreeRightSideView {
+    class BinaryTreeRightSideViewLevelOrderTraversalRev2 implements BinaryTreeRightSideView {
+
+        @Override
+        public List<Integer> rightSideView(TreeNode root) {
+            if (root == null) {
+                return Collections.emptyList();
+            }
+
+            List<Integer> result = new ArrayList<>();
+            Queue<TreeNode> q = new ArrayDeque<>();
+            q.offer(root);
+            while (!q.isEmpty()) {
+                int size = q.size();
+                result.add(q.peek().val);
+                while (size-- > 0) {
+                    TreeNode curr = q.poll();
+                    if (curr.right != null) {
+                        q.offer(curr.right);
+                    }
+                    if (curr.left != null) {
+                        q.offer(curr.left);
+                    }
+                }
+            }
+            return result;
+        }
+    }
+
+    class BinaryTreeRightSideViewPreorderTraversal implements BinaryTreeRightSideView {
 
         @Override
         public List<Integer> rightSideView(TreeNode root) {
@@ -55,6 +86,7 @@ public abstract class BinaryTreeRightSideView {
             preorder(root, 0, result);
             return result;
         }
+
         private void preorder(TreeNode root, int depth, List<Integer> result) {
             if (root == null) {
                 return;
@@ -65,6 +97,5 @@ public abstract class BinaryTreeRightSideView {
             preorder(root.right, depth + 1, result);
             preorder(root.left, depth + 1, result);
         }
-
     }
 }

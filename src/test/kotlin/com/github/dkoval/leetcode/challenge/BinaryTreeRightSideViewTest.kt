@@ -1,8 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.TreeNode
-import com.github.dkoval.leetcode.challenge.BinaryTreeRightSideView.BinaryTreeRightSideViewLevelOrderTraversal
-import com.github.dkoval.leetcode.challenge.BinaryTreeRightSideView.BinaryTreeRightSideViewPreorderTraversal
+import com.github.dkoval.leetcode.challenge.BinaryTreeRightSideView.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -32,7 +31,7 @@ internal class BinaryTreeRightSideViewTest {
     }
 
     @Nested
-    inner class BinaryTreeRightSideViewLevelOrderTraversalTest {
+    inner class BinaryTreeRightSideViewLevelOrderTraversalRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -40,7 +39,20 @@ internal class BinaryTreeRightSideViewTest {
             root: TreeNode?,
             expected: List<Int>
         ) {
-            BinaryTreeRightSideViewLevelOrderTraversal().test(root, expected)
+            BinaryTreeRightSideViewLevelOrderTraversalRev1().test(root, expected)
+        }
+    }
+
+    @Nested
+    inner class BinaryTreeRightSideViewLevelOrderTraversalRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the values of the nodes of the binary tree right side view`(
+            root: TreeNode?,
+            expected: List<Int>
+        ) {
+            BinaryTreeRightSideViewLevelOrderTraversalRev2().test(root, expected)
         }
     }
 
