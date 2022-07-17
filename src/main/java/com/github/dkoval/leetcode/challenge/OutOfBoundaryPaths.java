@@ -24,10 +24,41 @@ public interface OutOfBoundaryPaths {
 
     int findPaths(int m, int n, int maxMove, int startRow, int startColumn);
 
+    class OutOfBoundaryPathsDPTopDown implements OutOfBoundaryPaths {
+
+        private static final int[][] DIRS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+
+        // O(M*N*K) time | O(M*N*K) space
+        @Override
+        public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
+            // memo[row][col][k] is the number of out of boundary paths starting at (row, col) with k moves available
+            Integer[][][] memo = new Integer[m][n][maxMove + 1];
+            return doFindPath(m, n, maxMove, startRow, startColumn, memo);
+        }
+
+        private int doFindPath(int m, int n, int k, int row, int col, Integer[][][] memo) {
+            if (row < 0 || row >= m || col < 0 || col >= n) {
+                return 1;
+            }
+
+            if (k == 0) {
+                // current set of moves doesn't take the ball out of boundary
+                return 0;
+            }
+
+            int count = 0;
+            for (int[] d : DIRS) {
+                count += doFindPath(m, n, k - 1, row + d[0], col + d[1], memo);
+            }
+            return memo[row][col][k] = count;
+        }
+    }
+
     class OutOfBoundaryPathsDPBottomUpRev1 implements OutOfBoundaryPaths {
 
         private static final int[][] DIRS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 
+        // O(M*N*K) time | O(M*N) space
         @Override
         public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
             // dp[i][j] is the number of ways to get to (i, j)
