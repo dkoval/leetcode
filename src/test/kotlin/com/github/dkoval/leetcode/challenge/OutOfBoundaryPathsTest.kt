@@ -17,7 +17,8 @@ internal class OutOfBoundaryPathsTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(2, 2, 2, 0, 0, 6),
-            Arguments.of(1, 3, 3, 0, 1, 12)
+            Arguments.of(1, 3, 3, 0, 1, 12),
+            Arguments.of(8, 50, 23, 5, 26)
         )
     }
 

@@ -46,9 +46,14 @@ public interface OutOfBoundaryPaths {
                 return 0;
             }
 
+            if (memo[row][col][k] != null) {
+                return memo[row][col][k];
+            }
+
             int count = 0;
             for (int[] d : DIRS) {
                 count += doFindPath(m, n, k - 1, row + d[0], col + d[1], memo);
+                count %= MOD;
             }
             return memo[row][col][k] = count;
         }
