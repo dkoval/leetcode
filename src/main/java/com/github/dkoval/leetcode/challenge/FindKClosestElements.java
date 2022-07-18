@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/july-leetcoding-challenge-2021/608/week-1-july-1st-july-7th/3800/">Find K Closest Elements</a>
+ * <a href="https://leetcode.com/problems/find-k-closest-elements/">Find K Closest Elements</a>
  * <p>
  * Given a sorted integer array arr, two integers k and x, return the k closest integers to x in the array.
  * The result should also be sorted in ascending order.
@@ -14,52 +14,60 @@ import java.util.List;
  * |a - x| < |b - x|, or
  * |a - x| == |b - x| and a < b
  * </pre>
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= k <= arr.length</li>
+ *  <li>1 <= arr.length <= 10^4</li>
+ *  <li>arr is sorted in ascending order</li>
+ *  <li>-10^4 <= arr[i], x <= 10^4</li>
+ * </ul>
  */
 public class FindKClosestElements {
 
     public List<Integer> findClosestElements(int[] arr, int k, int x) {
         int n = arr.length;
-        int idx = indexOfFirstSmallerElement(arr, x);
 
-        // expand out from idx
-        int left = idx;
-        int right = idx + 1;
+        // use binary search to find the index of the largest arr[i] < x
+        int left = 0;
+        int right = n - 1;
+        while (left < right) {
+            int mid = left + (right - left + 1) / 2;
+            if (arr[mid] >= x) {
+                right = mid - 1;
+            } else {
+                // mid is a possible solution;
+                // check if there is a better option to the right of index mid
+                left = mid;
+            }
+        }
 
-        LinkedList<Integer> result = new LinkedList<>();
-        while (result.size() < k && left >= 0 && right < n) {
+        int idx = right;
+        LinkedList<Integer> ans = new LinkedList<>();
+
+        // expand outwards from idx
+        left = idx;
+        right = idx + 1;
+        while (ans.size() < k && left >= 0 && right < n) {
             if (x - arr[left] <= arr[right] - x) {
-                result.addFirst(arr[left]);
+                ans.addFirst(arr[left]);
                 left--;
             } else {
-                result.addLast(arr[right]);
+                ans.addLast(arr[right]);
                 right++;
             }
         }
 
-        while (result.size() < k && left >= 0) {
-            result.addFirst(arr[left]);
+        while (ans.size() < k && left >= 0) {
+            ans.addFirst(arr[left]);
             left--;
         }
 
-        while (result.size() < k && right < n) {
-            result.addLast(arr[right]);
+        while (ans.size() < k && right < n) {
+            ans.addLast(arr[right]);
             right++;
         }
 
-        return result;
-    }
-
-    private int indexOfFirstSmallerElement(int[] arr, int target) {
-        // use binary search, since arr[] is sorted
-        int left = 0, right = arr.length - 1;
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            if (arr[mid] >= target) {
-                right = mid - 1;
-            } else {
-                left = mid + 1;
-            }
-        }
-        return left - 1;
+        return ans;
     }
 }
