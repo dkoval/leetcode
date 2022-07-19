@@ -5,11 +5,15 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * <a href="https://leetcode.com/explore/featured/card/top-interview-questions-easy/99/others/601/">Pascal's Triangle</a>
+ * <a href="https://leetcode.com/problems/pascals-triangle/">Pascal's Triangle</a>
  * <p>
  * Given an integer numRows, return the first numRows of Pascal's triangle.
  * <p>
  * In Pascal's triangle, each number is the sum of the two numbers directly above it.
+ * <p>
+ * Constraints:
+ * <p>
+ * 1 <= numRows <= 30
  */
 public class PascalTriangle {
 
