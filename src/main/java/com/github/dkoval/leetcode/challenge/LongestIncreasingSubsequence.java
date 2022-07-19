@@ -15,27 +15,33 @@ package com.github.dkoval.leetcode.challenge;
  * </ul>
  * Follow up: Can you come up with an algorithm that runs in O(n log(n)) time complexity?
  */
-public class LongestIncreasingSubsequence {
+public interface LongestIncreasingSubsequence {
+
+    int lengthOfLIS(int[] nums);
 
     // O(N^2) time | O(N) space
-    public int lengthOfLIS(int[] nums) {
-        int n = nums.length;
+    class LongestIncreasingSubsequenceDpBottomUp implements LongestIncreasingSubsequence {
 
-        // dp[i] is the length of LIS ending at index i
-        int[] dp = new int[n];
+        @Override
+        public int lengthOfLIS(int[] nums) {
+            int n = nums.length;
 
-        int best = 1;
-        for (int i = 0; i < n; i++) {
-            dp[i] = 1;
-            // check numbers before the i-th index to see if we can further extend a LIS ending at index i
-            for (int j = 0; j < i; j++) {
-                if (nums[i] > nums[j]) {
-                    // append nums[i] to LIS ending at index j
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
-                    best = Math.max(best, dp[i]);
+            // dp[i] is the length of LIS ending at index i
+            int[] dp = new int[n];
+
+            int best = 1;
+            for (int i = 0; i < n; i++) {
+                dp[i] = 1;
+                // check numbers before the i-th index to see if we can further extend a LIS ending at index i
+                for (int j = 0; j < i; j++) {
+                    if (nums[i] > nums[j]) {
+                        // append nums[i] to LIS ending at index j
+                        dp[i] = Math.max(dp[i], dp[j] + 1);
+                        best = Math.max(best, dp[i]);
+                    }
                 }
             }
+            return best;
         }
-        return best;
     }
 }
