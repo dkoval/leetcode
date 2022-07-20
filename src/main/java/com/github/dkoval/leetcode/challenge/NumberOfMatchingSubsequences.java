@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/june-leetcoding-challenge-2021/606/week-4-june-22nd-june-28th/3788/">Number of Matching Subsequences</a>
+ * <a href="https://leetcode.com/problems/number-of-matching-subsequences/">Number of Matching Subsequences</a>
  * <p>
  * Given a string s and an array of strings words, return the number of words[i] that is a subsequence of s.
  * <p>
@@ -20,7 +20,7 @@ import java.util.Map;
  *  <li>1 <= s.length <= 5 * 10^4</li>
  *  <li>1 <= words.length <= 5000</li>
  *  <li>1 <= words[i].length <= 50</li>
- *  <li>s and words[i] consist of only lowercase English letters.</li>
+ *  <li>s and words[i] consist of only lowercase English letters</li>
  * </ul>
  */
 public interface NumberOfMatchingSubsequences {
@@ -82,33 +82,36 @@ public interface NumberOfMatchingSubsequences {
         }
 
         private boolean isSubsequence(String word, Map<Character, List<Integer>> indices) {
-            int lastCharIdx = -1;
+            int si = -1; // current index in string s
             for (int i = 0; i < word.length(); i++) {
-                char c = word.charAt(i);
-                if (!indices.containsKey(c)) {
+                char w = word.charAt(i);
+                if (!indices.containsKey(w)) {
                     return false;
                 }
-                List<Integer> list = indices.get(c);
-                int idx = indexOfFirstElementGreaterThan(list, lastCharIdx);
+
+                List<Integer> list = indices.get(w);
+                int idx = indexOfFirstElementGreaterThan(list, si);
                 if (idx == list.size()) {
                     return false;
                 }
-                lastCharIdx = list.get(idx);
+
+                si = list.get(idx);
             }
             return true;
         }
 
-        private int indexOfFirstElementGreaterThan(List<Integer> list, int x) {
-            int l = 0, r = list.size() - 1;
-            while (l <= r) {
-                int mid = l + (r - l) / 2;
-                if (list.get(mid) <= x) {
-                    l = mid + 1;
+        private int indexOfFirstElementGreaterThan(List<Integer> nums, int target) {
+            int left = 0;
+            int right = nums.size() - 1;
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+                if (nums.get(mid) <= target) {
+                    left = mid + 1;
                 } else {
-                    r = mid - 1;
+                    right = mid - 1;
                 }
             }
-            return r + 1;
+            return right + 1;
         }
     }
 }
