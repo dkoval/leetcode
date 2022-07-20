@@ -64,4 +64,43 @@ public interface MagneticForceBetweenTwoBalls {
             return count;
         }
     }
+
+    // O(N*logN) time | O(1) space
+    class MagneticForceBetweenTwoBallsUsingBinarySearchRev2 implements MagneticForceBetweenTwoBalls {
+
+        @Override
+        public int maxDistance(int[] position, int m) {
+            int n = position.length;
+            Arrays.sort(position);
+
+            // set lower and upper boundaries for the distance
+            int left = 1;
+            int right = position[n - 1] - position[0];
+            while (left < right) {
+                int mid = left + (right - left + 1) / 2;
+                if (countBalls(position, mid, m) == m) {
+                    // mid might be the answer;
+                    // check if there is a better option to the right of mid
+                    left = mid;
+                } else {
+                    // mid is not the answer + everything to the right of it
+                    right = mid - 1;
+                }
+            }
+            return left;
+        }
+
+        private int countBalls(int[] position, int target, int m) {
+            int count = 1;
+            int lastPos = position[0];
+            for (int i = 1; i < position.length && count < m; i++) {
+                if (position[i] - lastPos >= target) {
+                    // can place a ball at position[i]
+                    count++;
+                    lastPos = position[i];
+                }
+            }
+            return count;
+        }
+    }
 }

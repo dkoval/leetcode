@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
 import com.github.dkoval.leetcode.problems.MagneticForceBetweenTwoBalls.MagneticForceBetweenTwoBallsUsingBinarySearchRev1
+import com.github.dkoval.leetcode.problems.MagneticForceBetweenTwoBalls.MagneticForceBetweenTwoBallsUsingBinarySearchRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -35,6 +36,16 @@ internal class MagneticForceBetweenTwoBallsTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the required force`(position: IntArray, m: Int, expected: Int) {
             MagneticForceBetweenTwoBallsUsingBinarySearchRev1().test(position, m, expected)
+        }
+    }
+
+    @Nested
+    inner class MagneticForceBetweenTwoBallsUsingBinarySearchRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the required force`(position: IntArray, m: Int, expected: Int) {
+            MagneticForceBetweenTwoBallsUsingBinarySearchRev2().test(position, m, expected)
         }
     }
 
