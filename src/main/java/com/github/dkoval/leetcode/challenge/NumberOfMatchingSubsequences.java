@@ -63,6 +63,8 @@ public interface NumberOfMatchingSubsequences {
 
         @Override
         public int numMatchingSubseq(String s, String[] words) {
+            // step #1: pre-process s to get indices of characters in s
+            // step #2: given indices, use binary search to check whether words[i] is a subsequence of s
             Map<Character, List<Integer>> indices = new HashMap<>();
             for (int i = 0; i < s.length(); i++) {
                 indices.computeIfAbsent(s.charAt(i), key -> new ArrayList<>()).add(i);
@@ -89,6 +91,7 @@ public interface NumberOfMatchingSubsequences {
                     return false;
                 }
 
+                // indices are stored in increasing order, therefore we can binary search ob them
                 List<Integer> list = indices.get(w);
                 int idx = indexOfFirstElementGreaterThan(list, si);
                 if (idx == list.size()) {
@@ -101,17 +104,33 @@ public interface NumberOfMatchingSubsequences {
         }
 
         private int indexOfFirstElementGreaterThan(List<Integer> nums, int target) {
+            int n = nums.size();
+
+            // corner case #1: target is smaller than the smallest element in nums[]
+            if (target < nums.get(0)) {
+                return 0;
+            }
+
+            // corner case #2: target is greater than or equal to the largest element in nums[]
+            if (target >= nums.get(n - 1)) {
+                return n;
+            }
+
+            // binary search
             int left = 0;
             int right = nums.size() - 1;
-            while (left <= right) {
+            while (left < right) {
                 int mid = left + (right - left) / 2;
                 if (nums.get(mid) <= target) {
+                    // mid is not a solution
                     left = mid + 1;
                 } else {
-                    right = mid - 1;
+                    // mid is a possible solution;
+                    // check if there is a better option to the left of index mid
+                    right = mid;
                 }
             }
-            return right + 1;
+            return left;
         }
     }
 }
