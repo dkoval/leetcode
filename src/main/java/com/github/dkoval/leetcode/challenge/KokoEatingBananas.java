@@ -22,15 +22,15 @@ public class KokoEatingBananas {
 
     public int minEatingSpeed(int[] piles, int h) {
         // The answer may be any number in [left : right] range
-        int left = 0;
-        int right = maxOf(piles);
+        int left = 1;
+        int right = 1_000_000; // max piles[i] = 10^9
         // binary search in [left : right] range
         while (left < right) {
             int mid = left + (right - left) / 2;
             // isGoodSpeed(speed) output:
             // FF...FTT...T
             //       ^ <- we want the very 1st "good" answer
-            if (isGoodSpeed(mid, piles, h)) {
+            if (eat(mid, piles) <= h) {
                 // `mid` may be the possible answer; every number > `mid` is also "good",
                 // however we want the very 1st good answer
                 right = mid;
@@ -42,22 +42,13 @@ public class KokoEatingBananas {
         return left;
     }
 
-    private int maxOf(int[] piles) {
-        int max = 0;
-        for (int x : piles) {
-            max = Math.max(max, x);
-        }
-        return max;
-    }
-
-    private boolean isGoodSpeed(int speed, int[] piles, int h) {
-        if (speed == 0) {
-            return false;
-        }
+    private int eat(int speed, int[] piles) {
         int hours = 0;
         for (int x : piles) {
-            hours += (x + speed - 1) / speed; // round up
+            // http://www.cs.nott.ac.uk/~psarb2/G51MPC/slides/NumberLogic.pdf
+            // round up: (x + speed - 1) / speed = (x - 1) / speed + 1
+            hours += (x - 1) / speed + 1; // round up
         }
-        return hours <= h;
+        return hours;
     }
 }
