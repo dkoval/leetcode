@@ -31,6 +31,7 @@ public interface Sqrt {
             int ans = -1;
             while (left <= right) {
                 int mid = left + (right - left) / 2;
+                // mid * mid < x <=> mid < x / mid avoids integer overflow
                 if (mid < x / mid) {
                     ans = mid;
                     left = mid + 1;
@@ -57,6 +58,7 @@ public interface Sqrt {
             int left = 1;
             int right = x;
             while (left < right) {
+                // mid * mid < x <=> mid < x / mid avoids integer overflow
                 int mid = left + (right - left) / 2;
                 if (mid < x / mid) {
                     // mid can't be a solution
