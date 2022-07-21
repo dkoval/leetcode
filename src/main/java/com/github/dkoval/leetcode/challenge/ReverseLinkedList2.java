@@ -3,7 +3,7 @@ package com.github.dkoval.leetcode.challenge;
 import com.github.dkoval.leetcode.ListNode;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/june-leetcoding-challenge-2021/606/week-4-june-22nd-june-28th/3789/">Reverse Linked List II</a>
+ * <a href="https://leetcode.com/problems/reverse-linked-list-ii/">Reverse Linked List II</a>
  * <p>
  * Given the head of a singly linked list and two integers left and right where left <= right,
  * reverse the nodes of the list from position left to position right, and return the reversed list.
@@ -18,46 +18,120 @@ import com.github.dkoval.leetcode.ListNode;
  * <p>
  * Follow up: Could you do it in one pass?
  */
-public class ReverseLinkedList2 {
+public interface ReverseLinkedList2 {
 
-    // O(N) time | O(1) space
-    public ListNode reverseBetween(ListNode head, int left, int right) {
-        int idx = 1;
-        ListNode curr = head;
+    ListNode reverseBetween(ListNode head, int left, int right);
 
-        // find left node
-        ListNode prevToLeftNode = null;
-        while (curr != null && idx != left) {
-            prevToLeftNode = curr;
-            curr = curr.next;
-            idx++;
+    class ReverseLinkedList2Rev1 implements ReverseLinkedList2 {
+
+        // O(N) time | O(1) space
+        public ListNode reverseBetween(ListNode head, int left, int right) {
+            int idx = 1;
+            ListNode curr = head;
+
+            // find left node
+            ListNode prevToLeftNode = null;
+            while (curr != null && idx != left) {
+                prevToLeftNode = curr;
+                curr = curr.next;
+                idx++;
+            }
+
+            ListNode leftNode = curr;
+
+            // find right node
+            while (curr != null && idx != right) {
+                curr = curr.next;
+                idx++;
+            }
+
+            ListNode rightNode = curr;
+            ListNode nextToRightNode = curr.next;
+
+            // reverse the sub-list between left and right pointers
+            ListNode prev = nextToRightNode;
+            curr = leftNode;
+            while (curr != nextToRightNode) {
+                ListNode next = curr.next;
+                curr.next = prev;
+                prev = curr;
+                curr = next;
+            }
+
+            // reversed list head
+            if (prevToLeftNode != null) {
+                prevToLeftNode.next = prev;
+                return head;
+            } else {
+                return prev;
+            }
         }
-        ListNode leftNode = curr;
+    }
 
-        // find right node
-        while (curr != null && idx != right) {
-            curr = curr.next;
-            idx++;
+    class ReverseLinkedList2Rev2 implements ReverseLinkedList2 {
+
+        @Override
+        public ListNode reverseBetween(ListNode head, int left, int right) {
+            if (left == right) {
+                return head;
+            }
+
+            int idx = 1;
+            ListNode curr = head;
+
+            // find left node
+            ListNode prevToLeftNode = null;
+            while (curr != null && idx != left) {
+                prevToLeftNode = curr;
+                curr = curr.next;
+                idx++;
+            }
+
+            ListNode leftNode = curr;
+
+            // find right node
+            while (curr != null && idx != right) {
+                curr = curr.next;
+                idx++;
+            }
+
+            ListNode rightNode = curr;
+            ListNode nextToRightNode = rightNode.next;
+
+            // reverse [left : right] sublist
+            ListInfo res = reverse(leftNode, rightNode);
+
+            ListNode newHead = head;
+            if (prevToLeftNode != null) {
+                prevToLeftNode.next = res.head;
+            } else {
+                newHead = res.head;
+            }
+            res.tail.next = nextToRightNode;
+            return newHead;
         }
-        ListNode rightNode = curr;
-        ListNode nextToRightNode = curr.next;
 
-        // reverse the sub-list between left and right pointers
-        ListNode prev = nextToRightNode;
-        curr = leftNode;
-        while (curr != nextToRightNode) {
-            ListNode next = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = next;
+        private ListInfo reverse(ListNode start, ListNode end) {
+            end.next = null; // stop here
+            ListNode curr = start;
+            ListNode prev = null;
+            while (curr != null) {
+                ListNode next = curr.next;
+                curr.next = prev;
+                prev = curr;
+                curr = next;
+            }
+            return new ListInfo(prev, start);
         }
 
-        // reversed list head
-        if (prevToLeftNode != null) {
-            prevToLeftNode.next = prev;
-            return head;
-        } else {
-            return prev;
+        private static class ListInfo {
+            final ListNode head;
+            final ListNode tail;
+
+            ListInfo(ListNode head, ListNode tail) {
+                this.head = head;
+                this.tail = tail;
+            }
         }
     }
 }
