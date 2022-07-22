@@ -3,7 +3,7 @@ package com.github.dkoval.leetcode.challenge;
 import com.github.dkoval.leetcode.ListNode;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/april-leetcoding-challenge-2021/594/week-2-april-8th-april-14th/3707/">Partition List</a>
+ * <a href="https://leetcode.com/problems/partition-list/">Partition List</a>
  * <p>
  * Given the head of a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
  * <p>
@@ -11,7 +11,7 @@ import com.github.dkoval.leetcode.ListNode;
  * <p>
  * Constraints:
  * <ul>
- *  <li>The number of nodes in the list is in the range [0, 200].</li>
+ *  <li>The number of nodes in the list is in the range [0, 200]</li>
  *  <li>-100 <= Node.val <= 100</li>
  *  <li>-200 <= x <= 200</li>
  * </ul>
@@ -23,8 +23,15 @@ public class PartitionList {
         if (head == null) {
             return null;
         }
-        ListNode p1Head = new ListNode(-1), p1 = p1Head;
-        ListNode p2Head = new ListNode(-1), p2 = p2Head;
+
+        // partition 1
+        ListNode dummy1 = new ListNode(-1);
+        ListNode p1 = dummy1;
+
+        // partition 2
+        ListNode dummy2 = new ListNode(-1);
+        ListNode p2 = dummy2;
+
         ListNode curr = head;
         while (curr != null) {
             ListNode next = curr.next;
@@ -38,11 +45,8 @@ public class PartitionList {
             }
             curr = next;
         }
-        if (p1 != p1Head) {
-            p1.next = p2Head.next;
-            return p1Head.next;
-        } else {
-            return p2Head.next;
-        }
+
+        p1.next = dummy2.next;
+        return dummy1.next;
     }
 }
