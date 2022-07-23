@@ -14,7 +14,16 @@ package com.github.dkoval.leetcode.problems;
  * Return the minimum positive integer speed (in kilometers per hour) that all the trains must travel at for you
  * to reach the office on time, or -1 if it is impossible to be on time.
  * <p>
- * Tests are generated such that the answer will not exceed 107 and hour will have at most two digits after the decimal point.
+ * Tests are generated such that the answer will not exceed 10^7 and hour will have at most two digits after the decimal point.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>n == dist.length</li>
+ *  <li>1 <= n <= 105</li>
+ *  <li>1 <= dist[i] <= 10^5</li>
+ *  <li>1 <= hour <= 10^9</li>
+ *  <li>There will be at most two digits after the decimal point in hour</li>
+ * </ul>
  */
 public interface MinimumSpeedToArriveOnTime {
 
