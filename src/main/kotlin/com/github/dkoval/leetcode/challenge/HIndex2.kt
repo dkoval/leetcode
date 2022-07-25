@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 /**
- * [H-Index II](https://leetcode.com/explore/challenge/card/june-leetcoding-challenge/541/week-3-june-15th-june-21st/3364/)
+ * [H-Index II](https://leetcode.com/problems/h-index-ii/)
  *
  * Given an array of citations sorted in ascending order (each citation is a non-negative integer) of a researcher,
  * write a function to compute the researcher's h-index.
@@ -9,6 +9,12 @@ package com.github.dkoval.leetcode.challenge
  * According to the [definition of h-index on Wikipedia](https://en.wikipedia.org/wiki/H-index):
  * "A scientist has index h if h of his/her N papers have at least h citations each, and
  * the other N − h papers have no more than h citations each."
+ *
+ * Constraints:
+ * - ```n == citations.length```
+ * - ```1 <= n <= 10^5```
+ * - ```0 <= citations[i] <= 1000```
+ * citations is sorted in ascending order
  */
 interface HIndex2 {
 
