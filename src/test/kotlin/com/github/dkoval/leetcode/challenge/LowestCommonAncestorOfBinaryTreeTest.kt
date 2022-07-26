@@ -1,8 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.TreeNode
-import com.github.dkoval.leetcode.challenge.LowestCommonAncestorOfBinaryTree.LowestCommonAncestorOfBinaryTreeUsingDequeToStorePath
-import com.github.dkoval.leetcode.challenge.LowestCommonAncestorOfBinaryTree.LowestCommonAncestorOfBinaryTreeUsingListToStorePath
+import com.github.dkoval.leetcode.challenge.LowestCommonAncestorOfBinaryTree.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -65,7 +64,7 @@ class LowestCommonAncestorOfBinaryTreeTest {
     }
 
     @Nested
-    inner class LowestCommonAncestorOfBinaryTreeUsingListToStorePathTest {
+    inner class LowestCommonAncestorOfBinaryTreeUsingListToStorePathRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -75,7 +74,22 @@ class LowestCommonAncestorOfBinaryTreeTest {
             q: Int,
             expected: Int
         ) {
-            LowestCommonAncestorOfBinaryTreeUsingListToStorePath().test(root, p, q, expected)
+            LowestCommonAncestorOfBinaryTreeUsingListToStorePathRev1().test(root, p, q, expected)
+        }
+    }
+
+    @Nested
+    inner class LowestCommonAncestorOfBinaryTreeUsingListToStorePathRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the lowest common ancestor of two given nodes in the tree`(
+            root: TreeNode,
+            p: Int,
+            q: Int,
+            expected: Int
+        ) {
+            LowestCommonAncestorOfBinaryTreeUsingListToStorePathRev2().test(root, p, q, expected)
         }
     }
 

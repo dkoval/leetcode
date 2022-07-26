@@ -29,12 +29,12 @@ public interface LowestCommonAncestorOfBinaryTree {
 
     TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q);
 
-    class LowestCommonAncestorOfBinaryTreeUsingListToStorePath implements LowestCommonAncestorOfBinaryTree {
+    class LowestCommonAncestorOfBinaryTreeUsingListToStorePathRev1 implements LowestCommonAncestorOfBinaryTree {
 
         @Override
         public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-            List<TreeNode> pPath = path(root, p);
-            List<TreeNode> qPath = path(root, q);
+            List<TreeNode> pPath = find(root, p);
+            List<TreeNode> qPath = find(root, q);
 
             TreeNode lca = root;
             int i = 0;
@@ -50,7 +50,7 @@ public interface LowestCommonAncestorOfBinaryTree {
             return lca;
         }
 
-        private List<TreeNode> path(TreeNode root, TreeNode target) {
+        private List<TreeNode> find(TreeNode root, TreeNode target) {
             List<TreeNode> path = new ArrayList<>();
             dfs(root, target, path);
             return path;
@@ -61,16 +61,65 @@ public interface LowestCommonAncestorOfBinaryTree {
                 return false;
             }
 
+            boolean found;
             path.add(root);
+
             if (root.val == target.val) {
                 return true;
             }
 
-            boolean found = dfs(root.left, target, path) || dfs(root.right, target, path);
+            found = dfs(root.left, target, path) || dfs(root.right, target, path);
+
+            // backtrack
             if (!found) {
-                // backtrack
                 path.remove(path.size() - 1);
             }
+
+            return found;
+        }
+    }
+
+    class LowestCommonAncestorOfBinaryTreeUsingListToStorePathRev2 implements LowestCommonAncestorOfBinaryTree {
+
+        @Override
+        public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+            List<TreeNode> pPath = find(root, p);
+            List<TreeNode> qPath = find(root, q);
+
+            int len = Math.min(pPath.size(), qPath.size());
+            for (int i = 1; i < len; i++) {
+                if (pPath.get(i) != qPath.get(i)) {
+                    return pPath.get(i - 1);
+                }
+            }
+            return pPath.get(len - 1);
+        }
+
+        private List<TreeNode> find(TreeNode root, TreeNode target) {
+            List<TreeNode> path = new ArrayList<>();
+            dfs(root, target, path);
+            return path;
+        }
+
+        private boolean dfs(TreeNode root, TreeNode target, List<TreeNode> path) {
+            if (root == null) {
+                return false;
+            }
+
+            boolean found;
+            path.add(root);
+
+            if (root == target) {
+                return true;
+            }
+
+            found = dfs(root.left, target, path) || dfs(root.right, target, path);
+
+            // backtrack
+            if (!found) {
+                path.remove(path.size() - 1);
+            }
+
             return found;
         }
     }
