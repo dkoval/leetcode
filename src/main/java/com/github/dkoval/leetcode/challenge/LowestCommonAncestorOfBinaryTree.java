@@ -109,7 +109,7 @@ public interface LowestCommonAncestorOfBinaryTree {
             boolean found;
             path.add(root);
 
-            if (root == target) {
+            if (root.val == target.val) {
                 return true;
             }
 
