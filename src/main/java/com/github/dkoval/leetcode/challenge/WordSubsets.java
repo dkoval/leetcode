@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/march-leetcoding-challenge-2021/591/week-4-march-22nd-march-28th/3685/">Word Subsets</a>
+ * <a href="https://leetcode.com/problems/word-subsets/">Word Subsets</a>
  * <p>
  * We are given two arrays A and B of words.  Each word is a string of lowercase letters.
  * <p>
@@ -81,25 +81,33 @@ public interface WordSubsets {
 
         @Override
         public List<String> wordSubsets(String[] A, String[] B) {
-            int[] targetCharCounts = new int[26];
+            // merged frequency table of individual words in B[]
+            // this information is then needed to check whether A[i] is a universal string
+            int[] bCounts = new int[26];
             for (String b : B) {
-                int[] bCharCounts = charCounts(b);
+                // frequency table of word b
+                int[] counts = counts(b);
+                // merge frequencies, i.e. for each character in the alphabet, record the maximum frequency
+                // across all words in B[]
                 for (int i = 0; i < 26; i++) {
-                    targetCharCounts[i] = Math.max(targetCharCounts[i], bCharCounts[i]);
+                    bCounts[i] = Math.max(bCounts[i], counts[i]);
                 }
             }
 
-            List<String> result = new ArrayList<>();
+            List<String> ans = new ArrayList<>();
             for (String a : A) {
-                int[] aCharCounts = charCounts(a);
-                if (isSubset(aCharCounts, targetCharCounts)) {
-                    result.add(a);
+                // frequency table of word a
+                int[] aCounts = counts(a);
+                if (isSubset(aCounts, bCounts)) {
+                    // there are enough characters in word `a` to cover every word in B[],
+                    // therefore `a` is a universal word
+                    ans.add(a);
                 }
             }
-            return result;
+            return ans;
         }
 
-        private int[] charCounts(String s) {
+        private int[] counts(String s) {
             int[] counts = new int[26];
             for (int i = 0; i < s.length(); i++) {
                 counts[s.charAt(i) - 'a']++;
@@ -107,9 +115,9 @@ public interface WordSubsets {
             return counts;
         }
 
-        private boolean isSubset(int[] sourceCharCounts, int[] destCharCounts) {
+        private boolean isSubset(int[] srcCounts, int[] dstCounts) {
             for (int i = 0; i < 26; i++) {
-                if (destCharCounts[i] > sourceCharCounts[i]) {
+                if (dstCounts[i] > srcCounts[i]) {
                     return false;
                 }
             }
