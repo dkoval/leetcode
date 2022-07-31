@@ -35,7 +35,7 @@ internal class ShortestSubarrayToBeRemovedToMakeArraySortedTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
-        fun `return the length of the shortest subarray to remove`(arr: IntArray, expected: Int) {
+        fun `should return the length of the shortest subarray to remove`(arr: IntArray, expected: Int) {
             ShortestSubarrayToBeRemovedToMakeArraySortedRev1().test(arr, expected)
         }
     }
