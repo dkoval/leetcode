@@ -17,22 +17,24 @@ public interface PeakIndexInMountainArray {
 
     class PeakIndexInMountainArrayRev1 implements PeakIndexInMountainArray {
 
-        // O(N*logN) time | O(1) space
+        // O(logN) time | O(1) space
         @Override
         public int peakIndexInMountainArray(int[] arr) {
             int n = arr.length;
 
             // in a mountain array, condition a[i] < a[i + 1] looks like:
             // [T, T, ..., T, F, F, ...F]
+            //                ^ answer
             int left = 0;
             int right = n - 1;
             while (left < right) {
                 int mid = left + (right - left) / 2;
                 if (arr[mid] < arr[mid + 1]) {
-                    // mid can't be a solution
+                    // mid is not the answer
                     left = mid + 1;
                 } else {
-                    // mid can't be a solution, check if there is F to the left of mid
+                    // mid might be the answer
+                    // check if there is a better option to the left of mid
                     right = mid;
                 }
             }
