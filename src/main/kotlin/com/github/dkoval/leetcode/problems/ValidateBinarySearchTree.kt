@@ -52,18 +52,21 @@ object ValidateBinarySearchTreeRecursivelyBruteForce : ValidateBinarySearchTree 
 // Space complexity: O(N) - since we keep up to the entire tree
 object ValidateBinarySearchTreeRecursivelyWithRanges : ValidateBinarySearchTree {
 
-    override fun isValidBST(root: TreeNode?): Boolean = doIsValidBST(root, null, null)
+    override fun isValidBST(root: TreeNode?): Boolean =
+        isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE)
 
-    private fun doIsValidBST(root: TreeNode?, minValue: Int?, maxValue: Int?): Boolean {
-        if (root == null) return true
+    private fun isValidBST(root: TreeNode?, minValue: Long, maxValue: Long): Boolean {
+        if (root == null) {
+            return true
+        }
 
         // check for BST constraint violation: root.`val` must be in (minValue; maxValue) range
-        if (minValue != null && root.`val` <= minValue
-            || maxValue != null && root.`val` >= maxValue
-        ) return false
+        if (root.`val` <= minValue || root.`val` >= maxValue
+        ) {
+            return false
+        }
 
-        return doIsValidBST(root.left, minValue, root.`val`)
-                && doIsValidBST(root.right, root.`val`, maxValue)
+        return isValidBST(root.left, minValue, root.`val`.toLong()) && isValidBST(root.right, root.`val`.toLong(), maxValue)
     }
 }
 
