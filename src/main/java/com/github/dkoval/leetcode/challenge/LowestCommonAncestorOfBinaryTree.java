@@ -106,20 +106,17 @@ public interface LowestCommonAncestorOfBinaryTree {
                 return false;
             }
 
-            boolean found;
             path.add(root);
-
             if (root.val == target.val) {
                 return true;
             }
 
-            found = dfs(root.left, target, path) || dfs(root.right, target, path);
+            boolean found = dfs(root.left, target, path) || dfs(root.right, target, path);
 
             // backtrack
             if (!found) {
                 path.remove(path.size() - 1);
             }
-
             return found;
         }
     }
