@@ -28,7 +28,7 @@ public interface UniqueMorseCodeWords {
 
     class UniqueMorseCodeWordsRev1 implements UniqueMorseCodeWords {
 
-        private final String[] MAPPING = {".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."};
+        private static final String[] MAPPING = {".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."};
 
         @Override
         public int uniqueMorseRepresentations(String[] words) {
