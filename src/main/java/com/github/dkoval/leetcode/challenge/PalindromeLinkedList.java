@@ -6,11 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <a href="https://leetcode.com/explore/featured/card/april-leetcoding-challenge-2021/593/week-1-april-1st-april-7th/3693/">Palindrome Linked List</a>
+ * <a href="https://leetcode.com/problems/palindrome-linked-list/">Palindrome Linked List</a>
  * <p>
  * Given the head of a singly linked list, return true if it is a palindrome.
  * <p>
  * Follow up: Could you do it in O(n) time and O(1) space?
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>The number of nodes in the list is in the range [1, 10^5]</li>
+ *  <li>0 <= Node.val <= 9</li>
+ * </ul>
  */
 public interface PalindromeLinkedList {
 
@@ -41,32 +47,34 @@ public interface PalindromeLinkedList {
 
         @Override
         public boolean isPalindrome(ListNode head) {
-            // find mid of the list
-            ListNode mid = head, fast = head;
-            while (fast != null && fast.next != null && fast.next.next != null) {
-                mid = mid.next;
+            // find the middle node of the list
+            ListNode slow = head;
+            ListNode fast = head;
+            while (fast != null && fast.next != null)  {
+                slow = slow.next;
                 fast = fast.next.next;
             }
 
-            // split the list in 2 halves
-            ListNode l1 = head;
-            ListNode l2 = mid.next;
+            // split the list into 2 halves
+            ListNode curr1 = head;
+            ListNode curr2 = slow;
 
-            // reverse either 1st or 2nd half
-            l2 = reverse(l2);
+            // reverse the 2nd half of the list
+            curr2 = reverse(curr2);
 
-            while (l1 != null && l2 != null) {
-                if (l1.val != l2.val) {
+            while (curr1 != null && curr2 != null) {
+                if (curr1.val != curr2.val) {
                     return false;
                 }
-                l1 = l1.next;
-                l2 = l2.next;
+                curr1 = curr1.next;
+                curr2 = curr2.next;
             }
             return true;
         }
 
         private ListNode reverse(ListNode head) {
-            ListNode curr = head, prev = null;
+            ListNode curr = head;
+            ListNode prev = null;
             while (curr != null) {
                 ListNode next = curr.next;
                 curr.next = prev;
