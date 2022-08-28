@@ -43,6 +43,15 @@ class MaxSumOfRectangleNoLargerThanKTest {
                 ),
                 0,
                 -1
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(5, -4, -3, 4),
+                    intArrayOf(-3, -4, 4, 5),
+                    intArrayOf(5, 1, 5, -4)
+                ),
+                8,
+                8
             )
         )
     }
