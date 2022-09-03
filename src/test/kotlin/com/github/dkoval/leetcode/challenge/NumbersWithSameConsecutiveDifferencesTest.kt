@@ -19,6 +19,11 @@ internal class NumbersWithSameConsecutiveDifferencesTest {
                 2,
                 1,
                 intArrayOf(10, 12, 21, 23, 32, 34, 43, 45, 54, 56, 65, 67, 76, 78, 87, 89, 98)
+            ),
+            Arguments.of(
+                2,
+                0,
+                intArrayOf(11, 22, 33, 44, 55, 66, 77, 88, 99)
             )
         )
     }

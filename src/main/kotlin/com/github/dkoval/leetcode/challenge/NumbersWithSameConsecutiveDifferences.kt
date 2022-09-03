@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 /**
- * [Numbers With Same Consecutive Differences](https://leetcode.com/explore/challenge/card/august-leetcoding-challenge/551/week-3-august-15th-august-21st/3428/)
+ * [Numbers With Same Consecutive Differences](https://leetcode.com/problems/numbers-with-same-consecutive-differences/)
  *
  * Return all non-negative integers of length N such that the absolute difference between every two consecutive digits is K.
  *
@@ -11,34 +11,41 @@ package com.github.dkoval.leetcode.challenge
  * You may return the answer in any order.
  *
  * Note:
- * - 1 <= N <= 9
+ * - 2 <= N <= 9
  * - 0 <= K <= 9
  */
 object NumbersWithSameConsecutiveDifferences {
 
     // Resource: https://www.youtube.com/watch?v=TAfXh2l9FyA&list=PL1w8k37X_6L9uIBLia6XiFuC9q4hYcazJ&index=18
     fun numsSameConsecDiff(N: Int, K: Int): IntArray {
-        val result = mutableListOf<Int>()
-        if (N == 1) {
-            result.add(0)
+        // Analysis:
+        // |d[i] - d[i + 1]| = k => d[i + 1] = d[i] + k, or d[i + 1] = d[i] - k
+        //
+        // trivia #1: in a n-digits long number x, there are (n - 1) "spaces" where +/- k are to be put in:
+        // x = d1_d2_d3_ ... _d9
+        //
+        // trivia #2: there are 9 possibilities to choose the very 1st digit (1..9), therefore
+        // the total number of all possible such numbers is 9 * 2^8 ~ 2K (ok to brute-force)
+        val ans = mutableListOf<Int>()
+        for (digit in 1..9) {
+            generate(digit, N - 1, K, ans)
         }
-        for (d in 1..9) {
-            dfs(d, N - 1, K, result)
-        }
-        return result.toIntArray()
+        return ans.toIntArray()
     }
 
-    private fun dfs(num: Int, N: Int, K: Int, result: MutableList<Int>) {
+    private fun generate(x: Int, N: Int, K: Int, ans: MutableList<Int>) {
         if (N == 0) {
-            result.add(num)
+            ans.add(x)
             return
         }
-        val lastDigit = num % 10
-        if (lastDigit >= K) {
-            dfs(num * 10 + lastDigit - K, N - 1, K, result)
+
+        val lastDigit = x % 10
+        if (lastDigit + K in 0..9) {
+            generate(x * 10 + lastDigit + K, N - 1, K, ans)
         }
-        if (K > 0 && lastDigit < 10 - K) { // extra K > 0 check is needed here to prevents duplicates in case K = 0
-            dfs(num * 10 + lastDigit + K, N - 1, K, result)
+        // extra K > 0 check is needed here to prevent duplicates if K = 0
+        if (K > 0 && lastDigit - K in 0..9) {
+            generate(x * 10 + lastDigit - K, N - 1, K, ans)
         }
     }
 }
