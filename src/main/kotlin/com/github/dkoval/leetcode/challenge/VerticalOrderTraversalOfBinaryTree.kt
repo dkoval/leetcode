@@ -4,25 +4,11 @@ import com.github.dkoval.leetcode.TreeNode
 import kotlin.math.max
 import kotlin.math.min
 
-/**
- * [Vertical Order Traversal of a Binary Tree](https://leetcode.com/explore/challenge/card/august-leetcoding-challenge/549/week-1-august-1st-august-7th/3415/)
- *
- * Given a binary tree, return the vertical order traversal of its nodes values.
- * For each node at position (X, Y), its left and right children respectively will be at positions (X-1, Y-1) and (X+1, Y-1).
- *
- * Running a vertical line from X = -infinity to X = +infinity, whenever the vertical line touches some nodes,
- * we report the values of the nodes in order from top to bottom (decreasing Y coordinates).
- *
- * If two nodes have the same position, then the value of the node that is reported first is the value that is smaller.
- *
- * Return an list of non-empty reports in order of X coordinate. Every report will have a list of values of nodes.
- */
-object VerticalOrderTraversalOfBinaryTree {
+object VerticalOrderTraversalOfBinaryTreeRev1 : VerticalOrderTraversalOfBinaryTree {
 
     private data class IntHolder(var value: Int)
 
-    fun verticalTraversal(root: TreeNode?): List<List<Int>> {
-        if (root == null) return emptyList()
+    override fun verticalTraversal(root: TreeNode): List<List<Int>> {
         // key: col, value: list of (row, node.value) pairs
         val cache = mutableMapOf<Int, MutableList<Pair<Int, Int>>>()
         val minCol = IntHolder(0)
