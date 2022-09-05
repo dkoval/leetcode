@@ -2,6 +2,17 @@ package com.github.dkoval.leetcode.challenge;
 
 import java.util.*;
 
+/**
+ * <a href="https://leetcode.com/problems/n-ary-tree-level-order-traversal/">N-ary Tree Level Order Traversal</a>
+ * <p>
+ * Given an n-ary tree, return the level order traversal of its nodes' values.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>The height of the n-ary tree is less than or equal to 1000</li>
+ *  <li>The total number of nodes is between [0, 10^4]</li>
+ * </ul>
+ */
 public class NaryTreeLevelOrderTraversal {
 
     public static class Node {
@@ -19,8 +30,8 @@ public class NaryTreeLevelOrderTraversal {
             return Collections.emptyList();
         }
 
-        List<List<Integer>> result = new ArrayList<>();
-        Queue<Node> q = new LinkedList<>();
+        List<List<Integer>> ans = new ArrayList<>();
+        Queue<Node> q = new ArrayDeque<>();
         q.offer(root);
         while (!q.isEmpty()) {
             List<Integer> level = new ArrayList<>();
@@ -32,9 +43,8 @@ public class NaryTreeLevelOrderTraversal {
                     q.offer(child);
                 }
             }
-            result.add(level);
+            ans.add(level);
         }
-
-        return result;
+        return ans;
     }
 }
