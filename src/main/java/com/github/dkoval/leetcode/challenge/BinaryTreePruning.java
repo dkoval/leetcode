@@ -3,11 +3,17 @@ package com.github.dkoval.leetcode.challenge;
 import com.github.dkoval.leetcode.TreeNode;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/july-leetcoding-challenge-2021/611/week-4-july-22nd-july-28th/3824/">Binary Tree Pruning</a>
+ * <a href="https://leetcode.com/problems/binary-tree-pruning/">Binary Tree Pruning</a>
  * <p>
  * Given the root of a binary tree, return the same tree where every subtree (of the given tree) not containing a 1 has been removed.
  * <p>
  * A subtree of a node node is node plus every node that is a descendant of node.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>The number of nodes in the tree is in the range [1, 200].</li>
+ *  <li>Node.val is either 0 or 1.</li>
+ * </ul>
  */
 public class BinaryTreePruning {
 
@@ -16,23 +22,24 @@ public class BinaryTreePruning {
         return containsOne(root) ? root : null;
     }
 
+    // Returns true, if the supplied tree contains 1
     private boolean containsOne(TreeNode root) {
         if (root == null) {
             return false;
         }
 
-        boolean leftContainsOne = containsOne(root.left);
-        if (!leftContainsOne) {
+        boolean leftOk = containsOne(root.left);
+        if (!leftOk) {
             // prune left subtree
             root.left = null;
         }
 
-        boolean rightContainsOne = containsOne(root.right);
-        if (!rightContainsOne) {
+        boolean rightOk = containsOne(root.right);
+        if (!rightOk) {
             // prune right subtree
             root.right = null;
         }
 
-        return (root.val == 1) || leftContainsOne || rightContainsOne;
+        return (root.val == 1) || leftOk || rightOk;
     }
 }
