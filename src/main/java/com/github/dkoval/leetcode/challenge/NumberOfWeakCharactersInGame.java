@@ -67,6 +67,7 @@ public interface NumberOfWeakCharactersInGame {
         }
     }
 
+    // O(N*logN + N) time | O(1) space
     class NumberOfWeakCharactersInGameUsingSorting implements NumberOfWeakCharactersInGame {
 
         @Override
@@ -75,16 +76,48 @@ public interface NumberOfWeakCharactersInGame {
             Arrays.sort(properties, (x, y) -> (x[0] == y[0]) ? Integer.compare(x[1], y[1]) : -Integer.compare(x[0], y[0]));
 
             int count = 0;
-            int maxDefenceSoFar = 0;
+            int maxDefence = 0;
             for (int[] x : properties) {
                 // because of sorting, x's attack value is smaller than attack values of previous characters,
                 // therefore we only need to compare defence values here
-                if (x[1] < maxDefenceSoFar) {
+                if (x[1] < maxDefence) {
                     // there's a character seen before with both attack and defence values strictly greater than
                     // x's attack and defence values
                     count++;
                 }
-                maxDefenceSoFar = Math.max(maxDefenceSoFar, x[1]);
+                maxDefence = Math.max(maxDefence, x[1]);
+            }
+            return count;
+        }
+    }
+
+    // O(N) time | O(N) space
+    class NumberOfWeakCharactersInGameUsingBucketSort implements NumberOfWeakCharactersInGame {
+
+        // Resource: https://www.youtube.com/watch?v=iXhl-Irs948
+        @Override
+        public int numberOfWeakCharacters(int[][] properties) {
+            // group properties[] by their attack value
+            Map<Integer, List<Integer>> groups = new HashMap<>();
+            for (int[] x : properties) {
+                groups.computeIfAbsent(x[0], key -> new ArrayList<>()).add(x[1]);
+            }
+
+            // sort unique attack values in DESC order
+            List<Integer> attacks = new ArrayList<>(groups.keySet());
+            attacks.sort(Comparator.reverseOrder());
+
+            int count = 0;
+            int maxDefence = 0;
+            for (int attack : attacks) {
+                List<Integer> defences = groups.get(attack);
+                int maxDefenceSoFar = maxDefence;
+                for (int defence : defences) {
+                    if (defence < maxDefenceSoFar) {
+                        count++;
+                    }
+                    maxDefence = Math.max(maxDefence, defence);
+                }
             }
             return count;
         }

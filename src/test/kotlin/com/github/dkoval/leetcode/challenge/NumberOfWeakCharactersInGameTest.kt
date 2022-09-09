@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.NumberOfWeakCharactersInGame.NumberOfWeakCharactersInGameTLE
-import com.github.dkoval.leetcode.challenge.NumberOfWeakCharactersInGame.NumberOfWeakCharactersInGameUsingSorting
+import com.github.dkoval.leetcode.challenge.NumberOfWeakCharactersInGame.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -74,6 +73,16 @@ internal class NumberOfWeakCharactersInGameTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the number of weak characters`(properties: Array<IntArray>, expected: Int) {
             NumberOfWeakCharactersInGameUsingSorting().test(properties, expected)
+        }
+    }
+
+    @Nested
+    inner class NumberOfWeakCharactersInGameUsingBucketSortTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of weak characters`(properties: Array<IntArray>, expected: Int) {
+            NumberOfWeakCharactersInGameUsingBucketSort().test(properties, expected)
         }
     }
 
