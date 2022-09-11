@@ -42,6 +42,7 @@ public class MaximumPerformanceOfTeam {
     }
 
     // Resource: https://www.youtube.com/watch?v=Y7UTvogADH0
+    // O(N*logN + N*logK) = O(N*logN) time | O(K) space
     public int maxPerformance(int n, int[] speed, int[] efficiency, int k) {
         Engineer[] engineers = new Engineer[n];
         for (int i = 0; i < n; i++) {
