@@ -1,10 +1,12 @@
 package com.github.dkoval.leetcode.challenge;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.PriorityQueue;
+import java.util.Queue;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/june-leetcoding-challenge-2021/603/week-1-june-1st-june-7th/3768/">Maximum Performance of a Team</a>
+ * <a href="https://leetcode.com/problems/maximum-performance-of-a-team/">Maximum Performance of a Team</a>
  * <p>
  * You are given two integers n and k and two integer arrays speed and efficiency both of length n.
  * There are n engineers numbered from 1 to n. speed[i] and efficiency[i] represent the speed and efficiency of the ith
@@ -14,7 +16,16 @@ import java.util.PriorityQueue;
  * <p>
  * The performance of a team is the sum of their engineers' speeds multiplied by the minimum efficiency among their engineers.
  * <p>
- * Return the maximum performance of this team. Since the answer can be a huge number, return it modulo 109 + 7.
+ * Return the maximum performance of this team. Since the answer can be a huge number, return it modulo 10^9 + 7.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= k <= n <= 10^5</li>
+ *  <li>speed.length == n</li>
+ *  <li>efficiency.length == n</li>
+ *  <li>1 <= speed[i] <= 10^5</li>
+ *  <li>1 <= efficiency[i] <= 10^8</li>
+ * </ul>
  */
 public class MaximumPerformanceOfTeam {
 
@@ -30,35 +41,32 @@ public class MaximumPerformanceOfTeam {
         }
     }
 
+    // Resource: https://www.youtube.com/watch?v=Y7UTvogADH0
     public int maxPerformance(int n, int[] speed, int[] efficiency, int k) {
-        // sort engineers by their efficiency in decreasing order
-        Engineer[] engineers = zip(speed, efficiency, n);
-        Arrays.sort(engineers, (o1, o2) -> o2.efficiency - o1.efficiency);
+        Engineer[] engineers = new Engineer[n];
+        for (int i = 0; i < n; i++) {
+            engineers[i] = new Engineer(speed[i], efficiency[i]);
+        }
 
-        // keep top k speed[] values
-        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-        long sumOfSpeeds = 0;
+        // Greedy approach. Try to maximize efficiency first.
+        // To do so, sort engineers by their efficiency in DESC order.
+        Arrays.sort(engineers, Comparator.comparingInt(engineer -> -engineer.efficiency));
+
+        // min heap to record k top speed values
+        Queue<Integer> pq = new PriorityQueue<>();
+        long totalSpeed = 0;
         long maxPerformance = 0;
 
         for (Engineer curr : engineers) {
-            sumOfSpeeds += curr.speed;
-            minHeap.offer(curr.speed);
+            totalSpeed += curr.speed;
+            pq.offer(curr.speed);
 
-            if (minHeap.size() > k) {
-                sumOfSpeeds -= minHeap.poll();
+            if (pq.size() > k) {
+                totalSpeed -= pq.poll();
             }
 
-            maxPerformance = Math.max(maxPerformance, sumOfSpeeds * curr.efficiency);
+            maxPerformance = Math.max(maxPerformance, totalSpeed * curr.efficiency);
         }
-
         return (int) (maxPerformance % MOD);
-    }
-
-    private Engineer[] zip(int[] speed, int[] efficiency, int n) {
-        Engineer[] result = new Engineer[n];
-        for (int i = 0; i < n; i++) {
-            result[i] = new Engineer(speed[i], efficiency[i]);
-        }
-        return result;
     }
 }
