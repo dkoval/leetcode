@@ -54,7 +54,6 @@ public interface BagOfTokens {
                     // we choose tokens[right]
                     power += tokens[right];
                     score--;
-                    maxScore = Math.max(maxScore, score);
                     right--;
                 } else {
                     // can't play anymore
