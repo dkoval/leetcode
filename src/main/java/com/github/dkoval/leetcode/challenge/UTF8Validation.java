@@ -2,7 +2,7 @@ package com.github.dkoval.leetcode.challenge;
 
 /**
  * <a href="https://leetcode.com/problems/utf-8-validation/">UTF-8 Validation</a>
- *
+ * <p>
  * Given an integer array data representing the data, return whether it is a valid UTF-8 encoding
  * (i.e. it translates to a sequence of valid UTF-8 encoded characters).
  * <p>
