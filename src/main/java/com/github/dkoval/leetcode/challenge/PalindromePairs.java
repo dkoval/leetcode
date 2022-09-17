@@ -82,7 +82,6 @@ public interface PalindromePairs {
         public List<List<Integer>> palindromePairs(String[] words) {
             int n = words.length;
             Map<String, Integer> indices = indices(words);
-
             List<List<Integer>> ans = new ArrayList<>();
             for (int i = 0; i < n; i++) {
                 if (words[i].isEmpty()) {
@@ -118,15 +117,16 @@ public interface PalindromePairs {
                     //                        --- reversed prefix of words[i]
                     int m = words[i].length();
                     for (int k = 1; k < m; k++) {
-                        String reversedSuffix = reversedWord.substring(0, k);
-                        if (indices.containsKey(reversedSuffix) && isPalindrome(reversedWord, k, m - 1)) {
-                            int j = indices.get(reversedSuffix);
-                            ans.add(Arrays.asList(j, i));
-                        }
-                        String reversedPrefix = reversedWord.substring(k);
-                        if (indices.containsKey(reversedPrefix) && isPalindrome(reversedWord, 0, k - 1)) {
+                        String reversedPrefix = reversedWord.substring(m - k);
+                        if (indices.containsKey(reversedPrefix) && isPalindrome(words[i], k, m - 1)) {
                             int j = indices.get(reversedPrefix);
                             ans.add(Arrays.asList(i, j));
+                        }
+
+                        String reversedSuffix = reversedWord.substring(0, k);
+                        if (indices.containsKey(reversedSuffix) && isPalindrome(words[i], 0, m - k - 1)) {
+                            int j = indices.get(reversedSuffix);
+                            ans.add(Arrays.asList(j, i));
                         }
                     }
                 }
