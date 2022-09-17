@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.PalindromePairs.PalindromePairsNaive
+import com.github.dkoval.leetcode.challenge.PalindromePairs.PalindromePairsFixed
+import com.github.dkoval.leetcode.challenge.PalindromePairs.PalindromePairsTLE
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -37,12 +38,21 @@ internal class PalindromePairsTest {
                     listOf(0, 1),
                     listOf(1, 0)
                 )
+            ),
+            Arguments.of(
+                arrayOf("a", "abc", "aba", ""),
+                listOf(
+                    listOf(0, 3),
+                    listOf(3, 0),
+                    listOf(2, 3),
+                    listOf(3, 2)
+                )
             )
         )
     }
 
     @Nested
-    inner class PalindromePairsNaiveTest {
+    inner class PalindromePairsTLETest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -50,7 +60,20 @@ internal class PalindromePairsTest {
             words: Array<String>,
             expected: List<List<Int>>
         ) {
-            PalindromePairsNaive().test(words, expected)
+            PalindromePairsTLE().test(words, expected)
+        }
+    }
+
+    @Nested
+    inner class PalindromePairsFixedTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return all the pairs of the distinct indices (i, j) in the given list, so that the concatenation of words_i + words_j is a palindrome`(
+            words: Array<String>,
+            expected: List<List<Int>>
+        ) {
+            PalindromePairsFixed().test(words, expected)
         }
     }
 
