@@ -3,7 +3,7 @@ package com.github.dkoval.leetcode.challenge;
 import java.util.*;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/june-leetcoding-challenge-2021/604/week-2-june-8th-june-14th/3777/">Palindrome Pairs</a>
+ * <a href="https://leetcode.com/problems/palindrome-pairs/">Palindrome Pairs</a>
  * <p>
  * Given a list of unique words, return all the pairs of the distinct indices (i, j) in the given list,
  * so that the concatenation of the two words words[i] + words[j] is a palindrome.
