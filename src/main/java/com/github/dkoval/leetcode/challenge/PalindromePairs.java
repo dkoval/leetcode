@@ -108,7 +108,7 @@ public interface PalindromePairs {
                     // if word[k : m - 1] is a palindrome.
                     //
                     // A suffix of length k of a word will match with its reversed version on the opposite site
-                    // if word[0 : k - 1] is a palindrome.
+                    // if word[0 : m - k - 1] is a palindrome.
                     //
                     // Example:
                     // words[i]          = abcdef
