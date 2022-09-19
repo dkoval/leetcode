@@ -7,7 +7,7 @@ import java.util.Map;
 
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/may-leetcoding-challenge-2021/600/week-3-may-15th-may-21st/3747/">Find Duplicate File in System</a>
+ * <a href="https://leetcode.com/problems/find-duplicate-file-in-system/">Find Duplicate File in System</a>
  * <p>
  * Given a list paths of directory info, including the directory path, and all the files with contents in this directory,
  * return all the duplicate files in the file system in terms of their paths. You may return the answer in any order.
@@ -25,6 +25,16 @@ import java.util.Map;
  * that have the same content. A file path is a string that has the following format:
  * <p>
  * "directory_path/file_name.txt"
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= paths.length <= 2 * 104</li>
+ *  <li>1 <= paths[i].length <= 3000</li>
+ *  <li>1 <= sum(paths[i].length) <= 5 * 105</li>
+ *  <li>paths[i] consist of English letters, digits, '/', '.', '(', ')', and ' '.</li>
+ *  <li>You may assume no files or directories share the same name in the same directory.</li>
+ *  <li>You may assume each given directory info represents a unique directory. A single blank space separates the directory path and file info.</li>
+ * </ul>
  */
 public class FindDuplicateFileInSystem {
 
@@ -32,14 +42,14 @@ public class FindDuplicateFileInSystem {
         // holds content -> paths mapping
         Map<String, List<String>> groups = new HashMap<>();
         for (String path : paths) {
-            int basedirEndIndex = path.indexOf(' ');
-            String basedir = path.substring(0, basedirEndIndex);
-            String[] tokens = path.substring(basedirEndIndex + 1).split(" ");
+            int baseDirEndIndex = path.indexOf(' ');
+            String baseDir = path.substring(0, baseDirEndIndex);
+            String[] tokens = path.substring(baseDirEndIndex + 1).split(" ");
             for (String token : tokens) {
-                int filenameEndIndex = token.indexOf('(');
-                String filename = token.substring(0, filenameEndIndex);
-                String content = token.substring(filenameEndIndex + 1, token.length() - 1);
-                groups.computeIfAbsent(content, key -> new ArrayList<>()).add(basedir + '/' + filename);
+                int fileNameEndIndex = token.indexOf('(');
+                String fileName = token.substring(0, fileNameEndIndex);
+                String fileContent = token.substring(fileNameEndIndex + 1, token.length() - 1);
+                groups.computeIfAbsent(fileContent, key -> new ArrayList<>()).add(baseDir + '/' + fileName);
             }
         }
         return collect(groups);
