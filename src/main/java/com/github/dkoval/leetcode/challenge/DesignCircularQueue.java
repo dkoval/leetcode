@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/april-leetcoding-challenge-2021/593/week-1-april-1st-april-7th/3696/">Design Circular Queue</a>
+ * <a href="https://leetcode.com/problems/design-circular-queue/">Design Circular Queue</a>
  * <p>
  * Design your implementation of the circular queue. The circular queue is a linear data structure in which the operations
  * are performed based on FIFO (First In First Out) principle and the last position is connected back to the first position
@@ -10,11 +10,20 @@ package com.github.dkoval.leetcode.challenge;
  * One of the benefits of the circular queue is that we can make use of the spaces in front of the queue.
  * In a normal queue, once the queue becomes full, we cannot insert the next element even if there is a space
  * in front of the queue. But using the circular queue, we can use the space to store new values.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= k <= 1000</li>
+ *  <li>0 <= value <= 1000</li>
+ *  <li>At most 3000 calls will be made to enQueue, deQueue, Front, Rear, isEmpty, and isFull.</li>
+ * </ul>
  */
 public class DesignCircularQueue {
 
     public static class MyCircularQueue {
         private final int[] ringBuffer;
+        private final int k;
+
         private int front = 0;
         private int rear = -1;
         private int size = 0;
@@ -24,6 +33,7 @@ public class DesignCircularQueue {
          */
         public MyCircularQueue(int k) {
             this.ringBuffer = new int[k];
+            this.k = k;
         }
 
         /**
@@ -33,7 +43,7 @@ public class DesignCircularQueue {
             if (isFull()) {
                 return false;
             }
-            rear = (rear + 1) % ringBuffer.length;
+            rear = (rear + 1) % k;
             ringBuffer[rear] = value;
             size++;
             return true;
@@ -46,7 +56,7 @@ public class DesignCircularQueue {
             if (isEmpty()) {
                 return false;
             }
-            front = (front + 1) % ringBuffer.length;
+            front = (front + 1) % k;
             size--;
             return true;
         }
@@ -82,7 +92,7 @@ public class DesignCircularQueue {
          * Checks whether the circular queue is full or not.
          */
         public boolean isFull() {
-            return size == ringBuffer.length;
+            return size == k;
         }
     }
 }
