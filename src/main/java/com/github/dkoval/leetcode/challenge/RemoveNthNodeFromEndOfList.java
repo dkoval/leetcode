@@ -3,18 +3,19 @@ package com.github.dkoval.leetcode.challenge;
 import com.github.dkoval.leetcode.ListNode;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/april-leetcoding-challenge-2021/595/week-3-april-15th-april-21st/3712/">Remove Nth Node From End of List</a>
+ * <a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/">Remove Nth Node From End of List</a>
  * <p>
  * Given the head of a linked list, remove the nth node from the end of the list and return its head.
  * <p>
  * Follow up: Could you do this in one pass?
  * <p>
  * Constraints:
- * <p>
- * The number of nodes in the list is sz.
- * 1 <= sz <= 30.
- * 0 <= Node.val <= 100.
- * 1 <= n <= sz.
+ * <ul>
+ *  <li>The number of nodes in the list is sz.</li>
+ *  <li>1 <= sz <= 30.</li>
+ *  <li>0 <= Node.val <= 100.</li>
+ *  <li>1 <= n <= sz.</li>
+ * </ul>
  */
 public class RemoveNthNodeFromEndOfList {
 
