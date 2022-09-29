@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * <a href="https://leetcode.com/problems/find-k-closest-elements/">Find K Closest Elements</a>
@@ -23,51 +22,82 @@ import java.util.List;
  *  <li>-10^4 <= arr[i], x <= 10^4</li>
  * </ul>
  */
-public class FindKClosestElements {
+public interface FindKClosestElements {
 
-    public List<Integer> findClosestElements(int[] arr, int k, int x) {
-        int n = arr.length;
+    List<Integer> findClosestElements(int[] arr, int k, int x);
 
-        // use binary search to find the index of the largest arr[i] < x
-        int left = 0;
-        int right = n - 1;
-        while (left < right) {
-            int mid = left + (right - left + 1) / 2;
-            if (arr[mid] >= x) {
-                right = mid - 1;
-            } else {
-                // mid is a possible solution;
-                // check if there is a better option to the right of index mid
-                left = mid;
+    class FindKClosestElementsUsingMaxHeap implements FindKClosestElements {
+
+        @Override
+        public List<Integer> findClosestElements(int[] arr, int k, int x) {
+            Comparator<Integer> cmp = (a, b) -> {
+                int d1 = Math.abs(a - x);
+                int d2 = Math.abs(b - x);
+                return (d1 == d2) ? Integer.compare(a, b) : Integer.compare(d1, d2);
+            };
+
+            // max heap
+            Queue<Integer> pq = new PriorityQueue<>(cmp.reversed());
+            for (int num : arr) {
+                pq.offer(num);
+                if (pq.size() > k) {
+                    pq.poll();
+                }
             }
+
+            List<Integer> ans = new ArrayList<>(pq);
+            Collections.sort(ans);
+            return ans;
         }
+    }
 
-        int idx = right;
-        LinkedList<Integer> ans = new LinkedList<>();
+    class FindKClosestElementsUsingBinarySearch implements FindKClosestElements {
 
-        // expand outwards from idx
-        left = idx;
-        right = idx + 1;
-        while (ans.size() < k && left >= 0 && right < n) {
-            if (x - arr[left] <= arr[right] - x) {
+        @Override
+        public List<Integer> findClosestElements(int[] arr, int k, int x) {
+            int n = arr.length;
+
+            // use binary search to find the index of the largest arr[i] < x
+            int left = 0;
+            int right = n - 1;
+            while (left < right) {
+                int mid = left + (right - left + 1) / 2;
+                if (arr[mid] >= x) {
+                    right = mid - 1;
+                } else {
+                    // mid is a possible solution;
+                    // check if there is a better option to the right of index mid
+                    left = mid;
+                }
+            }
+
+            int idx = right;
+            LinkedList<Integer> ans = new LinkedList<>();
+
+            // expand outwards from idx
+            left = idx;
+            right = idx + 1;
+            while (ans.size() < k && left >= 0 && right < n) {
+                if (x - arr[left] <= arr[right] - x) {
+                    ans.addFirst(arr[left]);
+                    left--;
+                } else {
+                    ans.addLast(arr[right]);
+                    right++;
+                }
+            }
+
+            while (ans.size() < k && left >= 0) {
                 ans.addFirst(arr[left]);
                 left--;
-            } else {
+            }
+
+            while (ans.size() < k && right < n) {
                 ans.addLast(arr[right]);
                 right++;
             }
-        }
 
-        while (ans.size() < k && left >= 0) {
-            ans.addFirst(arr[left]);
-            left--;
+            return ans;
         }
-
-        while (ans.size() < k && right < n) {
-            ans.addLast(arr[right]);
-            right++;
-        }
-
-        return ans;
     }
 }
