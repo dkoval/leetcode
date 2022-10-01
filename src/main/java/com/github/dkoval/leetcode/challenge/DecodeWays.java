@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/august-leetcoding-challenge-2021/615/week-3-august-15th-august-21st/3902/">Decode Ways</a>
+ * <a href="https://leetcode.com/problems/decode-ways/submissions/">Decode Ways</a>
  * <p>
  * A message containing letters from A-Z can be encoded into numbers using the following mapping:
  * <pre>
@@ -21,6 +21,12 @@ package com.github.dkoval.leetcode.challenge;
  * Given a string s containing only digits, return the number of ways to decode it.
  * <p>
  * The answer is guaranteed to fit in a 32-bit integer.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= s.length <= 100</li>
+ *  <li>s contains only digits and may contain leading zero(s).</li>
+ * </ul>
  */
 public interface DecodeWays {
 
@@ -62,7 +68,7 @@ public interface DecodeWays {
                 count += numDecodings(s, idx + 2, memo);
             }
 
-            if (s.charAt(idx) == '2' && idx + 1 < n && s.charAt(idx + 1) >= '0' && s.charAt(idx + 1) <= '6') {
+            if (s.charAt(idx) == '2' && idx + 1 < n && s.charAt(idx + 1) <= '6') {
                 count += numDecodings(s, idx + 2, memo);
             }
 
@@ -95,7 +101,7 @@ public interface DecodeWays {
                     dp[i] += dp[i + 2];
                 }
 
-                if (s.charAt(i) == '2' && i + 1 < n && s.charAt(i + 1) >= '0' && s.charAt(i + 1) <= '6') {
+                if (s.charAt(i) == '2' && i + 1 < n && s.charAt(i + 1) <= '6') {
                     dp[i] += dp[i + 2];
                 }
             }
