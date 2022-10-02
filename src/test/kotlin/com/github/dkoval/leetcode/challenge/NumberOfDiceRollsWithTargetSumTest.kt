@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.NumberOfDiceRollsWithTargetSum.NumberOfDiceRollsWithTargetSumDPTopDown
+import com.github.dkoval.leetcode.challenge.NumberOfDiceRollsWithTargetSum.NumberOfDiceRollsWithTargetSumDpBottomUp
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -34,6 +35,21 @@ internal class NumberOfDiceRollsWithTargetSumTest {
             expected: Int
         ) {
             NumberOfDiceRollsWithTargetSumDPTopDown().test(n, k, target, expected)
+        }
+    }
+
+    @Nested
+    inner class NumberOfDiceRollsWithTargetSumDpBottomUpTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of possible ways to roll the dice so the sum of the face-up numbers equals target`(
+            n: Int,
+            k: Int,
+            target: Int,
+            expected: Int
+        ) {
+            NumberOfDiceRollsWithTargetSumDpBottomUp().test(n, k, target, expected)
         }
     }
 

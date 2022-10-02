@@ -50,4 +50,26 @@ public interface NumberOfDiceRollsWithTargetSum {
             return memo[n][target] = count;
         }
     }
+
+    class NumberOfDiceRollsWithTargetSumDpBottomUp implements NumberOfDiceRollsWithTargetSum {
+
+        private static final int MOD = 1_000_000_007;
+
+        @Override
+        public int numRollsToTarget(int n, int k, int target) {
+            // dp[d][s] - number of possible ways to roll d dices such that the sum of the face-up numbers equals to s
+            int[][] dp = new int[n + 1][target + 1];
+            dp[0][0] = 1;
+
+            for (int dice = 1; dice <= n; dice++) {
+                for (int face = 1; face <= k; face++) {
+                    for (int sum = target; sum - face >= 0; sum--) {
+                        dp[dice][sum] += dp[dice - 1][sum - face];
+                        dp[dice][sum] %= MOD;
+                    }
+                }
+            }
+            return dp[n][target];
+        }
+    }
 }
