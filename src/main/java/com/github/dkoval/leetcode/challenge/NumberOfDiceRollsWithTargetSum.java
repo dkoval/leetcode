@@ -1,0 +1,53 @@
+package com.github.dkoval.leetcode.challenge;
+
+/**
+ * <a href="https://leetcode.com/problems/number-of-dice-rolls-with-target-sum/">Number of Dice Rolls With Target Sum</a>
+ * <p>
+ * You have n dice and each die has k faces numbered from 1 to k.
+ * <p>
+ * Given three integers n, k, and target, return the number of possible ways (out of the kn total ways) to roll the dice
+ * so the sum of the face-up numbers equals target. Since the answer may be too large, return it modulo 10^9 + 7.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= n, k <= 30</li>
+ *  <li>1 <= target <= 1000</li>
+ * </ul>
+ */
+public interface NumberOfDiceRollsWithTargetSum {
+
+    int numRollsToTarget(int n, int k, int target);
+
+    class NumberOfDiceRollsWithTargetSumDPTopDown implements NumberOfDiceRollsWithTargetSum {
+
+        private static final int MOD = 1_000_000_007;
+
+        @Override
+        public int numRollsToTarget(int n, int k, int target) {
+            // DP: top-down
+            Integer[][] memo = new Integer[n + 1][target + 1];
+            return count(n, target, k, memo);
+        }
+
+        // Here n is the number of available dices.
+        private int count(int n, int target, int k, Integer[][] memo) {
+            if (n == 0) {
+                return (target == 0) ? 1 : 0;
+            }
+
+            if (memo[n][target] != null) {
+                return memo[n][target];
+            }
+
+            // brute-force on k
+            int count = 0;
+            for (int i = 1; i <= k; i++) {
+                if (target - i >= 0) {
+                    count += count(n - 1, target - i, k, memo);
+                    count %= MOD;
+                }
+            }
+            return memo[n][target] = count;
+        }
+    }
+}
