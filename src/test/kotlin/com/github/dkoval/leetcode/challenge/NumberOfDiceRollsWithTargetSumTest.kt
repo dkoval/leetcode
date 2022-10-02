@@ -15,8 +15,8 @@ internal class NumberOfDiceRollsWithTargetSumTest {
     class InputArgumentsProvider : ArgumentsProvider {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
-            Arguments.of(1, 6, 3),
-            Arguments.of(2, 6, 7),
+            Arguments.of(1, 6, 3, 1),
+            Arguments.of(2, 6, 7, 6),
             Arguments.of(30, 30, 500, 222616187)
         )
     }
