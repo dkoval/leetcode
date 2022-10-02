@@ -16,11 +16,11 @@ package com.github.dkoval.leetcode.challenge;
  */
 public interface NumberOfDiceRollsWithTargetSum {
 
+    int MOD = 1_000_000_007;
+
     int numRollsToTarget(int n, int k, int target);
 
     class NumberOfDiceRollsWithTargetSumDPTopDown implements NumberOfDiceRollsWithTargetSum {
-
-        private static final int MOD = 1_000_000_007;
 
         @Override
         public int numRollsToTarget(int n, int k, int target) {
@@ -52,8 +52,6 @@ public interface NumberOfDiceRollsWithTargetSum {
     }
 
     class NumberOfDiceRollsWithTargetSumDpBottomUp implements NumberOfDiceRollsWithTargetSum {
-
-        private static final int MOD = 1_000_000_007;
 
         @Override
         public int numRollsToTarget(int n, int k, int target) {
