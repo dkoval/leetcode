@@ -1,17 +1,22 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.TreeNode
+import com.github.dkoval.leetcode.challenge.AddOneRowToTree.AddOneRowToTreeRev1
 import com.github.dkoval.leetcode.equalsTo
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
 
 internal class AddOneRowToTreeTest {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 TreeNode(4).apply {
                     left = TreeNode(2).apply {
@@ -93,15 +98,28 @@ internal class AddOneRowToTreeTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should add a row of nodes with value v at the given depth d`(
+    @Nested
+    inner class AddOneRowToTreeRev1Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should add a row of nodes with value val at the given depth`(
+            root: TreeNode,
+            `val`: Int,
+            depth: Int,
+            expected: TreeNode
+        ) {
+            AddOneRowToTreeRev1().test(root, `val`, depth, expected)
+        }
+    }
+
+    private fun AddOneRowToTree.test(
         root: TreeNode,
-        v: Int,
-        d: Int,
+        `val`: Int,
+        depth: Int,
         expected: TreeNode
     ) {
-        val actual = AddOneRowToTree().addOneRow(root, v, d)
+        val actual = addOneRow(root, `val`, depth)
         assertTrue(actual.equalsTo(expected))
     }
 }

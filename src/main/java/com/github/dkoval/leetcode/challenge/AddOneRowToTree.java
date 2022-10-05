@@ -2,61 +2,77 @@ package com.github.dkoval.leetcode.challenge;
 
 import com.github.dkoval.leetcode.TreeNode;
 
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 import java.util.Queue;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/march-leetcoding-challenge-2021/589/week-2-march-8th-march-14th/3666/">Add One Row to Tree</a>
+ * <a href="https://leetcode.com/problems/add-one-row-to-tree/">Add One Row to Tree</a>
  * <p>
- * Given the root of a binary tree, then value v and depth d, you need to add a row of nodes with value v at the given depth d.
- * The root node is at depth 1.
+ * Given the root of a binary tree and two integers val and depth, add a row of nodes with value val at the given depth depth.
  * <p>
- * The adding rule is: given a positive integer depth d, for each NOT null tree nodes N in depth d-1,
- * create two tree nodes with value v as N's left subtree root and right subtree root.
- * And N's original left subtree should be the left subtree of the new left subtree root,
- * its original right subtree should be the right subtree of the new right subtree root.
- * If depth d is 1 that means there is no depth d-1 at all,
- * then create a tree node with value v as the new root of the whole original tree,
- * and the original tree is the new root's left subtree.
+ * Note that the root node is at depth 1.
+ * <p>
+ * The adding rule is:
+ * <ul>
+ *  <li>Given the integer depth, for each not null tree node cur at the depth depth - 1, create two tree nodes with value val as cur's left subtree root and right subtree root.</li>
+ *  <li>cur's original left subtree should be the left subtree of the new left subtree root.</li>
+ *  <li>cur's original right subtree should be the right subtree of the new right subtree root.</li>
+ *  <li>If depth == 1 that means there is no depth depth - 1 at all, then create a tree node with value val as the new root of the whole original tree, and the original tree is the new root's left subtree.</li>
+ * </ul>
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>The number of nodes in the tree is in the range [1, 10^4].</li>
+ *  <li>The depth of the tree is in the range [1, 10^4].</li>
+ *  <li>-100 <= Node.val <= 100</li>
+ *  <li>-10^5 <= val <= 10^5</li>
+ *  <li>1 <= depth <= the depth of tree + 1</li>
+ * </ul>
  */
-public class AddOneRowToTree {
+public interface AddOneRowToTree {
 
-    public TreeNode addOneRow(TreeNode root, int v, int d) {
-        if (d == 1) {
-            TreeNode newRoot = new TreeNode(v);
-            newRoot.left = root;
-            return newRoot;
-        }
+    TreeNode addOneRow(TreeNode root, int val, int depth);
 
-        int depth = 1;
-        Queue<TreeNode> targetLevel = new LinkedList<>(); // will keep nodes from level d - 1
-        targetLevel.offer(root);
-        while (depth < d - 1) {
-            int size = targetLevel.size();
-            while (size-- > 0) {
-                TreeNode node = targetLevel.poll();
-                if (node.left != null) {
-                    targetLevel.offer(node.left);
-                }
-                if (node.right != null) {
-                    targetLevel.offer(node.right);
-                }
+    class AddOneRowToTreeRev1 implements AddOneRowToTree {
+
+        @Override
+        public TreeNode addOneRow(TreeNode root, int val, int depth) {
+            if (depth == 1) {
+                TreeNode newRoot = new TreeNode(val);
+                newRoot.left = root;
+                return newRoot;
             }
-            depth++;
+
+            // ~BFS: generate (depth - 1) level
+            Queue<TreeNode> q = new ArrayDeque<>();
+            q.offer(root);
+            int currDepth = 1;
+            while (currDepth < depth - 1) {
+                int size = q.size();
+                while (size-- > 0) {
+                    TreeNode curr = q.poll();
+                    if (curr.left != null) {
+                        q.offer(curr.left);
+                    }
+                    if (curr.right != null) {
+                        q.offer(curr.right);
+                    }
+                }
+                currDepth++;
+            }
+
+            // process (depth - 1) level
+            while (!q.isEmpty()) {
+                TreeNode curr = q.poll();
+                TreeNode left = curr.left;
+                TreeNode right = curr.right;
+
+                curr.left = new TreeNode(val);
+                curr.right = new TreeNode(val);
+                curr.left.left = left;
+                curr.right.right = right;
+            }
+            return root;
         }
-
-        while (!targetLevel.isEmpty()) {
-            TreeNode node = targetLevel.poll();
-
-            TreeNode tmp = node.left;
-            node.left = new TreeNode(v);
-            node.left.left = tmp;
-
-            tmp = node.right;
-            node.right = new TreeNode(v);
-            node.right.right = tmp;
-        }
-
-        return root;
     }
 }
