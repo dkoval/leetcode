@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/august-leetcoding-challenge-2021/616/week-4-august-22nd-august-28th/3908/">Two Sum IV - Input is a BST</a>
+ * <a href="https://leetcode.com/problems/two-sum-iv-input-is-a-bst/">Two Sum IV - Input is a BST</a>
  * <p>
  * Given the root of a Binary Search Tree and a target number k, return true if there exist two elements in the BST such
  * hat their sum is equal to the given target.
@@ -38,7 +38,7 @@ public interface TwoSum4InputIsBST {
                 return false;
             }
 
-            // visit left sub-tree
+            // visit left subtree
             boolean found = findTarget(root.left, k, seen);
             if (found) {
                 return true;
