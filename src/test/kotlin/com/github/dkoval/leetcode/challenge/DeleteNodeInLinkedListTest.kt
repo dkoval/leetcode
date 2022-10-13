@@ -8,7 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 
-internal class DeleteNodeInSinglyLinkedListTest {
+internal class DeleteNodeInLinkedListTest {
 
     companion object {
         @JvmStatic
@@ -63,7 +63,7 @@ internal class DeleteNodeInSinglyLinkedListTest {
     @ParameterizedTest
     @MethodSource("input")
     fun `should delete a node from a singly-linked list`(head: ListNode?, nodeValue: Int, expected: List<Int>) {
-        DeleteNodeInSinglyLinkedList.deleteNode(head.find(nodeValue))
+        DeleteNodeInLinkedList.deleteNode(head.find(nodeValue))
         assertEquals(expected, head.toList())
     }
 }
