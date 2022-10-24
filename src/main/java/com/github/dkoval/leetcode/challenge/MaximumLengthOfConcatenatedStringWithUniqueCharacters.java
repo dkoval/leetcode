@@ -3,7 +3,7 @@ package com.github.dkoval.leetcode.challenge;
 import java.util.List;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/september-leetcoding-challenge-2021/639/week-4-september-22nd-september-28th/3984/">Maximum Length of a Concatenated String with Unique Characters</a>
+ * <a href="https://leetcode.com/problems/maximum-length-of-a-concatenated-string-with-unique-characters/">Maximum Length of a Concatenated String with Unique Characters</a>
  * <p>
  * Given an array of strings arr. String s is a concatenation of a sub-sequence of arr which have unique characters.
  * <p>
@@ -16,52 +16,59 @@ import java.util.List;
  *  <li>arr[i] contains only lower case English letters</li>
  * </ul>
  */
-public class MaximumLengthOfConcatenatedStringWithUniqueCharacters {
+public interface MaximumLengthOfConcatenatedStringWithUniqueCharacters {
 
-    private static class Answer {
-        int maxLength = 0;
-    }
+    int maxLength(List<String> arr);
 
-    public int maxLength(List<String> arr) {
-        int n = arr.size();
+    class MaximumLengthOfConcatenatedStringWithUniqueCharactersRev1 implements MaximumLengthOfConcatenatedStringWithUniqueCharacters {
 
-        // masks[i] represents unique characters we have in arr[i] string
-        Integer[] masks = new Integer[n];
-        for (int i = 0; i < n; i++) {
-            String str = arr.get(i);
-            int mask = 0;
-            boolean allUnique = true;
-            for (char c : str.toCharArray()) {
-                int bitIdx = c - 'a';
-                int charMask = (1 << bitIdx);
-                if ((mask & charMask) != 0) {
-                    // c is a non-unique character in arr[i]
-                    allUnique = false;
-                    break;
-                } else {
-                    mask |= charMask;
+        @Override
+        public int maxLength(List<String> arr) {
+            int n = arr.size();
+
+            // masks[i] represents unique characters in arr[i] string;
+            // masks[i] = -1 denotes that arr[i] string has repeatable characters
+            int[] masks = new int[n];
+            for (int i = 0; i < n; i++) {
+                String s = arr.get(i);;
+                int mask = 0;
+                boolean allUnique = true;
+                for (int k = 0; k < s.length(); k++) {
+                    char c = s.charAt(k);
+                    int bit = c - 'a';
+                    int offset = (1 << bit);
+                    if ((mask & offset) != 0) {
+                        // c is a non-unique character in arr[i]
+                        allUnique = false;
+                        break;
+                    } else {
+                        mask |= offset;
+                    }
                 }
+                masks[i] = allUnique ? mask : -1;
             }
-            masks[i] = allUnique ? mask : null;
+
+            return dfs(arr, 0, 0, masks);
         }
 
-        Answer answer = new Answer();
-        dfs(arr, 0, 0, masks, answer);
-        return answer.maxLength;
-    }
+        private int dfs(List<String> arr, int idx, int mask, int[] masks) {
+            if (idx >= arr.size()) {
+                return Integer.bitCount(mask);
+            }
 
-    private void dfs(List<String> arr, int idx, int mask, Integer[] masks, Answer answer) {
-        if (idx == arr.size()) {
-            answer.maxLength = Math.max(answer.maxLength, Integer.bitCount(mask));
-            return;
-        }
+            int best = 0;
 
-        // case #1: skip arr[idx] string
-        dfs(arr, idx + 1, mask, masks, answer);
+            // option #1: skip arr[idx] string
+            int maxLengthIfSkip = dfs(arr, idx + 1, mask, masks);
+            best = Math.max(best, maxLengthIfSkip);
 
-        // case #2: take arr[idx] string, if it doesn't lead to duplicate characters
-        if (masks[idx] != null && (mask & masks[idx]) == 0) {
-            dfs(arr, idx + 1, mask | masks[idx], masks, answer);
+            // option #2: take arr[idx] string, if it doesn't lead to duplicate characters
+            if (masks[idx] != -1 && (mask & masks[idx]) == 0) {
+                int maxLengthIfTake = dfs(arr, idx + 1, mask | masks[idx], masks);
+                best = Math.max(best, maxLengthIfTake);
+            }
+
+            return best;
         }
     }
 }
