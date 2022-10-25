@@ -1,42 +1,74 @@
 package com.github.dkoval.leetcode.challenge;
 
 /**
- * <a>https://leetcode.com/explore/challenge/card/january-leetcoding-challenge-2021/580/week-2-january-8th-january-14th/3597/</a>
+ * <a href="https://leetcode.com/problems/check-if-two-string-arrays-are-equivalent/">Check If Two String Arrays are Equivalent</a>
  * <p>
  * Given two string arrays word1 and word2, return true if the two arrays represent the same string, and false otherwise.
  * <p>
  * A string is represented by an array if the array elements concatenated in order forms the string.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= word1.length, word2.length <= 10^3</li>
+ *  <li>1 <= word1[i].length, word2[i].length <= 10^3</li>
+ *  <li>1 <= sum(word1[i].length), sum(word2[i].length) <= 10^3</li>
+ *  <li>word1[i] and word2[i] consist of lowercase letters.</li>
  */
-public class CheckIfTwoStringArraysAreEquivalent {
+public interface CheckIfTwoStringArraysAreEquivalent {
 
-    public boolean arrayStringsAreEqual(String[] word1, String[] word2) {
-        StringBuilder sb1 = read(word1), sb2 = read(word2);
-        return equals(sb1, sb2);
+    boolean arrayStringsAreEqual(String[] word1, String[] word2);
+
+    class CheckIfTwoStringArraysAreEquivalentRev1 implements CheckIfTwoStringArraysAreEquivalent {
+
+        @Override
+        public boolean arrayStringsAreEqual(String[] word1, String[] word2) {
+            StringBuilder s1 = new StringBuilder();
+            for (String w1 : word1) {
+                s1.append(w1);
+            }
+
+            StringBuilder s2 = new StringBuilder();
+            for (String w2 : word2) {
+                s2.append(w2);
+            }
+
+            return s1.toString().equals(s2.toString());
+        }
     }
 
-    private StringBuilder read(String[] word) {
-        StringBuilder sb = new StringBuilder();
-        for (String chars : word) {
-            sb.append(chars);
-        }
-        return sb;
-    }
+    class CheckIfTwoStringArraysAreEquivalentRev2 implements CheckIfTwoStringArraysAreEquivalent {
 
-    private boolean equals(StringBuilder sb1, StringBuilder sb2) {
-        if (sb1 == sb2) {
-            return true;
+        @Override
+        public boolean arrayStringsAreEqual(String[] word1, String[] word2) {
+            StringBuilder sb1 = concat(word1);
+            StringBuilder sb2 = concat(word2);
+            return equals(sb1, sb2);
         }
-        if (sb1 == null || sb2 == null) {
-            return false;
+
+        private StringBuilder concat(String[] word) {
+            StringBuilder sb = new StringBuilder();
+            for (String chars : word) {
+                sb.append(chars);
+            }
+            return sb;
         }
-        if (sb1.length() != sb2.length()) {
-            return false;
-        }
-        for (int i = 0; i < sb1.length(); i++) {
-            if (sb1.charAt(i) != sb2.charAt(i)) {
+
+        private boolean equals(StringBuilder sb1, StringBuilder sb2) {
+            if (sb1 == sb2) {
+                return true;
+            }
+            if (sb1 == null || sb2 == null) {
                 return false;
             }
+            if (sb1.length() != sb2.length()) {
+                return false;
+            }
+            for (int i = 0; i < sb1.length(); i++) {
+                if (sb1.charAt(i) != sb2.charAt(i)) {
+                    return false;
+                }
+            }
+            return true;
         }
-        return true;
     }
 }
