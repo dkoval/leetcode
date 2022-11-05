@@ -1,15 +1,20 @@
 package com.github.dkoval.leetcode.interview.recursion
 
+import com.github.dkoval.leetcode.interview.recursion.WordSearch2.WordSearch2UsingTrieAndDFS
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
 
 internal class WordSearch2Test {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 arrayOf(
                     charArrayOf('o', 'a', 'a', 'n'),
@@ -31,10 +36,18 @@ internal class WordSearch2Test {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should return all words on the board`(board: Array<CharArray>, words: Array<String>, expected: List<String>) {
-        val actual = WordSearch2().findWords(board, words)
+    @Nested
+    inner class WordSearch2UsingTrieAndDFSTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return all words on the board`(board: Array<CharArray>, words: Array<String>, expected: List<String>) {
+            WordSearch2UsingTrieAndDFS().test(board, words, expected)
+        }
+    }
+
+    private fun WordSearch2.test(board: Array<CharArray>, words: Array<String>, expected: List<String>) {
+        val actual = findWords(board, words)
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
     }
 }

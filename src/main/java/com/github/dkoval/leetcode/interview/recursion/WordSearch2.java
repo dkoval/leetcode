@@ -6,73 +6,104 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <a href="https://leetcode.com/explore/interview/card/google/62/recursion-4/462/">Word Search II</a>
+ * <a href="https://leetcode.com/problems/word-search-ii/">Word Search II</a>
  * <p>
  * Given an m x n board of characters and a list of strings words, return all words on the board.
  * <p>
  * Each word must be constructed from letters of sequentially adjacent cells,
  * where adjacent cells are horizontally or vertically neighboring.
  * The same letter cell may not be used more than once in a word.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>m == board.length</li>
+ *  <li>n == board[i].length</li>
+ *  <li>1 <= m, n <= 12</li>
+ *  <li>board[i][j] is a lowercase English letter.</li>
+ *  <li>1 <= words.length <= 3 * 10^4</li>
+ *  <li>1 <= words[i].length <= 10</li>
+ *  <li>words[i] consists of lowercase English letters.</li>
+ *  <li>All the strings of words are unique.</li>
+ * </ul>
  */
-public class WordSearch2 {
+public interface WordSearch2 {
 
-    private static class TrieNode {
-        Map<Character, TrieNode> children = new HashMap<>();
-        boolean isWord;
-    }
+    List<String> findWords(char[][] board, String[] words);
 
-    public List<String> findWords(char[][] board, String[] words) {
-        TrieNode root = buildTrieNode(words);
-        List<String> result = new ArrayList<>();
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
-                dfs(board, i, j, root, "", result);
+    class WordSearch2UsingTrieAndDFS implements WordSearch2 {
+
+        private static final int[][] DIRS = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+
+        public List<String> findWords(char[][] board, String[] words) {
+            int m = board.length;
+            int n = board[0].length;
+
+            Trie trie = new Trie(words);
+            List<String> ans = new ArrayList<>();
+            for (int row = 0; row < m; row++) {
+                for (int col = 0; col < n; col++) {
+                    dfs(board, row, col, trie.root, new StringBuilder(), ans);
+                }
+            }
+            return ans;
+        }
+
+        private void dfs(char[][] board, int row, int col, Trie.Node node, StringBuilder prefix, List<String> ans) {
+            char c = board[row][col];
+            if (!node.branches.containsKey(c)) {
+                // invalid branch
+                return;
+            }
+
+            Trie.Node nextNode = node.branches.get(c);
+            prefix.append(c);
+
+            if (nextNode.isWord) {
+                ans.add(prefix.toString());
+                nextNode.isWord = false; // to avoid adding duplicates to the result
+            }
+
+            // DFS
+            int m = board.length;
+            int n = board[0].length;
+
+            // mark the current cell as visited
+            board[row][col] = '#';
+
+            // explore adjacent cells
+            for (int[] d : DIRS) {
+                int nextRow = row + d[0];
+                int nextCol = col + d[1];
+
+                if (0 <= nextRow && nextRow < m && 0 <= nextCol && nextCol < n && board[nextRow][nextCol] != '#') {
+                    dfs(board, nextRow, nextCol, nextNode, prefix, ans);
+                }
+            }
+
+            // backtrack
+            prefix.deleteCharAt(prefix.length() - 1);
+            board[row][col] = c;
+        }
+
+        private static class Trie {
+
+            final Node root = new Node();
+
+            Trie(String[] words) {
+                for (String word : words) {
+                    Node curr = root;
+                    for (int i = 0; i < word.length(); i++) {
+                        char c = word.charAt(i);
+                        curr = curr.branches.computeIfAbsent(c, __ -> new Node());
+                    }
+                    curr.isWord = true;
+                }
+            }
+
+            static class Node {
+                final Map<Character, Node> branches = new HashMap<>();
+                boolean isWord;
             }
         }
-        return result;
-    }
-
-    private TrieNode buildTrieNode(String[] words) {
-        TrieNode root = new TrieNode();
-        for (String word : words) {
-            TrieNode curr = root;
-            for (char c : word.toCharArray()) {
-                curr = curr.children.computeIfAbsent(c, key -> new TrieNode());
-            }
-            curr.isWord = true;
-        }
-        return root;
-    }
-
-    private void dfs(char[][] board, int i, int j, TrieNode root, String prefix, List<String> result) {
-        // boundary check
-        if (i < 0 || i >= board.length || j < 0 || j >= board[0].length) {
-            return;
-        }
-
-        // is cell already visited?
-        char c = board[i][j];
-        if (c == '#') {
-            return;
-        }
-
-        TrieNode newRoot = root.children.get(c);
-        if (newRoot == null) {
-            // stop backtracking immediately
-            return;
-        }
-
-        String newPrefix = prefix + c;
-        if (newRoot.isWord) {
-            result.add(newPrefix);
-            newRoot.isWord = false; // to prevent including duplicates in the result
-        }
-
-        board[i][j] = '#'; // mark cell as visited
-        dfs(board, i, j + 1, newRoot, newPrefix, result); // go left
-        dfs(board, i + 1, j, newRoot, newPrefix, result); // go down
-        dfs(board, i, j - 1, newRoot, newPrefix, result); // go right
-        dfs(board, i - 1, j, newRoot, newPrefix, result); // go up
-        board[i][j] = c; // restore original letter
     }
 }
