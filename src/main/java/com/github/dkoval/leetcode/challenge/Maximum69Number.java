@@ -17,6 +17,7 @@ public interface Maximum69Number {
 
     int maximum69Number (int num);
 
+    // O(N) time | O(N) space, where N is the number of digits
     class Maximum69NumberRev1 implements Maximum69Number {
 
         @Override
