@@ -39,13 +39,13 @@ public interface MakeStringGreat {
             Deque<Character> stack = new ArrayDeque<>();
             stack.push(s.charAt(0));
             for (int i = 1; i < n; i++) {
-                char c2 = s.charAt(i);
+                char c = s.charAt(i);
                 if (!stack.isEmpty() &&
-                        (Character.isUpperCase(c2) && stack.peek() == Character.toLowerCase(c2) ||
-                                Character.isLowerCase(c2) && stack.peek() == Character.toUpperCase(c2))) {
+                        (Character.isUpperCase(c) && stack.peek() == Character.toLowerCase(c) ||
+                                Character.isLowerCase(c) && stack.peek() == Character.toUpperCase(c))) {
                     stack.pop();
                 } else {
-                    stack.push(c2);
+                    stack.push(c);
                 }
             }
 
