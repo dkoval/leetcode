@@ -31,7 +31,7 @@ class StockSpanner {
     fun next(price: Int): Int {
         // find the price on the stack which is strictly greater than current day's price
         while (!stack.isEmpty() && stack.peek().price <= price) {
-            stack.pop();
+            stack.pop()
         }
 
         val span = if (stack.isEmpty()) day + 1 else day - stack.peek().day
