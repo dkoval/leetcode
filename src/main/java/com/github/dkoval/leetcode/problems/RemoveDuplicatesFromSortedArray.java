@@ -49,4 +49,24 @@ public interface RemoveDuplicatesFromSortedArray {
             return writeIdx;
         }
     }
+
+    class RemoveDuplicatesFromSortedArrayRev2 implements RemoveDuplicatesFromSortedArray {
+
+        @Override
+        public int removeDuplicates(int[] nums) {
+            int n = nums.length;
+
+            int writeIdx = 1;
+            for (int i = 1; i < n; i++) {
+                // ignore duplicates
+                if (nums[i] == nums[writeIdx - 1]) {
+                    continue;
+                }
+
+                nums[writeIdx] = nums[i];
+                writeIdx++;
+            }
+            return writeIdx;
+        }
+    }
 }

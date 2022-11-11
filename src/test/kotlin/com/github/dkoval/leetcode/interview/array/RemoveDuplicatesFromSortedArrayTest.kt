@@ -2,6 +2,7 @@ package com.github.dkoval.leetcode.interview.array
 
 import com.github.dkoval.leetcode.problems.RemoveDuplicatesFromSortedArray
 import com.github.dkoval.leetcode.problems.RemoveDuplicatesFromSortedArray.RemoveDuplicatesFromSortedArrayRev1
+import com.github.dkoval.leetcode.problems.RemoveDuplicatesFromSortedArray.RemoveDuplicatesFromSortedArrayRev2
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -47,6 +48,20 @@ internal class RemoveDuplicatesFromSortedArrayTest {
             expectedLength: Int
         ) {
             RemoveDuplicatesFromSortedArrayRev1().test(nums, expectedNums, expectedLength)
+        }
+    }
+
+    @Nested
+    inner class RemoveDuplicatesFromSortedArrayRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should remove duplicated from a sorted array and return the new length`(
+            nums: IntArray,
+            expectedNums: IntArray,
+            expectedLength: Int
+        ) {
+            RemoveDuplicatesFromSortedArrayRev2().test(nums, expectedNums, expectedLength)
         }
     }
 
