@@ -17,7 +17,8 @@ internal class ReverseWordsInStringTest {
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of("the sky is blue", "blue is sky the"),
             Arguments.of("  hello world!  ", "world! hello"),
-            Arguments.of("a good   example", "example good a")
+            Arguments.of("a good   example", "example good a"),
+            Arguments.of("a", "a")
         )
     }
 
