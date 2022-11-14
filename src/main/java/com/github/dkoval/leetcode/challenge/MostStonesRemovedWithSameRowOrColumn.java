@@ -3,7 +3,7 @@ package com.github.dkoval.leetcode.challenge;
 import java.util.*;
 
 /**
- * <a href="https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/">Most Stones Removed with Same Row or Column</a>
+ * <a href="https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/"> </a>
  * <p>
  * On a 2D plane, we place n stones at some integer coordinate points. Each coordinate point may have at most one stone.
  * <p>
@@ -58,7 +58,6 @@ public interface MostStonesRemovedWithSameRowOrColumn {
             int count = 0;
             for (int v : graph.getOrDefault(u, Collections.emptyList())) {
                 if (!visited.contains(v)) {
-                    visited.add(v);
                     // remove v and proceed further
                     count += dfs(graph, v, visited) + 1;
                 }
