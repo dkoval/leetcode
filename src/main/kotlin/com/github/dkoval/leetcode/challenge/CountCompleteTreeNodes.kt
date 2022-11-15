@@ -25,10 +25,12 @@ object CountCompleteTreeNodes {
             return 0
         }
 
+        // check if a given tree is a full binary tree
         val lh = height(root) { it.left }
         val rh = height(root) { it.right }
         if (lh == rh) {
-            return (1 shl lh) - 1 // 2^h - 1
+            // the number of nodes in a full binary tree = 2^h - 1
+            return (1 shl lh) - 1
         }
 
         // recursively call countNodes() on smaller trees
