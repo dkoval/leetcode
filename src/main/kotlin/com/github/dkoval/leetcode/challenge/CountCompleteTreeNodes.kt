@@ -19,7 +19,9 @@ import com.github.dkoval.leetcode.TreeNode
  */
 object CountCompleteTreeNodes {
 
-    // Resource: https://www.youtube.com/watch?v=i_r2uKbwHCU
+    // Resources: 
+    // https://www.youtube.com/watch?v=i_r2uKbwHCU
+    // https://www.youtube.com/watch?v=4wPlA_InnGY
     fun countNodes(root: TreeNode?): Int {
         if (root == null) {
             return 0
