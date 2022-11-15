@@ -19,9 +19,14 @@ import com.github.dkoval.leetcode.TreeNode
  */
 object CountCompleteTreeNodes {
 
-    // Resources: 
+    // Resources:
     // https://www.youtube.com/watch?v=i_r2uKbwHCU
     // https://www.youtube.com/watch?v=4wPlA_InnGY
+    //
+    // Complexity analysis:
+    // It takes logN time to calculate the height of a tree. We calculate heights at most H = logN times.
+    // Therefore, in total it takes O(H * logN) = O(logN * logN) time.
+    // O(H) = O(logN) space is required for the call stack.
     fun countNodes(root: TreeNode?): Int {
         if (root == null) {
             return 0
