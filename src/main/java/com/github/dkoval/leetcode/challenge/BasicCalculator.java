@@ -1,9 +1,10 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/september-leetcoding-challenge-2021/637/week-2-september-8th-september-14th/3971/">Basic Calculator</a>
+ * <a href="https://leetcode.com/problems/basic-calculator/">Basic Calculator</a>
  * <p>
  * Given a string s representing a valid expression, implement a basic calculator to evaluate it,
  * and return the result of the evaluation.
@@ -26,23 +27,25 @@ public class BasicCalculator {
     // O(N) time | O(N) space
     public int calculate(String s) {
         int n = s.length();
-        int x = 0;
+
+        int ans = 0;
         int sign = 1;
-        int answer = 0;
-        Stack<Integer> stack = new Stack<>();
+        // The stack is used for storing `ans` and `sign` before starting the evaluation of an inner expression
+        Deque<Integer> stack = new ArrayDeque<>();
 
         int i = 0;
         while (i < n) {
-            if (Character.isDigit(s.charAt(i))) {
+            char c = s.charAt(i);
+            if (Character.isDigit(c)) {
                 // check if there are more digits to the right of i
+                int x = 0;
                 while (i < n && Character.isDigit(s.charAt(i))) {
                     x *= 10;
                     x += s.charAt(i) - '0';
                     i++;
                 }
-                answer += x * sign;
+                ans += x * sign;
                 // prepare for the next iteration
-                x = 0;
                 sign = 1;
                 i--;
             } else if (s.charAt(i) == '+') {
@@ -50,21 +53,19 @@ public class BasicCalculator {
             } else if (s.charAt(i) == '-') {
                 sign = -1;
             } else if (s.charAt(i) == '(') {
-                // start evaluating inner expression
-                stack.push(answer);
+                // start evaluating an inner expression
+                stack.push(ans);
                 stack.push(sign);
-                // prepare for the next iteration
-                answer = 0;
+                // from now on, `ans` variable will be accumulating the result of the last inner expression
+                ans = 0;
                 sign = 1;
             } else if (s.charAt(i) == ')') {
-                // complete evaluating inner expression
-                int storedSign = stack.pop();
-                answer *= storedSign;
-                int storedAnswer = stack.pop();
-                answer += storedAnswer;
+                // complete evaluating the last inner expression
+                ans *= stack.pop(); // handle the sign of the inner expression, i.e. ± (expr)
+                ans += stack.pop(); // add in the result computed so far
             }
             i++;
         }
-        return answer;
+        return ans;
     }
 }
