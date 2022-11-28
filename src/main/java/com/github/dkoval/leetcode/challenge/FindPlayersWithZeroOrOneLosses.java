@@ -81,10 +81,10 @@ public interface FindPlayersWithZeroOrOneLosses {
                 losses.putIfAbsent(winner, 0);
             }
 
-            List<List<Integer>> ans = Arrays.asList(new ArrayList<>(), new ArrayList<>());
-
             List<Integer> players = new ArrayList<>(losses.keySet());
             Collections.sort(players);
+
+            List<List<Integer>> ans = Arrays.asList(new ArrayList<>(), new ArrayList<>());
             for (int player : players) {
                 int x = losses.get(player);
                 if (x == 0) {
