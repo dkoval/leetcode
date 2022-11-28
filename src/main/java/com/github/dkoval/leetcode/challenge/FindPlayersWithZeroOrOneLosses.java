@@ -65,4 +65,35 @@ public interface FindPlayersWithZeroOrOneLosses {
             return Arrays.asList(absoluteWinners, lostExactlyOne);
         }
     }
+
+    // O(N*logN) time | O(N) space
+    class FindPlayersWithZeroOrOneLossesRev2 implements FindPlayersWithZeroOrOneLosses {
+
+        @Override
+        public List<List<Integer>> findWinners(int[][] matches) {
+            // loser -> number of lost matches
+            Map<Integer, Integer> losses = new HashMap<>();
+            for (int[] match : matches) {
+                int winner = match[0];
+                int loser = match[1];
+
+                losses.put(loser, losses.getOrDefault(loser, 0) + 1);
+                losses.putIfAbsent(winner, 0);
+            }
+
+            List<List<Integer>> ans = Arrays.asList(new ArrayList<>(), new ArrayList<>());
+
+            List<Integer> players = new ArrayList<>(losses.keySet());
+            Collections.sort(players);
+            for (int player : players) {
+                int x = losses.get(player);
+                if (x == 0) {
+                    ans.get(0).add(player);
+                } else if (x == 1) {
+                    ans.get(1).add(player);
+                }
+            }
+            return ans;
+        }
+    }
 }
