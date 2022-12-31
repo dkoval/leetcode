@@ -1,15 +1,19 @@
 package com.github.dkoval.leetcode.challenge
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
 
 internal class UniquePaths3Test {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 arrayOf(
                     intArrayOf(1, 0, 0, 0),
@@ -46,13 +50,34 @@ internal class UniquePaths3Test {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should return the number walks from the starting square to the ending square, that walk over every non-obstacle square exactly once`(
-        grid: Array<IntArray>,
-        expected: Int
-    ) {
-        val actual = UniquePaths3.uniquePathsIII(grid)
+    @Nested
+    inner class UniquePaths3Rev1Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number walks from the starting square to the ending square, that walk over every non-obstacle square exactly once`(
+            grid: Array<IntArray>,
+            expected: Int
+        ) {
+            UniquePaths3Rev1.test(grid, expected)
+        }
+    }
+
+    @Nested
+    inner class UniUniquePaths3Rev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number walks from the starting square to the ending square, that walk over every non-obstacle square exactly once`(
+            grid: Array<IntArray>,
+            expected: Int
+        ) {
+            UniquePaths3Rev2.test(grid, expected)
+        }
+    }
+
+    private fun UniquePaths3.test(grid: Array<IntArray>, expected: Int) {
+        val actual = uniquePathsIII(grid)
         assertEquals(expected, actual)
     }
 }

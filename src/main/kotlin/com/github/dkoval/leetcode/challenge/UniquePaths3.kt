@@ -19,12 +19,16 @@ package com.github.dkoval.leetcode.challenge
  * - ```1 <= m * n <= 20```
  * - ```-1 <= grid[i][j] <= 2```
  */
-object UniquePaths3 {
+interface UniquePaths3 {
+    fun uniquePathsIII(grid: Array<IntArray>): Int
+}
+
+object UniquePaths3Rev1 : UniquePaths3 {
     // (drow, dcol) - up, down, left and right
     private val directions = listOf(-1 to 0, 1 to 0, 0 to -1, 0 to 1)
 
     // Resource: https://www.youtube.com/watch?v=XNKCkX_tHhM
-    fun uniquePathsIII(grid: Array<IntArray>): Int {
+    override fun uniquePathsIII(grid: Array<IntArray>): Int {
         // there is exactly one starting square (== 1) in the grid
         var startRow = -1
         var startCol = -1
@@ -75,6 +79,65 @@ object UniquePaths3 {
 
         // backtrack to explore all remaining possible paths
         grid[row][col] = 0
+        return numPaths
+    }
+}
+
+object UniquePaths3Rev2 : UniquePaths3 {
+    // (drow, dcol) - up, down, left and right
+    private val directions = listOf(-1 to 0, 1 to 0, 0 to -1, 0 to 1)
+
+    private data class Square(val row: Int, val col: Int)
+
+    override fun uniquePathsIII(grid: Array<IntArray>): Int {
+        // there is exactly one starting square (== 1) in the grid
+        var startRow = -1
+        var startCol = -1
+        // the number of empty squares (== 0) that need to be walked over;
+        // starting (== 1) and ending (== 2) squares are also considered empty
+        var numEmpty = 2
+        for (row in grid.indices) {
+            for (col in grid[0].indices) {
+                when (grid[row][col]) {
+                    0 -> numEmpty++
+                    1 -> {
+                        startRow = row
+                        startCol = col
+                    }
+                }
+            }
+        }
+
+        val seen = mutableSetOf<Square>().apply { this += Square(startRow, startCol) }
+        return dfs(grid, startRow, startCol, numEmpty, seen)
+    }
+
+    private fun dfs(grid: Array<IntArray>, row: Int, col: Int, numEmpty: Int, seen: MutableSet<Square>): Int {
+        // base case - reached the ending state
+        if (grid[row][col] == 2) {
+            return if (seen.size == numEmpty) 1 else 0
+        }
+
+        var numPaths = 0
+        for ((drow, dcol) in directions) {
+            val nextRow = row + drow
+            val nextCol = col + dcol
+
+            // make sure (nextRow, nextCol) is in bounds and not an obstacle
+            if (nextRow !in grid.indices || nextCol !in grid[0].indices || grid[nextRow][nextCol] == -1) {
+                continue
+            }
+
+            // already seen?
+            val next = Square(nextRow, nextCol)
+            if (next in seen) {
+                continue
+            }
+
+            seen += next // add (nextRow, nextCol) to the current path
+            numPaths += dfs(grid, nextRow, nextCol, numEmpty, seen)
+            seen -= next // backtrack to check other possibilities
+        }
         return numPaths
     }
 }
