@@ -18,7 +18,7 @@ public abstract class BalancedBinaryTreeJava {
     public static class BalancedBinaryTreeNaiveJava extends BalancedBinaryTreeJava {
 
         // Resource: https://leetcode.com/problems/balanced-binary-tree/solution/
-        // Time complexity: O(NlogN).
+        // Time complexity: O(N^2).
         // Space complexity: O(N). The recursion stack may contain all nodes if the tree is skewed.
         @Override
         public boolean isBalanced(TreeNode root) {
