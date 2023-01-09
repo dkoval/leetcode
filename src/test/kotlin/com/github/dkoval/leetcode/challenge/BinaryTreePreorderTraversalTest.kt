@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.TreeNode
+import com.github.dkoval.leetcode.challenge.BinaryTreePreorderTraversal.BinaryTreePreorderTraversalIterative
 import com.github.dkoval.leetcode.challenge.BinaryTreePreorderTraversal.BinaryTreePreorderTraversalRecursive
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -42,6 +43,16 @@ internal class BinaryTreePreorderTraversalTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the preorder traversal of its nodes' values`(root: TreeNode?, expected: List<Int>) {
             BinaryTreePreorderTraversalRecursive().test(root, expected)
+        }
+    }
+
+    @Nested
+    inner class BinaryTreePreorderTraversalIterativeTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the preorder traversal of its nodes' values`(root: TreeNode?, expected: List<Int>) {
+            BinaryTreePreorderTraversalIterative().test(root, expected)
         }
     }
 

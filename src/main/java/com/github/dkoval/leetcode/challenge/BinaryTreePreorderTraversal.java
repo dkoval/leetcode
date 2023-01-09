@@ -2,8 +2,7 @@ package com.github.dkoval.leetcode.challenge;
 
 import com.github.dkoval.leetcode.TreeNode;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * <a href="https://leetcode.com/problems/binary-tree-preorder-traversal/">Binary Tree Preorder Traversal</a>
@@ -38,6 +37,31 @@ public interface BinaryTreePreorderTraversal {
             ans.add(root.val);
             preorder(root.left, ans);
             preorder(root.right, ans);
+        }
+    }
+
+    class BinaryTreePreorderTraversalIterative implements BinaryTreePreorderTraversal {
+
+        @Override
+        public List<Integer> preorderTraversal(TreeNode root) {
+            if (root == null) {
+                return Collections.emptyList();
+            }
+
+            List<Integer> ans = new ArrayList<>();
+            Deque<TreeNode> stack = new ArrayDeque<>();
+            stack.push(root);
+            while (!stack.isEmpty()) {
+                TreeNode curr = stack.pop();
+                ans.add(curr.val);
+                if (curr.right != null) {
+                    stack.push(curr.right);
+                }
+                if (curr.left != null) {
+                    stack.push(curr.left);
+                }
+            }
+            return ans;
         }
     }
 }
