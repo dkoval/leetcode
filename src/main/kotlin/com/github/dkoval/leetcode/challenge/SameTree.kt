@@ -4,18 +4,23 @@ import com.github.dkoval.leetcode.TreeNode
 import java.util.*
 
 /**
- * [Same Tree](https://leetcode.com/explore/challenge/card/july-leetcoding-challenge/545/week-2-july-8th-july-14th/3389/)
+ * [Same Tree](https://leetcode.com/problems/same-tree/)
  *
  * Given two binary trees, write a function to check if they are the same or not.
  *
  * Two binary trees are considered the same if they are structurally identical and the nodes have the same value.
+ *
+ * Constraints:
+ *
+ * - The number of nodes in both trees is in the range ```[0, 100]```.
+ * - -10^4 <= Node.val <= 10^4
  */
 interface SameTree {
 
     fun isSameTree(p: TreeNode?, q: TreeNode?): Boolean
 }
 
-object SameTreeRecursive: SameTree {
+object SameTreeRecursive : SameTree {
 
     override fun isSameTree(p: TreeNode?, q: TreeNode?): Boolean {
         if (p == null && q == null) return true
@@ -26,7 +31,7 @@ object SameTreeRecursive: SameTree {
     }
 }
 
-object SameTreeIter: SameTree {
+object SameTreeIter : SameTree {
 
     override fun isSameTree(p: TreeNode?, q: TreeNode?): Boolean {
         if (!p.sameAs(q)) return false
