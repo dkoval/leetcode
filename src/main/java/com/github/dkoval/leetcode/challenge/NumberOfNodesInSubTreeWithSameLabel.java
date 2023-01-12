@@ -31,6 +31,7 @@ public interface NumberOfNodesInSubTreeWithSameLabel {
 
     int[] countSubTrees(int n, int[][] edges, String labels);
 
+    // O(N) time | O(N) space
     class NumberOfNodesInSubTreeWithSameLabelRev1 implements NumberOfNodesInSubTreeWithSameLabel {
 
         @Override
@@ -52,11 +53,12 @@ public interface NumberOfNodesInSubTreeWithSameLabel {
         }
 
         private int[] dfs(List<Integer>[] graph, String labels, int node, int parent, int[] ans) {
-            int[] currFreq = new int[26];
+            // frequencies of labels ('a' - 'z') found in the subtrees of the current node
+            int[] nodeFreq = new int[26];
 
             // include the current node
             int idx = labels.charAt(node) - 'a';
-            currFreq[idx]++;
+            nodeFreq[idx] = 1;
 
             // traverse subtrees of the current node
             for (int child : graph[node]) {
@@ -67,13 +69,13 @@ public interface NumberOfNodesInSubTreeWithSameLabel {
                 // merge frequencies
                 int[] childFreq = dfs(graph, labels, child, node, ans);
                 for (int i = 0; i < 26; i++) {
-                    currFreq[i] += childFreq[i];
+                    nodeFreq[i] += childFreq[i];
                 }
             }
 
             // update the global ans
-            ans[node] = currFreq[idx];
-            return currFreq;
+            ans[node] = nodeFreq[idx];
+            return nodeFreq;
         }
     }
 }
