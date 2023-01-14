@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.LongestIncreasingSubsequence.LongestIncreasingSubsequenceDpBottomUp
+import com.github.dkoval.leetcode.challenge.LongestIncreasingSubsequence.LongestIncreasingSubsequenceDpBottomUpRev1
+import com.github.dkoval.leetcode.challenge.LongestIncreasingSubsequence.LongestIncreasingSubsequenceDpBottomUpRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -31,12 +32,22 @@ internal class LongestIncreasingSubsequenceTest {
     }
 
     @Nested
-    inner class LongestIncreasingSubsequenceDpBottomUpTest {
+    inner class LongestIncreasingSubsequenceDpBottomUpRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the length of the longest strictly increasing subsequence`(nums: IntArray, expected: Int) {
-            LongestIncreasingSubsequenceDpBottomUp().test(nums, expected)
+            LongestIncreasingSubsequenceDpBottomUpRev1().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class LongestIncreasingSubsequenceDpBottomUpRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the length of the longest strictly increasing subsequence`(nums: IntArray, expected: Int) {
+            LongestIncreasingSubsequenceDpBottomUpRev2().test(nums, expected)
         }
     }
 
