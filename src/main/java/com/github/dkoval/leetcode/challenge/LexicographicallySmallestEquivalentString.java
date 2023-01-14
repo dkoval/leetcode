@@ -79,4 +79,53 @@ public interface LexicographicallySmallestEquivalentString {
             return best;
         }
     }
+
+    class LexicographicallySmallestEquivalentStringRev2 implements LexicographicallySmallestEquivalentString {
+
+        @Override
+        public String smallestEquivalentString(String s1, String s2, String baseStr) {
+            int n = s1.length();
+            Map<Character, SortedSet<Character>> graph = new HashMap<>();
+            for (int i = 0; i < n; i++) {
+                char c1 = s1.charAt(i);
+                char c2 = s2.charAt(i);
+
+                // merge existing equivalence classes
+                if (graph.containsKey(c1) && graph.containsKey(c2)) {
+                    SortedSet<Character> group1 = graph.get(c1);
+                    SortedSet<Character> group2 = graph.get(c2);
+                    SortedSet<Character> smaller = group1.size() < group2.size() ? group1 : group2;
+
+                    // merge & update mapping
+                    group1.addAll(group2);
+                    for (char c : smaller) {
+                        graph.put(c, group1);
+                    }
+                }
+
+                // form equivalence classes
+                if (graph.containsKey(c1)) {
+                    SortedSet<Character> group = graph.get(c1);
+                    group.add(c2);
+                    graph.put(c2, group);
+                } else if (graph.containsKey(c2)) {
+                    SortedSet<Character> group = graph.get(c2);
+                    group.add(c1);
+                    graph.put(c1, group);
+                } else {
+                    SortedSet<Character> group = new TreeSet<>(Arrays.asList(c1, c2));
+                    graph.put(c1, group);
+                    graph.put(c2, group);
+                }
+            }
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < baseStr.length(); i++) {
+                char c = baseStr.charAt(i);
+                char x = graph.containsKey(c) ? graph.get(c).iterator().next() : c;
+                sb.append(x);
+            }
+            return sb.toString();
+        }
+    }
 }
