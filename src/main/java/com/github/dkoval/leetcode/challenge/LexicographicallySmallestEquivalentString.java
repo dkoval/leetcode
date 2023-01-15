@@ -94,10 +94,10 @@ public interface LexicographicallySmallestEquivalentString {
                 if (graph.containsKey(c1) && graph.containsKey(c2)) {
                     SortedSet<Character> group1 = graph.get(c1);
                     SortedSet<Character> group2 = graph.get(c2);
-                    SortedSet<Character> smaller = group1.size() <= group2.size() ? group1 : group2;
-                    SortedSet<Character> larger = group1.size() > group2.size() ? group1 : group2;
 
                     // merge & update mapping
+                    SortedSet<Character> smaller = group1.size() <= group2.size() ? group1 : group2;
+                    SortedSet<Character> larger = group1.size() > group2.size() ? group1 : group2;
                     larger.addAll(smaller);
                     for (char c : smaller) {
                         graph.put(c, larger);
