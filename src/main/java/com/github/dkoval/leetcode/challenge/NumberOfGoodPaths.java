@@ -71,11 +71,12 @@ public interface NumberOfGoodPaths {
                 }
 
                 // for each disjoint set, how many `val`s does it contain?
-                // if a disjoint set had k `val`s, the number of good paths we could make is
-                // (note that a single node is also considered as a valid path):
+                // each disjoint set is identified by its root parent
+                Map<Integer, Integer> counts = new HashMap<>();
+                // if a disjoint set had k `val`s, the number of good paths we could make is:
+                // (note that a single node is also considered as a valid path)
                 // 1 + 2 + 3 + ... + k
                 // i.e. every new added node with value `val`, creates (count + 1) new paths
-                Map<Integer, Integer> counts = new HashMap<>();
                 for (int u : nodes) {
                     // root parent
                     int pu = uf.find(u);
