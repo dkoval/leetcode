@@ -98,7 +98,7 @@ public interface LexicographicallySmallestEquivalentString {
                     SortedSet<Character> larger = group1.size() > group2.size() ? group1 : group2;
 
                     // merge & update mapping
-                    group1.addAll(group2);
+                    larger.addAll(smaller);
                     for (char c : smaller) {
                         graph.put(c, larger);
                     }
