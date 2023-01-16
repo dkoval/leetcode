@@ -44,21 +44,10 @@ public interface DiameterOfBinaryTree {
 
     class DiameterOfBinaryTreeRecursiveOptimized implements DiameterOfBinaryTree {
 
-        private static class TreeInfo {
-            // The diameter of the bin tree, considering the current node as the root
-            final int diameter;
-            // The height of the bin tree (in number of nodes) at the current node, going bottom-up in the tree
-            final int height;
-
-            TreeInfo(int diameter, int height) {
-                this.diameter = diameter;
-                this.height = height;
-            }
-        }
-
         @Override
         public int diameterOfBinaryTree(TreeNode root) {
-            return dfs(root).diameter;
+            // "... The length of a path between two nodes is represented by the number of edges between them."
+            return dfs(root).diameter - 1;
         }
 
         private TreeInfo dfs(TreeNode root) {
@@ -72,11 +61,23 @@ public interface DiameterOfBinaryTree {
             // option #1: path doesn't pass through the root node
             int diameter = Math.max(left.diameter, right.diameter);
             // option #2: path passes through the root node
-            diameter = Math.max(diameter, left.height + right.height); // longest path through the root
+            diameter = Math.max(diameter, 1 + left.height + right.height); // longest path through the root
 
-            // now, compute the height of the root node
+            // now, compute the height of the tree
             int height = 1 + Math.max(left.height, right.height);
             return new TreeInfo(diameter, height);
+        }
+
+        private static class TreeInfo {
+            // The diameter of the bin tree (in number of nodes)
+            final int diameter;
+            // The height of the bin tree (in number of nodes)
+            final int height;
+
+            TreeInfo(int diameter, int height) {
+                this.diameter = diameter;
+                this.height = height;
+            }
         }
     }
 }
