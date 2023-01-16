@@ -1,17 +1,10 @@
 package com.github.dkoval.leetcode.challenge
 
-/**
- * [Insert Interval](https://leetcode.com/explore/challenge/card/september-leetcoding-challenge/555/week-2-september-8th-september-14th/3458/)
- *
- * Given a set of non-overlapping intervals, insert a new interval into the intervals (merge if necessary).
- *
- * You may assume that the intervals were initially sorted according to their start times.
- */
-object InsertInterval {
+object InsertIntervalRev2 : InsertInterval {
 
     // Time complexity: O(N), space complexity: O(1)
-    // Resource: https://www.youtube.com/watch?v=FuLfL_WhUHI&t=1s
-    fun insert(intervals: Array<IntArray>, newInterval: IntArray): Array<IntArray> {
+    // Resource: https://www.youtube.com/watch?v=FuLfL_WhUHI
+    override fun insert(intervals: Array<IntArray>, newInterval: IntArray): Array<IntArray> {
         val result = mutableListOf<IntArray>()
         var i = 0
         // include intervals that occur before `newInterval`
