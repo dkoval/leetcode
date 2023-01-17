@@ -26,13 +26,15 @@ public interface FlipStringToMonotoneIncreasing {
         @Override
         public int minFlipsMonoIncr(String s) {
             int n = s.length();
+
+            // prefixSum[i] - sum of first i digits of s
             int[] prefixSum = new int[n + 1];
-            for (int i = 0; i < n; i++) {
-                prefixSum[i + 1] = prefixSum[i] + (s.charAt(i) - '0');
+            for (int i = 1; i <= n; i++) {
+                prefixSum[i] = prefixSum[i - 1] + (s.charAt(i - 1) - '0');
             }
 
             // Target string s' consists of two parts: left - X number of 0's and right - (N - X) number of 1's
-            int result = Integer.MAX_VALUE;
+            int best = Integer.MAX_VALUE;
             for (int i = 0; i <= n; i++) {
                 // Number of 1's in the left half s[0 : i - 1] to flip 1 -> 0
                 int numOnesLeft = prefixSum[i];
@@ -42,9 +44,9 @@ public interface FlipStringToMonotoneIncreasing {
                 int numZerosRight = n - i - numOnesRight;
 
                 // Check if a better result was found
-                result = Math.min(result, numOnesLeft + numZerosRight);
+                best = Math.min(best, numOnesLeft + numZerosRight);
             }
-            return result;
+            return best;
         }
     }
 
@@ -67,7 +69,7 @@ public interface FlipStringToMonotoneIncreasing {
             // Target string s' consists of X number of 0's followed by (N - X) number of 1's
             // s' = 00...011...1
             // To start with, turn all 1 -> 0 in s to achieve s' = 00...0, then see if we can improve the result.
-            int result = numOneFlips;
+            int best = numOneFlips;
             for (int i = n - 1; i >= 0; i--) {
                 if (s.charAt(i) == '0') {
                     numZeroFlips++;
@@ -75,9 +77,9 @@ public interface FlipStringToMonotoneIncreasing {
                     // flip 1 -> 0 is not required
                     numOneFlips--;
                 }
-                result = Math.min(result, numZeroFlips + numOneFlips);
+                best = Math.min(best, numZeroFlips + numOneFlips);
             }
-            return result;
+            return best;
         }
     }
 }
