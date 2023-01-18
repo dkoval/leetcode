@@ -22,6 +22,7 @@ import kotlin.math.min
 object MaximumSumCircularSubarray {
 
     // Resource: https://www.youtube.com/watch?v=fxT9KjakYPM
+    // O(N) time | O(1) space
     fun maxSubarraySumCircular(A: IntArray): Int {
         var total = 0
         var currMaxSum = 0
