@@ -21,6 +21,9 @@ public interface PalindromePartitioning {
 
     List<List<String>> partition(String s);
 
+    // len(s) <= 16, meaning that there are at most 16 "spaces" to put a delimiter at.
+    // There can be 15, 14, ..., 1 delimiters in total, resulting in
+    // C(15, 15) + C(15, 14) + ... + C(15, 1) = 2^15 number of possibilities.
     class PalindromePartitioningRev1 implements PalindromePartitioning {
 
         @Override
