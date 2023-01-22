@@ -4,47 +4,59 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/december-leetcoding-challenge/570/week-2-december-8th-december-14th/3565/">Palindrome Partitioning</a>
+ * <a href="https://leetcode.com/problems/palindrome-partitioning/">Palindrome Partitioning</a>
  * <p>
  * Given a string s, partition s such that every substring of the partition is a palindrome.
  * Return all possible palindrome partitioning of s.
  * <p>
  * A palindrome string is a string that reads the same backward as forward.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= s.length <= 16</li>
+ *  <li>s contains only lowercase English letters.</li>
+ * </ul>
  */
-public class PalindromePartitioning {
+public interface PalindromePartitioning {
 
-    public List<List<String>> partition(String s) {
-        List<List<String>> result = new ArrayList<>();
-        doPartition(s, 0, new ArrayList<>(), result);
-        return result;
-    }
+    List<List<String>> partition(String s);
 
-    private void doPartition(String s, int start, List<String> partition, List<List<String>> result) {
-        // base case
-        if (start == s.length()) {
-            result.add(new ArrayList<>(partition));
-            return;
+    class PalindromePartitioningRev1 implements PalindromePartitioning {
+
+        @Override
+        public List<List<String>> partition(String s) {
+            List<List<String>> ans = new ArrayList<>();
+            generate(s, 0, new ArrayList<>(), ans);
+            return ans;
         }
 
-        for (int end = start; end < s.length(); end++) {
-            if (isPalindrome(s, start, end)) {
-                // choice
-                String snippet = s.substring(start, end + 1);
-                partition.add(snippet);
-                // explore
-                doPartition(s, end + 1, partition, result);
-                // undo choice
-                partition.remove(partition.size() - 1);
+        private void generate(String s, int start, List<String> partition, List<List<String>> ans) {
+            // base case
+            if (start == s.length()) {
+                ans.add(new ArrayList<>(partition));
+                return;
+            }
+
+            for (int end = start; end < s.length(); end++) {
+                if (isPalindrome(s, start, end)) {
+                    // choice
+                    String snippet = s.substring(start, end + 1);
+                    partition.add(snippet);
+                    // explore
+                    generate(s, end + 1, partition, ans);
+                    // undo choice
+                    partition.remove(partition.size() - 1);
+                }
             }
         }
-    }
 
-    private boolean isPalindrome(String s, int start, int end) {
-        while (start < end) {
-            if (s.charAt(start++) != s.charAt(end--)) {
-                return false;
+        private boolean isPalindrome(String s, int start, int end) {
+            while (start < end) {
+                if (s.charAt(start++) != s.charAt(end--)) {
+                    return false;
+                }
             }
+            return true;
         }
-        return true;
     }
 }
