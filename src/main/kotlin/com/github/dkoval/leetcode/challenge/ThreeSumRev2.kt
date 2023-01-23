@@ -1,5 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.problems.ThreeSum
+
 /**
  * [3Sum](https://leetcode.com/explore/challenge/card/july-leetcoding-challenge/545/week-2-july-8th-july-14th/3384/)
  *
@@ -9,10 +11,10 @@ package com.github.dkoval.leetcode.challenge
  * Note:
  * The solution set must not contain duplicate triplets.
  */
-object ThreeSum {
+object ThreeSumRev2 : ThreeSum {
 
     // Resource: https://www.youtube.com/watch?v=Ca7k53qcTic
-    fun threeSum(nums: IntArray): List<List<Int>> {
+    override fun threeSum(nums: IntArray): List<List<Int>> {
         if (nums.size < 3) return emptyList()
         val result = mutableListOf<List<Int>>()
         nums.sort()
