@@ -28,18 +28,6 @@ public interface ZeroOneMatrix {
 
         private static final int[][] DIRS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 
-        private static class Cell {
-            final int row;
-            final int col;
-            final int dist;
-
-            Cell(int row, int col, int dist) {
-                this.row = row;
-                this.col = col;
-                this.dist = dist;
-            }
-        }
-
         // O(M * N) time | O(M * N) space
         @Override
         public int[][] updateMatrix(int[][] mat) {
@@ -70,15 +58,29 @@ public interface ZeroOneMatrix {
                         continue;
                     }
 
+                    int nextDist = 0;
                     if (mat[nextRow][nextCol] == 1) {
-                        ans[nextRow][nextCol] = curr.dist + 1;
+                        nextDist += curr.dist + 1;
+                        ans[nextRow][nextCol] = nextDist;
                     }
 
-                    q.offer(new Cell(nextRow, nextCol, curr.dist + 1));
+                    q.offer(new Cell(nextRow, nextCol, nextDist));
                     visited[nextRow][nextCol] = true;
                 }
             }
             return ans;
+        }
+
+        private static class Cell {
+            final int row;
+            final int col;
+            final int dist; // distance to the nearest 0
+
+            Cell(int row, int col, int dist) {
+                this.row = row;
+                this.col = col;
+                this.dist = dist;
+            }
         }
     }
 
