@@ -33,6 +33,73 @@ internal class CheapestFlightsWithinKStopsTest {
                 2,
                 0,
                 500
+            ),
+            Arguments.of(
+                13,
+                arrayOf(
+                    intArrayOf(11, 12, 74),
+                    intArrayOf(1, 8, 91),
+                    intArrayOf(4, 6, 13),
+                    intArrayOf(7, 6, 39),
+                    intArrayOf(5, 12, 8),
+                    intArrayOf(0, 12, 54),
+                    intArrayOf(8, 4, 32),
+                    intArrayOf(0, 11, 4),
+                    intArrayOf(4, 0, 91),
+                    intArrayOf(11, 7, 64),
+                    intArrayOf(6, 3, 88),
+                    intArrayOf(8, 5, 80),
+                    intArrayOf(11, 10, 91),
+                    intArrayOf(10, 0, 60),
+                    intArrayOf(8, 7, 92),
+                    intArrayOf(12, 6, 78),
+                    intArrayOf(6, 2, 8),
+                    intArrayOf(4, 3, 54),
+                    intArrayOf(3, 11, 76),
+                    intArrayOf(3, 12, 23),
+                    intArrayOf(11, 6, 79),
+                    intArrayOf(6, 12, 36),
+                    intArrayOf(2, 11, 100),
+                    intArrayOf(2, 5, 49),
+                    intArrayOf(7, 0, 17),
+                    intArrayOf(5, 8, 95),
+                    intArrayOf(3, 9, 98),
+                    intArrayOf(8, 10, 61),
+                    intArrayOf(2, 12, 38),
+                    intArrayOf(5, 7, 58),
+                    intArrayOf(9, 4, 37),
+                    intArrayOf(8, 6, 79),
+                    intArrayOf(9, 0, 1),
+                    intArrayOf(2, 3, 12),
+                    intArrayOf(7, 10, 7),
+                    intArrayOf(12, 10, 52),
+                    intArrayOf(7, 2, 68),
+                    intArrayOf(12, 2, 100),
+                    intArrayOf(6, 9, 53),
+                    intArrayOf(7, 4, 90),
+                    intArrayOf(0, 5, 43),
+                    intArrayOf(11, 2, 52),
+                    intArrayOf(11, 8, 50),
+                    intArrayOf(12, 4, 38),
+                    intArrayOf(7, 9, 94),
+                    intArrayOf(2, 7, 38),
+                    intArrayOf(3, 7, 88),
+                    intArrayOf(9, 12, 20),
+                    intArrayOf(12, 0, 26),
+                    intArrayOf(10, 5, 38),
+                    intArrayOf(12, 8, 50),
+                    intArrayOf(0, 2, 77),
+                    intArrayOf(11, 0, 13),
+                    intArrayOf(9, 10, 76),
+                    intArrayOf(2, 6, 67),
+                    intArrayOf(5, 6, 34),
+                    intArrayOf(9, 7, 62),
+                    intArrayOf(5, 3, 67)
+                ),
+                10,
+                1,
+                10,
+                -1
             )
         )
     }
@@ -44,10 +111,10 @@ internal class CheapestFlightsWithinKStopsTest {
         flights: Array<IntArray>,
         src: Int,
         dst: Int,
-        K: Int,
+        k: Int,
         expected: Int
     ) {
-        val actual = CheapestFlightsWithinKStops.findCheapestPrice(n, flights, src, dst, K)
+        val actual = CheapestFlightsWithinKStops.findCheapestPrice(n, flights, src, dst, k)
         assertEquals(expected, actual)
     }
 }
