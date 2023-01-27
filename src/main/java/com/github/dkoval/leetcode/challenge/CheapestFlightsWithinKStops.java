@@ -28,7 +28,7 @@ public interface CheapestFlightsWithinKStops {
 
     int findCheapestPrice(int n, int[][] flights, int src, int dst, int k);
 
-    // O(N + E * K) time
+    // O(N + E * K)  | O(N + E * K) space
     class CheapestFlightsWithinKStopsModifiedBFS implements CheapestFlightsWithinKStops {
 
         @Override
@@ -39,7 +39,7 @@ public interface CheapestFlightsWithinKStops {
                 graph.computeIfAbsent(flight[0], __ -> new ArrayList<>()).add(new Node(flight[1], flight[2]));
             }
 
-            // prices[i] - the minimum price it takes to get from src to i
+            // prices[i] - minimum price to reach i from src
             int[] prices = new int[n];
             Arrays.fill(prices, Integer.MAX_VALUE);
 
@@ -81,19 +81,25 @@ public interface CheapestFlightsWithinKStops {
     // Resource: https://www.youtube.com/watch?v=5eIK3zUdYmE
     class CheapestFlightsWithinKStopsBellmanFord implements CheapestFlightsWithinKStops {
 
-        // O(E * k) time | O(N) space
+        // O((N + E) * K) time | O(N) space
         @Override
         public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
             // Bellman - Ford
-            // There are k + 1 layers to iterate through.
-            // At each layer, iterate through all the edges and update prices[].
+            // Algorithm is used to find the shortest paths from the source node to all other nodes in a weighted graph.
+            // It depends on the idea that the shortest path contains at most N - 1 edges.
 
-            // prices[i] - the cheapest price to get to i from src
+            // There are k + 1 layers to iterate through.
+            // The algorithm loops through each edge k + 1 times.
+            // If it finds an edge through which the total cost is smaller than the previously stored value,
+            // it uses this edge and stores the new value. This is called relaxing an edge.
+
+            // prices[i] - minimum price to reach i from src
             int[] prices = new int[n];
             Arrays.fill(prices, Integer.MAX_VALUE);
             prices[src] = 0;
 
             for (int layer = 0; layer < k + 1; layer++) {
+                // we need to use another temp array here to make sure the prices from the previous iteration don't change
                 int[] tmpPrices = Arrays.copyOf(prices, prices.length);
                 for (int[] flight : flights) {
                     int from = flight[0];
