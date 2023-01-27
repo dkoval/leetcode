@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.CheapestFlightsWithinKStops.CheapestFlightsWithinKStopsBellmanFord
+import com.github.dkoval.leetcode.challenge.CheapestFlightsWithinKStops.CheapestFlightsWithinKStopsModifiedBFS
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -110,7 +111,7 @@ internal class CheapestFlightsWithinKStopsTest {
     }
 
     @Nested
-    inner class CheapestFlightsWithinKStopsModifiedDijkstraTest {
+    inner class CheapestFlightsWithinKStopsModifiedBFSTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -122,7 +123,7 @@ internal class CheapestFlightsWithinKStopsTest {
             k: Int,
             expected: Int
         ) {
-            CheapestFlightsWithinKStopsModifiedDijkstra.test(n, flights, src, dst, k, expected)
+            CheapestFlightsWithinKStopsModifiedBFS().test(n, flights, src, dst, k, expected)
         }
     }
 
@@ -140,6 +141,23 @@ internal class CheapestFlightsWithinKStopsTest {
             expected: Int
         ) {
             CheapestFlightsWithinKStopsBellmanFord().test(n, flights, src, dst, k, expected)
+        }
+    }
+
+    @Nested
+    inner class CheapestFlightsWithinKStopsModifiedDijkstraTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the cheapest price from src to dst with up to k stops`(
+            n: Int,
+            flights: Array<IntArray>,
+            src: Int,
+            dst: Int,
+            k: Int,
+            expected: Int
+        ) {
+            CheapestFlightsWithinKStopsModifiedDijkstra.test(n, flights, src, dst, k, expected)
         }
     }
 }

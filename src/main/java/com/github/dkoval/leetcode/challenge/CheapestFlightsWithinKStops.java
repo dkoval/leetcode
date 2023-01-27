@@ -1,6 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * <a href="https://leetcode.com/problems/cheapest-flights-within-k-stops/">Cheapest Flights Within K Stops</a>
@@ -27,6 +27,56 @@ import java.util.Arrays;
 public interface CheapestFlightsWithinKStops {
 
     int findCheapestPrice(int n, int[][] flights, int src, int dst, int k);
+
+    // O(N + E * K) time
+    class CheapestFlightsWithinKStopsModifiedBFS implements CheapestFlightsWithinKStops {
+
+        @Override
+        public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+            // adj list
+            Map<Integer, List<Node>> graph = new HashMap<>();
+            for (int[] flight : flights) {
+                graph.computeIfAbsent(flight[0], __ -> new ArrayList<>()).add(new Node(flight[1], flight[2]));
+            }
+
+            // prices[i] - the minimum price it takes to get from src to i
+            int[] prices = new int[n];
+            Arrays.fill(prices, Integer.MAX_VALUE);
+
+            // BFS
+            Queue<Node> q = new ArrayDeque<>();
+            q.offer(new Node(src, 0));
+            int stops = 0;
+            while (stops <= k && !q.isEmpty()) {
+                // process current level
+                int size = q.size();
+                while (size-- > 0) {
+                    Node curr = q.poll();
+                    for (Node neighbor : graph.getOrDefault(curr.id, Collections.emptyList())) {
+                        // optimization to avoid TLE
+                        int totalPrice = curr.price + neighbor.price;
+                        if (totalPrice >= prices[neighbor.id]) {
+                            continue;
+                        }
+                        prices[neighbor.id] = totalPrice;
+                        q.offer(new Node(neighbor.id, totalPrice));
+                    }
+                }
+                stops++;
+            }
+            return (prices[dst] == Integer.MAX_VALUE) ? -1 : prices[dst];
+        }
+
+        private static class Node {
+            final int id;
+            final int price;
+
+            Node(int id, int price) {
+                this.id = id;
+                this.price = price;
+            }
+        }
+    }
 
     // Resource: https://www.youtube.com/watch?v=5eIK3zUdYmE
     class CheapestFlightsWithinKStopsBellmanFord implements CheapestFlightsWithinKStops {
