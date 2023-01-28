@@ -28,15 +28,15 @@ public interface CheapestFlightsWithinKStops {
 
     int findCheapestPrice(int n, int[][] flights, int src, int dst, int k);
 
-    // O(N + E * K)  | O(N + E * K) space
     class CheapestFlightsWithinKStopsModifiedBFS implements CheapestFlightsWithinKStops {
 
+        // O(N + E * K)  | O(N + E * K) space
         @Override
         public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
             // adj list
-            Map<Integer, List<Node>> graph = new HashMap<>();
+            Map<Integer, List<int[]>> graph = new HashMap<>();
             for (int[] flight : flights) {
-                graph.computeIfAbsent(flight[0], __ -> new ArrayList<>()).add(new Node(flight[1], flight[2]));
+                graph.computeIfAbsent(flight[0], __ -> new ArrayList<>()).add(new int[]{flight[1], flight[2]});
             }
 
             // prices[i] - minimum price to reach i from src
@@ -52,14 +52,14 @@ public interface CheapestFlightsWithinKStops {
                 int size = q.size();
                 while (size-- > 0) {
                     Node curr = q.poll();
-                    for (Node neighbor : graph.getOrDefault(curr.id, Collections.emptyList())) {
+                    for (int[] neighbor : graph.getOrDefault(curr.id, Collections.emptyList())) {
                         // optimization to avoid TLE
-                        int totalPrice = curr.price + neighbor.price;
-                        if (totalPrice >= prices[neighbor.id]) {
+                        int totalPrice = curr.price + neighbor[1];
+                        if (totalPrice >= prices[neighbor[0]]) {
                             continue;
                         }
-                        prices[neighbor.id] = totalPrice;
-                        q.offer(new Node(neighbor.id, totalPrice));
+                        prices[neighbor[0]] = totalPrice;
+                        q.offer(new Node(neighbor[0], totalPrice));
                     }
                 }
                 stops++;
@@ -113,6 +113,58 @@ public interface CheapestFlightsWithinKStops {
                 prices = tmpPrices;
             }
             return (prices[dst] == Integer.MAX_VALUE) ? -1 : prices[dst];
+        }
+    }
+
+    class CheapestFlightsWithinKStopsDijkstra implements CheapestFlightsWithinKStops {
+
+        @Override
+        public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+            // Dijkstra's algorithm is used to find the shortest paths from a source node to all the other nodes
+            // in a weighted graph where the edge weights are POSITIVE numbers.
+            // It makes use of a priority queue to decide which edges to use.
+
+            Map<Integer, List<int[]>> graph = new HashMap<>();
+            for (int[] flight : flights) {
+                graph.computeIfAbsent(flight[0], __ -> new ArrayList<>()).add(new int[]{flight[1], flight[2]});
+            }
+
+            // stops[i] - minimum number of stops needed to reach i from src
+            int[] stops = new int[n];
+            Arrays.fill(stops, Integer.MAX_VALUE);
+
+            Queue<Node> q = new PriorityQueue<>(Comparator.comparingInt(node -> node.price));
+            q.offer(new Node(src, 0, 0));
+            while (!q.isEmpty()) {
+                Node curr = q.poll();
+
+                // only traverse an edge to a node x if x has not already been visited with fewer stops
+                if (curr.stops > k + 1 || curr.stops > stops[curr.id]) {
+                    continue;
+                }
+
+                if (curr.id == dst) {
+                    return curr.price;
+                }
+
+                stops[curr.id] = curr.stops;
+                for (int[] neighbor : graph.getOrDefault(curr.id, Collections.emptyList())) {
+                    q.offer(new Node(neighbor[0], curr.price + neighbor[1], curr.stops + 1));
+                }
+            }
+            return -1;
+        }
+
+        private static class Node {
+            final int id;
+            final int price;
+            final int stops;
+
+            Node(int id, int price, int stops) {
+                this.id = id;
+                this.price = price;
+                this.stops = stops;
+            }
         }
     }
 }
