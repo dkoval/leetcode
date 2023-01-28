@@ -36,11 +36,13 @@ public interface DataStreamDisjointIntervals {
     class DataStreamDisjointIntervalsNaive implements DataStreamDisjointIntervals, SummaryRanges {
         final SortedSet<Integer> seen = new TreeSet<>();
 
+        // O(logN) time
         @Override
         public void addNum(int value) {
             seen.add(value);
         }
 
+        // O(N) time
         @Override
         public int[][] getIntervals() {
             List<int[]> ans = new ArrayList<>();
@@ -52,7 +54,7 @@ public interface DataStreamDisjointIntervals {
 
                 int[] last = ans.get(ans.size() - 1);
                 if (x > last[1] + 1) {
-                    // start new interval
+                    // start a new interval
                     ans.add(new int[]{x, x});
                 } else {
                     last[1] = x;
