@@ -43,15 +43,14 @@ public interface BestTeamWithNoConflicts {
 
             // dp[i] - the highest overall score we can get if players[i].score was the maximum score
             int[] dp = new int[n];
-            dp[0] = players[0].score;
             int best = players[0].score;
-            for (int i = 1; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 dp[i] = players[i].score;
                 for (int j = 0; j < i; j++) {
                     // since players[] is sorted, i-th player's score is >= than j-th player's one
                     if (players[j].age <= players[i].age) {
-                        // no conflict
-                        dp[i] = Math.max(dp[i], dp[j] + players[i].score);
+                        // no conflict, therefore can include players[i]'s score
+                        dp[i] = Math.max(dp[i], players[i].score + dp[j]);
                     }
                 }
                 best = Math.max(best, dp[i]);
