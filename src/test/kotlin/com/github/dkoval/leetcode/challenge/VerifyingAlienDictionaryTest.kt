@@ -1,15 +1,20 @@
 package com.github.dkoval.leetcode.challenge
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import com.github.dkoval.leetcode.challenge.VerifyingAlienDictionary.VerifyingAlienDictionaryRev1
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
 
 internal class VerifyingAlienDictionaryTest {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 arrayOf("hello", "leetcode"),
                 "hlabcdefgijkmnopqrstuvwxyz",
@@ -24,18 +29,31 @@ internal class VerifyingAlienDictionaryTest {
                 arrayOf("apple", "app"),
                 "abcdefghijklmnopqrstuvwxyz",
                 false
+            ),
+            Arguments.of(
+                arrayOf("ubg", "khw"),
+                "qcipyamwvdjtesbghlorufnkzx",
+                true
             )
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should return true if and only if the given words are sorted lexicographically in alien language`(
-        words: Array<String>,
-        order: String,
-        expected: Boolean
-    ) {
-        val actual = VerifyingAlienDictionary().isAlienSorted(words, order)
-        assertEquals(expected, actual)
+    @Nested
+    inner class VerifyingAlienDictionaryRev1Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return true if and only if the given words are sorted lexicographically in alien language`(
+            words: Array<String>,
+            order: String,
+            expected: Boolean
+        ) {
+            VerifyingAlienDictionaryRev1().test(words, order, expected)
+        }
     }
+}
+
+private fun VerifyingAlienDictionary.test(words: Array<String>, order: String, expected: Boolean) {
+    val actual = isAlienSorted(words, order)
+    Assertions.assertEquals(expected, actual)
 }
