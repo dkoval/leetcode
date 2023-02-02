@@ -40,12 +40,19 @@ public interface GreatestCommonDivisorOfStrings {
         }
 
         private boolean repeats(String s, String prefix) {
-            int times = s.length() / prefix.length();
-            StringBuilder sb = new StringBuilder();
-            while (times-- > 0) {
-                sb.append(prefix);
+            int n = s.length();
+            int p = prefix.length();
+
+            if (n % p != 0) {
+                return false;
             }
-            return sb.toString().equals(s);
+
+            for (int i = 0; i <= n - p; i += p) {
+                if (!s.substring(i, i + p).equals(prefix)) {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
