@@ -1,11 +1,16 @@
 package com.github.dkoval.leetcode.challenge
 
 /**
- * [Find All Anagrams in a String](https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/536/week-3-may-15th-may-21st/3332/)
+ * [Find All Anagrams in a String](https://leetcode.com/problems/find-all-anagrams-in-a-string/)
  *
- * Given a string s and a non-empty string p, find all the start indices of p's anagrams in s.
- * Strings consist of lowercase English letters only and the length of both strings s and p will not be larger than 20,100.
- * The order of output does not matter.
+ * Given two strings s and p, return an array of all the start indices of p's anagrams in s. You may return the answer in any order.
+ *
+ * An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+ *
+ * Constraints:
+ *
+ * - 1 <= s.length, p.length <= 3 * 104
+ * - s and p consist of lowercase English letters.
  */
 object FindAllAnagramsInString {
 
@@ -26,7 +31,7 @@ object FindAllAnagramsInString {
             wCounts[s[i] - 'a']++
         }
 
-        val result = mutableListOf<Int>()
+        val ans = mutableListOf<Int>()
         // sliding window - consider all windows of size p.length()
         for (start in 0..(s.length - p.length)) {
             if (start > 0) {
@@ -37,10 +42,10 @@ object FindAllAnagramsInString {
             }
 
             if (matches(wCounts, pCounts)) {
-                result.add(start)
+                ans.add(start)
             }
         }
-        return result
+        return ans
     }
 
     private fun matches(counts1: IntArray, counts2: IntArray): Boolean {
