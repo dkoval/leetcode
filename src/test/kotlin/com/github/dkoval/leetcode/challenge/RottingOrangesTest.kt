@@ -42,6 +42,12 @@ internal class RottingOrangesTest {
                     intArrayOf(0)
                 ),
                 0
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(1)
+                ),
+                -1
             )
         )
     }

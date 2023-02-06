@@ -29,7 +29,7 @@ public interface RottingOranges {
     int orangesRotting(int[][] grid);
 
     class RottingOrangesUsingBFS implements RottingOranges {
-
+        // left, right, up, down
         private static final int[][] DIRS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 
         private static class Cell {
@@ -42,26 +42,30 @@ public interface RottingOranges {
             }
         }
 
-        private static class GridInfo {
-            final Queue<Cell> rotten = new ArrayDeque<>();
-            int countFresh = 0;
-        }
-
         @Override
         public int orangesRotting(int[][] grid) {
             int m = grid.length;
             int n = grid[0].length;
 
             // collect information about fresh and rotten oranges
-            GridInfo info = collectRotten(grid, m, n);
+            int countFresh = 0;
+            Queue<Cell> rotten = new ArrayDeque<>();
+            for (int row = 0; row < m; row++) {
+                for (int col = 0; col < n; col++) {
+                    if (grid[row][col] == 1) {
+                        countFresh++;
+                    } else if (grid[row][col] == 2) {
+                        rotten.offer(new Cell(row, col));
+                    }
+                }
+            }
 
-            // simulate the process of spreading infection: ~ BFS
+            // ~ BFS: simulate the process of spreading the infection
             int time = 0;
-            while (!info.rotten.isEmpty()) {
-                int size = info.rotten.size();
+            while (!rotten.isEmpty()) {
+                int size = rotten.size();
                 while (size-- > 0) {
-                    Cell curr = info.rotten.poll();
-
+                    Cell curr = rotten.poll();
                     // explore 4-directionally adjacent cells
                     for (int[] d : DIRS) {
                         int nextRow = curr.row + d[0];
@@ -69,28 +73,14 @@ public interface RottingOranges {
 
                         if (nextRow >= 0 && nextRow < m && nextCol >= 0 && nextCol < n && grid[nextRow][nextCol] == 1) {
                             grid[nextRow][nextCol] = 2;
-                            info.rotten.offer(new Cell(nextRow, nextCol));
-                            info.countFresh--;
+                            rotten.offer(new Cell(nextRow, nextCol));
+                            countFresh--;
                         }
                     }
                 }
                 time++;
             }
-            return (info.countFresh == 0) ? Math.max(time - 1, 0) : -1;
-        }
-
-        private GridInfo collectRotten(int[][] grid, int m, int n) {
-            GridInfo info = new GridInfo();
-            for (int row = 0; row < m; row++) {
-                for (int col = 0; col < n; col++) {
-                    if (grid[row][col] == 1) {
-                        info.countFresh++;
-                    } else if (grid[row][col] == 2) {
-                        info.rotten.offer(new Cell(row, col));
-                    }
-                }
-            }
-            return info;
+            return (countFresh == 0) ? Math.max(time - 1, 0) : -1;
         }
     }
 }
