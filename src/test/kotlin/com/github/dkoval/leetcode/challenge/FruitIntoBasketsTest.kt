@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.FruitIntoBaskets.FruitIntoBasketsRev1
+import com.github.dkoval.leetcode.challenge.FruitIntoBaskets.FruitIntoBasketsRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -41,6 +42,16 @@ internal class FruitIntoBasketsTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the maximum number of fruits you can pick`(fruits: IntArray, expected: Int) {
             FruitIntoBasketsRev1().test(fruits, expected)
+        }
+    }
+
+    @Nested
+    inner class FruitIntoBasketsRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum number of fruits you can pick`(fruits: IntArray, expected: Int) {
+            FruitIntoBasketsRev2().test(fruits, expected)
         }
     }
 }

@@ -1,5 +1,8 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * <a href="https://leetcode.com/problems/fruit-into-baskets/">Fruit Into Baskets</a>
  * <p>
@@ -57,6 +60,36 @@ public interface FruitIntoBaskets {
                 }
 
                 best = Math.max(best, count);
+            }
+            return best;
+        }
+    }
+
+    class FruitIntoBasketsRev2 implements FruitIntoBaskets {
+
+        @Override
+        public int totalFruit(int[] fruits) {
+            // idea: sliding window
+            int n = fruits.length;
+
+            // type of fruit -> count
+            Map<Integer, Integer> counts = new HashMap<>();
+
+            int best = 0;
+            int start = 0;
+            for (int end = 0; end < n; end++) {
+                counts.put(fruits[end], counts.getOrDefault(fruits[end], 0) + 1);
+                // shrink the sliding window to make sure we only have 2 distinct type of fruits
+                while (counts.size() > 2) {
+                    int count = counts.get(fruits[start]);
+                    if (count > 1) {
+                        counts.put(fruits[start], count - 1);
+                    } else {
+                        counts.remove(fruits[start]);
+                    }
+                    start++;
+                }
+                best = Math.max(best, end - start + 1);
             }
             return best;
         }
