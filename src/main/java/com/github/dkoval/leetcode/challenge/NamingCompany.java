@@ -78,7 +78,7 @@ public interface NamingCompany {
                     Set<String> group1 = groups.get(keys.get(i));
                     Set<String> group2 = groups.get(keys.get(j));
 
-                    // count repeatable suffixes
+                    // count the number of duplicate suffixes
                     long common = 0;
                     for (String idea : group1) {
                         if (group2.contains(idea)) {
