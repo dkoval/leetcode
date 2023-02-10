@@ -78,7 +78,62 @@ public interface AsFarFromLandAsPossible {
         }
     }
 
-    class AsFarFromLandAsPossibleBFS implements AsFarFromLandAsPossible {
+    class AsFarFromLandAsPossibleBFSRev1 implements AsFarFromLandAsPossible {
+
+        private static final int[][] DIRS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+
+        // O(N^2) time | O(N^2) space
+        @Override
+        public int maxDistance(int[][] grid) {
+            int n = grid.length;
+
+            // idea: multi-source BFS
+            Queue<Cell> q = new ArrayDeque<>();
+            // dists[row][col] - distance to the closest land from (row, col)
+            Integer[][] dists = new Integer[n][n];
+            for (int row = 0; row < n; row++) {
+                for (int col = 0; col < n; col++) {
+                    if (grid[row][col] == 1) {
+                        q.offer(new Cell(row, col));
+                        dists[row][col] = 0;
+                    }
+                }
+            }
+
+            if (q.isEmpty() || q.size() == n * n) {
+                return -1;
+            }
+
+            int best = -1;
+            while (!q.isEmpty()) {
+                Cell curr = q.poll();
+                for (int[] d : DIRS) {
+                    int nextRow = curr.row + d[0];
+                    int nextCol = curr.col + d[1];
+
+                    // (nextRow, nextCol) must be an unvisited water cell
+                    if (nextRow >= 0 && nextRow < n && nextCol >= 0 && nextCol < n && grid[nextRow][nextCol] == 0 && dists[nextRow][nextCol] == null) {
+                        q.offer(new Cell(nextRow, nextCol));
+                        dists[nextRow][nextCol] = dists[curr.row][curr.col] + 1;
+                        best = Math.max(best, dists[nextRow][nextCol]);
+                    }
+                }
+            }
+            return best;
+        }
+
+        private static class Cell {
+            final int row;
+            final int col;
+
+            Cell(int row, int col) {
+                this.row = row;
+                this.col = col;
+            }
+        }
+    }
+
+    class AsFarFromLandAsPossibleBFSRev2 implements AsFarFromLandAsPossible {
 
         private static final int[][] DIRS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 

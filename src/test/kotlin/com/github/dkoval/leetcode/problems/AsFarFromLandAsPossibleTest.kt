@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.problems
 
-import com.github.dkoval.leetcode.problems.AsFarFromLandAsPossible.AsFarFromLandAsPossibleBFS
-import com.github.dkoval.leetcode.problems.AsFarFromLandAsPossible.AsFarFromLandAsPossibleBruteForce
+import com.github.dkoval.leetcode.problems.AsFarFromLandAsPossible.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -49,7 +48,7 @@ internal class AsFarFromLandAsPossibleTest {
     }
 
     @Nested
-    inner class AsFarFromLandAsPossibleBFSTest {
+    inner class AsFarFromLandAsPossibleBFSRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -57,7 +56,20 @@ internal class AsFarFromLandAsPossibleTest {
             grid: Array<IntArray>,
             expected: Int
         ) {
-            AsFarFromLandAsPossibleBFS().test(grid, expected)
+            AsFarFromLandAsPossibleBFSRev1().test(grid, expected)
+        }
+    }
+
+    @Nested
+    inner class AsFarFromLandAsPossibleBFSRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find a water cell such that its distance to the nearest land cell is maximized`(
+            grid: Array<IntArray>,
+            expected: Int
+        ) {
+            AsFarFromLandAsPossibleBFSRev2().test(grid, expected)
         }
     }
 
