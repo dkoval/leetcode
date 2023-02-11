@@ -46,9 +46,7 @@ public interface ShortestPathWithAlternatingColors {
         public int[] shortestAlternatingPaths(int n, int[][] redEdges, int[][] blueEdges) {
             // graph[0] - adj list representation of the graph with red edges only
             // graph[1] - adj list representation of the graph with blue edges only
-            Map<Integer, List<Integer>>[] graph = new HashMap[2];
-            graph[RED] = buildGraph(redEdges);
-            graph[BLUE] = buildGraph(blueEdges);
+            List<Map<Integer, List<Integer>>> graph = Arrays.asList(adjList(redEdges), adjList(blueEdges));
 
             // BFS
             Queue<Node> q = new ArrayDeque<>();
@@ -62,7 +60,7 @@ public interface ShortestPathWithAlternatingColors {
             dist[RED][0] = 0;
             dist[BLUE][0] = 0;
 
-            // starting node 0 can "have" red or blue edge as an incoming one
+            // multi-source BFS: starting node 0 can "have" either RED or BLUE incoming edge
             q.offer(new Node(0, RED));
             q.offer(new Node(0, BLUE));
             while (!q.isEmpty()) {
@@ -70,8 +68,9 @@ public interface ShortestPathWithAlternatingColors {
                 int u = curr.id;
                 int c = curr.color;
 
-                for (int v : graph[c].getOrDefault(u, Collections.emptyList())) {
-                    if (dist[1 - c][v] == Integer.MAX_VALUE) { // not yet visited
+                for (int v : graph.get(c).getOrDefault(u, Collections.emptyList())) {
+                    if (dist[1 - c][v] == Integer.MAX_VALUE) {
+                        // not yet visited
                         q.offer(new Node(v, 1 - c));
                         dist[1 - c][v] = dist[c][u] + 1;
                     }
@@ -80,7 +79,7 @@ public interface ShortestPathWithAlternatingColors {
 
             int[] ans = new int[n];
             for (int i = 0; i < n; i++) {
-                ans[i] = Math.min(dist[0][i], dist[1][i]);
+                ans[i] = Math.min(dist[BLUE][i], dist[RED][i]);
                 if (ans[i] == Integer.MAX_VALUE) {
                     ans[i] = -1;
                 }
@@ -88,12 +87,12 @@ public interface ShortestPathWithAlternatingColors {
             return ans;
         }
 
-        private Map<Integer, List<Integer>> buildGraph(int[][] edges) {
-            Map<Integer, List<Integer>> graph = new HashMap<>();
+        private Map<Integer, List<Integer>> adjList(int[][] edges) {
+            Map<Integer, List<Integer>> adjList = new HashMap<>();
             for (int[] edge : edges) {
-                graph.computeIfAbsent(edge[0], key -> new ArrayList<>()).add(edge[1]);
+                adjList.computeIfAbsent(edge[0], __ -> new ArrayList<>()).add(edge[1]);
             }
-            return graph;
+            return adjList;
         }
     }
 }
