@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
-import com.github.dkoval.leetcode.problems.ShortestPathWithAlternatingColors.ShortestPathWithAlternatingColorsBFS
+import com.github.dkoval.leetcode.problems.ShortestPathWithAlternatingColors.ShortestPathWithAlternatingColorsBFSRev1
+import com.github.dkoval.leetcode.problems.ShortestPathWithAlternatingColors.ShortestPathWithAlternatingColorsBFSRev2
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -64,7 +65,7 @@ internal class ShortestPathWithAlternatingColorsTest {
     }
 
     @Nested
-    inner class ShortestPathWithAlternatingColorsBFSTest {
+    inner class ShortestPathWithAlternatingColorsBFSRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -74,17 +75,32 @@ internal class ShortestPathWithAlternatingColorsTest {
             blueEdges: Array<IntArray>,
             expected: IntArray
         ) {
-            ShortestPathWithAlternatingColorsBFS().test(n, redEdges, blueEdges, expected)
+            ShortestPathWithAlternatingColorsBFSRev1().test(n, redEdges, blueEdges, expected)
         }
     }
 
-    private fun ShortestPathWithAlternatingColors.test(
-        n: Int,
-        redEdges: Array<IntArray>,
-        blueEdges: Array<IntArray>,
-        expected: IntArray
-    ) {
-        val actual = shortestAlternatingPaths(n, redEdges, blueEdges)
-        assertArrayEquals(expected, actual)
+    @Nested
+    inner class ShortestPathWithAlternatingColorsBFSRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should compute the length of the shortest path from node 0 to node i such that the edge colors alternate`(
+            n: Int,
+            redEdges: Array<IntArray>,
+            blueEdges: Array<IntArray>,
+            expected: IntArray
+        ) {
+            ShortestPathWithAlternatingColorsBFSRev2().test(n, redEdges, blueEdges, expected)
+        }
     }
+}
+
+private fun ShortestPathWithAlternatingColors.test(
+    n: Int,
+    redEdges: Array<IntArray>,
+    blueEdges: Array<IntArray>,
+    expected: IntArray
+) {
+    val actual = shortestAlternatingPaths(n, redEdges, blueEdges)
+    assertArrayEquals(expected, actual)
 }

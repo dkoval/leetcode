@@ -27,8 +27,7 @@ public interface ShortestPathWithAlternatingColors {
 
     int[] shortestAlternatingPaths(int n, int[][] redEdges, int[][] blueEdges);
 
-    class ShortestPathWithAlternatingColorsBFS implements ShortestPathWithAlternatingColors {
-
+    class ShortestPathWithAlternatingColorsBFSRev1 implements ShortestPathWithAlternatingColors {
         private static final int RED = 0;
         private static final int BLUE = 1;
 
@@ -93,6 +92,66 @@ public interface ShortestPathWithAlternatingColors {
                 adjList.computeIfAbsent(edge[0], __ -> new ArrayList<>()).add(edge[1]);
             }
             return adjList;
+        }
+    }
+
+    class ShortestPathWithAlternatingColorsBFSRev2 implements ShortestPathWithAlternatingColors {
+        private static final int RED = 0;
+        private static final int BLUE = 1;
+
+        @Override
+        public int[] shortestAlternatingPaths(int n, int[][] redEdges, int[][] blueEdges) {
+            List<Map<Integer, List<Integer>>> graphs = Arrays.asList(adjList(redEdges), adjList(blueEdges));
+
+
+            int[] ans = new int[n];
+            Arrays.fill(ans, -1);
+
+            // multi-source BFS
+            Queue<Node> q = new ArrayDeque<>();
+            boolean[][] visited = new boolean[n][2];
+
+            q.offer(new Node(0, 0, RED));
+            q.offer(new Node(0, 0, BLUE));
+            visited[0][RED] = true;
+            visited[0][BLUE] = true;
+            while (!q.isEmpty()) {
+                Node curr = q.poll();
+                if (ans[curr.id] == -1) {
+                    ans[curr.id] = curr.dist;
+                }
+
+                // next color = 1 - curr.color
+                int color = 1 - curr.color;
+                Map<Integer, List<Integer>> next = graphs.get(color);
+                for (int neighbor : next.getOrDefault(curr.id, Collections.emptyList())) {
+                    if (!visited[neighbor][color]) {
+                        q.offer(new Node(neighbor, curr.dist + 1, color));
+                        visited[neighbor][color] = true;
+                    }
+                }
+            }
+            return ans;
+        }
+
+        private Map<Integer, List<Integer>> adjList(int[][] edges) {
+            Map<Integer, List<Integer>> adjList = new HashMap<>();
+            for (int[] edge : edges) {
+                adjList.computeIfAbsent(edge[0], __ -> new ArrayList<>()).add(edge[1]);
+            }
+            return adjList;
+        }
+
+        private static class Node {
+            final int id;
+            final int dist;
+            final int color; // color of an incoming edge
+
+            Node(int id, int dist, int color) {
+                this.id = id;
+                this.dist = dist;
+                this.color = color;
+            }
         }
     }
 }
