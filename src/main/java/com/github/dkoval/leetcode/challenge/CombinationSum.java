@@ -64,11 +64,11 @@ public interface CombinationSum {
         @Override
         public List<List<Integer>> combinationSum(int[] candidates, int target) {
             List<List<Integer>> ans = new ArrayList<>();
-            backtrack(0, candidates, target, new ArrayList<>(), ans);
+            backtrack(candidates, target, 0, new ArrayList<>(), ans);
             return ans;
         }
 
-        private void backtrack(int idx, int[] candidates, int target, List<Integer> combination, List<List<Integer>> ans) {
+        private void backtrack(int[] candidates, int target, int idx, List<Integer> combination, List<List<Integer>> ans) {
             if (target == 0) {
                 ans.add(new ArrayList<>(combination));
                 return;
@@ -77,7 +77,7 @@ public interface CombinationSum {
             for (int i = idx; i < candidates.length; i++) {
                 if (candidates[i] <= target) {
                     combination.add(candidates[i]);
-                    backtrack(i, candidates, target - candidates[i], combination, ans);
+                    backtrack(candidates, target - candidates[i], i, combination, ans);
                     combination.remove(combination.size() - 1);
                 }
             }
