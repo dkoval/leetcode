@@ -2,25 +2,20 @@ package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.TreeNode
 
-/**
- * [Invert Binary Tree](https://leetcode.com/explore/featured/card/june-leetcoding-challenge/539/week-1-june-1st-june-7th/3347/)
- *
- * Invert a binary tree.
- */
 object InvertBinaryTreeRecursive : InvertBinaryTree {
 
     // O(N) time | O(H) space
     // N - the number of nodes in the tree
     // H - height of the tree (H == N in the worst case)
     override fun invertTree(root: TreeNode?): TreeNode? {
+        // base case
         if (root == null) {
             return null
         }
-        val left = invertTree(root.left)
-        val right = invertTree(root.right)
 
-        root.left = right
-        root.right = left
+        val left = root.left
+        root.left = invertTree(root.right)
+        root.right = invertTree(left)
         return root
     }
 }
