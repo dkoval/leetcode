@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.problems
 
-import com.github.dkoval.leetcode.problems.SearchInRotatedSortedArray.SearchInRotatedSortedArrayByChoosingSortedPart
-import com.github.dkoval.leetcode.problems.SearchInRotatedSortedArray.SearchInRotatedSortedArrayByFindingIndexOfPivot
+import com.github.dkoval.leetcode.problems.SearchInRotatedSortedArray.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -45,7 +44,7 @@ internal class SearchInRotatedSortedArrayTest {
     }
 
     @Nested
-    inner class SearchInRotatedSortedArrayByChoosingSortedPartTest {
+    inner class SearchInRotatedSortedArrayByChoosingSortedPartRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -54,7 +53,21 @@ internal class SearchInRotatedSortedArrayTest {
             target: Int,
             expected: Int
         ) {
-            SearchInRotatedSortedArrayByChoosingSortedPart().test(nums, target, expected)
+            SearchInRotatedSortedArrayByChoosingSortedPartRev1().test(nums, target, expected)
+        }
+    }
+
+    @Nested
+    inner class SearchInRotatedSortedArrayByChoosingSortedPartRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the index of target after the possible rotation of nums array`(
+            nums: IntArray,
+            target: Int,
+            expected: Int
+        ) {
+            SearchInRotatedSortedArrayByChoosingSortedPartRev2().test(nums, target, expected)
         }
     }
 
