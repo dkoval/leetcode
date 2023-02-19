@@ -60,54 +60,45 @@ public class AccountsMerge {
 
         // Step #1: connect accounts that share at least one common e-mail (union-find)
         // (email -> account index) mapping
-        Map<String, Integer> emailToAccount = new HashMap<>();
+        Map<String, Integer> lookup = new HashMap<>();
         UnionFind uf = new UnionFind(n);
 
-        int i = 0;
-        for (List<String> account : accounts) {
-            String name = account.get(0);
+        for (int i = 0; i < n; i++) {
+            List<String> account = accounts.get(i);
             List<String> emails = account.subList(1, account.size());
             for (String email : emails) {
-                if (!emailToAccount.containsKey(email)) {
-                    emailToAccount.put(email, i);
+                if (!lookup.containsKey(email)) {
+                    lookup.put(email, i);
                 } else {
-                    // connect 2 accounts if they share a common email
-                    uf.union(emailToAccount.get(email), i);
+                    // connect 2 accounts sharing a common email
+                    uf.union(i, lookup.get(email));
                 }
             }
-            i++;
         }
 
         // Step #2: group emails belonging to the same account
         // (account index -> unique emails)
-        i = 0;
-        Map<Integer, Set<String>> groupedEmails = new HashMap<>();
+        Map<Integer, Set<String>> groups = new HashMap<>();
         for (List<String> account : accounts) {
-            String name = account.get(0);
             List<String> emails = account.subList(1, account.size());
             for (String email : emails) {
-                groupedEmails.computeIfAbsent(uf.find(i), key -> new HashSet<>()).add(email);
+                int i = lookup.get(email);
+                groups.computeIfAbsent(uf.find(i), __ -> new TreeSet<>()).add(email);
             }
-            i++;
         }
 
         // Now, we have all the information to return the answer
-        List<List<String>> ans = new ArrayList<>(groupedEmails.size());
-        for (Map.Entry<Integer, Set<String>> entry : groupedEmails.entrySet()) {
-            Integer idx = entry.getKey();
+        List<List<String>> ans = new ArrayList<>(groups.size());
+        for (Map.Entry<Integer, Set<String>> entry : groups.entrySet()) {
+            int i = entry.getKey();
             Set<String> emails = entry.getValue();
 
-            String accountName = accounts.get(idx).get(0);
-            List<String> accountEmails = new ArrayList<>(emails);
-            Collections.sort(accountEmails);
+            List<String> account = new ArrayList<>();
+            account.add(accounts.get(i).get(0));
+            account.addAll(emails);
 
-            List<String> row = new ArrayList<>();
-            row.add(accountName);
-            row.addAll(accountEmails);
-
-            ans.add(row);
+            ans.add(account);
         }
-
         return ans;
     }
 }
