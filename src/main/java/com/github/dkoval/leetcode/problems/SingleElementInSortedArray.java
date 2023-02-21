@@ -58,9 +58,8 @@ public interface SingleElementInSortedArray {
         public int singleNonDuplicate(int[] nums) {
             // Example: 1, 1, 2, 3, 3, 4, 4, 8, 8
             //          <-->  ^  <-------------->
-            // Noticeable observation.
-            // In the left part, the 1st instance of every element occurs at the EVEN index and the 2nd instance at the odd index.
-            // In the right part though, the 1st instance of every element occurs at the ODD index and the 2nd instance occurs at the even index.
+            // In the left part, the 1st instance of every element occurs at an EVEN index and the 2nd instance at an odd index.
+            // In the right part though, the 1st instance of every element occurs at an ODD index and the 2nd instance occurs at an even index.
             int left = 0;
             int right = nums.length - 2;
             while (left <= right) {
