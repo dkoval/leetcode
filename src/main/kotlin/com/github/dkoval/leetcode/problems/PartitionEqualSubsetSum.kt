@@ -1,18 +1,8 @@
 package com.github.dkoval.leetcode.problems
 
-/**
- * [Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/)
- *
- * Given a non-empty array containing only positive integers, find if the array can be partitioned into two subsets
- * such that the sum of elements in both subsets is equal.
- *
- * Note:
- * - Each of the array element will not exceed 100.
- * - The array size will not exceed 200.
- */
-object PartitionEqualSubsetSum {
+object PartitionEqualSubsetSumDPTopDown : PartitionEqualSubsetSum {
 
-    fun canPartition(nums: IntArray): Boolean {
+    override fun canPartition(nums: IntArray): Boolean {
         val sum = nums.sum()
         if (sum % 2 != 0) return false
         return canPartition(nums, 0, 0, sum, mutableMapOf())
