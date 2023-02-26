@@ -59,9 +59,9 @@ internal class EditDistanceTest {
             EditDistanceDPBottomUp.test(word1, word2, expected)
         }
     }
+}
 
-    private fun EditDistance.test(word1: String, word2: String, expected: Int) {
-        val actual = minDistance(word1, word2)
-        assertEquals(expected, actual)
-    }
+private fun EditDistance.test(word1: String, word2: String, expected: Int) {
+    val actual = minDistance(word1, word2)
+    assertEquals(expected, actual)
 }
