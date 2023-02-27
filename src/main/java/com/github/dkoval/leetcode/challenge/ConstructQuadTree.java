@@ -94,4 +94,42 @@ public interface ConstructQuadTree {
                     : new Node(true, false, topLeft, topRight, bottomLeft, bottomRight);
         }
     }
+
+    class ConstructQuadTreeRev2 implements ConstructQuadTree {
+
+        @Override
+        public Node construct(int[][] grid) {
+            int n = grid.length;
+            return construct(grid, 0, 0, n);
+        }
+
+        // (row, col) are the coordinates of the top-left corner a square with the side length = d
+        private Node construct(int[][] grid, int row, int col, int d) {
+            boolean allSame = true;
+            for (int i = 0; i < d; i++) {
+                for (int j = 0; j < d; j++) {
+                    if (grid[row][col] != grid[row + i][col + j]) {
+                        allSame = false;
+                        break;
+                    }
+                }
+
+                if (!allSame) {
+                    break;
+                }
+            }
+
+            // leaf node
+            if (allSame) {
+                return new Node(grid[row][col] == 1, true);
+            }
+
+            int d2 = d / 2;
+            Node topLeft = construct(grid, row, col, d2);
+            Node topRight = construct(grid, row, col + d2, d2);
+            Node bottomLeft = construct(grid, row + d2, col, d2);
+            Node bottomRight = construct(grid, row + d2, col + d2, d2);
+            return new Node(true, false, topLeft, topRight, bottomLeft, bottomRight);
+        }
+    }
 }
