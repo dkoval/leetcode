@@ -31,13 +31,14 @@ public interface FindDuplicateSubtrees {
         @Override
         public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
             // idea: serialize a binary tree to get its unique "signature"
-            Map<String, List<TreeNode>> seen = new HashMap<>();
+            // tree signature -> number of binary tree with this signature
+            Map<String, Integer> seen = new HashMap<>();
             List<TreeNode> ans = new ArrayList<>();
             preorder(root, seen, ans);
             return ans;
         }
 
-        private String preorder(TreeNode root, Map<String, List<TreeNode>> seen, List<TreeNode> ans) {
+        private String preorder(TreeNode root, Map<String, Integer> seen, List<TreeNode> ans) {
             if (root == null) {
                 return "null";
             }
@@ -45,11 +46,12 @@ public interface FindDuplicateSubtrees {
             // ROOT, LEFT, RIGHT
             String sign = String.join(",", String.valueOf(root.val), preorder(root.left, seen, ans), preorder(root.right, seen, ans));
 
-            List<TreeNode> subtrees = seen.computeIfAbsent(sign, __ -> new ArrayList<>());
-            subtrees.add(root);
-            if (subtrees.size() == 2) {
+            int count = seen.getOrDefault(sign, 0);
+            if (count == 1) {
                 ans.add(root);
             }
+
+            seen.put(sign, count + 1);
             return sign;
         }
     }
