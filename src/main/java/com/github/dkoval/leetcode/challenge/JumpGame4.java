@@ -41,6 +41,8 @@ public class JumpGame4 {
         Queue<Integer> q = new ArrayDeque<>();
         boolean[] visited = new boolean[n];
         q.offer(0);
+        visited[0] = true;
+
         int numSteps = 0;
         while (!q.isEmpty()) {
             int size = q.size();
