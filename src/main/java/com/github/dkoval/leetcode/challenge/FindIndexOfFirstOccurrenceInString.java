@@ -15,6 +15,7 @@ public interface FindIndexOfFirstOccurrenceInString {
 
     int strStr(String haystack, String needle);
 
+    // O((N - M + 1) * M) time | O(1) space
     class FindIndexOfFirstOccurrenceInStringRev1 implements FindIndexOfFirstOccurrenceInString {
 
         @Override
