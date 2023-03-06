@@ -1,32 +1,45 @@
 package com.github.dkoval.leetcode.challenge;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/january-leetcoding-challenge-2021/579/week-1-january-1st-january-7th/3594/">Kth Missing Positive Number</a>
+ * <a href="https://leetcode.com/problems/kth-missing-positive-number/">Kth Missing Positive Number</a>
  * <p>
  * Given an array arr of positive integers sorted in a strictly increasing order, and an integer k.
  * <p>
- * Find the kth positive integer that is missing from this array.
+ * Return the kth positive integer that is missing from this array.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= arr.length <= 1000</li>
+ *  <li>1 <= arr[i] <= 1000</li>
+ *  <li>1 <= k <= 1000</li>
+ *  <li>arr[i] < arr[j] for 1 <= i < j <= arr.length</li>
+ * </ul>
  */
 public class KthMissingPositiveNumber {
 
+    // O(N) time | O(1) space
     public int findKthPositive(int[] arr, int k) {
         int n = arr.length;
-        int remaining = k;
+
+        // numbers missing from the left
         if (arr[0] > 1) {
-            remaining -= arr[0] - 1;
-        }
-        if (remaining <= 0) {
-            return k;
-        }
-        int prev = arr[0];
-        for (int i = 1; i < n; i++) {
-            int currMissing = arr[i] - prev - 1;
-            if (currMissing >= remaining) {
-                return prev + remaining;
+            int missing = arr[0] - 1;
+            if (missing >= k) {
+                return k;
             }
-            remaining -= currMissing;
-            prev = arr[i];
+            k -= missing;
         }
-        return arr[n - 1] + remaining;
+
+        // numbers missing in the middle
+        for (int i = 1; i < n; i++) {
+            int missing = arr[i] - arr[i - 1] - 1;
+            if (missing >= k) {
+                return arr[i - 1] + k;
+            }
+            k -= missing;
+        }
+
+        // numbers missing from the right
+        return arr[n - 1] + k;
     }
 }
