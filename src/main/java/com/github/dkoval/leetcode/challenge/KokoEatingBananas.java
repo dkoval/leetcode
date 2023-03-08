@@ -21,6 +21,8 @@ package com.github.dkoval.leetcode.challenge;
  */
 public class KokoEatingBananas {
 
+    // O(logP * N) time | O(1) space, where
+    // P = max(piles)
     public int minEatingSpeed(int[] piles, int h) {
         // Idea: binary search.
         // The condition "the min speed k required to eat all the bananas within h hours" will eventually become true:
