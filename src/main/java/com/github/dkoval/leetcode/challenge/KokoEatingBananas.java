@@ -25,7 +25,7 @@ public class KokoEatingBananas {
     // P = max(piles)
     public int minEatingSpeed(int[] piles, int h) {
         // Idea: binary search.
-        // The condition "the min speed k required to eat all the bananas within h hours" will eventually become true:
+        // The condition "is speed k sufficient to eat all the bananas within h hours?" will eventually become true:
         // F, F, ..., F, T, T, ..., T
         //               ^ <- answer (lower bound)
         // 1 <= piles[i] <= 10^9
