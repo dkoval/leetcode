@@ -13,42 +13,43 @@ package com.github.dkoval.leetcode.challenge;
  * Return the minimum integer k such that she can eat all the bananas within h hours.
  * <p>
  * Constraints:
- * <p>
- * 1 <= piles.length <= 10^4
- * piles.length <= h <= 10^9
- * 1 <= piles[i] <= 10^9
+ * <ul>
+ *  <li>1 <= piles.length <= 10^4</li>
+ *  <li>piles.length <= h <= 10^9</li>
+ *  <li>1 <= piles[i] <= 10^9</li>
+ * </ul>
  */
 public class KokoEatingBananas {
 
     public int minEatingSpeed(int[] piles, int h) {
-        // The answer may be any number in [left : right] range
+        // Idea: binary search.
+        // The condition "the min speed k required to eat all the bananas within h hours" will eventually become true:
+        // F, F, ..., F, T, T, ..., T
+        //               ^ <- answer (lower bound)
+        // 1 <= piles[i] <= 10^9
         int left = 1;
-        int right = 1_000_000; // max piles[i] = 10^9
-        // binary search in [left : right] range
+        int right = 1_000_000_000;
         while (left < right) {
             int mid = left + (right - left) / 2;
-            // isGoodSpeed(speed) output:
-            // FF...FTT...T
-            //       ^ <- we want the very 1st "good" answer
-            if (eat(mid, piles) <= h) {
-                // `mid` may be the possible answer; every number > `mid` is also "good",
-                // however we want the very 1st good answer
+            if (isGoodSpeed(mid, piles, h)) {
+                // `mid` might be the answer; every number > `mid` is also "good",
+                // therefore check if there's a better alternative to the left of mid.
                 right = mid;
             } else {
-                // `mid` is not a possible answer; every number < `mid` is not "good" either
+                // `mid` can't be the answer; every number < `mid` is not "good" either
                 left = mid + 1;
             }
         }
         return left;
     }
 
-    private int eat(int speed, int[] piles) {
+    private boolean isGoodSpeed(int speed, int[] piles, int h) {
         int hours = 0;
-        for (int x : piles) {
+        for (int bananas : piles) {
             // http://www.cs.nott.ac.uk/~psarb2/G51MPC/slides/NumberLogic.pdf
-            // round up: (x + speed - 1) / speed = (x - 1) / speed + 1
-            hours += (x - 1) / speed + 1; // round up
+            // round_up(x / y) = (x + y - 1) / y = (x - 1) / y + 1
+            hours += (bananas - 1) / speed + 1;
         }
-        return hours;
+        return hours <= h;
     }
 }
