@@ -4,6 +4,7 @@ import com.github.dkoval.leetcode.ListNode;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
+import java.util.Queue;
 
 /**
  * <a href="https://leetcode.com/problems/merge-k-sorted-lists/">Merge k Sorted Lists (Hard)</a>
@@ -28,27 +29,27 @@ public class MergeKSortedLists {
     // O(N * logK) time | O(K) space
     public ListNode mergeKLists(ListNode[] lists) {
         // Min heap is used to take min of at most k values
-        PriorityQueue<ListNode> pq = new PriorityQueue<>(Comparator.comparingInt(node -> node.val));
-
-        for (ListNode node : lists) {
-            if (node != null) {
-                pq.offer(node);
+        Queue<ListNode> minHeap = new PriorityQueue<>(Comparator.comparingInt(node -> node.val));
+        for (ListNode head : lists) {
+            if (head != null) {
+                minHeap.offer(head);
             }
         }
 
-        if (pq.isEmpty()) {
+        if (minHeap.isEmpty()) {
             return null;
         }
 
         ListNode dummy = new ListNode(10001);
         ListNode curr = dummy;
-        while (!pq.isEmpty()) {
-            ListNode node = pq.poll();
+        while (!minHeap.isEmpty()) {
+            ListNode node = minHeap.poll();
+            if (node.next != null) {
+                minHeap.offer(node.next);
+            }
+            // append next node to the merged list
             curr.next = node;
             curr = curr.next;
-            if (node.next != null) {
-                pq.offer(node.next);
-            }
         }
         return dummy.next;
     }
