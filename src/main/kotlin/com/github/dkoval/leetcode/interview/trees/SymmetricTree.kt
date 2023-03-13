@@ -4,11 +4,16 @@ import com.github.dkoval.leetcode.TreeNode
 import java.util.*
 
 /**
- * [Symmetric Tree](https://leetcode.com/explore/featured/card/top-interview-questions-easy/94/trees/627/)
+ * [Symmetric Tree](https://leetcode.com/problems/symmetric-tree/)
  *
  * Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
  *
  * Follow up: Solve it both recursively and iteratively.
+ *
+ * Constraints:
+ *
+ * - The number of nodes in the tree is in the range ```[1, 1000]```.
+ * - -100 <= Node.val <= 100
  */
 interface SymmetricTree {
 
@@ -24,7 +29,6 @@ object SymmetricTreeRecursively : SymmetricTree {
     override fun isSymmetric(root: TreeNode?): Boolean {
         // A tree is symmetric if the left subtree is a mirror reflection of the right subtree
         if (root == null) return true
-        if (root.left == null && root.right == null) return true
         return isMirror(root.left, root.right)
     }
 
@@ -49,9 +53,9 @@ object SymmetricTreeIterUsingQueue : SymmetricTree {
     }
 
     private fun doIsSymmetric(root1: TreeNode?, root2: TreeNode?): Boolean {
-        val q: Queue<TreeNode?> = LinkedList()
-        q.add(root1)
-        q.add(root2)
+        val q: Queue<TreeNode?> = ArrayDeque()
+        q.offer(root1)
+        q.offer(root2)
         while (!q.isEmpty()) {
             // Each two consecutive nodes in the queue should be equal,
             // and their subtrees a mirror of each other
@@ -60,11 +64,11 @@ object SymmetricTreeIterUsingQueue : SymmetricTree {
             if (t1 == null && t2 == null) continue
             if (t1 == null || t2 == null) return false
             if (t1.`val` != t2.`val`) return false
-            // Note: order of insertions matters for the algorithm to work
-            q.add(t1.left)
-            q.add(t2.right)
-            q.add(t1.right)
-            q.add(t2.left)
+            // Note: the order of insertions matters for the algorithm to work
+            q.offer(t1.left)
+            q.offer(t2.right)
+            q.offer(t1.right)
+            q.offer(t2.left)
         }
         return true
     }
