@@ -53,7 +53,7 @@ object SymmetricTreeIterUsingQueue : SymmetricTree {
     }
 
     private fun doIsSymmetric(root1: TreeNode?, root2: TreeNode?): Boolean {
-        val q: Queue<TreeNode?> = ArrayDeque()
+        val q: Queue<TreeNode?> = LinkedList() // accepts null values
         q.offer(root1)
         q.offer(root2)
         while (!q.isEmpty()) {
