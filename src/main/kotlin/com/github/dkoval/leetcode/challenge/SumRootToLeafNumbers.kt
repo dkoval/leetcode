@@ -20,6 +20,7 @@ import com.github.dkoval.leetcode.TreeNode
  */
 object SumRootToLeafNumbers {
 
+    // O(N) space | O(H) space, where H - height of the tree
     fun sumNumbers(root: TreeNode?): Int = dfs(root, 0)
 
     private fun dfs(root: TreeNode?, x: Int): Int {
