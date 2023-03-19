@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 internal class WordDictionaryTest {
 
     @Test
-    fun `should verify solution`() {
+    fun `should verify implementation`() {
         val dict = WordDictionary().apply {
             addWord("bad")
             addWord("dad")
