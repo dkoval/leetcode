@@ -1,9 +1,6 @@
 package com.github.dkoval.leetcode.problems;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <a href="https://leetcode.com/problems/reorder-routes-to-make-all-paths-lead-to-the-city-zero/">Reorder Routes to Make All Paths Lead to the City Zero</a>
@@ -49,10 +46,8 @@ public interface ReorderRoutesToMakeAllPathsLeadToTheCityZero {
         public int minReorder(int n, int[][] connections) {
             Map<Integer, List<Node>> graph = new HashMap<>();
             for (int[] connection : connections) {
-                int src = connection[0];
-                int dst = connection[1];
-                graph.computeIfAbsent(src, key -> new ArrayList<>()).add(new Node(dst, true));
-                graph.computeIfAbsent(dst, key -> new ArrayList<>()).add(new Node(src, false));
+                graph.computeIfAbsent(connection[0], key -> new ArrayList<>()).add(new Node(connection[1], true));
+                graph.computeIfAbsent(connection[1], key -> new ArrayList<>()).add(new Node(connection[0], false));
             }
 
             boolean[] visited = new boolean[n];
@@ -69,6 +64,48 @@ public interface ReorderRoutesToMakeAllPathsLeadToTheCityZero {
                 }
             }
             return count;
+        }
+    }
+
+    class ReorderRoutesToMakeAllPathsLeadToTheCityZeroBFS implements ReorderRoutesToMakeAllPathsLeadToTheCityZero {
+
+        @Override
+        public int minReorder(int n, int[][] connections) {
+            Map<Integer, List<Node>> adj = new HashMap<>();
+            for (int[] connection : connections) {
+                adj.computeIfAbsent(connection[0], __ -> new ArrayList<>()).add(new Node(connection[1], true));
+                adj.computeIfAbsent(connection[1], __ -> new ArrayList<>()).add(new Node(connection[0], false));
+            }
+
+            // BFS - explore all cities starting from 0
+            Queue<Integer> q = new ArrayDeque<>();
+            boolean[] visited = new boolean[n];
+            q.offer(0);
+            visited[0] = true;
+            int count = 0;
+            while (!q.isEmpty()) {
+                int curr = q.poll();
+                for (Node neighbor : adj.getOrDefault(curr, Collections.emptyList())) {
+                    if (!visited[neighbor.id]) {
+                        q.offer(neighbor.id);
+                        visited[neighbor.id] = true;
+                        if (neighbor.forward) {
+                            count++;
+                        }
+                    }
+                }
+            }
+            return count;
+        }
+
+        private static class Node {
+            final int id;
+            final boolean forward;
+
+            Node(int id, boolean forward) {
+                this.id = id;
+                this.forward = forward;
+            }
         }
     }
 }

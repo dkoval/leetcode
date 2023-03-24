@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.problems
 
+import com.github.dkoval.leetcode.problems.ReorderRoutesToMakeAllPathsLeadToTheCityZero.ReorderRoutesToMakeAllPathsLeadToTheCityZeroBFS
 import com.github.dkoval.leetcode.problems.ReorderRoutesToMakeAllPathsLeadToTheCityZero.ReorderRoutesToMakeAllPathsLeadToTheCityZeroDFS
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -57,8 +58,18 @@ internal class ReorderRoutesToMakeAllPathsLeadToTheCityZeroTest {
         }
     }
 
-    private fun ReorderRoutesToMakeAllPathsLeadToTheCityZero.test(n: Int, connections: Array<IntArray>, expected: Int) {
-        val actual = minReorder(n, connections)
-        assertEquals(expected, actual)
+    @Nested
+    inner class ReorderRoutesToMakeAllPathsLeadToTheCityZeroBFSTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum number of edges changed`(n: Int, connections: Array<IntArray>, expected: Int) {
+            ReorderRoutesToMakeAllPathsLeadToTheCityZeroBFS().test(n, connections, expected)
+        }
     }
+}
+
+private fun ReorderRoutesToMakeAllPathsLeadToTheCityZero.test(n: Int, connections: Array<IntArray>, expected: Int) {
+    val actual = minReorder(n, connections)
+    assertEquals(expected, actual)
 }
