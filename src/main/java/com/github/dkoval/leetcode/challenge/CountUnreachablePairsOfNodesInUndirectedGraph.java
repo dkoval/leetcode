@@ -24,7 +24,7 @@ public interface CountUnreachablePairsOfNodesInUndirectedGraph {
 
     long countPairs(int n, int[][] edges);
 
-    class CountUnreachablePairsOfNodesInUndirectedGraphUsingBFS implements CountUnreachablePairsOfNodesInUndirectedGraph {
+    class CountUnreachablePairsOfNodesInUndirectedGraphUsingBFSRev1 implements CountUnreachablePairsOfNodesInUndirectedGraph {
 
         @Override
         public long countPairs(int n, int[][] edges) {
@@ -33,8 +33,8 @@ public interface CountUnreachablePairsOfNodesInUndirectedGraph {
                 return (long) n / 2 * (n - 1);
             }
 
-            // idea: counts the number of nodes in each connected component;
-            // used DFS or BFS to identify connected components.
+            // idea: count the number of nodes in each connected component;
+            // use DFS or BFS to identify connected components.
             Map<Integer, List<Integer>> adj = new HashMap<>();
             for (int[] edge : edges) {
                 adj.computeIfAbsent(edge[0], __ -> new ArrayList<>()).add(edge[1]);
@@ -57,6 +57,56 @@ public interface CountUnreachablePairsOfNodesInUndirectedGraph {
                 }
             }
             return ans;
+        }
+
+        private int bfs(Map<Integer, List<Integer>> adj, int source, boolean[] visited) {
+            Queue<Integer> q = new ArrayDeque<>();
+            q.offer(source);
+            visited[source] = true;
+            int count = 0;
+            while (!q.isEmpty()) {
+                int u = q.poll();
+                count++;
+                for (int v : adj.getOrDefault(u, Collections.emptyList())) {
+                    if (!visited[v]) {
+                        q.offer(v);
+                        visited[v] = true;
+                    }
+                }
+            }
+            return count;
+        }
+    }
+
+    class CountUnreachablePairsOfNodesInUndirectedGraphUsingBFSRev2 implements CountUnreachablePairsOfNodesInUndirectedGraph {
+
+        @Override
+        public long countPairs(int n, int[][] edges) {
+            if (edges.length == 0) {
+                // C(n, 2) = n * (n - 1) / 2
+                return (long) n / 2 * (n - 1);
+            }
+
+            // idea: count the number of nodes in each connected component;
+            // use DFS or BFS to identify connected components.
+            Map<Integer, List<Integer>> adj = new HashMap<>();
+            for (int[] edge : edges) {
+                adj.computeIfAbsent(edge[0], __ -> new ArrayList<>()).add(edge[1]);
+                adj.computeIfAbsent(edge[1], __ -> new ArrayList<>()).add(edge[0]);
+            }
+
+            boolean[] visited = new boolean[n];
+            long ans = 0;
+            for (int i = 0; i < n; i++) {
+                if (!visited[i]) {
+                    // number of nodes in the i-th connected component = k
+                    long count = bfs(adj, i, visited);
+                    // number of pairs we can make with the remaining nodes = k * (n - k)
+                    ans += count * (n - count);
+                }
+            }
+            // divide by 2 to prevent double counting because (ai, bi) and (bi, ai) are considered the same
+            return ans / 2;
         }
 
         private int bfs(Map<Integer, List<Integer>> adj, int source, boolean[] visited) {

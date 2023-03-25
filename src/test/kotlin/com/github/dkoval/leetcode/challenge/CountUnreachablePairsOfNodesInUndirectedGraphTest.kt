@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.CountUnreachablePairsOfNodesInUndirectedGraph.CountUnreachablePairsOfNodesInUndirectedGraphUsingBFS
+import com.github.dkoval.leetcode.challenge.CountUnreachablePairsOfNodesInUndirectedGraph.CountUnreachablePairsOfNodesInUndirectedGraphUsingBFSRev1
+import com.github.dkoval.leetcode.challenge.CountUnreachablePairsOfNodesInUndirectedGraph.CountUnreachablePairsOfNodesInUndirectedGraphUsingBFSRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -38,7 +39,7 @@ internal class CountUnreachablePairsOfNodesInUndirectedGraphTest {
     }
 
     @Nested
-    inner class CountUnreachablePairsOfNodesInUndirectedGraphUsingBFSTest {
+    inner class CountUnreachablePairsOfNodesInUndirectedGraphUsingBFSRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -47,7 +48,21 @@ internal class CountUnreachablePairsOfNodesInUndirectedGraphTest {
             edges: Array<IntArray>,
             expected: Long
         ) {
-            CountUnreachablePairsOfNodesInUndirectedGraphUsingBFS().test(n, edges, expected)
+            CountUnreachablePairsOfNodesInUndirectedGraphUsingBFSRev1().test(n, edges, expected)
+        }
+    }
+
+    @Nested
+    inner class CountUnreachablePairsOfNodesInUndirectedGraphUsingBFSRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of pairs of different nodes that are unreachable from each other`(
+            n: Int,
+            edges: Array<IntArray>,
+            expected: Long
+        ) {
+            CountUnreachablePairsOfNodesInUndirectedGraphUsingBFSRev2().test(n, edges, expected)
         }
     }
 }
