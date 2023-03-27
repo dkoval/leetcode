@@ -10,14 +10,14 @@ package com.github.dkoval.leetcode.problems;
  * Constraints:
  * <ul>
  *  <li>m == grid.length</li>
- * n == grid[i].length
- * 1 <= m, n <= 200
- * 0 <= grid[i][j] <= 100
+ *  <li>n == grid[i].length</li>
+ *  <li>1 <= m, n <= 200</li>
+ *  <li>0 <= grid[i][j] <= 100</li>
  * </ul>
  */
 public class MinimumPathSum {
 
-    // O(M * N) time | O(M *N) space
+    // O(M * N) time | O(M * N) space
     public int minPathSum(int[][] grid) {
         // DP: bottom-up
         int m = grid.length;
