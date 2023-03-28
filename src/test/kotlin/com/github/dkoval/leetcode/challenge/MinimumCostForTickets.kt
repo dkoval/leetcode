@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.MinimumCostForTickets.MinimumCostForTicketsDPTopDown
+import com.github.dkoval.leetcode.challenge.MinimumCostForTickets.MinimumCostForTicketsDPTopDownRev1
+import com.github.dkoval.leetcode.challenge.MinimumCostForTickets.MinimumCostForTicketsDPTopDownRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -29,7 +30,7 @@ internal class MinimumCostForTicketsTest {
     }
 
     @Nested
-    inner class MinimumCostForTicketsDPTopDownTest {
+    inner class MinimumCostForTicketsDPTopDownRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -38,7 +39,21 @@ internal class MinimumCostForTicketsTest {
             costs: IntArray,
             expected: Int
         ) {
-            MinimumCostForTicketsDPTopDown().test(days, costs, expected)
+            MinimumCostForTicketsDPTopDownRev1().test(days, costs, expected)
+        }
+    }
+
+    @Nested
+    inner class MinimumCostForTicketsDPTopDownRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum number of dollars you need to travel every day in the given list of days`(
+            days: IntArray,
+            costs: IntArray,
+            expected: Int
+        ) {
+            MinimumCostForTicketsDPTopDownRev2().test(days, costs, expected)
         }
     }
 

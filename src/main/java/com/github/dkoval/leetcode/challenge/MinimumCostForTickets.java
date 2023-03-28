@@ -1,5 +1,8 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * <a href="https://leetcode.com/problems/minimum-cost-for-tickets/">Minimum Cost For Tickets</a>
  * <p>
@@ -31,7 +34,7 @@ public interface MinimumCostForTickets {
 
     int mincostTickets(int[] days, int[] costs);
 
-    class MinimumCostForTicketsDPTopDown implements MinimumCostForTickets {
+    class MinimumCostForTicketsDPTopDownRev1 implements MinimumCostForTickets {
 
         @Override
         public int mincostTickets(int[] days, int[] costs) {
@@ -79,6 +82,46 @@ public interface MinimumCostForTickets {
                 this.duration = duration;
                 this.cost = cost;
             }
+        }
+    }
+
+    class MinimumCostForTicketsDPTopDownRev2 implements MinimumCostForTickets {
+
+        @Override
+        public int mincostTickets(int[] days, int[] costs) {
+            Set<Integer> travels = new HashSet<>();
+            int maxDay = -1;
+            for (int day : days) {
+                travels.add(day);
+                maxDay = Math.max(maxDay, day);
+            }
+
+            Integer[] memo = new Integer[maxDay + 1];
+            return minCost(1, maxDay, travels, new int[]{1, 7, 30}, costs, memo);
+        }
+
+        private int minCost(int currDay, int maxDay, Set<Integer> travels, int[] durations, int[] costs, Integer[] memo) {
+            if (currDay > maxDay) {
+                return 0;
+            }
+
+            // already solved?
+            if (memo[currDay] != null) {
+                return memo[currDay];
+            }
+
+            if (travels.contains(currDay)) {
+                // option #1: travel on this day, hence buy a ticket
+                int best = Integer.MAX_VALUE;
+                for (int i = 0; i < 3; i++) {
+                    best = Math.min(best,
+                            costs[i] + minCost(currDay + durations[i], maxDay, travels, durations, costs, memo));
+                }
+                return memo[currDay] = best;
+            }
+
+            // option #2: skip this day
+            return memo[currDay] = minCost(currDay + 1, maxDay, travels, durations, costs, memo);
         }
     }
 }
