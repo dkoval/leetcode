@@ -27,7 +27,7 @@ public interface SuccessfulPairsOfSpellsAndPotions {
 
     class SuccessfulPairsOfSpellsAndPotionsRev1 implements SuccessfulPairsOfSpellsAndPotions {
 
-        // O(N * logM + logM) time | O(1) extra space
+        // O(M * logM + N * logM) = O((M + N) * logM) time | O(M + N) space
         @Override
         public int[] successfulPairs(int[] spells, int[] potions, long success) {
             int n = spells.length;
