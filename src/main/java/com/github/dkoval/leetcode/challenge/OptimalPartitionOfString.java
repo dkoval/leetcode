@@ -23,7 +23,7 @@ public interface OptimalPartitionOfString {
 
     int partitionString(String s);
 
-    // O(N) time | O(N) space
+    // O(N) time | O(ALPHA) = O(1) space, where ALPHA is the size of the alphabet (26 lowercase English letters)
     class OptimalPartitionOfStringRev1 implements OptimalPartitionOfString {
 
         @Override
