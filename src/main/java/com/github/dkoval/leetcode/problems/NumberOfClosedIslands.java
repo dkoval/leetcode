@@ -100,7 +100,7 @@ public interface NumberOfClosedIslands {
             boolean[][] visited = new boolean[m][n];
 
             for (int row = 0; row < m; row++) {
-                for (int col = 0; col < n - 1; col++) {
+                for (int col = 0; col < n; col++) {
                     if (grid[row][col] == 0 && !visited[row][col]) {
                         boolean closed = bfs(grid, row, col, visited);
                         if (closed) {
