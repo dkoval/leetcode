@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.problems
 
+import com.github.dkoval.leetcode.problems.NumberOfClosedIslands.NumberOfClosedIslandsBFS
 import com.github.dkoval.leetcode.problems.NumberOfClosedIslands.NumberOfClosedIslandsDFS
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -58,8 +59,18 @@ internal class NumberOfClosedIslandsTest {
         }
     }
 
-    private fun NumberOfClosedIslands.test(grid: Array<IntArray>, expected: Int) {
-        val actual = closedIsland(grid)
-        assertEquals(expected, actual)
+    @Nested
+    inner class NumberOfClosedIslandsBFSTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of closed islands`(grid: Array<IntArray>, expected: Int) {
+            NumberOfClosedIslandsBFS().test(grid, expected)
+        }
     }
+}
+
+private fun NumberOfClosedIslands.test(grid: Array<IntArray>, expected: Int) {
+    val actual = closedIsland(grid)
+    assertEquals(expected, actual)
 }
