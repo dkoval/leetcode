@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.problems
 
+import com.github.dkoval.leetcode.problems.NumberOfEnclaves.NumberOfEnclavesBFS
 import com.github.dkoval.leetcode.problems.NumberOfEnclaves.NumberOfEnclavesDFS
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -49,8 +50,21 @@ internal class NumberOfEnclavesTest {
         }
     }
 
-    private fun NumberOfEnclaves.test(grid: Array<IntArray>, expected: Int) {
-        val actual = numEnclaves(grid)
-        assertEquals(expected, actual)
+    @Nested
+    inner class NumberOfEnclavesBFSTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of land cells for which we cannot walk off the boundary of the grid in any number of moves`(
+            grid: Array<IntArray>,
+            expected: Int
+        ) {
+            NumberOfEnclavesBFS().test(grid, expected)
+        }
     }
+}
+
+private fun NumberOfEnclaves.test(grid: Array<IntArray>, expected: Int) {
+    val actual = numEnclaves(grid)
+    assertEquals(expected, actual)
 }

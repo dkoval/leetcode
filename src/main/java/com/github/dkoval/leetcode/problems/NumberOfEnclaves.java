@@ -1,5 +1,8 @@
 package com.github.dkoval.leetcode.problems;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 /**
  * <a href="https://leetcode.com/problems/number-of-enclaves/">Number of Enclaves</a>
  * <p>
@@ -81,6 +84,70 @@ public interface NumberOfEnclaves {
                 count += dfs(grid, nextRow, nextCol);
             }
             return count;
+        }
+    }
+
+    class NumberOfEnclavesBFS implements NumberOfEnclaves {
+
+        // up, down left, right
+        private static final int[][] DIRS = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+        @Override
+        public int numEnclaves(int[][] grid) {
+            int m = grid.length;
+            int n = grid[0].length;
+
+            int count = 0;
+            boolean[][] visited = new boolean[m][n];
+            for (int row  = 0; row < m; row++) {
+                for (int col = 0; col < n; col++) {
+                    if (grid[row][col] == 1 && !visited[row][col]) {
+                        count += bfs(grid, row, col, visited);
+                    }
+                }
+            }
+            return count;
+        }
+
+        private int bfs(int[][] grid, int row, int col, boolean[][] visited) {
+            int m = grid.length;
+            int n = grid[0].length;
+
+            int count = 0;
+            boolean walkOff = false;
+
+            Queue<Cell> q = new ArrayDeque<>();
+            q.offer(new Cell(row, col));
+            visited[row][col] = true;
+            while (!q.isEmpty()) {
+                Cell curr = q.poll();
+                count++;
+
+                for (int[] d : DIRS) {
+                    int nextRow = curr.row + d[0];
+                    int nextCol = curr.col + d[1];
+
+                    if (nextRow >= 0 && nextRow < m && nextCol >= 0 && nextCol < n) {
+                        if (grid[nextRow][nextCol] == 1 && !visited[nextRow][nextCol]) {
+                            q.offer(new Cell(nextRow, nextCol));
+                            visited[nextRow][nextCol] = true;
+                        }
+                    } else {
+                        walkOff = true;
+                    }
+                }
+            }
+            return walkOff ? 0 : count;
+        }
+
+        private static class Cell {
+            final int row;
+            final int col;
+
+            Cell(int row, int col) {
+                this.row = row;
+                this.col = col;
+            }
         }
     }
 }
