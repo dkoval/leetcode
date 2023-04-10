@@ -10,7 +10,14 @@ import java.util.*;
  * An input string is valid if:
  * <p>
  * Open brackets must be closed by the same type of brackets.
+ * <p>
  * Open brackets must be closed in the correct order.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= s.length <= 10^4</li>
+ *  <li>s consists of parentheses only '()[]{}'.</li>
+ * </ul>
  */
 public class ValidParentheses {
     private static final Set<Character> open = new HashSet<>();
@@ -24,14 +31,16 @@ public class ValidParentheses {
     }
 
     public boolean isValid(String s) {
-        Stack<Character> stack = new Stack<>();
-        for (int i = 0; i < s.length(); i++) {
+        int n = s.length();
+        Deque<Character> stack = new ArrayDeque<>();
+        for (int i = 0; i < n; i++) {
             char c = s.charAt(i);
             if (open.contains(c)) {
                 stack.push(c);
             } else {
-                if (stack.isEmpty()) return false;
-                if (matching.get(c) != stack.peek()) return false;
+                if (stack.isEmpty() || stack.peek() != matching.get(c)) {
+                    return false;
+                }
                 stack.pop();
             }
         }
