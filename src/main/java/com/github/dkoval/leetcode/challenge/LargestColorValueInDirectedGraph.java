@@ -40,64 +40,73 @@ public interface LargestColorValueInDirectedGraph {
                 adj.computeIfAbsent(edge[0], __ -> new ArrayList<>()).add(edge[1]);
             }
 
-            // counts[x][c] - the number of c-colored nodes on the path starting at x
-            int[][] counts = new int[n][26];
+            // check if there's a cycle in a directed graph
+            // 0 - not visited
+            // 1 - being visited
+            // 2 - visited
+            int[] visited = new int[n];
+            for (int i = 0; i < n; i++) {
+                if (visited[i] == 0 && hasCycle(adj, i, visited)) {
+                    return -1;
+                }
+            }
+
+            // check every color
+            Set<Character> availableColors = new HashSet<>();
+            for (int i = 0; i < n; i++) {
+                char c = colors.charAt(i);
+                availableColors.add(c);
+            }
 
             int best = 0;
-            boolean[] visited = new boolean[n];
-            boolean[] path = new boolean[n]; // is used to detect a cycle
-            for (int x = 0; x < n; x++) {
-                if (!visited[x]) {
-                    int ans = dfs(adj, x, colors, counts, visited, path);
-                    if (ans < 0) {
-                        return -1;
-                    }
-                    best = Math.max(best, ans);
-                }
+            for (char c : availableColors) {
+                best = Math.max(best, compute(adj, colors, c));
             }
             return best;
         }
 
-        // Returns the largest color value across all paths starting at source
-        private int dfs(Map<Integer, List<Integer>> adj, int source, String colors, int[][] counts, boolean[] visited, boolean[] path) {
-            if (path[source]) {
-                // a cycle detected
-                return -1;
-            }
-
-            if (visited[source]) {
-                return 0;
-            }
-
-            visited[source] = true;
-
-            // add source node to the path
-            path[source] = true;
-            int color = colors.charAt(source) - 'a';
-
-            counts[source][color] = 1;
+        private boolean hasCycle(Map<Integer, List<Integer>> adj, int source, int[] visited) {
+            visited[source] = 1;
             for (int neighbor : adj.getOrDefault(source, Collections.emptyList())) {
-                int ans = dfs(adj, neighbor, colors, counts, visited, path);
-                if (ans < 0) {
-                    return -1;
+                if (visited[neighbor] == 1) {
+                    // came to a node marked as "being visited", hence there's a cycle
+                    return true;
                 }
 
-                for (int c = 0; c < 26; c++) {
-                    counts[source][c] = Math.max(
-                            counts[source][c],
-                            counts[neighbor][c] + (c == color ? 1 : 0));
+                if (visited[neighbor] == 0 && hasCycle(adj, neighbor, visited)) {
+                    return true;
                 }
             }
+            visited[source] = 2;
+            return false;
+        }
 
-            // backtrack - remove source from the current path
-            path[source] = false;
+        private int compute(Map<Integer, List<Integer>> adj, String colors, char color) {
+            int n = colors.length();
 
-            // get the most frequent color across all paths starting at source
+            // DP top-down + DFS
+            Integer[] dp = new Integer[n];
+
+            // run DFS on every node to determine the largest color value for this "color"
             int best = 0;
-            for (int c : counts[source]) {
-                best = Math.max(best, c);
+            for (int i = 0; i < n; i++) {
+                best = Math.max(best, dfs(adj, colors, color, i, dp));
             }
             return best;
+        }
+
+        // Returns the largest color value for the fixed "color" across all paths starting at the "source" node
+        private int dfs(Map<Integer, List<Integer>> adj, String colors, char color, int source, Integer[] dp) {
+            if (dp[source] != null) {
+                return dp[source];
+            }
+
+            int best = 0;
+            for (int neighbor : adj.getOrDefault(source, Collections.emptyList())) {
+                best = Math.max(best, dfs(adj, colors, color, neighbor, dp));
+            }
+            best += colors.charAt(source) == color ? 1 : 0;
+            return dp[source] = best;
         }
     }
 }
