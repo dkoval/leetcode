@@ -51,7 +51,7 @@ public interface LargestColorValueInDirectedGraph {
                 }
             }
 
-            // check every color
+            // check every color (there will be <= 26 unique colors)
             Set<Character> availableColors = new HashSet<>();
             for (int i = 0; i < n; i++) {
                 char c = colors.charAt(i);
