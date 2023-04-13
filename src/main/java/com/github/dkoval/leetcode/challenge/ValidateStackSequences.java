@@ -1,29 +1,75 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/february-leetcoding-challenge-2021/587/week-4-february-22nd-february-28th/3653/">Validate Stack Sequences</a>
+ * <a href="https://leetcode.com/problems/validate-stack-sequences/">Validate Stack Sequences</a>
  * <p>
- * Given two sequences pushed and popped with distinct values, return true if and only if this could have been
- * the result of a sequence of push and pop operations on an initially empty stack.
+ * Given two integer arrays pushed and popped each with distinct values, return true if this could have been
+ * the result of a sequence of push and pop operations on an initially empty stack, or false otherwise.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= pushed.length <= 1000</li>
+ *  <li>0 <= pushed[i] <= 1000</li>
+ *  <li>All the elements of pushed are unique.</li>
+ *  <li>popped.length == pushed.length</li>
+ *  <li>popped is a permutation of pushed.</li>
+ * </ul>
  */
-public class ValidateStackSequences {
+public interface ValidateStackSequences {
+
+    boolean validateStackSequences(int[] pushed, int[] popped);
 
     // O(N) time | O(N) space
-    public boolean validateStackSequences(int[] pushed, int[] popped) {
-        // pop() can only be done after at least one push() operation,
-        // therefore, at each iteration, push the current item into the stack
-        // and then keep on popping as many items as we can
-        Stack<Integer> stack = new Stack<>();
-        int i = 0; // index in popped[]
-        for (int x : pushed) {
-            stack.push(x);
-            while (!stack.isEmpty() && i < popped.length && stack.peek() == popped[i]) {
-                stack.pop();
-                i++;
+    class ValidateStackSequencesRev1 implements ValidateStackSequences {
+
+        @Override
+        public boolean validateStackSequences(int[] pushed, int[] popped) {
+            int n = popped.length;
+
+            // pop() can only be done after at least one push() operation,
+            // therefore, at each iteration, push the current item into the stack
+            // and then keep on popping as many items as we can
+            Deque<Integer> stack = new ArrayDeque<>();
+            int i = 0; // index in popped[]
+            for (int x : pushed) {
+                stack.push(x);
+                while (!stack.isEmpty() && i < n && stack.peek() == popped[i]) {
+                    stack.pop();
+                    i++;
+                }
             }
+            return i == n;
         }
-        return i == popped.length;
+    }
+
+    class ValidateStackSequencesRev2 implements ValidateStackSequences {
+
+        @Override
+        public boolean validateStackSequences(int[] pushed, int[] popped) {
+            int n = pushed.length;
+
+            Deque<Integer> stack = new ArrayDeque<>();
+            int pushIdx = 0;
+            int popIdx = 0;
+            // push() and pop() if you can
+            while (pushIdx < n) {
+                if (!stack.isEmpty() && stack.peek() == popped[popIdx]) {
+                    stack.pop();
+                    popIdx++;
+                } else {
+                    stack.push(pushed[pushIdx]);
+                    pushIdx++;
+                }
+            }
+            // pop() if you can
+            while (!stack.isEmpty() && popIdx < n && stack.peek() == popped[popIdx]) {
+                stack.pop();
+                popIdx++;
+            }
+            return stack.isEmpty();
+        }
     }
 }
