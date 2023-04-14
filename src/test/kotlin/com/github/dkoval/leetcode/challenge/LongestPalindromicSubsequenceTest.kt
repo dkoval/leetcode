@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.problems.LongestPalindromicSubsequence
+import com.github.dkoval.leetcode.problems.LongestPalindromicSubsequence.LongestPalindromicSubsequenceDPBottomUp
 import com.github.dkoval.leetcode.problems.LongestPalindromicSubsequence.LongestPalindromicSubsequenceDPTopDown
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -28,6 +29,16 @@ internal class LongestPalindromicSubsequenceTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the longest palindromic subsequence's length in s`(s: String, expected: Int) {
             LongestPalindromicSubsequenceDPTopDown().test(s, expected)
+        }
+    }
+
+    @Nested
+    inner class LongestPalindromicSubsequenceDPBottomUpTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the longest palindromic subsequence's length in s`(s: String, expected: Int) {
+            LongestPalindromicSubsequenceDPBottomUp().test(s, expected)
         }
     }
 }

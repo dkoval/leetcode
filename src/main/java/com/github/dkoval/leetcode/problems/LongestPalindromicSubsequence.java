@@ -60,7 +60,21 @@ public interface LongestPalindromicSubsequence {
 
         @Override
         public int longestPalindromeSubseq(String s) {
-            throw new UnsupportedOperationException("Not yet implemented");
+            int n = s.length();
+
+            // dp[i][j] is the Longest Palindromic Subsequence in s[i : j] substring
+            int[][] dp = new int[n][n];
+            for (int len = 1; len <= n; len++) {
+                for (int start = 0; start <= n - len; start++) {
+                    int end = start + len - 1;
+                    if (s.charAt(start) == s.charAt(end)) {
+                        dp[start][end] = (len > 1) ? 2 + dp[start + 1][end - 1] : 1;
+                    } else {
+                        dp[start][end] = Math.max(dp[start + 1][end], dp[start][end - 1]);
+                    }
+                }
+            }
+            return dp[0][n - 1];
         }
     }
 }
