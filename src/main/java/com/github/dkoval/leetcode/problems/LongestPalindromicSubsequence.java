@@ -1,5 +1,18 @@
 package com.github.dkoval.leetcode.problems;
 
+/**
+ * <a href="https://leetcode.com/problems/longest-palindromic-subsequence/">Longest Palindromic Subsequence</a>
+ * <p>
+ * Given a string s, find the longest palindromic subsequence's length in s.
+ * <p>
+ * A subsequence is a sequence that can be derived from another sequence by deleting some or no elements without changing the order of the remaining elements.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= s.length <= 1000</li>
+ *  <li>s consists only of lowercase English letters.</li>
+ * </ul>
+ */
 public interface LongestPalindromicSubsequence {
 
     int longestPalindromeSubseq(String s);
@@ -14,32 +27,32 @@ public interface LongestPalindromicSubsequence {
             return longestPalindromeSubseq(s, 0, n - 1, new Integer[n][n]);
         }
 
-        private int longestPalindromeSubseq(String s, int i, int j, Integer[][] memo) {
-            if (i > j) {
+        private int longestPalindromeSubseq(String s, int start, int end, Integer[][] memo) {
+            if (start > end) {
                 return 0;
             }
 
-            if (i == j) {
+            if (start == end) {
                 return 1;
             }
 
-            if (memo[i][j] != null) {
-                return memo[i][j];
+            if (memo[start][end] != null) {
+                return memo[start][end];
             }
 
-            if (s.charAt(i) == s.charAt(j)) {
+            if (s.charAt(start) == s.charAt(end)) {
                 // include the first and last characters in palindrome
-                // and recur for the remaining substring s[i + 1 : j - 1]
-                memo[i][j] = longestPalindromeSubseq(s, i + 1, j - 1, memo) + 2;
+                // and recur for the remaining substring s[start + 1 : end - 1]
+                memo[start][end] = longestPalindromeSubseq(s, start + 1, end - 1, memo) + 2;
             } else {
-                // option #1: remove the last character and recur for the remaining substring s[i : j - 1]
-                // option #2: remove the first character and recur for the remaining substring s[i + 1 : j]
+                // option #1: remove the last character and recur for the remaining substring s[start : end - 1]
+                // option #2: remove the first character and recur for the remaining substring s[start + 1 : end]
                 // choose the maximum of the two values
-                memo[i][j] = Math.max(
-                        longestPalindromeSubseq(s, i + 1, j, memo),
-                        longestPalindromeSubseq(s, i, j - 1, memo));
+                memo[start][end] = Math.max(
+                        longestPalindromeSubseq(s, start + 1, end, memo),
+                        longestPalindromeSubseq(s, start, end - 1, memo));
             }
-            return memo[i][j];
+            return memo[start][end];
         }
     }
 
@@ -47,7 +60,7 @@ public interface LongestPalindromicSubsequence {
 
         @Override
         public int longestPalindromeSubseq(String s) {
-            return 0;
+            throw new UnsupportedOperationException("Not yet implemented");
         }
     }
 }
