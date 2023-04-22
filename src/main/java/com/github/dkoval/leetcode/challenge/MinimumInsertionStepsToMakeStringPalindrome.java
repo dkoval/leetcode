@@ -47,7 +47,7 @@ public interface MinimumInsertionStepsToMakeStringPalindrome {
 
             int best = Integer.MAX_VALUE;
             if (c1 == c2) {
-                best = Math.min(best, calculate(s, left + 1, right - 1, dp));
+                best = calculate(s, left + 1, right - 1, dp);
             } else {
                 // option #1: insert c2 before c1
                 best = Math.min(best, 1 + calculate(s, left, right - 1, dp));
