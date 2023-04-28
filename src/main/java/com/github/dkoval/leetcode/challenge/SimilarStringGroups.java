@@ -29,6 +29,7 @@ public interface SimilarStringGroups {
 
     int numSimilarGroups(String[] strs);
 
+    // O(N^2 * L) time | O(N) space
     class SimilarStringGroupsRev1 implements SimilarStringGroups {
 
         @Override
@@ -60,10 +61,7 @@ public interface SimilarStringGroups {
         }
 
         private boolean similar(String s1, String s2) {
-            if (s1.length() != s2.length()) {
-                return false;
-            }
-
+            // all words in strs have the same length and are anagrams of each other
             int len = s1.length();
             int mismatches = 0;
             for (int i = 0; i < len; i++) {
