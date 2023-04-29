@@ -53,11 +53,12 @@ public interface CheckingExistenceOfEdgeLengthLimitedPaths {
             int i = 0;
             Arrays.sort(edgeList, Comparator.comparingInt(edge -> edge[2]));
             for (int[] query : queriesWithIndex) {
-                // dynamically connect edges < limit
+                // dynamically connect pairs of nodes with a distance < limit
                 while (i < edgeList.length && edgeList[i][2] < query[2]) {
                     uf.union(edgeList[i][0], edgeList[i][1]);
                     i++;
                 }
+                // is there a path between pj and qj s.t. each edge on the path has a distance < limit?
                 ans[query[3]] = uf.find(query[0]) == uf.find(query[1]);
             }
             return ans;
