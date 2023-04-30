@@ -36,61 +36,50 @@ public interface RemoveMaxNumberOfEdgesToKeepGraphFullyTraversable {
             // Rephrase: what is the min number of edges you can keep
             // to make the graph full traversable for Alice and Bob?
             // Then, the answer = total number of edges - min number of edges to keep.
-            UnionFind alice = new UnionFind(n + 1);
-            UnionFind bob = new UnionFind(n + 1);
+            UnionFind alice = new UnionFind(n);
+            UnionFind bob = new UnionFind(n);
             int keep = 0;
 
             // greedy - use as many type = 3 edges as possible (those edges can be used by both Alice and Bob)
             for (int[] edge : edges) {
                 if (edge[0] == 3) {
-                    if (alice.find(edge[1]) != alice.find(edge[2])) {
-                        alice.union(edge[1], edge[2]);
-                        bob.union(edge[1], edge[2]);
-                        keep++;
-                    }
+                    boolean added = alice.union(edge[1], edge[2]) | bob.union(edge[1], edge[2]);
+                    keep += added ? 1 : 0;
                 }
             }
 
             for (int[] edge : edges) {
                 // keep edges that only Alice can use
                 if (edge[0] == 1) {
-                    if (alice.find(edge[1]) != alice.find(edge[2])) {
-                        alice.union(edge[1], edge[2]);
-                        keep++;
-                    }
+                    boolean added = alice.union(edge[1], edge[2]);
+                    keep += added ? 1 : 0;
                 }
 
                 // keep edges that only Bob can use
                 if (edge[0] == 2) {
-                    if (bob.find(edge[1]) != bob.find(edge[2])) {
-                        bob.union(edge[1], edge[2]);
-                        keep++;
-                    }
+                    boolean added = bob.union(edge[1], edge[2]);
+                    keep += added ? 1 : 0;
                 }
             }
 
             // check if the graph is fully traversable by Alice and Bob
-            for (int i = 1; i <= n; i++) {
-                // everything must go through the same root
-                if (alice.find(i) != alice.find(1)) {
-                    return -1;
-                }
-
-                if (bob.find(i) != bob.find(1)) {
-                    return -1;
-                }
+            if (alice.isConnected() && bob.isConnected()) {
+                return edges.length - keep;
             }
-            return edges.length - keep;
+            return -1;
         }
 
         private static class UnionFind {
             final int[] parent;
+            int disjoint;
 
             UnionFind(int n) {
-                parent = new int[n];
-                for (int i = 0; i < n; i++) {
+                // nodes are 1-indexed
+                parent = new int[n + 1];
+                for (int i = 1; i <= n; i++) {
                     parent[i] = i;
                 }
+                disjoint = n;
             }
 
             int find(int x) {
@@ -100,10 +89,19 @@ public interface RemoveMaxNumberOfEdgesToKeepGraphFullyTraversable {
                 return parent[x];
             }
 
-            void union(int x, int y) {
+            boolean union(int x, int y) {
                 int px = find(x);
                 int py = find(y);
-                parent[px] = py;
+                if (px != py) {
+                    parent[px] = py;
+                    disjoint--;
+                    return true;
+                }
+                return false;
+            }
+
+            boolean isConnected() {
+                return disjoint == 1;
             }
         }
     }
