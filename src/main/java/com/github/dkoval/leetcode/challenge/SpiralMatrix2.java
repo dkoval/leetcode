@@ -10,44 +10,47 @@ package com.github.dkoval.leetcode.challenge;
  *  <li>1 <= n <= 20</li>
  * </ul>
  */
-public class SpiralMatrix2 {
+public interface SpiralMatrix2 {
 
-    public int[][] generateMatrix(int n) {
-        int startRow = 0;
-        int endRow = n - 1;
+    int[][] generateMatrix(int n);
 
-        int startCol = 0;
-        int endCol = n - 1;
+    class SpiralMatrix2Rev1 implements SpiralMatrix2 {
 
-        int x = 1;
-        int[][] ans = new int[n][n];
-        while (startRow <= endRow && startCol <= endCol) {
-            // top row  - left to right
-            for (int col = startCol; col <= endCol; col++) {
-                ans[startRow][col] = x++;
+        @Override
+        public int[][] generateMatrix(int n) {
+            int startRow = 0, endRow = n - 1;
+            int startCol = 0, endCol = n - 1;
+
+            int x = 1;
+            int[][] ans = new int[n][n];
+            while (startRow <= endRow && startCol <= endCol) {
+                // top row - left to right
+                for (int col = startCol; col <= endCol; col++) {
+                    ans[startRow][col] = x++;
+                }
+
+                // right column - top to bottom
+                for (int row = startRow + 1; row <= endRow; row++) {
+                    ans[row][endCol] = x++;
+                }
+
+                // bottom row - right to left
+                for (int col = endCol - 1; col >= startCol && startRow != endRow; col--) {
+                    ans[endRow][col] = x++;
+                }
+
+                // left column - bottom to up
+                for (int row = endRow - 1; row > startRow && startCol != endCol; row--) {
+                    ans[row][startCol] = x++;
+                }
+
+                startRow++;
+                endRow--;
+
+                startCol++;
+                endCol--;
             }
-
-            // right column - top to bottom
-            for (int row = startRow + 1; row <= endRow; row++) {
-                ans[row][endCol] = x++;
-            }
-
-            // bottom row - right to left
-            for (int col = endCol - 1; col >= startCol; col--) {
-                ans[endRow][col] = x++;
-            }
-
-            // left column - bottom to up
-            for (int row = endRow - 1; row > startRow; row--) {
-                ans[row][startCol] = x++;
-            }
-
-            startRow++;
-            endRow--;
-
-            startCol++;
-            endCol--;
+            return ans;
         }
-        return ans;
     }
 }
