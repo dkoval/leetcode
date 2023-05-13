@@ -29,7 +29,7 @@ public interface CountWaysToBuildGoodStrings {
 
     int countGoodStrings(int low, int high, int zero, int one);
 
-    class CountWaysToBuildGoodStringsDPTopDown implements CountWaysToBuildGoodStrings {
+    class CountWaysToBuildGoodStringsDPTopDownRev1 implements CountWaysToBuildGoodStrings {
 
         @Override
         public int countGoodStrings(int low, int high, int zero, int one) {
@@ -67,6 +67,42 @@ public interface CountWaysToBuildGoodStrings {
                 count += calculate(zero, one, len - one, dp);
                 count %= MOD;
             }
+
+            // cache and return the answer
+            dp.put(len, count);
+            return count;
+        }
+    }
+
+    class CountWaysToBuildGoodStringsDPTopDownRev2 implements CountWaysToBuildGoodStrings {
+
+        @Override
+        public int countGoodStrings(int low, int high, int zero, int one) {
+            // dp[i] the numbeof ways to build "good" strings of length i
+            Map<Integer, Integer> dp = new HashMap<>();
+            return calculate(low, high, zero, one, 0, dp);
+        }
+
+        private int calculate(int low, int high, int zero, int one, int len, Map<Integer, Integer> dp) {
+            // base case
+            if (len > high) {
+                return 0;
+            }
+
+            // already solved?
+            if (dp.containsKey(len)) {
+                return dp.get(len);
+            }
+
+            int count = (len >= low) ? 1 : 0;
+
+            // option #1: take "0" zero times
+            count += calculate(low, high, zero, one, len + zero, dp);
+            count %= MOD;
+
+            // option #2: take "1" one times
+            count += calculate(low, high, zero, one, len + one, dp);
+            count %= MOD;
 
             // cache and return the answer
             dp.put(len, count);

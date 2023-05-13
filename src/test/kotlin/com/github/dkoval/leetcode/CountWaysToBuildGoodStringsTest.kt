@@ -1,7 +1,8 @@
 package com.github.dkoval.leetcode
 
 import com.github.dkoval.leetcode.challenge.CountWaysToBuildGoodStrings
-import com.github.dkoval.leetcode.challenge.CountWaysToBuildGoodStrings.CountWaysToBuildGoodStringsDPTopDown
+import com.github.dkoval.leetcode.challenge.CountWaysToBuildGoodStrings.CountWaysToBuildGoodStringsDPTopDownRev1
+import com.github.dkoval.leetcode.challenge.CountWaysToBuildGoodStrings.CountWaysToBuildGoodStringsDPTopDownRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -22,7 +23,7 @@ internal class CountWaysToBuildGoodStringsTest {
     }
 
     @Nested
-    inner class CountWaysToBuildGoodStringsDPTopDownTest {
+    inner class CountWaysToBuildGoodStringsDPTopDownRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -33,7 +34,23 @@ internal class CountWaysToBuildGoodStringsTest {
             one: Int,
             expected: Int
         ) {
-            CountWaysToBuildGoodStringsDPTopDown().test(low, high, zero, one, expected)
+            CountWaysToBuildGoodStringsDPTopDownRev1().test(low, high, zero, one, expected)
+        }
+    }
+
+    @Nested
+    inner class CountWaysToBuildGoodStringsDPTopDownRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of different good strings that can be constructed`(
+            low: Int,
+            high: Int,
+            zero: Int,
+            one: Int,
+            expected: Int
+        ) {
+            CountWaysToBuildGoodStringsDPTopDownRev2().test(low, high, zero, one, expected)
         }
     }
 }
