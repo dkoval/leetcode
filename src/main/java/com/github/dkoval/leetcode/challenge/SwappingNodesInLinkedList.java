@@ -3,7 +3,7 @@ package com.github.dkoval.leetcode.challenge;
 import com.github.dkoval.leetcode.ListNode;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/march-leetcoding-challenge-2021/589/week-2-march-8th-march-14th/3671/">Swapping Nodes in a Linked List</a>
+ * <a href="https://leetcode.com/problems/swapping-nodes-in-a-linked-list/description/">Swapping Nodes in a Linked List</a>
  * <p>
  * You are given the head of a linked list, and an integer k.
  * <p>
@@ -13,7 +13,7 @@ import com.github.dkoval.leetcode.ListNode;
  * Constraints:
  * <ul>
  *  <li>The number of nodes in the list is n.</li>
- *  <li>1 <= k <= n <= 105</li>
+ *  <li>1 <= k <= n <= 10^5</li>
  *  <li>0 <= Node.val <= 100</li>
  * </ul>
  */
@@ -21,15 +21,19 @@ public class SwappingNodesInLinkedList {
 
     // O(N) time | O(1) space
     public ListNode swapNodes(ListNode head, int k) {
+        // first k-th node
         ListNode p1 = head;
         while (--k > 0) {
             p1 = p1.next;
         }
+
+        // last k-th node
         ListNode p2 = head, curr = p1;
         while (curr.next != null) {
-            p2 = p2.next;
             curr = curr.next;
+            p2 = p2.next;
         }
+
         swapValues(p1, p2);
         return head;
     }
