@@ -53,34 +53,33 @@ public interface MaximumTwinSumOfLinkedList {
 
         @Override
         public int pairSum(ListNode head) {
-            ListNode prev = null;
+            // split the list into 2 halves
+            // n >= 2
             ListNode slow = head;
-            ListNode fast = head;
+            ListNode fast = head.next.next;
             while (fast != null && fast.next != null) {
-                fast = fast.next.next;
-                prev = slow;
                 slow = slow.next;
+                fast = fast.next.next;
             }
 
-            // 1st half of the list
-            fast = head;
-            prev.next = null;
+            fast = slow.next; // points to the head node of the 2nd half
+            slow.next = null;
+            slow = head;      // points to the head node of the 1st half
 
-            // 2nd half of the list
-            slow = reverse(slow);
+            fast = reverse(fast);
 
-            int best = -1;
-            while (fast != null) {
-                best = Math.max(best, fast.val + slow.val);
-                fast = fast.next;
+            int best = 0;
+            while (slow != null) {
+                best = Math.max(best, slow.val + fast.val);
                 slow = slow.next;
+                fast = fast.next;
             }
             return best;
         }
 
-        private ListNode reverse(ListNode start) {
+        private ListNode reverse(ListNode head) {
             ListNode prev = null;
-            ListNode curr = start;
+            ListNode curr = head;
             while (curr != null) {
                 ListNode next = curr.next;
                 curr.next = prev;
