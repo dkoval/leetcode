@@ -31,21 +31,20 @@ public interface MaximumTwinSumOfLinkedList {
 
         @Override
         public int pairSum(ListNode head) {
-            int n = 0;
             List<Integer> values = new ArrayList<>();
             ListNode curr = head;
             while (curr != null) {
-                n++;
                 values.add(curr.val);
                 curr = curr.next;
             }
 
-            int ans = -1;
+            int best = 0;
+            int n = values.size();
             for (int i = 0; i < n / 2; i++) {
                 int sum = values.get(i) + values.get(n - i - 1);
-                ans = Math.max(ans, sum);
+                best = Math.max(best, sum);
             }
-            return ans;
+            return best;
         }
     }
 
@@ -69,14 +68,14 @@ public interface MaximumTwinSumOfLinkedList {
 
             // 2nd half of the list
             slow = reverse(slow);
-            int ans = -1;
 
+            int best = -1;
             while (fast != null) {
-                ans = Math.max(ans, fast.val + slow.val);
+                best = Math.max(best, fast.val + slow.val);
                 fast = fast.next;
                 slow = slow.next;
             }
-            return ans;
+            return best;
         }
 
         private ListNode reverse(ListNode start) {
