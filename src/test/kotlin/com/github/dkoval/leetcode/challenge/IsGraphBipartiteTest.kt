@@ -57,8 +57,9 @@ internal class IsGraphBipartiteTest {
         }
     }
 
-    private fun IsGraphBipartite.test(graph: Array<IntArray>, expected: Boolean) {
-        val actual = isBipartite(graph)
-        assertEquals(expected, actual)
-    }
+}
+
+private fun IsGraphBipartite.test(graph: Array<IntArray>, expected: Boolean) {
+    val actual = isBipartite(graph)
+    assertEquals(expected, actual)
 }
