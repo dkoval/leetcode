@@ -56,7 +56,6 @@ internal class IsGraphBipartiteTest {
             IsGraphBipartiteBFS().test(graph, expected)
         }
     }
-
 }
 
 private fun IsGraphBipartite.test(graph: Array<IntArray>, expected: Boolean) {
