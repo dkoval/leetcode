@@ -41,7 +41,9 @@ public interface IsGraphBipartite {
 
         @Override
         public boolean isBipartite(int[][] graph) {
+            // idea: any node x can't be in the same set as its neighbors
             int n = graph.length;
+
             int[] colors = new int[n];
             Arrays.fill(colors, -1);
 
@@ -75,7 +77,9 @@ public interface IsGraphBipartite {
         // O(V + E) time
         // O(V) space
         public boolean isBipartite(int[][] graph) {
+            // idea: any node x can't be in the same set as its neighbors
             int n = graph.length;
+
             int[] colors = new int[n];
             Arrays.fill(colors, -1);
 
