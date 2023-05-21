@@ -132,8 +132,9 @@ public interface ShortestBridge {
 
         // left, right, up and down
         private static final int[][] DIRS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
-        private static final int ISLAND1 = -1;
-        private static final int ISLAND2 = -2;
+        private static final int VISITED_ISLAND1_CELL = -1;
+        private static final int VISITED_ISLAND2_CELL = -2;
+        private static final int VISITED_WATER_CELL = -3;
 
         public int shortestBridge(int[][] grid) {
             int n = grid.length;
@@ -168,18 +169,18 @@ public interface ShortestBridge {
                     }
 
                     // already visited?
-                    if (grid[nextRow][nextCol] == -1 || grid[nextRow][nextCol] == -3) {
+                    if (grid[nextRow][nextCol] == VISITED_ISLAND1_CELL || grid[nextRow][nextCol] == VISITED_WATER_CELL) {
                         continue;
                     }
 
                     // reached the 2nd island?
-                    if (grid[nextRow][nextCol] == -2) {
+                    if (grid[nextRow][nextCol] == VISITED_ISLAND2_CELL) {
                         return curr.dist;
                     }
 
                     // mark the current water cell as visited and continue
                     island1.offer(new Cell(nextRow, nextCol, curr.dist + 1));
-                    grid[nextRow][nextCol] = -3;
+                    grid[nextRow][nextCol] = VISITED_WATER_CELL;
                 }
             }
             return -1;
@@ -193,7 +194,7 @@ public interface ShortestBridge {
             grid[startRow][startCol] = id; // mark as visited
             while (!q.isEmpty()) {
                 Cell curr = q.poll();
-                if (id == ISLAND1) {
+                if (id == VISITED_ISLAND1_CELL) {
                     island1.offer(curr);
                 }
 
