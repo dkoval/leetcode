@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.problems;
 
 import java.util.*;
-import java.util.function.BiConsumer;
 
 /**
  * <a href="https://leetcode.com/problems/shortest-bridge/">Shortest Bridge</a>
@@ -31,99 +30,86 @@ public interface ShortestBridge {
 
         private static final int[][] DIRS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 
-        private static final int LAND = 1;
-        private static final int WATER = 0;
-
-        private static class Cell {
-            final int row;
-            final int col;
-            final int dist;
-
-            Cell(int row, int col, int dist) {
-                this.row = row;
-                this.col = col;
-                this.dist = dist;
-            }
-        }
-
         @Override
         public int shortestBridge(int[][] grid) {
             int n = grid.length;
 
-            int[] id = {-1};
-            Queue<Cell> q = new ArrayDeque<>();
-            BiConsumer<Integer, Integer> doOnNext = (row, col) -> {
-                if (id[0] == -1) {
-                    // only collect cells forming the 1st island
-                    q.offer(new Cell(row, col, 0));
-                }
-            };
-
-            // DFS to identify the two islands of the grid
+            // will store nodes of the 1st island
+            Queue<Cell> island1 = new ArrayDeque<>();
             for (int row = 0; row < n; row++) {
                 for (int col = 0; col < n; col++) {
-                    if (grid[row][col] == LAND) {
-                        dfs(grid, row, col, id[0], doOnNext);
-                        id[0]--;
+                    if (grid[row][col] == 1) {
+                        // explore the 1st island with DFS
+                        dfs(grid, row, col, island1);
+                        // now, start multi-BFS from all cells of the 1st island to find the shortest distance between 2 islands
+                        return bfs(grid, island1);
                     }
                 }
             }
-
-            // BFS to find the shortest path between the two islands
-            return bfs(grid, q);
+            return -1;
         }
 
-        private void dfs(int[][] grid, int row, int col, int id, BiConsumer<Integer, Integer> doOnNext) {
+        private void dfs(int[][] grid, int row, int col, Queue<Cell> island) {
             int n = grid.length;
-
-            // mark current cell as visited
-            grid[row][col] = id;
-            doOnNext.accept(row, col);
-
+            grid[row][col] = -1; // mark LAND cell as visited
+            island.offer(new Cell(row, col));
             for (int[] d : DIRS) {
                 int nextRow = row + d[0];
                 int nextCol = col + d[1];
 
-                if (nextRow < 0 || nextRow >= n || nextCol < 0 || nextCol >= n || grid[nextRow][nextCol] != LAND) {
+                if (nextRow < 0 || nextRow >= n || nextCol < 0 || nextCol >= n || grid[nextRow][nextCol] != 1) {
                     continue;
                 }
 
-                dfs(grid, nextRow, nextCol, id, doOnNext);
+                dfs(grid, nextRow, nextCol, island);
             }
         }
 
         private int bfs(int[][] grid, Queue<Cell> q) {
             int n = grid.length;
-
-            // id = -1 - visited 1st island's cell
-            // id = -2 - visited 2nd island's cell
-            // id = -3 - visited water call
+            int dist = 0;
             while (!q.isEmpty()) {
-                Cell curr = q.poll();
-                for (int[] d : DIRS) {
-                    int nextRow = curr.row + d[0];
-                    int nextCol = curr.col + d[1];
+                // process the current layer
+                int size = q.size();
+                while (size-- > 0) {
+                    Cell curr = q.poll();
+                    for (int[] d : DIRS) {
+                        int nextRow = curr.row + d[0];
+                        int nextCol = curr.col + d[1];
 
-                    // check boundaries
-                    if (nextRow < 0 || nextRow >= n || nextCol < 0 || nextCol >= n) {
-                        continue;
+                        if (nextRow < 0 || nextRow >= n || nextCol < 0 || nextCol >= n) {
+                            continue;
+                        }
+
+                        // already visited LAND or WATER cell?
+                        if (grid[nextRow][nextCol] == -1 || grid[nextRow][nextCol] == -2) {
+                            continue;
+                        }
+
+                        // reached the 2nd island?
+                        if (grid[nextRow][nextCol] == 1) {
+                            return dist;
+                        }
+
+                        // proceed to the next unvisited WATER cell
+                        q.offer(new Cell(nextRow, nextCol));
+                        grid[nextRow][nextCol] = -2; // mark WATER cell as visited
                     }
-
-                    // already visited?
-                    if (grid[nextRow][nextCol] == -1 || grid[nextRow][nextCol] == -3) {
-                        continue;
-                    }
-
-                    if (grid[nextRow][nextCol] == -2) {
-                        // reached the 2nd island
-                        return curr.dist;
-                    }
-
-                    grid[nextRow][nextCol] = -3;
-                    q.offer(new Cell(nextRow, nextCol, curr.dist + 1));
                 }
+                // once we're done with the current layer, increment the distance
+                dist++;
             }
-            return -1;
+            return dist;
+        }
+
+        private static class Cell {
+            final int row;
+            final int col;
+
+            Cell(int row, int col) {
+                this.row = row;
+                this.col = col;
+            }
         }
     }
 
