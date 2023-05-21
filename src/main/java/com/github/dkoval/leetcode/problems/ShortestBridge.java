@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.problems;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 /**
@@ -132,34 +131,30 @@ public interface ShortestBridge {
 
         // left, right, up and down
         private static final int[][] DIRS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
-        private static final int VISITED_ISLAND1_CELL = -1;
-        private static final int VISITED_ISLAND2_CELL = -2;
-        private static final int VISITED_WATER_CELL = -3;
 
         public int shortestBridge(int[][] grid) {
             int n = grid.length;
-
-            // Step #1: identify 2 islands on the grid (DFS or BFS).
-            // While performing step #1, collect cells forming the 1st island (required for step #2).
-            // Step #2: run multi-BFS to find the shortest distance between 2 islands.
-
-            // -1 -> visited cell of 1st island
-            // -2 -> visited cell of 2nd island
-            // -3 -> visited water cell
-            int id = -1;
-            Queue<Cell> island1 = new ArrayDeque<>();
             for (int row = 0; row < n; row++) {
                 for (int col = 0; col < n; col++) {
                     if (grid[row][col] == 1) {
-                        // explore an island
-                        bfs(grid, row, col, id--, island1);
+                        // explore the 1st island (both DFS and BFS are suitable)
+                        Set<Cell> visited = bfs(grid, new Cell(row, col));
+                        // now, start multi-BFS from all cells of the 1st island to find the shortest distance between 2 islands
+                        return multiBfs(grid, visited);
                     }
                 }
             }
+            return -1;
+        }
 
-            // multi-BFS
-            while (!island1.isEmpty()) {
-                Cell curr = island1.poll();
+        private Set<Cell> bfs(int[][] grid, Cell source) {
+            int n = grid.length;
+            Queue<Cell> q = new ArrayDeque<>();
+            Set<Cell> visited = new HashSet<>();
+            q.offer(source);
+            visited.add(source);
+            while (!q.isEmpty()) {
+                Cell curr = q.poll();
                 for (int[] d : DIRS) {
                     int nextRow = curr.row + d[0];
                     int nextCol = curr.col + d[1];
@@ -169,56 +164,84 @@ public interface ShortestBridge {
                     }
 
                     // already visited?
-                    if (grid[nextRow][nextCol] == VISITED_ISLAND1_CELL || grid[nextRow][nextCol] == VISITED_WATER_CELL) {
+                    Cell nextCell = new Cell(nextRow, nextCol);
+                    if (visited.contains(nextCell)) {
                         continue;
                     }
 
-                    // reached the 2nd island?
-                    if (grid[nextRow][nextCol] == VISITED_ISLAND2_CELL) {
-                        return curr.dist;
+                    // proceed to the next LAND cell
+                    if (grid[nextRow][nextCol] == 1) {
+                        q.offer(nextCell);
+                        visited.add(nextCell);
                     }
-
-                    // mark the current water cell as visited and continue
-                    island1.offer(new Cell(nextRow, nextCol, curr.dist + 1));
-                    grid[nextRow][nextCol] = VISITED_WATER_CELL;
                 }
             }
-            return -1;
+            return visited;
         }
 
-        private void bfs(int[][] grid, int startRow, int startCol, int id, Queue<Cell> island1) {
+        private int multiBfs(int[][] grid, Set<Cell> visited) {
             int n = grid.length;
-
-            Queue<Cell> q = new ArrayDeque<>();
-            q.offer(new Cell(startRow, startCol, 0));
-            grid[startRow][startCol] = id; // mark as visited
+            Queue<Cell> q = new ArrayDeque<>(visited);
+            int dist = 0;
             while (!q.isEmpty()) {
-                Cell curr = q.poll();
-                if (id == VISITED_ISLAND1_CELL) {
-                    island1.offer(curr);
-                }
+                // process the current layer
+                int size = q.size();
+                while (size-- > 0) {
+                    Cell curr = q.poll();
+                    for (int[] d : DIRS) {
+                        int nextRow = curr.row + d[0];
+                        int nextCol = curr.col + d[1];
 
-                for (int[] d : DIRS) {
-                    int nextRow = curr.row + d[0];
-                    int nextCol = curr.col + d[1];
+                        if (nextRow < 0 || nextRow >= n || nextCol < 0 || nextCol >= n) {
+                            continue;
+                        }
 
-                    if (nextRow >= 0 && nextRow < n && nextCol >= 0 && nextCol < n && grid[nextRow][nextCol] == 1) {
-                        q.offer(new Cell(nextRow, nextCol, 0));
-                        grid[nextRow][nextCol] = id;
+                        Cell nextCell = new Cell(nextRow, nextCol);
+                        if (visited.contains(nextCell)) {
+                            continue;
+                        }
+
+                        // reached the 2nd island?
+                        if (grid[nextRow][nextCol] == 1) {
+                            return dist;
+                        }
+
+                        // proceed to the next unvisited WATER cell
+                        q.offer(nextCell);
+                        visited.add(nextCell);
                     }
                 }
+                // once we're done with the current layer, increment the distance
+                dist++;
             }
+            return dist;
         }
-
         private static class Cell {
             final int row;
             final int col;
-            final int dist;
 
-            Cell(int row, int col, int dist) {
+            Cell(int row, int col) {
                 this.row = row;
                 this.col = col;
-                this.dist = dist;
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(row, col);
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+
+                if (obj == null || obj.getClass() != Cell.class) {
+                    return false;
+                }
+
+                Cell that = (Cell) obj;
+                return (row == that.row) && (col == that.col);
             }
         }
     }
