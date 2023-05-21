@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
 import com.github.dkoval.leetcode.problems.ShortestBridge.ShortestBridgeUsingDFSAndBFS
+import com.github.dkoval.leetcode.problems.ShortestBridge.ShortestBridgeUsingTwoBFS
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -56,8 +57,21 @@ internal class ShortestBridgeTest {
         }
     }
 
-    private fun ShortestBridge.test(grid: Array<IntArray>, expected: Int) {
-        val actual = shortestBridge(grid)
-        assertEquals(expected, actual)
+    @Nested
+    inner class ShortestBridgeUsingTwoBFSTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the smallest number of 0's you must flip to connect the two islands`(
+            grid: Array<IntArray>,
+            expected: Int
+        ) {
+            ShortestBridgeUsingTwoBFS().test(grid, expected)
+        }
     }
+}
+
+private fun ShortestBridge.test(grid: Array<IntArray>, expected: Int) {
+    val actual = shortestBridge(grid)
+    assertEquals(expected, actual)
 }
