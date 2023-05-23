@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
 import java.util.PriorityQueue;
+import java.util.Queue;
 
 /**
  * <a href="https://leetcode.com/problems/kth-largest-element-in-a-stream/">Kth Largest Element in a Stream</a>
@@ -26,27 +27,28 @@ import java.util.PriorityQueue;
  */
 public interface KthLargestElementInStream {
 
-    // O(NlogK) time | O(K) space
+    // O(N * logK) time | O(K) space
     class KthLargest {
         private final int k;
-        private final PriorityQueue<Integer> pq = new PriorityQueue<>(); // min heap
+        private final Queue<Integer> pq = new PriorityQueue<>(); // min heap
 
         public KthLargest(int k, int[] nums) {
             this.k = k;
-            for (int x : nums) {
-                enqueue(x);
-            }
+            enqueue(nums);
         }
 
         public int add(int val) {
             enqueue(val);
+            // it is guaranteed that there will be at least k elements in the array when you search for the kth element
             return pq.peek();
         }
 
-        private void enqueue(int x) {
-            pq.offer(x);
-            if (pq.size() > k) {
-                pq.poll();
+        private void enqueue(int... nums) {
+            for (int x : nums) {
+                pq.offer(x);
+                if (pq.size() > k) {
+                    pq.poll();
+                }
             }
         }
     }
