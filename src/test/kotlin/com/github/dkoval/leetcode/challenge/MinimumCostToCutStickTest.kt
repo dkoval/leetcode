@@ -23,7 +23,7 @@ internal class MinimumCostToCutStickTest {
             ),
             Arguments.of(
                 9,
-                intArrayOf(1, 3, 4, 5),
+                intArrayOf(5, 6, 1, 4, 2),
                 22
             )
         )
