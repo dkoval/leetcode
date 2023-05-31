@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/march-leetcoding-challenge-2021/590/week-3-march-15th-march-21st/3678/">Design Underground System</a>
+ * <a href="https://leetcode.com/problems/design-underground-system/">Design Underground System</a>
  * <p>
  * Implement the UndergroundSystem class:
  * <ul>
@@ -25,6 +25,15 @@ import java.util.Map;
  *  </ul>
  * You can assume all calls to checkIn and checkOut methods are consistent. If a customer gets in at time t1 at some station,
  * they get out at time t2 with t2 > t1. All events happen in chronological order.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= id, t <= 10^6</li>
+ *  <li>1 <= stationName.length, startStation.length, endStation.length <= 10</li>
+ *  <li>All strings consist of uppercase and lowercase English letters and digits.</li>
+ *  <li>There will be at most 2 * 104 calls in total to checkIn, checkOut, and getAverageTime.</li>
+ *  <li>Answers within 10^-5 of the actual value will be accepted.</li>
+ * </ul>
  */
 public class UndergroundSystem {
     // cardId -> (checkInStation, checkInTime)
@@ -66,7 +75,7 @@ public class UndergroundSystem {
         if (checkIns.containsKey(id)) {
             CheckIn checkIn = checkIns.get(id);
             String route = route(checkIn.station, stationName);
-            AvgTime avgTime = avgTimePerRoute.computeIfAbsent(route, key -> new AvgTime());
+            AvgTime avgTime = avgTimePerRoute.computeIfAbsent(route, __ -> new AvgTime());
             avgTime.update(t - checkIn.time);
             checkIns.remove(id); // information about check-in is no longer needed
         }
@@ -74,6 +83,7 @@ public class UndergroundSystem {
 
     public double getAverageTime(String startStation, String endStation) {
         String route = route(startStation, endStation);
+        // There will be at least one customer that has traveled from startStation to endStation before getAverageTime is called
         AvgTime avgTime = avgTimePerRoute.get(route);
         return (avgTime != null) ? avgTime.get() : Double.POSITIVE_INFINITY;
     }
