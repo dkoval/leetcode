@@ -1,15 +1,21 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.ShortestPathInBinaryMatrix.ShortestPathInBinaryMatrixRev1
+import com.github.dkoval.leetcode.challenge.ShortestPathInBinaryMatrix.ShortestPathInBinaryMatrixRev2
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.MethodSource
+import java.util.stream.Stream
 
 internal class ShortestPathInBinaryMatrixTest {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 arrayOf(
                     intArrayOf(0, 1),
@@ -50,13 +56,34 @@ internal class ShortestPathInBinaryMatrixTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should return the length of the shortest such clear path from top-left to bottom-right`(
-        grid: Array<IntArray>,
-        expected: Int
-    ) {
-        val actual = ShortestPathInBinaryMatrix().shortestPathBinaryMatrix(grid)
-        assertEquals(expected, actual)
+    @Nested
+    inner class ShortestPathInBinaryMatrixRev1Test {
+
+        @ParameterizedTest
+        @MethodSource("input")
+        fun `should return the length of the shortest such clear path from top-left to bottom-right`(
+            grid: Array<IntArray>,
+            expected: Int
+        ) {
+            ShortestPathInBinaryMatrixRev1().test(grid, expected)
+        }
     }
+
+    @Nested
+    inner class ShortestPathInBinaryMatrixRev2Test {
+
+        @ParameterizedTest
+        @MethodSource("input")
+        fun `should return the length of the shortest such clear path from top-left to bottom-right`(
+            grid: Array<IntArray>,
+            expected: Int
+        ) {
+            ShortestPathInBinaryMatrixRev2().test(grid, expected)
+        }
+    }
+}
+
+private fun ShortestPathInBinaryMatrix.test(grid: Array<IntArray>, expected: Int) {
+    val actual = shortestPathBinaryMatrix(grid)
+    assertEquals(expected, actual)
 }
