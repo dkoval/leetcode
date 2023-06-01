@@ -6,16 +6,14 @@ import java.util.Queue;
 /**
  * <a href="https://leetcode.com/problems/shortest-path-in-binary-matrix/">Shortest Path in Binary Matrix</a>
  * <p>
- * In an N by N square grid, each cell is either empty (0) or blocked (1).
+ * Given an n x n binary matrix grid, return the length of the shortest clear path in the matrix. If there is no clear path, return -1.
  * <p>
- * A clear path from top-left to bottom-right has length k if and only if it is composed of cells C_1, C_2, ..., C_k such that:
+ * A clear path in a binary matrix is a path from the top-left cell (i.e., (0, 0)) to the bottom-right cell (i.e., (n - 1, n - 1)) such that:
  * <ul>
- *  <li>Adjacent cells C_i and C_{i+1} are connected 8-directionally (ie., they are different and share an edge or corner)</li>
- *  <li>C_1 is at location (0, 0) (ie. has value grid[0][0])</li>
- *  <li>C_k is at location (N-1, N-1) (ie. has value grid[N-1][N-1])</li>
- *  <li>If C_i is located at (r, c), then grid[r][c] is empty (ie. grid[r][c] == 0).</li>
+ *  <li>All the visited cells of the path are 0.</li>
+ *  <li>All the adjacent cells of the path are 8-directionally connected (i.e., they are different and they share an edge or a corner).</li>
  * </ul>
- * Return the length of the shortest such clear path from top-left to bottom-right. If such a path does not exist, return -1.
+ * The length of a clear path is the number of visited cells of this path.
  * <p>
  * Constraints:
  * <ul>
