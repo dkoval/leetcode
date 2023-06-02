@@ -104,4 +104,47 @@ public interface DetonateMaximumBombs {
             }
         }
     }
+
+    class DetonateMaximumBombsDFSRev2 implements DetonateMaximumBombs {
+
+        @Override
+        public int maximumDetonation(int[][] bombs) {
+            int n = bombs.length;
+
+            int best = 0;
+            for (int i = 0; i < n; i++) {
+                // spread bombs[i] detonation effect
+                best = Math.max(best, dfs(bombs, i, new boolean[n]));
+            }
+            return best;
+        }
+
+        private int dfs(int[][] bombs, int i, boolean[] visited) {
+            int n = bombs.length;
+
+            visited[i] = true;
+            int count = 1;
+            for (int j = 0; j < n; j++) {
+                if (!visited[j] && detonate(bombs, i, j)) {
+                    count += dfs(bombs, j, visited);
+                }
+            }
+            return count;
+        }
+
+        // checks if bombs[i] detonates bombs[j], i.e. bombs[j] lies in the bombs[i] range
+        private boolean detonate(int[][] bombs, int i, int j) {
+            // (x - x0)^2 + (y - y0)^2 <= R^2
+            int dx = bombs[j][0] - bombs[i][0];
+            int dy = bombs[j][1] - bombs[i][1];
+            int r = bombs[i][2];
+            return pow2(dx) + pow2(dy) <= pow2(r);
+        }
+
+        private long pow2(int x) {
+            // Constraints: x <= 10^5
+            // Therefore x^2 <= 10^10 - doesn't fit into int
+            return ((long) x) * x;
+        }
+    }
 }
