@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.DetonateMaximumBombs.DetonateMaximumBombsDFSRev1
-import com.github.dkoval.leetcode.challenge.DetonateMaximumBombs.DetonateMaximumBombsDFSRev2
+import com.github.dkoval.leetcode.challenge.DetonateMaximumBombs.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -73,6 +72,19 @@ internal class DetonateMaximumBombsTest {
             expected: Int
         ) {
             DetonateMaximumBombsDFSRev2().test(bombs, expected)
+        }
+    }
+
+    @Nested
+    inner class DetonateMaximumBombsDFSRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum number of bombs that can be detonated if you are allowed to detonate only one bomb`(
+            bombs: Array<IntArray>,
+            expected: Int
+        ) {
+            DetonateMaximumBombsDFSRev3().test(bombs, expected)
         }
     }
 }

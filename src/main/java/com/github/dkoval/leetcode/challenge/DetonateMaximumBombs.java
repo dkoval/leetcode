@@ -147,4 +147,60 @@ public interface DetonateMaximumBombs {
             return ((long) x) * x;
         }
     }
+
+    class DetonateMaximumBombsDFSRev3 implements DetonateMaximumBombs {
+
+        @Override
+        public int maximumDetonation(int[][] bombs) {
+            int n = bombs.length;
+
+            // adj list
+            List<Integer>[] adj = new List[n];
+            for (int i = 0; i < n; i++) {
+                adj[i] = new ArrayList<>();
+            }
+
+            // process all pairs of bombs
+            for (int i = 0; i < n - 1; i++) {
+                for (int j = i + 1; j < n; j++) {
+                    if (detonate(bombs, i, j)) {
+                        adj[i].add(j);
+                    }
+
+                    if (detonate(bombs, j, i)) {
+                        adj[j].add(i);
+                    }
+                }
+            }
+
+            int best = 0;
+            for (int i = 0; i < n; i++) {
+                best = Math.max(best, dfs(adj, i, new boolean[n]));
+            }
+            return best;
+        }
+
+        private boolean detonate(int[][] bombs, int source, int target) {
+            // (x - x0)^2 + (y - y0) ^ 2 <= R^2
+            int dx = bombs[source][0] - bombs[target][0];
+            int dy = bombs[source][1] - bombs[target][1];
+            int r = bombs[source][2];
+            return pow2(dx) + pow2(dy) <= pow2(r);
+        }
+
+        private long pow2(int x) {
+            return ((long) x) * x;
+        }
+
+        private int dfs(List<Integer>[] adj, int source, boolean[] visited) {
+            visited[source] = true;
+            int count = 1;
+            for (int neighbor : adj[source]) {
+                if (!visited[neighbor]) {
+                    count += dfs(adj, neighbor, visited);
+                }
+            }
+            return count;
+        }
+    }
 }
