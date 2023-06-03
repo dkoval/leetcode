@@ -48,17 +48,13 @@ public interface TimeNeededToInformAllEmployees {
             return dfs(graph, informTime, headID);
         }
 
-        private int dfs(Map<Integer, List<Integer>> graph, int[] informTime, int managerId) {
-            List<Integer> subordinates = graph.get(managerId);
-            if (subordinates == null) {
-                return 0;
+        private int dfs(Map<Integer, List<Integer>> graph, int[] informTime, int boss) {
+            // compute the longest path in a graph
+            int longest = 0;
+            for (int subordinate : graph.getOrDefault(boss, Collections.emptyList())) {
+                longest = Math.max(longest, informTime[boss] + dfs(graph, informTime, subordinate));
             }
-
-            int propagateTime = 0;
-            for (int subordinateId : subordinates) {
-                propagateTime = Math.max(propagateTime, dfs(graph, informTime, subordinateId));
-            }
-            return informTime[managerId] + propagateTime;
+            return longest;
         }
     }
 
