@@ -88,13 +88,13 @@ public interface TimeNeededToInformAllEmployees {
             Queue<Employee> q = new ArrayDeque<>();
             q.offer(new Employee(headID, 0));
             while (!q.isEmpty()) {
-                Employee curr = q.poll();
-                if (!graph.containsKey(curr.id)) {
-                    // no direct subordinates
-                    maxTime = Math.max(maxTime, curr.awarenessTime);
+                Employee boss = q.poll();
+                if (!graph.containsKey(boss.id)) {
+                    // no direct subordinates (reached a leaf node)
+                    maxTime = Math.max(maxTime, boss.awarenessTime);
                 } else {
-                    for (int subordinateId : graph.get(curr.id)) {
-                        q.offer(new Employee(subordinateId, curr.awarenessTime + informTime[curr.id]));
+                    for (int subordinate : graph.get(boss.id)) {
+                        q.offer(new Employee(subordinate, boss.awarenessTime + informTime[boss.id]));
                     }
                 }
             }
