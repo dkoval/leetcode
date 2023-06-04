@@ -1,5 +1,8 @@
 package com.github.dkoval.leetcode.problems;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 /**
  * <a href="https://leetcode.com/problems/number-of-provinces/">Number of Provinces</a>
  * <p>
@@ -29,8 +32,6 @@ public interface NumberOfProvinces {
 
     class NumberOfProvincesUsingDFS implements NumberOfProvinces {
 
-        private static final int[][] DIRECTIONS = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-
         @Override
         public int findCircleNum(int[][] connected) {
             int n = connected.length;
@@ -49,8 +50,41 @@ public interface NumberOfProvinces {
             int n = connected.length;
             visited[u] = true;
             for (int v = 0; v < n; v++) {
-                if (u != v && connected[u][v] == 1 && !visited[v]) {
+                if (connected[u][v] == 1 && !visited[v]) {
                     dfs(connected, v, visited);
+                }
+            }
+        }
+    }
+
+    class NumberOfProvincesUsingBFS implements NumberOfProvinces {
+
+        @Override
+        public int findCircleNum(int[][] connected) {
+            int n = connected.length;
+            int count = 0;
+            boolean[] visited = new boolean[n];
+            for (int i = 0; i < n; i++) {
+                if (!visited[i]) {
+                    bfs(connected, i, visited);
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        private void bfs(int[][] connected, int source, boolean[] visited) {
+            int n = connected.length;
+            Queue<Integer> q = new ArrayDeque<>();
+            q.offer(source);
+            visited[source] = true;
+            while (!q.isEmpty()) {
+                int curr = q.poll();
+                for (int neighbor = 0; neighbor < n; neighbor++) {
+                    if (connected[curr][neighbor] == 1 && !visited[neighbor]) {
+                        q.offer(neighbor);
+                        visited[neighbor] = true;
+                    }
                 }
             }
         }

@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.problems
 
-import com.github.dkoval.leetcode.problems.NumberOfProvinces.NumberOfProvincesUsingDFS
-import com.github.dkoval.leetcode.problems.NumberOfProvinces.NumberOfProvincesUsingUnionFind
+import com.github.dkoval.leetcode.problems.NumberOfProvinces.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -51,6 +50,16 @@ internal class NumberOfProvincesTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the total number of provinces`(connected: Array<IntArray>, expected: Int) {
             NumberOfProvincesUsingDFS().test(connected, expected)
+        }
+    }
+
+    @Nested
+    inner class NumberOfProvincesUsingBFSTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the total number of provinces`(connected: Array<IntArray>, expected: Int) {
+            NumberOfProvincesUsingBFS().test(connected, expected)
         }
     }
 
