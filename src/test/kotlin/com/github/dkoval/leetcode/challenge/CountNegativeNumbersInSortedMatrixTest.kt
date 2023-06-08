@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.CountNegativeNumbersInSortedMatrix.CountNegativeNumbersInSortedMatrixRev1
+import com.github.dkoval.leetcode.challenge.CountNegativeNumbersInSortedMatrix.CountNegativeNumbersInSortedMatrixRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -41,6 +42,16 @@ internal class CountNegativeNumbersInSortedMatrixTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the number of negative numbers in grid`(grid: Array<IntArray>, expected: Int) {
             CountNegativeNumbersInSortedMatrixRev1().test(grid, expected)
+        }
+    }
+
+    @Nested
+    inner class CountNegativeNumbersInSortedMatrixRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of negative numbers in grid`(grid: Array<IntArray>, expected: Int) {
+            CountNegativeNumbersInSortedMatrixRev2().test(grid, expected)
         }
     }
 }
