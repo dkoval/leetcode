@@ -57,4 +57,29 @@ public interface CountNegativeNumbersInSortedMatrix {
             return count;
         }
     }
+
+    // O(m + n) time | O(1) space
+    class CountNegativeNumbersInSortedMatrixRev3 implements CountNegativeNumbersInSortedMatrix {
+
+        @Override
+        public int countNegatives(int[][] grid) {
+            // .....xxx
+            // ...xxxxx
+            // ...xxxxx <- same quantity of negative numbers or expands to the left
+            // ..xxxxxx
+            // .xxxxxxx
+            int m = grid.length;
+            int n = grid[0].length;
+
+            int count = 0;
+            int col = n - 1;
+            for (int row = 0; row < m; row++) {
+                while (col >= 0 && grid[row][col] < 0) {
+                    col--;
+                }
+                count += n - col - 1;
+            }
+            return count;
+        }
+    }
 }
