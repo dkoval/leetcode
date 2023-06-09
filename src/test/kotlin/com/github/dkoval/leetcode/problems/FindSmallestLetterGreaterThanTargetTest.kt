@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.problems
 
-import com.github.dkoval.leetcode.problems.FindSmallestLetterGreaterThanTarget.FindSmallestLetterGreaterThanTargetBinarySearch
-import com.github.dkoval.leetcode.problems.FindSmallestLetterGreaterThanTarget.FindSmallestLetterGreaterThanTargetRecordLettersSeen
+import com.github.dkoval.leetcode.problems.FindSmallestLetterGreaterThanTarget.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -54,7 +53,7 @@ internal class FindSmallestLetterGreaterThanTargetTest {
     }
 
     @Nested
-    inner class FindSmallestLetterGreaterThanTargetBinarySearchTest {
+    inner class FindSmallestLetterGreaterThanTargetBinarySearchRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -63,12 +62,26 @@ internal class FindSmallestLetterGreaterThanTargetTest {
             target: Char,
             expected: Char
         ) {
-            FindSmallestLetterGreaterThanTargetBinarySearch().test(letters, target, expected)
+            FindSmallestLetterGreaterThanTargetBinarySearchRev1().test(letters, target, expected)
         }
     }
 
-    private fun FindSmallestLetterGreaterThanTarget.test(letters: CharArray, target: Char, expected: Char) {
-        val actual = nextGreatestLetter(letters, target)
-        assertEquals(expected, actual)
+    @Nested
+    inner class FindSmallestLetterGreaterThanTargetBinarySearchRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the smallest character in the array that is larger than target`(
+            letters: CharArray,
+            target: Char,
+            expected: Char
+        ) {
+            FindSmallestLetterGreaterThanTargetBinarySearchRev2().test(letters, target, expected)
+        }
     }
+}
+
+private fun FindSmallestLetterGreaterThanTarget.test(letters: CharArray, target: Char, expected: Char) {
+    val actual = nextGreatestLetter(letters, target)
+    assertEquals(expected, actual)
 }
