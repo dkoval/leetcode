@@ -1,6 +1,9 @@
 package com.github.dkoval.leetcode.mock;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 
 /**
  * <a href="https://leetcode.com/problems/snapshot-array/">Snapshot Array</a>
@@ -11,6 +14,15 @@ import java.util.*;
  *     <li>void set(index, val) sets the element at the given index to be equal to val.</li>
  *     <li>int snap() takes a snapshot of the array and returns the snap_id: the total number of times we called snap() minus 1.</li>
  *     <li>int get(index, snap_id) returns the value at the given index, at the time we took the snapshot with the given snap_id</li>
+ * </ul>
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= length <= 5 * 10^4</li>
+ *  <li>0 <= index < length</li>
+ *  <li>0 <= val <= 10^9</li>
+ *  <li>0 <= snap_id < (the total number of times we call snap())</li>
+ *  <li>At most 5 * 10^4 calls will be made to set, snap, and get.</li>
  * </ul>
  */
 public abstract class SnapshotArray {
@@ -58,23 +70,22 @@ public abstract class SnapshotArray {
         private static final int DUMMY_SNAP_ID = -1;
         private static final int INIT_VALUE = 0;
 
-        // arr[index] is a map of (snapId, val) pairs
-        private final List<NavigableMap<Integer, Integer>> arr;
+        // arr[index]: snapId -> value
+        private final NavigableMap<Integer, Integer>[] arr;
         private int snapId = 0;
 
         public SnapshotArrayBackedByTreeMap(int length) {
             super(length);
-            this.arr = new ArrayList<>(length);
+            this.arr = new NavigableMap[length];
             for (int i = 0; i < length; i++) {
-                NavigableMap<Integer, Integer> revisions = new TreeMap<>();
-                revisions.put(DUMMY_SNAP_ID, INIT_VALUE);
-                arr.add(revisions);
+                arr[i] = new TreeMap<>();
+                arr[i].put(DUMMY_SNAP_ID, INIT_VALUE);
             }
         }
 
         @Override
         public void set(int index, int val) {
-            arr.get(index).put(snapId, val);
+            arr[index].put(snapId, val);
         }
 
         @Override
@@ -84,7 +95,7 @@ public abstract class SnapshotArray {
 
         @Override
         public int get(int index, int snapId) {
-            return arr.get(index).floorEntry(snapId).getValue();
+            return arr[index].floorEntry(snapId).getValue();
         }
     }
 }
