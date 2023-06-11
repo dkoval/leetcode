@@ -1,9 +1,6 @@
 package com.github.dkoval.leetcode.mock;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * <a href="https://leetcode.com/problems/snapshot-array/">Snapshot Array</a>
@@ -28,6 +25,7 @@ import java.util.TreeMap;
 public abstract class SnapshotArray {
 
     public SnapshotArray(int length) {
+        // noop
     }
 
     public abstract void set(int index, int val);
@@ -73,7 +71,7 @@ public abstract class SnapshotArray {
 
         public SnapshotArrayBackedByTreeMap(int length) {
             super(length);
-            this.arr = new NavigableMap[length];
+            arr = new NavigableMap[length];
             for (int i = 0; i < length; i++) {
                 arr[i] = new TreeMap<>();
                 arr[i].put(0, 0);
@@ -94,6 +92,71 @@ public abstract class SnapshotArray {
         public int get(int index, int snapId) {
             // find the maximum recorded snapId that is <= snapId
             return arr[index].floorEntry(snapId).getValue();
+        }
+    }
+
+    public static class SnapshotArrayUsingBinarySearch extends SnapshotArray {
+        // arr[index]: snapId -> value
+        private final Snapshots[] arr;
+        private int currSnapId = 0;
+
+        public SnapshotArrayUsingBinarySearch(int length) {
+            super(length);
+            arr = new Snapshots[length];
+            for (int i = 0; i < length; i++) {
+                arr[i] = new Snapshots();
+                arr[i].items.add(new Snapshots.Item(0, 0));
+            }
+        }
+
+        @Override
+        public void set(int index, int val) {
+            List<Snapshots.Item> snapshots = arr[index].items;
+            Snapshots.Item last = snapshots.get(snapshots.size() - 1);
+            if (last.snapId != currSnapId) {
+                snapshots.add(new Snapshots.Item(currSnapId, val));
+            } else {
+                last.val = val;
+            }
+        }
+
+        @Override
+        public int snap() {
+            return currSnapId++;
+        }
+
+        @Override
+        public int get(int index, int snapId) {
+            // snapId is a monotonically increasing function, therefore binary search can be applied to
+            // find the maximum recorded snapId that is <= snapId (upper boundary)
+            List<Snapshots.Item> snapshots = arr[index].items;
+            int left = 0;
+            int right = snapshots.size() - 1;
+            while (left < right) {
+                int mid = left + (right - left + 1) / 2;
+                if (snapshots.get(mid).snapId <= snapId) {
+                    // snapshots[mid] can be the answer;
+                    // check if there's a better alternative to the right of `mid` index.
+                    left = mid;
+                } else {
+                    right = mid - 1;
+                }
+            }
+            return snapshots.get(left).val;
+        }
+
+        private static class Snapshots {
+            final List<Item> items = new ArrayList<>();
+
+            static class Item {
+                final int snapId;
+                int val;
+
+                Item(int snapId, int val) {
+                    this.snapId = snapId;
+                    this.val = val;
+                }
+            }
         }
     }
 }
