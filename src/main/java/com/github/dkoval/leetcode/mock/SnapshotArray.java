@@ -67,9 +67,6 @@ public abstract class SnapshotArray {
     }
 
     public static class SnapshotArrayBackedByTreeMap extends SnapshotArray {
-        private static final int DUMMY_SNAP_ID = -1;
-        private static final int INIT_VALUE = 0;
-
         // arr[index]: snapId -> value
         private final NavigableMap<Integer, Integer>[] arr;
         private int snapId = 0;
@@ -79,7 +76,7 @@ public abstract class SnapshotArray {
             this.arr = new NavigableMap[length];
             for (int i = 0; i < length; i++) {
                 arr[i] = new TreeMap<>();
-                arr[i].put(DUMMY_SNAP_ID, INIT_VALUE);
+                arr[i].put(0, 0);
             }
         }
 
@@ -95,6 +92,7 @@ public abstract class SnapshotArray {
 
         @Override
         public int get(int index, int snapId) {
+            // find the maximum recorded snapId that is <= snapId
             return arr[index].floorEntry(snapId).getValue();
         }
     }
