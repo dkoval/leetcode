@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.mock
 
-import com.github.dkoval.leetcode.mock.SnapshotArray.SnapshotArrayBackedByNestedMap
-import com.github.dkoval.leetcode.mock.SnapshotArray.SnapshotArrayBackedByTreeMap
+import com.github.dkoval.leetcode.mock.SnapshotArray.*
+import com.github.dkoval.leetcode.mock.SnapshotArrayTest.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -80,21 +80,31 @@ internal class SnapshotArrayTest {
         }
     }
 
-    private fun SnapshotArray.test(commands: List<Command>) {
-        for (command in commands) {
-            when (command) {
-                is Command.Set -> set(command.index, command.`val`)
-                is Command.Snap -> assertEquals(
-                    command.expectedId,
-                    snap(),
-                    "Wrong value returned for snapId"
-                )
-                is Command.Get -> assertEquals(
-                    command.expectedVal,
-                    get(command.index, command.snapId),
-                    "Wrong value returned for index: ${command.index}, snapId: ${command.snapId}"
-                )
-            }
+    @Nested
+    inner class SnapshotArrayUsingBinarySearchTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should validate SnapshotArray implementation`(length: Int, commands: List<Command>) {
+            SnapshotArrayUsingBinarySearch(length).test(commands)
+        }
+    }
+}
+
+private fun SnapshotArray.test(commands: List<Command>) {
+    for (command in commands) {
+        when (command) {
+            is Command.Set -> set(command.index, command.`val`)
+            is Command.Snap -> assertEquals(
+                command.expectedId,
+                snap(),
+                "Wrong value returned for snapId"
+            )
+            is Command.Get -> assertEquals(
+                command.expectedVal,
+                get(command.index, command.snapId),
+                "Wrong value returned for index: ${command.index}, snapId: ${command.snapId}"
+            )
         }
     }
 }
