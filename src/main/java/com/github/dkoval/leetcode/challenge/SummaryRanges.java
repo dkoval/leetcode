@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * <a href="https://leetcode.com/explore/featured/card/october-leetcoding-challenge/562/week-4-october-22nd-october-28th/3510/">Summary Ranges</a>
+ * <a href="https://leetcode.com/problems/summary-ranges/">Summary Ranges</a>
  * <p>
  * You are given a sorted unique integer array nums.
  * <p>
@@ -14,26 +14,49 @@ import java.util.List;
  * such that x is in one of the ranges but not in nums.
  * <p>
  * Each range [a,b] in the list should be output as:
- * <p>
- * "a->b" if a != b
- * "a" if a == b
+ * <ul>
+ *  <li>"a->b" if a != b</li>
+ *  <li>"a" if a == b</li>
+ * </ul>
+ * Constraints:
+ * <ul>
+ *  <li>0 <= nums.length <= 20</li>
+ *  <li>-2^31 <= nums[i] <= 2^31 - 1</li>
+ *  <li>All the values of nums are unique.</li>
+ *  <li>nums is sorted in ascending order.</li>
+ * </ul>
  */
-public class SummaryRanges {
+public interface SummaryRanges {
 
-    public List<String> summaryRanges(int[] nums) {
-        if (nums.length == 0) return Collections.emptyList();
-        List<String> result = new ArrayList<>();
-        int start = 0, end = 0;
-        for (int i = 1; i < nums.length; i++) {
-            if (Math.abs(nums[i] - nums[i - 1]) < 2) {
-                end = i;
-            } else {
-                result.add(formatRange(nums, start, end));
-                start = end = i;
+    List<String> summaryRanges(int[] nums);
+
+    // O(N) time | O(N) space, O(1) extra space
+    class SummaryRangesRev1 implements SummaryRanges {
+
+        @Override
+        public List<String> summaryRanges(int[] nums) {
+            int n = nums.length;
+
+            if (n == 0) {
+                return Collections.emptyList();
             }
+
+            List<String> ans = new ArrayList<>();
+            int start = 0;
+            for (int end = 1; end < n; end++) {
+                if (nums[end - 1] + 1 != nums[end]) {
+                    ans.add(format(nums[start], nums[end - 1]));
+                    start = end;
+                }
+            }
+
+            ans.add(format(nums[start], nums[n - 1]));
+            return ans;
         }
-        result.add(formatRange(nums, start, end));
-        return result;
+
+        private String format(int a, int b) {
+            return (a == b) ? Integer.toString(a) : a + "->" + b;
+        }
     }
 
     private String formatRange(int[] nums, int start, int end) {
