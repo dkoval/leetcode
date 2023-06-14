@@ -60,4 +60,40 @@ public interface MinimumAbsoluteDifferenceInBST {
             doInorder(root.right, ans);
         }
     }
+
+    // O(N) time | O(N) space
+    class MinimumAbsoluteDifferenceInBSTRev2 implements MinimumAbsoluteDifferenceInBST {
+
+        @Override
+        public int getMinimumDifference(TreeNode root) {
+            // inorder traversal of a BST visits nodes
+            // in increasing order of their values
+            TreeInfo info = new TreeInfo();
+            inorder(root, info);
+            return info.best;
+        }
+
+        private void inorder(TreeNode root, TreeInfo info) {
+            if (root == null) {
+                return;
+            }
+
+            inorder(root.left, info);
+
+            // processing step
+            int curr = root.val;
+            // 0 <= Node.val <= 10^5
+            if (info.prev >= 0) {
+                info.best = Math.min(info.best, curr - info.prev);
+            }
+            info.prev = curr;
+
+            inorder(root.right, info);
+        }
+
+        private static class TreeInfo {
+            int prev = -1;
+            int best = Integer.MAX_VALUE;
+        }
+    }
 }
