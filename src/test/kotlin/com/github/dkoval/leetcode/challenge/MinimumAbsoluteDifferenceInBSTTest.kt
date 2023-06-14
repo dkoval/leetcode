@@ -1,6 +1,8 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.TreeNode
+import com.github.dkoval.leetcode.challenge.MinimumAbsoluteDifferenceInBST.MinimumAbsoluteDifferenceInBSTRev1
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
@@ -21,7 +23,8 @@ internal class MinimumAbsoluteDifferenceInBSTTest {
                         right = TreeNode(3)
                     }
                     right = TreeNode(6)
-                }
+                },
+                1
             ),
             Arguments.of(
                 TreeNode(1).apply {
@@ -30,7 +33,8 @@ internal class MinimumAbsoluteDifferenceInBSTTest {
                         left = TreeNode(12)
                         right = TreeNode(49)
                     }
-                }
+                },
+                1
             )
         )
     }
@@ -44,7 +48,12 @@ internal class MinimumAbsoluteDifferenceInBSTTest {
             root: TreeNode,
             expected: Int
         ) {
-
+            MinimumAbsoluteDifferenceInBSTRev1().test(root, expected)
         }
     }
+}
+
+private fun MinimumAbsoluteDifferenceInBST.test(root: TreeNode, expected: Int) {
+    val actual = getMinimumDifference(root)
+    assertEquals(expected, actual)
 }
