@@ -23,6 +23,7 @@ public interface NumberOfIncreasingPathsInGrid {
 
     int countPaths(int[][] grid);
 
+    // O(M * N) time | O(M * N) space
     class NumberOfIncreasingPathsInGridRev1 implements NumberOfIncreasingPathsInGrid {
         private static final int MOD = 1_000_000_007;
 
