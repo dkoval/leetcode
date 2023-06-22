@@ -55,7 +55,7 @@ public interface BestTimeToBuyAndSellStockWithTransactionFee {
                 // option #2: buy on this day
                 best = Math.max(best, calculate(prices, fee, day + 1, false, dp) - prices[day]);
             } else {
-                // option #1: sell on this day
+                // option #2: sell on this day
                 best = Math.max(best, calculate(prices, fee, day + 1, true, dp) + prices[day] - fee);
             }
 
