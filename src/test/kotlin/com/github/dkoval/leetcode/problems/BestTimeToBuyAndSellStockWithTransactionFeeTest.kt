@@ -49,9 +49,9 @@ internal class BestTimeToBuyAndSellStockWithTransactionFeeTest {
             BestTimeToBuyAndSellStockWithTransactionFeeDPBottomUp().test(prices, fee, expected)
         }
     }
+}
 
-    private fun BestTimeToBuyAndSellStockWithTransactionFee.test(prices: IntArray, fee: Int, expected: Int) {
-        val actual = maxProfit(prices, fee)
-        assertEquals(expected, actual)
-    }
+private fun BestTimeToBuyAndSellStockWithTransactionFee.test(prices: IntArray, fee: Int, expected: Int) {
+    val actual = maxProfit(prices, fee)
+    assertEquals(expected, actual)
 }

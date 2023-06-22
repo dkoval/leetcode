@@ -1,9 +1,5 @@
 package com.github.dkoval.leetcode.problems;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 /**
  * <a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/">Best Time to Buy and Sell Stock with Transaction Fee</a>
  * <p>
@@ -27,59 +23,45 @@ public interface BestTimeToBuyAndSellStockWithTransactionFee {
     // O(N) time | O(N) space
     class BestTimeToBuyAndSellStockWithTransactionFeeDPTopDown implements BestTimeToBuyAndSellStockWithTransactionFee {
 
-        private static final class Key {
-            final int day;
-            final boolean buying;
-
-            Key(int day, boolean buying) {
-                this.day = day;
-                this.buying = buying;
-            }
-
-            @Override
-            public int hashCode() {
-                return Objects.hash(day, buying);
-            }
-
-            @Override
-            public boolean equals(Object obj) {
-                if (this == obj) {
-                    return true;
-                }
-                if (obj == null || obj.getClass() != Key.class) {
-                    return false;
-                }
-                Key that = (Key) obj;
-                return (day == that.day) && (buying == that.buying);
-            }
-        }
-
         @Override
         public int maxProfit(int[] prices, int fee) {
-            return maxProfit(prices, fee, 0, true, new HashMap<>());
+            // idea: DP
+            int n = prices.length;
+
+            // dp[i][0] - the maximum profit a one can achieve if BUY on the i-th day
+            // dp[i][1] - the maximum profit a one can achieve if SELL on the i-th day
+            Integer[][] dp = new Integer[n][2];
+            return calculate(prices, fee, 0, true, dp);
         }
 
-        private int maxProfit(int[] prices, int fee, int i, boolean buying, Map<Key, Integer> memo) {
-            if (i >= prices.length) {
+        private int calculate(int[] prices, int fee, int day, boolean buy, Integer[][] dp) {
+            int n = prices.length;
+
+            // base case
+            if (day >= n) {
                 return 0;
             }
 
-            Key key = new Key(i, buying);
-            if (memo.containsKey(key)) {
-                return memo.get(key);
+            int mode = buy ? 0 : 1;
+
+            // already solved?
+            if (dp[day][mode] != null) {
+                return dp[day][mode];
             }
 
-            int maxProfitIfSkip = maxProfit(prices, fee, i + 1, buying, memo);
-            if (buying) {
-                int maxProfitIfBuy = maxProfit(prices, fee, i + 1, false, memo) - prices[i];
-                memo.put(key, Math.max(maxProfitIfBuy, maxProfitIfSkip));
+            // option #1: skip this day
+            int best = calculate(prices, fee, day + 1, buy, dp);
+            if (buy) {
+                // option #2: buy on this day
+                best = Math.max(best, calculate(prices, fee, day + 1, false, dp) - prices[day]);
             } else {
-                int maxProfitIfSell = maxProfit(prices, fee, i + 1, true, memo) + prices[i] - fee;
-                memo.put(key, Math.max(maxProfitIfSell, maxProfitIfSkip));
+                // option #1: sell on this day
+                best = Math.max(best, calculate(prices, fee, day + 1, true, dp) + prices[day] - fee);
             }
-            return memo.get(key);
-        }
 
+            // cache and return the answer
+            return dp[day][mode] = best;
+        }
     }
 
     // O(N) time | O(1) space
