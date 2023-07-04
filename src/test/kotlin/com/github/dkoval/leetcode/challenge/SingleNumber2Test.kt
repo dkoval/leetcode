@@ -10,8 +10,14 @@ internal class SingleNumber2Test {
     companion object {
         @JvmStatic
         fun input(): List<Arguments> = listOf(
-            Arguments.of(intArrayOf(2, 2, 3, 2), 3),
-            Arguments.of(intArrayOf(0, 1, 0, 1, 0, 1, 99), 99)
+            Arguments.of(
+                intArrayOf(2, 2, 3, 2),
+                3
+            ),
+            Arguments.of(
+                intArrayOf(0, 1, 0, 1, 0, 1, 99),
+                99
+            )
         )
     }
 
