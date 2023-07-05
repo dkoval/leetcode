@@ -33,11 +33,11 @@ internal class LongestSubarrayOf1sAfterDeletingOneElementTest {
             ),
             Arguments.of(
                 intArrayOf(0),
-                1
+                0
             ),
             Arguments.of(
                 intArrayOf(0, 1),
-                2
+                1
             )
         )
     }
