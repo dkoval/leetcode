@@ -3,9 +3,8 @@ package com.github.dkoval.leetcode.problems;
 /**
  * <a href="https://leetcode.com/problems/minimum-size-subarray-sum/">Minimum Size Subarray Sum</a>
  * <p>
- * Given an array of positive integers nums and a positive integer target, return the minimal length of a contiguous subarray
- * [numsl, numsl+1, ..., numsr-1, numsr] of which the sum is greater than or equal to target.
- * If there is no such subarray, return 0 instead.
+ * Given an array of positive integers nums and a positive integer target, return the minimal length of a
+ * subarray whose sum is greater than or equal to target. If there is no such subarray, return 0 instead.
  * <p>
  * Constraints:
  * <ul>
@@ -13,6 +12,7 @@ package com.github.dkoval.leetcode.problems;
  *  <li>1 <= nums.length <= 10^5</li>
  *  <li>1 <= nums[i] <= 10^5</li>
  * </ul>
+ * Follow up: If you have figured out the O(n) solution, try coding another solution of which the time complexity is O(n log(n)).
  */
 public interface MinimumSizeSubarraySum {
 
@@ -48,7 +48,7 @@ public interface MinimumSizeSubarraySum {
 
     // Resource: https://leetcode.com/problems/minimum-size-subarray-sum/solution/
     // O(N) time | O(1) space
-    class MinimumSizeSubarraySumUsingTwoPointers implements MinimumSizeSubarraySum {
+    class MinimumSizeSubarraySumUsingTwoPointersRev1 implements MinimumSizeSubarraySum {
 
         @Override
         public int minSubArrayLen(int target, int[] nums) {
@@ -66,6 +66,32 @@ public interface MinimumSizeSubarraySum {
                 }
             }
             return (ans <= n) ? ans : 0;
+        }
+    }
+
+    // O(N) time | O(1) space
+    class MinimumSizeSubarraySumUsingTwoPointersRev2 implements MinimumSizeSubarraySum {
+
+        @Override
+        public int minSubArrayLen(int target, int[] nums) {
+            int n = nums.length;
+
+            int start = 0;
+            int end = 0;
+
+            int best = n + 1;
+            int sum = 0;
+            while (end < n) {
+                sum += nums[end];
+                // can the window be shrunk?
+                while (sum >= target) {
+                    best = Math.min(best, end - start + 1);
+                    sum -= nums[start];
+                    start++;
+                }
+                end++;
+            }
+            return (best <= n) ? best : 0;
         }
     }
 }

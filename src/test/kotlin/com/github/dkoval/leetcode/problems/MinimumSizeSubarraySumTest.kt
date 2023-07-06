@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.problems
 
-import com.github.dkoval.leetcode.problems.MinimumSizeSubarraySum.MinimumSizeSubarraySumBruteForceWithPrefixSum
-import com.github.dkoval.leetcode.problems.MinimumSizeSubarraySum.MinimumSizeSubarraySumUsingTwoPointers
+import com.github.dkoval.leetcode.problems.MinimumSizeSubarraySum.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -49,7 +48,7 @@ internal class MinimumSizeSubarraySumTest {
     }
 
     @Nested
-    inner class MinimumSizeSubarraySumUsingTwoPointersTest {
+    inner class MinimumSizeSubarraySumUsingTwoPointersRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -58,12 +57,26 @@ internal class MinimumSizeSubarraySumTest {
             nums: IntArray,
             expected: Int
         ) {
-            MinimumSizeSubarraySumUsingTwoPointers().test(target, nums, expected)
+            MinimumSizeSubarraySumUsingTwoPointersRev1().test(target, nums, expected)
         }
     }
 
-    private fun MinimumSizeSubarraySum.test(target: Int, nums: IntArray, expected: Int) {
-        val actual = minSubArrayLen(target, nums)
-        assertEquals(expected, actual)
+    @Nested
+    inner class MinimumSizeSubarraySumUsingTwoPointersRev2Tes {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimal length of a contiguous subarray with sum greater or equal to target`(
+            target: Int,
+            nums: IntArray,
+            expected: Int
+        ) {
+            MinimumSizeSubarraySumUsingTwoPointersRev2().test(target, nums, expected)
+        }
     }
+}
+
+private fun MinimumSizeSubarraySum.test(target: Int, nums: IntArray, expected: Int) {
+    val actual = minSubArrayLen(target, nums)
+    assertEquals(expected, actual)
 }
