@@ -47,10 +47,11 @@ public interface MaximizeConfusionOfExam {
 
                 // too many changes done, try shrinking the sliding window
                 while (changes > k) {
+                    start++;
                     if (answerKey.charAt(start) != correct) {
+                        // undo change
                         changes--;
                     }
-                    start++;
                 }
 
                 best = Math.max(best, end - start + 1);
