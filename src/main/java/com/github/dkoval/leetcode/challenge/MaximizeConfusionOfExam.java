@@ -60,4 +60,54 @@ public interface MaximizeConfusionOfExam {
             return best;
         }
     }
+
+    class MaximizeConfusionOfExamRev2 implements MaximizeConfusionOfExam {
+
+        @Override
+        public int maxConsecutiveAnswers(String answerKey, int k) {
+            int n = answerKey.length();
+
+            // binary search to find the maximum valid window length
+            // TTT...TFF...F
+            //       ^ answer (upper boundary)
+            int left = 1;
+            int right = n;
+            while (left < right) {
+                int mid = left + (right - left + 1) / 2;
+                if (good(answerKey, k, mid)) {
+                    // mid might be the answer;
+                    // check if there's a better option to the right
+                    left = mid;
+                } else {
+                    right = mid - 1;
+                }
+            }
+            return left;
+        }
+
+        private boolean good(String answerKey, int k, int windowSize) {
+            int n = answerKey.length();
+
+            // counts[0] - the number of F's in the sliding window
+            // counts[1] - the number of T's in the sliding window
+            int[] counts = {0, 0};
+
+            // check if there exists at least one valid window
+            for (int i = 0; i < n; i++) {
+                int idx1 = (answerKey.charAt(i) == 'F') ? 0 : 1;
+                counts[idx1]++;
+
+                if (i >= windowSize) {
+                    // exclude the starting element of the previous window
+                    int idx2 = (answerKey.charAt(i - windowSize) == 'F') ? 0 : 1;
+                    counts[idx2]--;
+                }
+
+                if (i >= windowSize - 1 && (counts[0] <= k || counts[1] <= k)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MaximizeConfusionOfExam.MaximizeConfusionOfExamRev1
+import com.github.dkoval.leetcode.challenge.MaximizeConfusionOfExam.MaximizeConfusionOfExamRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -29,6 +30,16 @@ internal class MaximizeConfusionOfExamTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should maximize the confusion of an exam`(answerKey: String, k: Int, expected: Int) {
             MaximizeConfusionOfExamRev1().test(answerKey, k, expected)
+        }
+    }
+
+    @Nested
+    inner class MaximizeConfusionOfExamRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should maximize the confusion of an exam`(answerKey: String, k: Int, expected: Int) {
+            MaximizeConfusionOfExamRev2().test(answerKey, k, expected)
         }
     }
 }
