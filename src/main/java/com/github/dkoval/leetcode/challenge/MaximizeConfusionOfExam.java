@@ -49,7 +49,7 @@ public interface MaximizeConfusionOfExam {
                 while (changes > k) {
                     start++;
                     if (answerKey.charAt(start) != correct) {
-                        // undo change
+                        // undo the change
                         changes--;
                     }
                 }
