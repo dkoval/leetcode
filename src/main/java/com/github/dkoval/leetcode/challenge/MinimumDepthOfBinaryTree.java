@@ -31,8 +31,11 @@ public interface MinimumDepthOfBinaryTree {
             if (root == null) {
                 return 0;
             }
+            return dfs(root);
+        }
 
-            // leaf node
+        private int dfs(TreeNode root) {
+            // base case: reached a leaf node
             if (root.left == null && root.right == null) {
                 return 1;
             }
