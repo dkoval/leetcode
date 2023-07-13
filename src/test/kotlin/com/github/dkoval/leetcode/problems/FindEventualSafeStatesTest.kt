@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
 import com.github.dkoval.leetcode.problems.FindEventualSafeStates.FindEventualSafeStatesDFS
+import com.github.dkoval.leetcode.problems.FindEventualSafeStates.FindEventualSafeStatesTopologicalSorting
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -63,8 +64,21 @@ internal class FindEventualSafeStatesTest {
         }
     }
 
-    private fun FindEventualSafeStates.test(graph: Array<IntArray>, expected: List<Int>) {
-        val actual = eventualSafeNodes(graph)
-        assertThat(actual).containsExactlyElementsOf(expected)
+    @Nested
+    inner class FindEventualSafeStatesTopologicalSortingTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return an array containing all the safe nodes of the graph, the answer should be sorted in ascending order`(
+            graph: Array<IntArray>,
+            expected: List<Int>
+        ) {
+            FindEventualSafeStatesTopologicalSorting().test(graph, expected)
+        }
     }
+}
+
+private fun FindEventualSafeStates.test(graph: Array<IntArray>, expected: List<Int>) {
+    val actual = eventualSafeNodes(graph)
+    assertThat(actual).containsExactlyElementsOf(expected)
 }

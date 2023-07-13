@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.problems;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * <a href="https://leetcode.com/problems/find-eventual-safe-states/">Find Eventual Safe States</a>
@@ -70,6 +69,46 @@ public interface FindEventualSafeStates {
             }
             visited[u] = VISITED;
             return true;
+        }
+    }
+
+    class FindEventualSafeStatesTopologicalSorting implements FindEventualSafeStates {
+
+        @Override
+        public List<Integer> eventualSafeNodes(int[][] graph) {
+            int n = graph.length;
+
+            // outdegree[i] - the number of outgoing edges from node i
+            int[] outdegree = new int[n];
+
+            Queue<Integer> q = new ArrayDeque<>();
+            Map<Integer, List<Integer>> adjReversed = new HashMap<>();
+            for (int i = 0; i < n; i++) {
+                outdegree[i] = graph[i].length;
+                if (outdegree[i] == 0) {
+                    q.offer(i);
+                }
+
+                for (int x : graph[i]) {
+                    adjReversed.computeIfAbsent(x, __ -> new ArrayList<>()).add(i);
+                }
+            }
+
+            List<Integer> ans = new ArrayList<>();
+            while (!q.isEmpty()) {
+                int x = q.poll();
+                ans.add(x);
+
+                for (int i : adjReversed.getOrDefault(x, Collections.emptyList())) {
+                    outdegree[i]--;
+                    if (outdegree[i] == 0) {
+                        q.offer(i);
+                    }
+                }
+            }
+
+            Collections.sort(ans);
+            return ans;
         }
     }
 }
