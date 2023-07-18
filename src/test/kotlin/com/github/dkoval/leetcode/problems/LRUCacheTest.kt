@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.problems
 
-import com.github.dkoval.leetcode.problems.LRUCache.LRUCacheUsingDoublyLinkedList
-import com.github.dkoval.leetcode.problems.LRUCache.LRUCacheUsingLinkedHashMap
+import com.github.dkoval.leetcode.problems.LRUCache.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -39,12 +38,22 @@ internal class LRUCacheTest {
     }
 
     @Nested
-    inner class LRUCacheUsingDoublyLinkedListTest {
+    inner class LRUCacheUsingDoublyLinkedListRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should validate data structure design`(capacity: Int, commands: List<Command>) {
-            LRUCacheUsingDoublyLinkedList(capacity).test(commands)
+            LRUCacheUsingDoublyLinkedListRev1(capacity).test(commands)
+        }
+    }
+
+    @Nested
+    inner class LRUCacheUsingDoublyLinkedListRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should validate data structure design`(capacity: Int, commands: List<Command>) {
+            LRUCacheUsingDoublyLinkedListRev2(capacity).test(commands)
         }
     }
 
