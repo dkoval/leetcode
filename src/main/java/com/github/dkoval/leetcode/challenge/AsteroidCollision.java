@@ -73,11 +73,11 @@ public interface AsteroidCollision {
                     int top = Math.abs(stack.peek());
                     if (curr > top) {
                         stack.pop();
-                    } else if (curr == top) {
-                        stack.pop();
-                        destroyed = true;
                     } else {
                         destroyed = true;
+                        if (curr == top) {
+                            stack.pop();
+                        }
                     }
                 }
 
