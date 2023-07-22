@@ -14,14 +14,21 @@ package com.github.dkoval.leetcode.mock;
  * <p>
  * The knight continues moving until it has made exactly K moves or has moved off the chessboard.
  * Return the probability that the knight remains on the board after it has stopped moving.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= n <= 25</li>
+ *  <li>0 <= k <= 100</li>
+ *  <li>0 <= row, column <= n - 1</li>
+ * </ul>
  */
-public abstract class KnightProbabilityInChessboard {
+public interface KnightProbabilityInChessboard {
 
-    public abstract double knightProbability(int N, int K, int r, int c);
+    double knightProbability(int N, int K, int r, int c);
 
-    public static class KnightProbabilityInChessboardUsing2DArray extends KnightProbabilityInChessboard {
+    class KnightProbabilityInChessboardUsing2DArray implements KnightProbabilityInChessboard {
 
-        private static final int[][] dirs = {{2, 1}, {2, -1}, {-2, 1}, {-2, -1}, {1, 2}, {1, -2}, {-1, 2}, {-1, -2}};
+        private static final int[][] DIRS = {{2, 1}, {2, -1}, {-2, 1}, {-2, -1}, {1, 2}, {1, -2}, {-1, 2}, {-1, -2}};
 
         // Resource: https://www.youtube.com/watch?v=OrS7PaJ-5ck
         public double knightProbability(int N, int K, int r, int c) {
@@ -33,7 +40,7 @@ public abstract class KnightProbabilityInChessboard {
                 for (int row = 0; row < N; row++) {
                     for (int col = 0; col < N; col++) {
                         if (dp[row][col] == 0) continue;
-                        for (int[] dir : dirs) {
+                        for (int[] dir : DIRS) {
                             int newRow = row + dir[0];
                             int newCol = col + dir[1];
                             if (newRow >= 0 && newRow < N && newCol >= 0 && newCol < N) {
@@ -52,6 +59,43 @@ public abstract class KnightProbabilityInChessboard {
                 }
             }
             return result;
+        }
+    }
+
+    class KnightProbabilityInChessboardDPTopDown implements KnightProbabilityInChessboard {
+
+        private static final int[][] DIRS = {{-2, 1}, {-1, 2}, {1, 2}, {2, 1}, {2, -1}, {1, -2}, {-1, -2}, {-2, -1}};
+
+        @Override
+        public double knightProbability(int n, int k, int row, int col) {
+            // Idea: DP top-down
+            Double[][][] dp = new Double[k + 1][n][n];
+            return calculate(n, k, row, col, dp);
+        }
+
+        private double calculate(int n, int k, int row, int col, Double[][][] dp) {
+            if (k == 0) {
+                return 1.0;
+            }
+
+            // already solved?
+            if (dp[k][row][col] != null) {
+                return dp[k][row][col];
+            }
+
+            // moves are independent => sum the probabilities of moves
+            double p = 0.0;
+            for (int[] d : DIRS) {
+                int nextRow = row + d[0];
+                int nextCol = col + d[1];
+
+                if (nextRow >= 0 && nextRow < n && nextCol >= 0 && nextCol < n) {
+                    p += calculate(n, k - 1, nextRow, nextCol, dp);
+                }
+            }
+
+            // a chess knight has eight possible moves
+            return dp[k][row][col] = p / 8;
         }
     }
 }

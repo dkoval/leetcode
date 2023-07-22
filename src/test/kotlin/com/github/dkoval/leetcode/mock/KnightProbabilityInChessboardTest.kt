@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.mock
 
+import com.github.dkoval.leetcode.mock.KnightProbabilityInChessboard.KnightProbabilityInChessboardDPTopDown
 import com.github.dkoval.leetcode.mock.KnightProbabilityInChessboard.KnightProbabilityInChessboardUsing2DArray
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -15,7 +16,8 @@ internal class KnightProbabilityInChessboardTest {
     class InputArgumentsProvider : ArgumentsProvider {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
-            Arguments.of(3, 2, 0, 0, 0.0625)
+            Arguments.of(3, 2, 0, 0, 0.06250),
+            Arguments.of(1, 0, 0, 0, 1.00000)
         )
     }
 
@@ -24,19 +26,35 @@ internal class KnightProbabilityInChessboardTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
-        fun `return the probability that the knight remains on the board after it has stopped moving`(
-            N: Int,
-            K: Int,
-            r: Int,
-            c: Int,
+        fun `should return the probability that the knight remains on the board after it has stopped moving`(
+            n: Int,
+            k: Int,
+            row: Int,
+            col: Int,
             expected: Double
         ) {
-            KnightProbabilityInChessboardUsing2DArray().test(N, K, r, c, expected)
+            KnightProbabilityInChessboardUsing2DArray().test(n, k, row, col, expected)
         }
     }
 
-    private fun KnightProbabilityInChessboard.test(N: Int, K: Int, r: Int, c: Int, expected: Double) {
-        val actual = knightProbability(N, K, r, c)
-        assertEquals(expected, actual, 1E-6)
+    @Nested
+    inner class KnightProbabilityInChessboardDPTopDownTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the probability that the knight remains on the board after it has stopped moving`(
+            n: Int,
+            k: Int,
+            row: Int,
+            col: Int,
+            expected: Double
+        ) {
+            KnightProbabilityInChessboardDPTopDown().test(n, k, row, col, expected)
+        }
     }
+}
+
+private fun KnightProbabilityInChessboard.test(n: Int, k: Int, row: Int, col: Int, expected: Double) {
+    val actual = knightProbability(n, k, row, col)
+    assertEquals(expected, actual, 1E-6)
 }
