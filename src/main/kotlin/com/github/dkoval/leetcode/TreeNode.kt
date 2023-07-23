@@ -1,15 +1,14 @@
 package com.github.dkoval.leetcode
 
 @Suppress("EqualsOrHashCode")
-class TreeNode(@JvmField var `val`: Int) {
-    @JvmField
-    var left: TreeNode? = null
-    @JvmField
-    var right: TreeNode? = null
+class TreeNode(
+    @JvmField var `val`: Int,
+    @JvmField var left: TreeNode?,
+    @JvmField var right: TreeNode?
+) {
+    constructor(`val`: Int) : this(`val`, null, null)
 
-    override fun equals(other: Any?): Boolean {
-        return other is TreeNode && equalsTo(other)
-    }
+    override fun equals(other: Any?): Boolean = other is TreeNode && equalsTo(other)
 }
 
 fun TreeNode?.equalsTo(that: TreeNode?): Boolean {
@@ -19,5 +18,5 @@ fun TreeNode?.equalsTo(that: TreeNode?): Boolean {
     if (this == null || that == null) {
         return false
     }
-    return `val` == that.`val` && left.equalsTo(that.left) && right.equalsTo(that.right)
+    return (`val` == that.`val`) && left.equalsTo(that.left) && right.equalsTo(that.right)
 }
