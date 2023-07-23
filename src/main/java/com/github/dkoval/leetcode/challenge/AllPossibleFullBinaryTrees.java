@@ -30,10 +30,6 @@ public interface AllPossibleFullBinaryTrees {
         }
 
         private List<TreeNode> generate(int n, Map<Integer, List<TreeNode>> cache) {
-            if (n == 0) {
-                return Collections.emptyList();
-            }
-
             if (n == 1) {
                 return Collections.singletonList(new TreeNode(0));
             }
@@ -43,13 +39,17 @@ public interface AllPossibleFullBinaryTrees {
             }
 
             List<TreeNode> ans = new ArrayList<>();
-            for (int numLeftNodes = 0; numLeftNodes < n; numLeftNodes++) {
+            // the total number of nodes in a valid full binary tree must be an odd number
+            for (int numLeftNodes = 1; numLeftNodes < n; numLeftNodes += 2) {
+                // n is odd
+                // numLeftNodes is odd
+                // (n - numLeftNodes - 1) is also odd
                 int numRightNodes = n - numLeftNodes - 1;
 
                 List<TreeNode> leftTrees = generate(numLeftNodes, cache);
                 List<TreeNode> rightTrees = generate(numRightNodes, cache);
 
-                // all possible combinations of (left, right)
+                // all possible combinations of (left, right) nodes
                 for (TreeNode left : leftTrees) {
                     for (TreeNode right : rightTrees) {
                         ans.add(new TreeNode(0, left, right));
