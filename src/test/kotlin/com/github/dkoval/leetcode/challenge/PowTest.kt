@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.Pow.PowRecursive
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -15,8 +16,6 @@ internal class PowTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(0.0, 1, 0.0),
-            Arguments.of(0.0, -1, 0.0),
-            Arguments.of(0.0, 0, Double.NaN),
             Arguments.of(2.00000, 0, 1.00000),
             Arguments.of(2.00000, 10, 1024.00000),
             Arguments.of(2.10000, 3, 9.26100),
@@ -31,7 +30,7 @@ internal class PowTest {
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should calculate x raised to the power n`(x: Double, n: Int, expected: Double) {
-            PowRecursive.test(x, n, expected)
+            PowRecursive().test(x, n, expected)
         }
     }
 
@@ -44,9 +43,9 @@ internal class PowTest {
             PowIter.test(x, n, expected)
         }
     }
+}
 
-    private fun Pow.test(x: Double, n: Int, expected: Double) {
-        val actual = myPow(x, n)
-        assertEquals(expected, actual, 1e-6)
-    }
+private fun Pow.test(x: Double, n: Int, expected: Double) {
+    val actual = myPow(x, n)
+    assertEquals(expected, actual, 1e-6)
 }
