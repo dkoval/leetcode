@@ -7,17 +7,27 @@ package com.github.dkoval.leetcode.problems;
  * <p>
  * arr.length >= 3
  * There exists some i with 0 < i < arr.length - 1 such that:
- * arr[0] < arr[1] < ... arr[i-1] < arr[i]
- * arr[i] > arr[i+1] > ... > arr[arr.length - 1]
- * Given an integer array arr that is guaranteed to be a mountain, return any i such that arr[0] < arr[1] < ... arr[i - 1] < arr[i] > arr[i + 1] > ... > arr[arr.length - 1].
+ * <ul>
+ *  <li>arr[0] < arr[1] < ... arr[i-1] < arr[i]</li>
+ *  <li>arr[i] > arr[i+1] > ... > arr[arr.length - 1]</li>
+ * </ul>
+ * Given an integer array arr that is guaranteed to be a mountain, return any i such that
+ * arr[0] < arr[1] < ... arr[i - 1] < arr[i] > arr[i + 1] > ... > arr[arr.length - 1].
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>3 <= arr.length <= 10^5</li>
+ *  <li>0 <= arr[i] <= 10^6</li>
+ *  <li>arr is guaranteed to be a mountain array.</li>
+ * </ul>
  */
 public interface PeakIndexInMountainArray {
 
     int peakIndexInMountainArray(int[] arr);
 
+    // O(logN) time | O(1) space
     class PeakIndexInMountainArrayRev1 implements PeakIndexInMountainArray {
 
-        // O(logN) time | O(1) space
         @Override
         public int peakIndexInMountainArray(int[] arr) {
             int n = arr.length;
@@ -39,6 +49,30 @@ public interface PeakIndexInMountainArray {
                 }
             }
             return left;
+        }
+    }
+
+    // O(logN) time | O(1) space
+    class PeakIndexInMountainArrayRev2 implements PeakIndexInMountainArray {
+
+        @Override
+        public int peakIndexInMountainArray(int[] arr) {
+            int n = arr.length;
+
+            // n >= 3
+            int left = 1;
+            int right = n - 2;
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+                if (arr[mid - 1] < arr[mid] && arr[mid] > arr[mid + 1]) {
+                    return mid;
+                } else if (arr[mid - 1] < arr[mid]) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+            return -1;
         }
     }
 }

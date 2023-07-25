@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
 import com.github.dkoval.leetcode.problems.PeakIndexInMountainArray.PeakIndexInMountainArrayRev1
+import com.github.dkoval.leetcode.problems.PeakIndexInMountainArray.PeakIndexInMountainArrayRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -48,8 +49,18 @@ class PeakIndexInMountainArrayTest {
         }
     }
 
-    private fun PeakIndexInMountainArray.test(arr: IntArray, expected: Int) {
-        val actual = peakIndexInMountainArray(arr)
-        assertEquals(expected, actual)
+    @Nested
+    inner class PeakIndexInMountainArrayRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the peak index in a mountain array`(arr: IntArray, expected: Int) {
+            PeakIndexInMountainArrayRev2().test(arr, expected)
+        }
     }
+}
+
+private fun PeakIndexInMountainArray.test(arr: IntArray, expected: Int) {
+    val actual = peakIndexInMountainArray(arr)
+    assertEquals(expected, actual)
 }
