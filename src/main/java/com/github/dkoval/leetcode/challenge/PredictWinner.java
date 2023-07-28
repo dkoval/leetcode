@@ -23,6 +23,7 @@ public interface PredictWinner {
 
     boolean predictTheWinner(int[] nums);
 
+    // O(2^N) time | O(N) space
     class PredictWinnerBruteForce implements PredictWinner {
 
         @Override
@@ -49,6 +50,7 @@ public interface PredictWinner {
         }
     }
 
+    // O(N^2) time | O(N^2) space
     class PredictWinnerDPTopDown implements PredictWinner {
 
         @Override
@@ -56,10 +58,10 @@ public interface PredictWinner {
             int n = nums.length;
             // DP top-down
             Integer[][] dp = new Integer[n][n];
-            return calculate(nums, 0, n - 1, dp) >= 0;
+            return maxDiff(nums, 0, n - 1, dp) >= 0;
         }
 
-        private int calculate(int[] nums, int left, int right, Integer[][] dp) {
+        private int maxDiff(int[] nums, int left, int right, Integer[][] dp) {
             if (left > right) {
                 return 0;
             }
@@ -72,10 +74,10 @@ public interface PredictWinner {
             // idea: minimax, game theory
 
             // option #1: player X chooses nums[left]
-            int scoreDiff1 = nums[left] - calculate(nums, left + 1, right, dp);
+            int scoreDiff1 = nums[left] - maxDiff(nums, left + 1, right, dp);
 
             // option #2: player X chooses nums[right]
-            int scoreDiff2 = nums[right] - calculate(nums, left, right - 1, dp);
+            int scoreDiff2 = nums[right] - maxDiff(nums, left, right - 1, dp);
 
             // cache and return the answer
             int best = Math.max(scoreDiff1, scoreDiff2);
