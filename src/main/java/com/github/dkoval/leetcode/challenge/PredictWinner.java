@@ -72,13 +72,13 @@ public interface PredictWinner {
             // idea: minimax, game theory
 
             // option #1: player X chooses nums[left]
-            int score1 = nums[left] - calculate(nums, left + 1, right, dp);
+            int scoreDiff1 = nums[left] - calculate(nums, left + 1, right, dp);
 
             // option #2: player X chooses nums[right]
-            int score2 = nums[right] - calculate(nums, left, right - 1, dp);
+            int scoreDiff2 = nums[right] - calculate(nums, left, right - 1, dp);
 
             // cache and return the answer
-            int best = Math.max(score1, score2);
+            int best = Math.max(scoreDiff1, scoreDiff2);
             return dp[left][right] = best;
         }
     }
