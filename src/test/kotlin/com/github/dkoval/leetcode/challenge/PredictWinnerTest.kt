@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.PredictWinner.PredictWinnerBruteForce
+import com.github.dkoval.leetcode.challenge.PredictWinner.PredictWinnerDPTopDown
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -33,6 +34,16 @@ internal class PredictWinnerTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return true if Player 1 can win the game`(nums: IntArray, expected: Boolean) {
             PredictWinnerBruteForce().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class PredictWinnerDPTopDownTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return true if Player 1 can win the game`(nums: IntArray, expected: Boolean) {
+            PredictWinnerDPTopDown().test(nums, expected)
         }
     }
 }

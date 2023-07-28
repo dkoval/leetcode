@@ -48,4 +48,38 @@ public interface PredictWinner {
             return (scores1[player] >= scores2[player]) ? scores1 : scores2;
         }
     }
+
+    class PredictWinnerDPTopDown implements PredictWinner {
+
+        @Override
+        public boolean predictTheWinner(int[] nums) {
+            int n = nums.length;
+            // DP top-down
+            Integer[][] dp = new Integer[n][n];
+            return calculate(nums, 0, n - 1, dp) >= 0;
+        }
+
+        private int calculate(int[] nums, int left, int right, Integer[][] dp) {
+            if (left > right) {
+                return 0;
+            }
+
+            // already solved?
+            if (dp[left][right] != null) {
+                return dp[left][right];
+            }
+
+            // idea: minimax, game theory
+
+            // option #1: player X chooses nums[left]
+            int score1 = nums[left] - calculate(nums, left + 1, right, dp);
+
+            // option #2: player X chooses nums[right]
+            int score2 = nums[right] - calculate(nums, left, right - 1, dp);
+
+            // cache and return the answer
+            int best = Math.max(score1, score2);
+            return dp[left][right] = best;
+        }
+    }
 }
