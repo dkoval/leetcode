@@ -15,6 +15,7 @@ public interface MinimumASCIIDeleteSumForTwoStrings {
 
     int minimumDeleteSum(String s1, String s2);
 
+    // O(N1 * N2) time | O(N1 * N2) space
     class MinimumASCIIDeleteSumForTwoStringsDPTopDown implements MinimumASCIIDeleteSumForTwoStrings {
 
         @Override
