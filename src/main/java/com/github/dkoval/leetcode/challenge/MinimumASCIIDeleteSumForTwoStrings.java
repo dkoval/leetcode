@@ -63,9 +63,6 @@ public interface MinimumASCIIDeleteSumForTwoStrings {
 
                 // option #2: delete s2[j] only
                 best = Math.min(best, s2.charAt(j) + calculate(s1, s2, i, j + 1, dp));
-
-                // option #3: delete both s1[i] and s2[j]
-                best = Math.min(best, s1.charAt(i) + s2.charAt(j) + calculate(s1, s2, i + 1, j + 1, dp));
             }
 
             // cache and return the answer
