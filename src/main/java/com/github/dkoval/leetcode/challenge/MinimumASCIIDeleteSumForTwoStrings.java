@@ -28,7 +28,7 @@ public interface MinimumASCIIDeleteSumForTwoStrings {
             return calculate(s1, s2, 0, 0, dp);
         }
 
-        // returns the answer considering prefixes s1[i:] and s2[j:]
+        // returns the answer considering suffixes s1[i:] and s2[j:]
         private int calculate(String s1, String s2, int i, int j, Integer[][] dp) {
             int n1 = s1.length();
             int n2 = s2.length();
@@ -55,7 +55,7 @@ public interface MinimumASCIIDeleteSumForTwoStrings {
 
             int best = Integer.MAX_VALUE;
             if (s1.charAt(i) == s2.charAt(j)) {
-                // calculate for prefixes s1[i + 1 :] and s2[j + 1 :]
+                // calculate for suffixes s1[i + 1 :] and s2[j + 1 :]
                 best = Math.min(best, calculate(s1, s2, i + 1, j + 1, dp));
             }
 
