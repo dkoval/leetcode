@@ -55,15 +55,18 @@ public interface MinimumASCIIDeleteSumForTwoStrings {
 
             int best = Integer.MAX_VALUE;
             if (s1.charAt(i) == s2.charAt(j)) {
-                // calculate for suffixes s1[i + 1 :] and s2[j + 1 :]
+                // nothing to delete, calculate the answer for prefixes s1[i + 1 :] and s2[j + 1 :]
                 best = Math.min(best, calculate(s1, s2, i + 1, j + 1, dp));
+            } else {
+                // option #1: delete s1[i] only
+                best = Math.min(best, s1.charAt(i) + calculate(s1, s2, i + 1, j, dp));
+
+                // option #2: delete s2[j] only
+                best = Math.min(best, s2.charAt(j) + calculate(s1, s2, i, j + 1, dp));
+
+                // option #3: delete both s1[i] and s2[j]
+                best = Math.min(best, s1.charAt(i) + s2.charAt(j) + calculate(s1, s2, i + 1, j + 1, dp));
             }
-
-            // option #1: delete s1[i]
-            best = Math.min(best, s1.charAt(i) + calculate(s1, s2, i + 1, j, dp));
-
-            // option #2: delete s2[j]
-            best = Math.min(best, s2.charAt(j) + calculate(s1, s2, i, j + 1, dp));
 
             // cache and return the answer
             return dp[i][j] = best;
