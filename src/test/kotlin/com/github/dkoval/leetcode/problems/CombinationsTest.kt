@@ -1,15 +1,21 @@
 package com.github.dkoval.leetcode.problems
 
+import com.github.dkoval.leetcode.problems.Combinations.CombinationsRev1
+import com.github.dkoval.leetcode.problems.Combinations.CombinationsRev2
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
 
 internal class CombinationsTest {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 4,
                 2,
@@ -40,14 +46,36 @@ internal class CombinationsTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should return all possible combinations of k numbers out of the range (1, n)`(
-        n: Int,
-        k: Int,
-        expected: List<List<Int>>
-    ) {
-        val actual = Combinations().combine(n, k)
-        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
+    @Nested
+    inner class CombinationsRev1Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return all possible combinations of k numbers out of the range (1, n)`(
+            n: Int,
+            k: Int,
+            expected: List<List<Int>>
+        ) {
+            CombinationsRev1().test(n, k, expected)
+        }
     }
+
+    @Nested
+    inner class CombinationsRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return all possible combinations of k numbers out of the range (1, n)`(
+            n: Int,
+            k: Int,
+            expected: List<List<Int>>
+        ) {
+            CombinationsRev2().test(n, k, expected)
+        }
+    }
+}
+
+private fun Combinations.test(n: Int, k: Int, expected: List<List<Int>>) {
+    val actual = combine(n, k)
+    assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
 }

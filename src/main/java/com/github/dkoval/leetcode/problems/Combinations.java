@@ -16,33 +16,61 @@ import java.util.List;
  *  <li>1 <= k <= n</li>
  * </ul>
  */
-public class Combinations {
+public interface Combinations {
 
-    public List<List<Integer>> combine(int n, int k) {
-        int[] nums = generate(n);
-        List<List<Integer>> ans = new ArrayList<>();
-        doCombine(nums, k, 0, new ArrayList<>(), ans);
-        return ans;
-    }
+    List<List<Integer>> combine(int n, int k);
 
-    private int[] generate(int n) {
-        int[] nums = new int[n];
-        for (int i = 0; i < n; i++) {
-            nums[i] = i + 1;
-        }
-        return nums;
-    }
+    class CombinationsRev1 implements Combinations {
 
-    private void doCombine(int[] nums, int k, int idx, List<Integer> combination, List<List<Integer>> ans) {
-        if (combination.size() == k) {
-            ans.add(new ArrayList<>(combination));
-            return;
+        @Override
+        public List<List<Integer>> combine(int n, int k) {
+            List<List<Integer>> ans = new ArrayList<>();
+            generate(nums(n), k, 0, new ArrayList<>(), ans);
+            return ans;
         }
 
-        for (int i = idx; i < nums.length; i++) {
-            combination.add(nums[i]);
-            doCombine(nums, k, i + 1, combination, ans);
-            combination.remove(combination.size() - 1);
+        private int[] nums(int n) {
+            int[] nums = new int[n];
+            for (int i = 0; i < n; i++) {
+                nums[i] = i + 1;
+            }
+            return nums;
+        }
+
+        private void generate(int[] nums, int k, int idx, List<Integer> combination, List<List<Integer>> ans) {
+            if (combination.size() == k) {
+                ans.add(new ArrayList<>(combination));
+                return;
+            }
+
+            for (int i = idx; i < nums.length; i++) {
+                combination.add(nums[i]);
+                generate(nums, k, i + 1, combination, ans);
+                combination.remove(combination.size() - 1);
+            }
+        }
+    }
+
+    class CombinationsRev2 implements Combinations {
+
+        @Override
+        public List<List<Integer>> combine(int n, int k) {
+            List<List<Integer>> ans = new ArrayList<>();
+            generate(n, k, 1, new ArrayList<>(), ans);
+            return ans;
+        }
+
+        private void generate(int n, int k, int start, List<Integer> combination, List<List<Integer>> ans) {
+            if (combination.size() == k) {
+                ans.add(new ArrayList<>(combination));
+                return;
+            }
+
+            for (int x = start; x <= n; x++) {
+                combination.add(x);
+                generate(n, k, x + 1, combination, ans);
+                combination.remove(combination.size() - 1);
+            }
         }
     }
 }
