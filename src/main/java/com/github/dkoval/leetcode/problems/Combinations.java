@@ -73,4 +73,33 @@ public interface Combinations {
             }
         }
     }
+
+    class CombinationsRev3 implements Combinations {
+
+        @Override
+        public List<List<Integer>> combine(int n, int k) {
+            List<List<Integer>> ans = new ArrayList<>();
+            generate(n, k, 1, new ArrayList<>(), ans);
+            return ans;
+        }
+
+        private void generate(int n, int k, int x, List<Integer> combination, List<List<Integer>> ans) {
+            if (combination.size() == k) {
+                ans.add(new ArrayList<>(combination));
+                return;
+            }
+
+            if (x > n) {
+                return;
+            }
+
+            // option #1: take number x
+            combination.add(x);
+            generate(n, k, x + 1, combination, ans);
+            combination.remove(combination.size() - 1);
+
+            // option #2: skip number x
+            generate(n, k, x + 1, combination, ans);
+        }
+    }
 }

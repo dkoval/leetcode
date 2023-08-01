@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.problems
 
-import com.github.dkoval.leetcode.problems.Combinations.CombinationsRev1
-import com.github.dkoval.leetcode.problems.Combinations.CombinationsRev2
+import com.github.dkoval.leetcode.problems.Combinations.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -71,6 +70,20 @@ internal class CombinationsTest {
             expected: List<List<Int>>
         ) {
             CombinationsRev2().test(n, k, expected)
+        }
+    }
+
+    @Nested
+    inner class CombinationsRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return all possible combinations of k numbers out of the range (1, n)`(
+            n: Int,
+            k: Int,
+            expected: List<List<Int>>
+        ) {
+            CombinationsRev3().test(n, k, expected)
         }
     }
 }
