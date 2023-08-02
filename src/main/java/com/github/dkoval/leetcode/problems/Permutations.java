@@ -72,18 +72,20 @@ public interface Permutations {
         }
 
         private void generate(int[] nums, int idx, List<Integer> permutation, List<List<Integer>> ans) {
-            if (idx == nums.length) {
+            int n = nums.length;
+
+            if (idx == n) {
                 ans.add(new ArrayList<>(permutation));
                 return;
             }
 
-            for (int i = idx; i < nums.length; i++) {
+            for (int i = idx; i < n; i++) {
                 // add nums[i] to the current permutation (at index idx)
                 permutation.add(nums[i]);
                 // exclude nums[i] from the decision space in the next iteration
                 swap(nums, idx, i);
 
-                // procced to the next index
+                // proceed to the next index
                 generate(nums, idx + 1, permutation, ans);
 
                 // backtrack
