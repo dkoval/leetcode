@@ -8,6 +8,13 @@ import java.util.List;
  * <a href="https://leetcode.com/problems/permutations/">Permutations</a>
  * <p>
  * Given a collection of distinct integers, return all possible permutations.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= nums.length <= 6</li>
+ *  <li>-10 <= nums[i] <= 10</li>
+ *  <li>All the integers of nums are unique.</li>
+ * </ul>
  */
 public interface Permutations {
 
@@ -15,12 +22,12 @@ public interface Permutations {
 
     // Time: O(N^2 * N!)
     // Space: O(N * N!)
-    class PermutationsRecursive implements Permutations {
+    class PermutationsRecursiveRev1 implements Permutations {
 
         @Override
         public List<List<Integer>> permute(int[] nums) {
             List<List<Integer>> result = new ArrayList<>();
-            doPermute(listOf(nums), new ArrayList<>(), result);
+            generate(listOf(nums), new ArrayList<>(), result);
             return result;
         }
 
@@ -32,7 +39,7 @@ public interface Permutations {
             return list;
         }
 
-        private void doPermute(List<Integer> nums, List<Integer> permutation, List<List<Integer>> result) {
+        private void generate(List<Integer> nums, List<Integer> permutation, List<List<Integer>> result) {
             if (nums.isEmpty()) {
                 result.add(new ArrayList<>(permutation));
                 return;
@@ -42,7 +49,9 @@ public interface Permutations {
                 int num = nums.get(i);
                 permutation.add(num);
                 nums.remove(i); // removes element at index i
-                doPermute(nums, permutation, result);
+
+                generate(nums, permutation, result);
+
                 // backtrack
                 permutation.remove(permutation.size() - 1);
                 nums.add(i, num);
@@ -53,26 +62,29 @@ public interface Permutations {
 
     // Time: O(N * N!)
     // Space: O(N * N!)
-    class PermutationsRecursive2 implements Permutations {
+    class PermutationsRecursiveRev2 implements Permutations {
 
         @Override
         public List<List<Integer>> permute(int[] nums) {
             List<List<Integer>> ans = new ArrayList<>();
-            doPermute(nums, 0, new ArrayList<>(), ans);
+            generate(nums, 0, new ArrayList<>(), ans);
             return ans;
         }
 
-        private void doPermute(int[] nums, int idx, List<Integer> permutation, List<List<Integer>> ans) {
+        private void generate(int[] nums, int idx, List<Integer> permutation, List<List<Integer>> ans) {
             if (idx == nums.length) {
                 ans.add(new ArrayList<>(permutation));
                 return;
             }
 
             for (int i = idx; i < nums.length; i++) {
-                permutation.add(nums[i]); // put nums[i] in idx position
-                swap(nums, idx, i);       // exclude nums[i] from the decision space in the next iteration
+                // add nums[i] to the current permutation (at index idx)
+                permutation.add(nums[i]);
+                // exclude nums[i] from the decision space in the next iteration
+                swap(nums, idx, i);
 
-                doPermute(nums, idx + 1, permutation, ans);
+                // procced to the next index
+                generate(nums, idx + 1, permutation, ans);
 
                 // backtrack
                 permutation.remove(permutation.size() - 1);
@@ -96,7 +108,7 @@ public interface Permutations {
         @Override
         public List<List<Integer>> permute(int[] nums) {
             List<List<Integer>> result = new ArrayList<>();
-            doPermute(listOf(nums), 0, result);
+            generate(listOf(nums), 0, result);
             return result;
         }
 
@@ -108,7 +120,7 @@ public interface Permutations {
             return list;
         }
 
-        private void doPermute(List<Integer> nums, int idx, List<List<Integer>> result) {
+        private void generate(List<Integer> nums, int idx, List<List<Integer>> result) {
             if (idx == nums.size() - 1) {
                 result.add(new ArrayList<>(nums));
                 return;
@@ -116,7 +128,7 @@ public interface Permutations {
 
             for (int i = idx; i < nums.size(); i++) {
                 Collections.swap(nums, idx, i); // swap nums[idx] with every number after it
-                doPermute(nums, idx + 1, result); // generate all permutations for sublist [idx + 1, n - 1]
+                generate(nums, idx + 1, result); // generate all permutations for sublist [idx + 1, n - 1]
                 Collections.swap(nums, idx, i); // undo the swap to restore the original state
             }
         }

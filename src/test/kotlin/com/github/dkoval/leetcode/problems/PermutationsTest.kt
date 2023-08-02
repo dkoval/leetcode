@@ -43,22 +43,22 @@ internal class PermutationsTest {
     }
 
     @Nested
-    inner class PermutationsRecursiveTest {
+    inner class PermutationsRecursiveRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return all possible permutations`(nums: IntArray, expected: List<List<Int>>) {
-            PermutationsRecursive().test(nums, expected)
+            PermutationsRecursiveRev1().test(nums, expected)
         }
     }
 
     @Nested
-    inner class PermutationsRecursive2Test {
+    inner class PermutationsRecursiveRev2Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return all possible permutations`(nums: IntArray, expected: List<List<Int>>) {
-            PermutationsRecursive2().test(nums, expected)
+            PermutationsRecursiveRev2().test(nums, expected)
         }
     }
 
@@ -71,9 +71,9 @@ internal class PermutationsTest {
             PermutationsHeapAlgorithm().test(nums, expected)
         }
     }
+}
 
-    private fun Permutations.test(nums: IntArray, expected: List<List<Int>>) {
-        val actual = permute(nums)
-        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
-    }
+private fun Permutations.test(nums: IntArray, expected: List<List<Int>>) {
+    val actual = permute(nums)
+    assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
 }
