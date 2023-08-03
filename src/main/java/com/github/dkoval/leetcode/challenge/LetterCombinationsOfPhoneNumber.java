@@ -3,7 +3,7 @@ package com.github.dkoval.leetcode.challenge;
 import java.util.*;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/april-leetcoding-challenge-2021/594/week-2-april-8th-april-14th/3701/">Letter Combinations of a Phone Number</a>
+ * <a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/">Letter Combinations of a Phone Number</a>
  * <p>
  * Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent.
  * Return the answer in any order.
@@ -16,41 +16,75 @@ import java.util.*;
  *  <li>digits[i] is a digit in the range ['2', '9'].</li>
  * </ul>
  */
-public class LetterCombinationsOfPhoneNumber {
+public interface LetterCombinationsOfPhoneNumber {
 
-    private static final Map<Character, String> mapping = new HashMap<>();
+    List<String> letterCombinations(String digits);
 
-    static {
-        mapping.put('2', "abc");
-        mapping.put('3', "def");
-        mapping.put('4', "ghi");
-        mapping.put('5', "jkl");
-        mapping.put('6', "mno");
-        mapping.put('7', "pqrs");
-        mapping.put('8', "tuv");
-        mapping.put('9', "wxyz");
+    class LetterCombinationsOfPhoneNumberRev1 implements LetterCombinationsOfPhoneNumber {
+
+        private static final Map<Character, String> mapping = new HashMap<>();
+
+        static {
+            mapping.put('2', "abc");
+            mapping.put('3', "def");
+            mapping.put('4', "ghi");
+            mapping.put('5', "jkl");
+            mapping.put('6', "mno");
+            mapping.put('7', "pqrs");
+            mapping.put('8', "tuv");
+            mapping.put('9', "wxyz");
+        }
+
+        public List<String> letterCombinations(String digits) {
+            if (digits.isEmpty()) {
+                return Collections.emptyList();
+            }
+            List<String> ans = new ArrayList<>();
+            generate(digits, 0, new StringBuilder(), ans);
+            return ans;
+        }
+
+        private void generate(String digits, int idx, StringBuilder combination, List<String> ans) {
+            if (combination.length() == digits.length()) {
+                ans.add(combination.toString());
+                return;
+            }
+            char digit = digits.charAt(idx);
+            String letters = mapping.get(digit);
+            for (int i = 0; i < letters.length(); i++) {
+                combination.append(letters.charAt(i));
+                generate(digits, idx + 1, combination, ans);
+                combination.deleteCharAt(combination.length() - 1); // backtrack
+            }
+        }
     }
 
-    public List<String> letterCombinations(String digits) {
-        if (digits.isEmpty()) {
-            return Collections.emptyList();
-        }
-        List<String> result = new ArrayList<>();
-        letterCombinations(digits, 0, new StringBuilder(), result);
-        return result;
-    }
+    class LetterCombinationsOfPhoneNumberRev2 implements LetterCombinationsOfPhoneNumber {
 
-    private void letterCombinations(String digits, int idx, StringBuilder combination, List<String> result) {
-        if (combination.length() == digits.length()) {
-            result.add(combination.toString());
-            return;
+        private static final String[] mapping = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
+        public List<String> letterCombinations(String digits) {
+            List<String> ans = new ArrayList<>();
+            generate(digits, 0, new StringBuilder(), ans);
+            return ans;
         }
-        char digit = digits.charAt(idx);
-        String letters = mapping.get(digit);
-        for (int i = 0; i < letters.length(); i++) {
-            combination.append(letters.charAt(i));
-            letterCombinations(digits, idx + 1, combination, result);
-            combination.deleteCharAt(combination.length() - 1); // backtrack
+
+        private void generate(String digits, int idx, StringBuilder combination, List<String> ans) {
+            int n = digits.length();
+
+            if (idx >= n) {
+                if (combination.length() > 0) {
+                    ans.add(combination.toString());
+                }
+                return;
+            }
+
+            int digit = digits.charAt(idx) - '0';
+            for (char c : mapping[digit].toCharArray()) {
+                combination.append(c);
+                generate(digits, idx + 1, combination, ans);
+                combination.deleteCharAt(combination.length() - 1);
+            }
         }
     }
 }
