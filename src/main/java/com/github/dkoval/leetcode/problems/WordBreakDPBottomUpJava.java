@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.problems;
 
+import com.github.dkoval.leetcode.challenge.WordBreak;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;

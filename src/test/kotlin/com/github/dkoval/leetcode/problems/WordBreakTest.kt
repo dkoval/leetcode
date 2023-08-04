@@ -1,5 +1,8 @@
 package com.github.dkoval.leetcode.problems
 
+import com.github.dkoval.leetcode.challenge.WordBreak
+import com.github.dkoval.leetcode.challenge.WordBreak.WordBreakDPTopDownRev1
+import com.github.dkoval.leetcode.challenge.WordBreak.WordBreakDPTopDownRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -41,7 +44,7 @@ internal class WordBreakTest {
     }
 
     @Nested
-    inner class WordBreakDPTopDownTest {
+    inner class WordBreakDPTopDownRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -50,12 +53,12 @@ internal class WordBreakTest {
             wordDict: List<String>,
             expected: Boolean
         ) {
-            WordBreakDPTopDown.test(s, wordDict, expected)
+            WordBreakDPTopDownRev1().test(s, wordDict, expected)
         }
     }
 
     @Nested
-    inner class WordBreakDPTopDownJavaTest {
+    inner class WordBreakDPTopDownRev2Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -64,7 +67,7 @@ internal class WordBreakTest {
             wordDict: List<String>,
             expected: Boolean
         ) {
-            WordBreakDPTopDownJava().test(s, wordDict, expected)
+            WordBreakDPTopDownRev2().test(s, wordDict, expected)
         }
     }
 
@@ -96,8 +99,9 @@ internal class WordBreakTest {
         }
     }
 
-    private fun WordBreak.test(s: String, wordDict: List<String>, expected: Boolean) {
-        val actual = wordBreak(s, wordDict)
-        assertEquals(expected, actual)
-    }
+}
+
+private fun WordBreak.test(s: String, wordDict: List<String>, expected: Boolean) {
+    val actual = wordBreak(s, wordDict)
+    assertEquals(expected, actual)
 }
