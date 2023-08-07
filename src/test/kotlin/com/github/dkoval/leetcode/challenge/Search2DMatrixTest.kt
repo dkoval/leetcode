@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.SearchIn2DMatrix.SearchIn2DMatrixUsingBinarySearchWith2DCoordinatesRemapping
-import com.github.dkoval.leetcode.challenge.SearchIn2DMatrix.SearchIn2DMatrixWithTwoBinarySearches
+import com.github.dkoval.leetcode.challenge.Search2DMatrix.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -11,7 +10,7 @@ import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
 import java.util.stream.Stream
 
-internal class SearchIn2DMatrixTest {
+internal class Search2DMatrixTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
@@ -38,12 +37,22 @@ internal class SearchIn2DMatrixTest {
     }
 
     @Nested
-    inner class SearchIn2DMatrixWithTwoBinarySearchesTest {
+    inner class Search2DMatrixWithTwoBinarySearchesRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should search for a value in m x n matrix`(matrix: Array<IntArray>, target: Int, expected: Boolean) {
-            SearchIn2DMatrixWithTwoBinarySearches().test(matrix, target, expected)
+            Search2DMatrixWithTwoBinarySearchesRev1().test(matrix, target, expected)
+        }
+    }
+
+    @Nested
+    inner class Search2DMatrixWithTwoBinarySearchesRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should search for a value in m x n matrix`(matrix: Array<IntArray>, target: Int, expected: Boolean) {
+            Search2DMatrixWithTwoBinarySearchesRev2().test(matrix, target, expected)
         }
     }
 
@@ -56,9 +65,9 @@ internal class SearchIn2DMatrixTest {
             SearchIn2DMatrixUsingBinarySearchWith2DCoordinatesRemapping().test(matrix, target, expected)
         }
     }
+}
 
-    private fun SearchIn2DMatrix.test(matrix: Array<IntArray>, target: Int, expected: Boolean) {
-        val actual = searchMatrix(matrix, target)
-        assertEquals(expected, actual)
-    }
+private fun Search2DMatrix.test(matrix: Array<IntArray>, target: Int, expected: Boolean) {
+    val actual = searchMatrix(matrix, target)
+    assertEquals(expected, actual)
 }
