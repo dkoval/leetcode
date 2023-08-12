@@ -25,7 +25,7 @@ public interface UniquePaths2 {
 
     int uniquePathsWithObstacles(int[][] grid);
 
-    // O(M * N) space | O(1) space if you're allowed to modify grid[][], or O(M * N) otherwise
+    // O(M * N) time | O(1) space if you're allowed to modify grid[][], or O(M * N) otherwise
     class UniquePaths2DPBottomUp implements UniquePaths2 {
 
         @Override
@@ -64,6 +64,50 @@ public interface UniquePaths2 {
 
         private boolean isObstacle(int[][] grid, int row, int col) {
             return grid[row][col] == 1;
+        }
+    }
+
+    // O(M * N) time | O(M * N) space
+    class UniquePaths2DPTopDown implements UniquePaths2 {
+
+        @Override
+        public int uniquePathsWithObstacles(int[][] grid) {
+            int m = grid.length;
+            int n = grid[0].length;
+
+            Integer[][] dp = new Integer[m][n];
+            return calculate(grid, m - 1, n - 1, dp);
+        }
+
+        // the number of possible unique paths the robot can take to reach (i, j) from (0, 0)
+        private int calculate(int[][] grid, int i, int j, Integer[][] dp) {
+            // obstacle
+            if (grid[i][j] == 1) {
+                return 0;
+            }
+
+            // base case
+            if (i == 0 && j == 0) {
+                return 1;
+            }
+
+            // already solved?
+            if (dp[i][j] != null) {
+                return dp[i][j];
+            }
+
+            int count = 0;
+            // option #1: come to (i, j) from (i - 1, j)
+            if (i > 0) {
+                count += calculate(grid, i - 1, j, dp);
+            }
+            // option #2: come to (i, j) from (i, j - 1)
+            if (j > 0) {
+                count += calculate(grid, i, j - 1, dp);
+            }
+
+            // cache and return the answer
+            return dp[i][j] = count;
         }
     }
 }

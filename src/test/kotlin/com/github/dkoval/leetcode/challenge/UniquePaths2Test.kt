@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.UniquePaths2.UniquePaths2DPBottomUp
+import com.github.dkoval.leetcode.challenge.UniquePaths2.UniquePaths2DPTopDown
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -55,6 +56,16 @@ internal class UniquePaths2Test {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the number of unique paths`(grid: Array<IntArray>, expected: Int) {
             UniquePaths2DPBottomUp().test(grid, expected)
+        }
+    }
+
+    @Nested
+    inner class UniquePaths2DPTopDownTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of unique paths`(grid: Array<IntArray>, expected: Int) {
+            UniquePaths2DPTopDown().test(grid, expected)
         }
     }
 }
