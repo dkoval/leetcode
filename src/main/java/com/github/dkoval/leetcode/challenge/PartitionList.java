@@ -24,29 +24,29 @@ public class PartitionList {
             return null;
         }
 
-        // partition 1
-        ListNode dummy1 = new ListNode(-1);
-        ListNode p1 = dummy1;
+        // partition 1 - nodes less than x
+        ListNode dummy1 = new ListNode(-101);
+        ListNode curr1 = dummy1;
 
-        // partition 2
-        ListNode dummy2 = new ListNode(-1);
-        ListNode p2 = dummy2;
+        // partition 2 - nodes greater than or equal to x
+        ListNode dummy2 = new ListNode(101);
+        ListNode curr2 = dummy2;
 
         ListNode curr = head;
         while (curr != null) {
             ListNode next = curr.next;
-            curr.next = null;
             if (curr.val < x) {
-                p1.next = curr;
-                p1 = p1.next;
+                curr1.next = curr;
+                curr1 = curr1.next;
             } else {
-                p2.next = curr;
-                p2 = p2.next;
+                curr2.next = curr;
+                curr2 = curr2.next;
             }
+            curr.next = null;
             curr = next;
         }
 
-        p1.next = dummy2.next;
+        curr1.next = dummy2.next;
         return dummy1.next;
     }
 }
