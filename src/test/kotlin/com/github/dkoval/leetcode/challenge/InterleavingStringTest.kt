@@ -55,7 +55,7 @@ internal class InterleavingStringTest {
     }
 
     @Nested
-    inner class InterleavingStringTopDownTest {
+    inner class InterleavingStringTopDownRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -65,7 +65,22 @@ internal class InterleavingStringTest {
             s3: String,
             expected: Boolean
         ) {
-            InterleavingStringTopDown().test(s1, s2, s3, expected)
+            InterleavingStringTopDownRev1().test(s1, s2, s3, expected)
+        }
+    }
+
+    @Nested
+    inner class InterleavingStringTopDownRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find whether s3 is formed by an interleaving of s1 and s2`(
+            s1: String,
+            s2: String,
+            s3: String,
+            expected: Boolean
+        ) {
+            InterleavingStringTopDownRev2().test(s1, s2, s3, expected)
         }
     }
 
@@ -98,9 +113,9 @@ internal class InterleavingStringTest {
             InterleavingStringBottomUpSpaceOptimized().test(s1, s2, s3, expected)
         }
     }
+}
 
-    private fun InterleavingString.test(s1: String, s2: String, s3: String, expected: Boolean) {
-        val actual = isInterleave(s1, s2, s3)
-        assertEquals(expected, actual)
-    }
+private fun InterleavingString.test(s1: String, s2: String, s3: String, expected: Boolean) {
+    val actual = isInterleave(s1, s2, s3)
+    assertEquals(expected, actual)
 }
