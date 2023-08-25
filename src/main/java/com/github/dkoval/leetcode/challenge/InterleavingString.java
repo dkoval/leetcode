@@ -100,7 +100,7 @@ public interface InterleavingString {
             }
 
             // already solved?
-            if (i < n1 && j < n2 && dp[i][j] != null) {
+            if (dp[i][j] != null) {
                 return dp[i][j];
             }
 
