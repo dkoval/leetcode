@@ -50,4 +50,31 @@ public interface MaximumLengthOfPairChain {
             return best;
         }
     }
+
+    // O(NlogN) time | O(1) space
+    class MaximumLengthOfPairChainRev2 implements MaximumLengthOfPairChain {
+
+        @Override
+        public int findLongestChain(int[][] pairs) {
+            int n = pairs.length;
+            Arrays.sort(pairs, Comparator.comparingInt(pair -> pair[0]));
+
+            // idea: ~ merge intervals
+            int ans = n;
+            int last = 0; // index of the last pair in the chain
+            for (int i = 1; i < n; i++) {
+                if (pairs[i][0] <= pairs[last][1]) {
+                    // There's a conflict!
+                    // Greedy: to resolve a conflict, remove a pair with > ending number
+                    if (pairs[last][1] > pairs[i][1]) {
+                        last = i;
+                    }
+                    ans--;
+                } else {
+                    last = i;
+                }
+            }
+            return ans;
+        }
+    }
 }
