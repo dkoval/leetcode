@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.MaximumLengthOfPairChain.MaximumLengthOfPairChainRev1
-import com.github.dkoval.leetcode.challenge.MaximumLengthOfPairChain.MaximumLengthOfPairChainRev2
+import com.github.dkoval.leetcode.challenge.MaximumLengthOfPairChain.MaximumLengthOfPairChainDP
+import com.github.dkoval.leetcode.challenge.MaximumLengthOfPairChain.MaximumLengthOfPairChainGreedy
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -49,22 +49,22 @@ internal class MaximumLengthOfPairChainTest {
     }
 
     @Nested
-    inner class MaximumLengthOfPairChainRev1Test {
+    inner class MaximumLengthOfPairChainDPTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the length longest chain which can be formed`(pairs: Array<IntArray>, expected: Int) {
-            MaximumLengthOfPairChainRev1().test(pairs, expected)
+            MaximumLengthOfPairChainDP().test(pairs, expected)
         }
     }
 
     @Nested
-    inner class MaximumLengthOfPairChainRev2Test {
+    inner class MaximumLengthOfPairChainGreedyTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the length longest chain which can be formed`(pairs: Array<IntArray>, expected: Int) {
-            MaximumLengthOfPairChainRev2().test(pairs, expected)
+            MaximumLengthOfPairChainGreedy().test(pairs, expected)
         }
     }
 }

@@ -26,13 +26,14 @@ public interface MaximumLengthOfPairChain {
     int findLongestChain(int[][] pairs);
 
     // O(N^2) time | O(N) space
-    class MaximumLengthOfPairChainRev1 implements MaximumLengthOfPairChain {
+    class MaximumLengthOfPairChainDP implements MaximumLengthOfPairChain {
 
         @Override
         public int findLongestChain(int[][] pairs) {
             int n = pairs.length;
             Arrays.sort(pairs, Comparator.comparingInt(pair -> pair[0]));
 
+            // idea: ~ LIS (longest increasing subsequence)
             // dp[i] - the max length of pair chain ending at index i
             int[] dp = new int[n];
 
@@ -52,7 +53,7 @@ public interface MaximumLengthOfPairChain {
     }
 
     // O(NlogN) time | O(1) space
-    class MaximumLengthOfPairChainRev2 implements MaximumLengthOfPairChain {
+    class MaximumLengthOfPairChainGreedy implements MaximumLengthOfPairChain {
 
         @Override
         public int findLongestChain(int[][] pairs) {
