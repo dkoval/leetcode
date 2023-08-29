@@ -62,4 +62,47 @@ public interface MinimumPenaltyForShop {
             return bestClosingHour;
         }
     }
+
+    // O(N) time | O(N) space
+    class MinimumPenaltyForShopRev2 implements MinimumPenaltyForShop {
+
+        @Override
+        public int bestClosingTime(String customers) {
+            int n = customers.length();
+
+            // idea: prefix sum
+            // 0 -> 'N'
+            // 1 -> 'Y'
+            int[][] yesno = new int[2][n];
+            for (int i = 0; i < n; i++) {
+                if (i > 0) {
+                    yesno[0][i] = yesno[0][i - 1];
+                    yesno[1][i] = yesno[1][i - 1];
+                }
+                int b = (customers.charAt(i) == 'Y') ? 1 : 0;
+                yesno[b][i]++;
+            }
+
+            int minPenalty = Integer.MAX_VALUE;
+            int minHour = -1;
+            for (int i = 0; i < n; i++) {
+                int penalty = yesno[1][n - 1];
+                if (i > 0) {
+                    penalty -= yesno[1][i - 1];
+                    penalty += yesno[0][i - 1];
+                }
+
+                if (penalty < minPenalty) {
+                    minPenalty = penalty;
+                    minHour = i;
+                }
+            }
+
+            // handle n-th hour
+            if (yesno[0][n - 1] < minPenalty) {
+                return n;
+            }
+            return minHour;
+        }
+    }
 }
