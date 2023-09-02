@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.ExtraCharactersInString.ExtraCharactersInStringDPTopDown
+import com.github.dkoval.leetcode.challenge.ExtraCharactersInString.ExtraCharactersInStringDPTopDownRev1
+import com.github.dkoval.leetcode.challenge.ExtraCharactersInString.ExtraCharactersInStringDPTopDownRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -29,7 +30,7 @@ internal class ExtraCharactersInStringTest {
     }
 
     @Nested
-    inner class ExtraCharactersInStringDPTopDownTest {
+    inner class ExtraCharactersInStringDPTopDownRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -38,7 +39,21 @@ internal class ExtraCharactersInStringTest {
             dictionary: Array<String>,
             expected: Int
         ) {
-            ExtraCharactersInStringDPTopDown().test(s, dictionary, expected)
+            ExtraCharactersInStringDPTopDownRev1().test(s, dictionary, expected)
+        }
+    }
+
+    @Nested
+    inner class ExtraCharactersInStringDPTopDownRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum number of extra characters left over if you break up s optimally`(
+            s: String,
+            dictionary: Array<String>,
+            expected: Int
+        ) {
+            ExtraCharactersInStringDPTopDownRev2().test(s, dictionary, expected)
         }
     }
 }

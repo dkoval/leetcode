@@ -24,7 +24,7 @@ public interface ExtraCharactersInString {
 
     int minExtraChar(String s, String[] dictionary);
 
-    class ExtraCharactersInStringDPTopDown implements ExtraCharactersInString {
+    class ExtraCharactersInStringDPTopDownRev1 implements ExtraCharactersInString {
 
         @Override
         public int minExtraChar(String s, String[] dictionary) {
@@ -64,6 +64,50 @@ public interface ExtraCharactersInString {
                 best = Math.min(best, curr);
             }
             return dp[start] = best;
+        }
+    }
+
+    class ExtraCharactersInStringDPTopDownRev2 implements ExtraCharactersInString {
+
+        @Override
+        public int minExtraChar(String s, String[] dictionary) {
+            int n = s.length();
+
+            Set<String> words = new HashSet<>(Arrays.asList(dictionary));
+            if (words.contains(s)) {
+                return 0;
+            }
+
+            Integer[] dp = new Integer[n];
+            return calculate(s, words, 0, dp);
+        }
+
+        private int calculate(String s, Set<String> words, int i, Integer[] dp) {
+            int n = s.length();
+
+            // base case
+            if (i == n) {
+                return 0;
+            }
+
+            // already solved?
+            if (dp[i] != null) {
+                return dp[i];
+            }
+
+            // skip s[i]
+            int best = 1 + calculate(s, words, i + 1, dp);
+
+            // try every possible prefix of s[i:]
+            for (int j = i; j < n; j++) {
+                String subs = s.substring(i, j + 1);
+                if (words.contains(subs)) {
+                    best = Math.min(best, calculate(s, words, j + 1, dp));
+                }
+            }
+
+            // cache and return the answer
+            return dp[i] = best;
         }
     }
 }
