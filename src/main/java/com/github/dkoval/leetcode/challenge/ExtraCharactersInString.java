@@ -54,15 +54,18 @@ public interface ExtraCharactersInString {
             }
 
             int best = n;
+            // try every prefix of s[start:]
             for (int end = start; end < n; end++) {
-                String subs = s.substring(start, end + 1);
-                int curr = calculate(s, words, end + 1, dp);
-                if (!words.contains(subs)) {
-                    // characters at indices [start : end] weren't used
-                    curr += end - start + 1;
+                int extra = calculate(s, words, end + 1, dp);
+                String prefix = s.substring(start, end + 1);
+                if (!words.contains(prefix)) {
+                    // characters at indices start .. end weren't used
+                    extra += end - start + 1;
                 }
-                best = Math.min(best, curr);
+                best = Math.min(best, extra);
             }
+
+            // cache and return the answer
             return dp[start] = best;
         }
     }
@@ -100,14 +103,45 @@ public interface ExtraCharactersInString {
 
             // try every possible prefix of s[i:]
             for (int j = i; j < n; j++) {
-                String subs = s.substring(i, j + 1);
-                if (words.contains(subs)) {
+                String prefix = s.substring(i, j + 1);
+                if (words.contains(prefix)) {
                     best = Math.min(best, calculate(s, words, j + 1, dp));
                 }
             }
 
             // cache and return the answer
             return dp[i] = best;
+        }
+    }
+
+    class ExtraCharactersInStringDPBottomUpRev1 implements ExtraCharactersInString {
+
+        @Override
+        public int minExtraChar(String s, String[] dictionary) {
+            int n = s.length();
+
+            Set<String> words = new HashSet<>(Arrays.asList(dictionary));
+            if (words.contains(s)) {
+                return 0;
+            }
+
+            // dp[i] - min extra characters if breaking up s[i:] optimally.
+            int[] dp = new int[n + 1];
+            for (int start = n - 1; start >= 0; start--) {
+                int best = n;
+                // try every prefix of s[start:]
+                for (int end = start; end < n; end++) {
+                    int extra = dp[end + 1];
+                    String prefix = s.substring(start, end + 1);
+                    if (!words.contains(prefix)) {
+                        // characters at indices start .. end weren't used
+                        extra += end - start + 1;
+                    }
+                    best = Math.min(best, extra);
+                }
+                dp[start] = best;
+            }
+            return dp[0];
         }
     }
 }
