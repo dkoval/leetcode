@@ -43,9 +43,9 @@ internal class UniquePathsTest {
             UniquePathsDPBottomUp.test(m, n, expected)
         }
     }
+}
 
-    private fun UniquePaths.test(m: Int, n: Int, expected: Int) {
-        val actual = uniquePaths(m, n)
-        assertEquals(expected, actual)
-    }
+private fun UniquePaths.test(m: Int, n: Int, expected: Int) {
+    val actual = uniquePaths(m, n)
+    assertEquals(expected, actual)
 }
