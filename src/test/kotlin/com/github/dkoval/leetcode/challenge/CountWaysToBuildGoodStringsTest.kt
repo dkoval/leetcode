@@ -1,6 +1,5 @@
-package com.github.dkoval.leetcode
+package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.CountWaysToBuildGoodStrings
 import com.github.dkoval.leetcode.challenge.CountWaysToBuildGoodStrings.CountWaysToBuildGoodStringsDPTopDownRev1
 import com.github.dkoval.leetcode.challenge.CountWaysToBuildGoodStrings.CountWaysToBuildGoodStringsDPTopDownRev2
 import org.junit.jupiter.api.Assertions.assertEquals
