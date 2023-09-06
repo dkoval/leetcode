@@ -1,17 +1,23 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.ListNode
+import com.github.dkoval.leetcode.challenge.SplitLinkedListInParts.SplitLinkedListInPartsRev1
+import com.github.dkoval.leetcode.challenge.SplitLinkedListInParts.SplitLinkedListInPartsRev2
 import com.github.dkoval.leetcode.toList
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
 
 internal class SplitLinkedListInPartsTest {
 
-    companion object {
-        @JvmStatic
-        fun input() = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 ListNode(1).apply {
                     next = ListNode(2).apply {
@@ -66,10 +72,28 @@ internal class SplitLinkedListInPartsTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should return an array of the k parts`(head: ListNode?, k: Int, expected: Iterable<List<Int>>) {
-        val actual = SplitLinkedListInParts().splitListToParts(head, k)
-        assertThat(actual.map { bucket -> bucket.toList() }).containsExactlyElementsOf(expected)
+    @Nested
+    inner class SplitLinkedListInPartsRev1Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return an array of the k parts`(head: ListNode?, k: Int, expected: Iterable<List<Int>>) {
+            SplitLinkedListInPartsRev1().test(head, k, expected)
+        }
     }
+
+    @Nested
+    inner class SplitLinkedListInPartsRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return an array of the k parts`(head: ListNode?, k: Int, expected: Iterable<List<Int>>) {
+            SplitLinkedListInPartsRev2().test(head, k, expected)
+        }
+    }
+}
+
+private fun SplitLinkedListInParts.test(head: ListNode?, k: Int, expected: Iterable<List<Int>>) {
+    val actual = splitListToParts(head, k)
+    assertThat(actual.map { part -> part.toList() }).containsExactlyElementsOf(expected)
 }
