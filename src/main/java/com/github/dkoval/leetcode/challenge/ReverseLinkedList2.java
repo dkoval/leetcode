@@ -68,6 +68,7 @@ public interface ReverseLinkedList2 {
         }
     }
 
+    // O(N) time | O(1) space
     class ReverseLinkedList2Rev2 implements ReverseLinkedList2 {
 
         @Override
@@ -131,6 +132,51 @@ public interface ReverseLinkedList2 {
             ListInfo(ListNode head, ListNode tail) {
                 this.head = head;
                 this.tail = tail;
+            }
+        }
+    }
+
+    // O(N) time | O(1) space
+    class ReverseLinkedList2Rev3 implements ReverseLinkedList2 {
+
+        @Override
+        public ListNode reverseBetween(ListNode head, int left, int right) {
+            ListNode leftNode = head;
+            ListNode beforeLeftNode = null;
+
+            ListNode curr = head;
+            ListNode prev = null;
+            for (int i = 1; i <= right; i++) {
+                if (i == left) {
+                    leftNode = curr;
+                    beforeLeftNode = prev;
+                }
+                prev = curr;
+                curr = curr.next;
+            }
+
+            ListNode rightNode = prev;
+            ListNode afterRightNode = curr;
+
+            reverseBetween(leftNode, rightNode);
+            leftNode.next = afterRightNode;
+            if (beforeLeftNode != null) {
+                beforeLeftNode.next = rightNode;
+            } else {
+                head = rightNode;
+            }
+            return head;
+        }
+
+        private void reverseBetween(ListNode left, ListNode right) {
+            ListNode curr = left;
+            ListNode prev = null;
+            ListNode stop = right.next;
+            while (curr != stop) {
+                ListNode next = curr.next;
+                curr.next = prev;
+                prev = curr;
+                curr = next;
             }
         }
     }
