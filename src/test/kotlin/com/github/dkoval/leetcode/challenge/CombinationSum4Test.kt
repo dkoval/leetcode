@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.CombinationSum4.CombinationSum4DPTopDown
-import com.github.dkoval.leetcode.challenge.CombinationSum4.CombinationSumDPBottomUp
+import com.github.dkoval.leetcode.challenge.CombinationSum4.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -52,6 +51,20 @@ internal class CombinationSum4Test {
     }
 
     @Nested
+    inner class CombinationSum4DPTopDownEarlyTerminateTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of possible combinations that add up to target`(
+            nums: IntArray,
+            target: Int,
+            expected: Int
+        ) {
+            CombinationSum4DPTopDownEarlyTerminate().test(nums, target, expected)
+        }
+    }
+
+    @Nested
     inner class CombinationSum4DPBottomUpTest {
 
         @ParameterizedTest
@@ -65,8 +78,9 @@ internal class CombinationSum4Test {
         }
     }
 
-    private fun CombinationSum4.test(nums: IntArray, target: Int, expected: Int) {
-        val actual = combinationSum4(nums, target)
-        assertEquals(expected, actual)
-    }
+}
+
+private fun CombinationSum4.test(nums: IntArray, target: Int, expected: Int) {
+    val actual = combinationSum4(nums, target)
+    assertEquals(expected, actual)
 }

@@ -1,11 +1,13 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.Arrays;
+
 /**
- * <a href="https://leetcode.com/explore/challenge/card/april-leetcoding-challenge-2021/595/week-3-april-15th-april-21st/3713/">Combination Sum IV</a>
+ * <a href="https://leetcode.com/problems/combination-sum-iv/description/">Combination Sum IV</a>
  * <p>
  * Given an array of distinct integers nums and a target integer target, return the number of possible combinations that add up to target.
  * <p>
- * The answer is guaranteed to fit in a 32-bit integer.
+ * The test cases are generated so that the answer can fit in a 32-bit integer.
  * <p>
  * Constraints:
  * <ul>
@@ -26,26 +28,60 @@ public interface CombinationSum4 {
             return combinationSum4(nums, target, new Integer[target + 1]);
         }
 
-        private int combinationSum4(int[] nums, int target, Integer[] memo) {
+        private int combinationSum4(int[] nums, int target, Integer[] dp) {
             // base case
             if (target == 0) {
                 return 1;
             }
 
             // already solved?
-            if (memo[target] != null) {
-                return memo[target];
+            if (dp[target] != null) {
+                return dp[target];
             }
 
             int count = 0;
             for (int num : nums) {
                 if (num <= target) {
-                    count += combinationSum4(nums, target - num, memo);
+                    count += combinationSum4(nums, target - num, dp);
                 }
             }
 
             // cache solution to a smaller sub-problem
-            memo[target] = count;
+            dp[target] = count;
+            return count;
+        }
+    }
+
+    class CombinationSum4DPTopDownEarlyTerminate implements CombinationSum4 {
+
+        @Override
+        public int combinationSum4(int[] nums, int target) {
+            Arrays.sort(nums);
+            return combinationSum4(nums, target, new Integer[target + 1]);
+        }
+
+        private int combinationSum4(int[] nums, int target, Integer[] dp) {
+            // base case
+            if (target == 0) {
+                return 1;
+            }
+
+            // already solved?
+            if (dp[target] != null) {
+                return dp[target];
+            }
+
+            int count = 0;
+            for (int num : nums) {
+                if (num > target) {
+                    // since nums[] is sorted in ASC order, every number x following num: x >= num
+                    break;
+                }
+                count += combinationSum4(nums, target - num, dp);
+            }
+
+            // cache solution to a smaller sub-problem
+            dp[target] = count;
             return count;
         }
     }
