@@ -58,42 +58,80 @@ public interface CountAllValidPickupAndDeliveryOptions {
     }
 
     // O(N) time | O(N) space
-    class CountAllValidPickupAndDeliveryOptionsRev1 implements CountAllValidPickupAndDeliveryOptions {
+    class CountAllValidPickupAndDeliveryOptionsDPBottomUp implements CountAllValidPickupAndDeliveryOptions {
 
         @Override
         public int countOrders(int n) {
             // dp[i] is the number of valid pickup/delivery sequences of i orders
-            int[] dp = new int[n + 1];
+            int[] dp = new int[n + 2];
             dp[1] = 1; // (P1, D1), (D1, P1) is considered invalid
 
+            // N = 1
+            //
+            // P1 D1
+            // 1 possibility
+            //
             // N = 2
             //
-            // There are 3 places where (P2, D2) can be placed:
+            // There are 3 slots where (P2, D2) can be placed:
             //
             // _ P1 _ D1 _
-            // ^ => 3 possibilities to place D2
+            // ^ => 3 possibilities to place P2 in the 1st slot
             // ---
             // _ P1 _ D1 _
-            //      ^ => 2 possibilities to place D2
+            //      ^ => 2 possibilities to place P2 in the 2nd slot
             // ---
             // _ P1 _ D1 _
-            //           ^ => 1 possibility to place D2
+            //           ^ => 1 possibility to place P2 in the 3rd slot
             //
             // 1 + 2 + 3 = 6 possibilities in total
+            //
+            // At this stage, we can start thinking of (P1, D1) as dividers
             // ---
-            // 1 + 2 + ... + N = N * (N + 1) / 2
+            //
+            // N = 3
+            //
+            // (P1, D1) and (P2, D2) are already placed
+            // _ | _ | _ | _ | _
+            // there are 5 (2 * 3 - 1) slots to put P3 in
+            // 1 + 2 + 3 + 4 + 5 = 15 possibilities to put P3
+            // answer = 15 * number of possibilities to place both (P1, D1) and (P2, D2) = 15 * F(N - 2)
+            //
+            // In general
+            // F(1) = 1
+            // F(N) = sum(1, 2 * N - 1) * F(N - 1)
+            //
+            // sum(1, N) = 1 + 2 + ... + N = N * (N + 1) / 2
             for (int i = 2; i <= n; i++) {
-                int numPlaces = 2 * i - 1;
-                int numPossibilities = numPlaces * (numPlaces + 1) / 2;
-
-                long x = ((long) dp[i - 1]) * numPossibilities;
-                dp[i] = (int) (x % MOD);
+                int slots = 2 * i - 1;
+                long choices = (long) slots * (slots + 1) / 2;
+                choices *= dp[i - 1];
+                choices %= MOD;
+                dp[i] = (int) choices;
             }
             return dp[n];
         }
     }
 
     // O(N) time | O(1) space
+    class CountAllValidPickupAndDeliveryOptionsDPBottomUpSpaceOptimized implements CountAllValidPickupAndDeliveryOptions {
+
+        @Override
+        public int countOrders(int n) {
+            // base case: F(1) = 1
+            int count = 1;
+            for (int i = 2; i <= n; i++) {
+                int slots = 2 * i - 1;
+                long choices = (long) slots * (slots + 1) / 2;
+                choices *= count;
+                choices %= MOD;
+                count = (int) choices;
+            }
+            return count;
+        }
+    }
+
+        // O(N) time | O(1) space
     class CountAllValidPickupAndDeliveryOptionsDiscreteMath implements CountAllValidPickupAndDeliveryOptions {
 
         @Override

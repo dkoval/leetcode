@@ -40,7 +40,7 @@ internal class CountAllValidPickupAndDeliveryOptionsTest {
     }
 
     @Nested
-    inner class CountAllValidPickupAndDeliveryOptionsRev1Test {
+    inner class CountAllValidPickupAndDeliveryOptionsDPBottomUpTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -48,7 +48,20 @@ internal class CountAllValidPickupAndDeliveryOptionsTest {
             n: Int,
             expected: Int
         ) {
-            CountAllValidPickupAndDeliveryOptionsRev1().test(n, expected)
+            CountAllValidPickupAndDeliveryOptionsDPBottomUp().test(n, expected)
+        }
+    }
+
+    @Nested
+    inner class CountAllValidPickupAndDeliveryOptionsDPBottomUpSpaceOptimizedTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should count all valid pickup-delivery possible sequences such that delivery(i) is always after of pickup(i)`(
+            n: Int,
+            expected: Int
+        ) {
+            CountAllValidPickupAndDeliveryOptionsDPBottomUpSpaceOptimized().test(n, expected)
         }
     }
 
