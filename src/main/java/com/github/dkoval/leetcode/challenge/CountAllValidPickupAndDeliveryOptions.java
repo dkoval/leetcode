@@ -13,38 +13,73 @@ package com.github.dkoval.leetcode.challenge;
  * <p>
  * 1 <= n <= 500
  */
-public class CountAllValidPickupAndDeliveryOptions {
+public interface CountAllValidPickupAndDeliveryOptions {
 
-    private static final int MOD = 1_000_000_007;
+    int MOD = 1_000_000_007;
 
-    public int countOrders(int n) {
-        // dp[i] is the number of valid pickup/delivery sequences of i orders
-        int[] dp = new int[n + 1];
-        dp[1] = 1; // (P1, D1), (D1, P1) is considered invalid
+    int countOrders(int n);
 
-        // N = 2
-        //
-        // There are 3 places where (P2, D2) can be placed:
-        //
-        // _ P1 _ D1 _
-        // ^ => 3 possibilities to place D2
-        // ---
-        // _ P1 _ D1 _
-        //      ^ => 2 possibilities to place D2
-        // ---
-        // _ P1 _ D1 _
-        //           ^ => 1 possibility to place D2
-        //
-        // 1 + 2 + 3 = 6 possibilities in total
-        // ---
-        // 1 + 2 + ... + N = N * (N + 1) / 2
-        for (int i = 2; i <= n; i++) {
-            int numPlaces = 2 * i - 1;
-            int numPossibilities = numPlaces * (numPlaces + 1) / 2;
+    // O(N) time | O(N) space
+    class CountAllValidPickupAndDeliveryOptionsRev1 implements CountAllValidPickupAndDeliveryOptions {
 
-            long x = ((long) dp[i - 1]) * numPossibilities;
-            dp[i] = (int) (x % MOD);
+        @Override
+        public int countOrders(int n) {
+            // dp[i] is the number of valid pickup/delivery sequences of i orders
+            int[] dp = new int[n + 1];
+            dp[1] = 1; // (P1, D1), (D1, P1) is considered invalid
+
+            // N = 2
+            //
+            // There are 3 places where (P2, D2) can be placed:
+            //
+            // _ P1 _ D1 _
+            // ^ => 3 possibilities to place D2
+            // ---
+            // _ P1 _ D1 _
+            //      ^ => 2 possibilities to place D2
+            // ---
+            // _ P1 _ D1 _
+            //           ^ => 1 possibility to place D2
+            //
+            // 1 + 2 + 3 = 6 possibilities in total
+            // ---
+            // 1 + 2 + ... + N = N * (N + 1) / 2
+            for (int i = 2; i <= n; i++) {
+                int numPlaces = 2 * i - 1;
+                int numPossibilities = numPlaces * (numPlaces + 1) / 2;
+
+                long x = ((long) dp[i - 1]) * numPossibilities;
+                dp[i] = (int) (x % MOD);
+            }
+            return dp[n];
         }
-        return dp[n];
+    }
+
+    // O(N) time | O(1) space
+    class CountAllValidPickupAndDeliveryOptionsRev2 implements CountAllValidPickupAndDeliveryOptions {
+
+        @Override
+        public int countOrders(int n) {
+            // 2 * n slots to put (P1, D1)
+            // number of valid choices to put (P1, D1) = L * (L - 1) / 2
+            //
+            // (L - 2) slots to put (P2, D2)
+            // number of valid choices to put (P2, D2) = L' * (L' - 1) / 2
+            // ...
+            // 2 slots to put (PN, DN)
+            // number of valid choices to put (PN, DN) = 2 * (2 - 1) / 2 = 1
+            //
+            // total number of valid choices = choices1 * choices2 * ... * choicesN
+            int slots = 2 * n;
+
+            long count = 1;
+            while (slots > 0) {
+                int choices = slots * (slots - 1) / 2;
+                count *= choices;
+                count %= MOD;
+                slots -= 2;
+            }
+            return (int) count;
+        }
     }
 }

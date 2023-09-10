@@ -1,15 +1,21 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.CountAllValidPickupAndDeliveryOptions.CountAllValidPickupAndDeliveryOptionsRev1
+import com.github.dkoval.leetcode.challenge.CountAllValidPickupAndDeliveryOptions.CountAllValidPickupAndDeliveryOptionsRev2
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
 
 internal class CountAllValidPickupAndDeliveryOptionsTest {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(1, 1),
             Arguments.of(2, 6),
             Arguments.of(3, 90),
@@ -21,13 +27,34 @@ internal class CountAllValidPickupAndDeliveryOptionsTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should count all valid pickup-delivery possible sequences such that delivery(i) is always after of pickup(i)`(
-        n: Int,
-        expected: Int
-    ) {
-        val actual = CountAllValidPickupAndDeliveryOptions().countOrders(n)
-        assertEquals(expected, actual)
+    @Nested
+    inner class CountAllValidPickupAndDeliveryOptionsRev1Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should count all valid pickup-delivery possible sequences such that delivery(i) is always after of pickup(i)`(
+            n: Int,
+            expected: Int
+        ) {
+            CountAllValidPickupAndDeliveryOptionsRev1().test(n, expected)
+        }
     }
+
+    @Nested
+    inner class CountAllValidPickupAndDeliveryOptionsRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should count all valid pickup-delivery possible sequences such that delivery(i) is always after of pickup(i)`(
+            n: Int,
+            expected: Int
+        ) {
+            CountAllValidPickupAndDeliveryOptionsRev2().test(n, expected)
+        }
+    }
+}
+
+private fun CountAllValidPickupAndDeliveryOptions.test(n: Int, expected: Int) {
+    val actual = countOrders(n)
+    assertEquals(expected, actual)
 }
