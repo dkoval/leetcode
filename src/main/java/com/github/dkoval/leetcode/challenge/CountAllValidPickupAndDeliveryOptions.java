@@ -19,6 +19,44 @@ public interface CountAllValidPickupAndDeliveryOptions {
 
     int countOrders(int n);
 
+    // O(N^2) time | O(N^2) space
+    class CountAllValidPickupAndDeliveryOptionsDPTopDown implements CountAllValidPickupAndDeliveryOptions {
+
+        @Override
+        public int countOrders(int n) {
+            Integer[][] dp = new Integer[n + 1][n + 1];
+            return calculate(n, n, 0, dp);
+        }
+
+        private int calculate(int n, int pickups, int deliveries, Integer[][] dp) {
+            if (pickups == 0 && deliveries == 0) {
+                return 1;
+            }
+
+            // already solved?
+            if (dp[pickups][deliveries] != null) {
+                return dp[pickups][deliveries];
+            }
+
+            long count = 0;
+
+            // option #1: pickup an order
+            if (pickups > 0) {
+                count += (long) pickups * calculate(n, pickups - 1, deliveries + 1, dp);
+                count %= MOD;
+            }
+
+            // option #2: deliver an order
+            if (deliveries > 0) {
+                count += (long) deliveries * calculate(n, pickups, deliveries - 1, dp);
+                count %= MOD;
+            }
+
+            // cache and return the answer
+            return dp[pickups][deliveries] = (int) count;
+        }
+    }
+
     // O(N) time | O(N) space
     class CountAllValidPickupAndDeliveryOptionsRev1 implements CountAllValidPickupAndDeliveryOptions {
 
@@ -56,7 +94,7 @@ public interface CountAllValidPickupAndDeliveryOptions {
     }
 
     // O(N) time | O(1) space
-    class CountAllValidPickupAndDeliveryOptionsRev2 implements CountAllValidPickupAndDeliveryOptions {
+    class CountAllValidPickupAndDeliveryOptionsDiscreteMath implements CountAllValidPickupAndDeliveryOptions {
 
         @Override
         public int countOrders(int n) {

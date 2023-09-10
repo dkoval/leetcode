@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.CountAllValidPickupAndDeliveryOptions.CountAllValidPickupAndDeliveryOptionsRev1
-import com.github.dkoval.leetcode.challenge.CountAllValidPickupAndDeliveryOptions.CountAllValidPickupAndDeliveryOptionsRev2
+import com.github.dkoval.leetcode.challenge.CountAllValidPickupAndDeliveryOptions.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -28,6 +27,19 @@ internal class CountAllValidPickupAndDeliveryOptionsTest {
     }
 
     @Nested
+    inner class CountAllValidPickupAndDeliveryOptionsDPTopDownTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should count all valid pickup-delivery possible sequences such that delivery(i) is always after of pickup(i)`(
+            n: Int,
+            expected: Int
+        ) {
+            CountAllValidPickupAndDeliveryOptionsDPTopDown().test(n, expected)
+        }
+    }
+
+    @Nested
     inner class CountAllValidPickupAndDeliveryOptionsRev1Test {
 
         @ParameterizedTest
@@ -41,7 +53,7 @@ internal class CountAllValidPickupAndDeliveryOptionsTest {
     }
 
     @Nested
-    inner class CountAllValidPickupAndDeliveryOptionsRev2Test {
+    inner class CountAllValidPickupAndDeliveryOptionsDiscreteMathTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -49,7 +61,7 @@ internal class CountAllValidPickupAndDeliveryOptionsTest {
             n: Int,
             expected: Int
         ) {
-            CountAllValidPickupAndDeliveryOptionsRev2().test(n, expected)
+            CountAllValidPickupAndDeliveryOptionsDiscreteMath().test(n, expected)
         }
     }
 }
