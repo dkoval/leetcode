@@ -63,7 +63,7 @@ public interface CountAllValidPickupAndDeliveryOptions {
         @Override
         public int countOrders(int n) {
             // dp[i] is the number of valid pickup/delivery sequences of i orders
-            int[] dp = new int[n + 2];
+            int[] dp = new int[n + 1];
             dp[1] = 1; // (P1, D1), (D1, P1) is considered invalid
 
             // N = 1
