@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.Candy.CandyRev1
+import com.github.dkoval.leetcode.challenge.Candy.CandyRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -43,8 +44,21 @@ internal class CandyTest {
         }
     }
 
-    private fun Candy.test(ratings: IntArray, expected: Int) {
-        val actual = candy(ratings)
-        assertEquals(expected, actual)
+    @Nested
+    inner class CandyRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum number of candies you need to have to distribute the candies to the children`(
+            ratings: IntArray,
+            expected: Int
+        ) {
+            CandyRev2().test(ratings, expected)
+        }
     }
+}
+
+private fun Candy.test(ratings: IntArray, expected: Int) {
+    val actual = candy(ratings)
+    assertEquals(expected, actual)
 }
