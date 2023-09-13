@@ -73,6 +73,7 @@ public interface Candy {
         }
     }
 
+    // O(N) time | O(N) space
     class CandyRev2 implements Candy {
 
         @Override
@@ -100,6 +101,36 @@ public interface Candy {
             int total = 0;
             for (int i = 0; i < n; i++) {
                 total += Math.max(leftToRight[i], rightToLeft[i]);
+            }
+            return total;
+        }
+    }
+
+    // O(N) time | O(N) space
+    class CandyRev3 implements Candy {
+
+        @Override
+        public int candy(int[] ratings) {
+            int n = ratings.length;
+
+            int[] candies = new int[n];
+            candies[0] = 1;
+
+            // 1st pass - going left to right
+            for (int i = 1; i < n; i++) {
+                candies[i] = 1;
+                if (ratings[i] > ratings[i - 1]) {
+                    candies[i] = candies[i - 1] + 1;
+                }
+            }
+
+            // 2nd pass - going right to left
+            int total = candies[n - 1];
+            for (int i = n - 2; i >= 0; i--) {
+                if (ratings[i] > ratings[i + 1]) {
+                    candies[i] = Math.max(candies[i], candies[i + 1] + 1);
+                }
+                total += candies[i];
             }
             return total;
         }
