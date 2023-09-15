@@ -92,14 +92,12 @@ public interface FindCriticalAndPseudoCriticalEdgesInMinimumSpanningTree {
         private static class UnionFind {
             // parent[i] is the parent of i
             final int[] parent;
-            final int[] rank;
 
             UnionFind(int n) {
                 parent = new int[n];
                 for (int i = 0; i < n; i++) {
                     parent[i] = i;
                 }
-                rank = new int[n];
             }
 
             int find(int x) {
