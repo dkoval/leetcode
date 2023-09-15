@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.MinCostToConnectAllPoints.MinCostToConnectAllPointsUsingPrim
-import com.github.dkoval.leetcode.challenge.MinCostToConnectAllPoints.MinCostToConnectAllPointsUsingUnionFind
+import com.github.dkoval.leetcode.challenge.MinCostToConnectAllPoints.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -38,12 +37,22 @@ internal class MinCostToConnectAllPointsTest {
     }
 
     @Nested
-    inner class MinCostToConnectAllPointsUsingUnionFindTest {
+    inner class MinCostToConnectAllPointsUsingUnionFindRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the minimum cost to make all points connected`(points: Array<IntArray>, expected: Int) {
-            MinCostToConnectAllPointsUsingUnionFind().test(points, expected)
+            MinCostToConnectAllPointsUsingUnionFindRev1().test(points, expected)
+        }
+    }
+
+    @Nested
+    inner class MinCostToConnectAllPointsUsingUnionFindRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum cost to make all points connected`(points: Array<IntArray>, expected: Int) {
+            MinCostToConnectAllPointsUsingUnionFindRev2().test(points, expected)
         }
     }
 

@@ -25,7 +25,7 @@ public interface MinCostToConnectAllPoints {
 
     int minCostConnectPoints(int[][] points);
 
-    class MinCostToConnectAllPointsUsingUnionFind implements MinCostToConnectAllPoints {
+    class MinCostToConnectAllPointsUsingUnionFindRev1 implements MinCostToConnectAllPoints {
 
         private static class PairOfPoints {
             final int i; // index of the 1st point, i.e. points[i]
@@ -83,16 +83,89 @@ public interface MinCostToConnectAllPoints {
                 }
             }
 
-            int ans = 0; // the minimum cost to make all points connected
+            // Kruskal's algorithm
+            int cost = 0;
             int numConnectedPoints = 0;
             while (!pq.isEmpty() && numConnectedPoints < n - 1) {
                 PairOfPoints pair = pq.poll();
                 if (uf.union(pair.i, pair.j)) {
                     numConnectedPoints++;
-                    ans += pair.distance;
+                    cost += pair.distance;
                 }
             }
-            return ans;
+            return cost;
+        }
+    }
+
+    class MinCostToConnectAllPointsUsingUnionFindRev2 implements MinCostToConnectAllPoints {
+
+        @Override
+        public int minCostConnectPoints(int[][] points) {
+            int n = points.length;
+
+            List<Edge> edges = new ArrayList<>();
+            for (int i = 0; i < n - 1; i++) {
+                for (int j = i + 1; j < n; j++) {
+                    int dist = Math.abs(points[i][0] - points[j][0]) + Math.abs(points[i][1] - points[j][1]);
+                    edges.add(new Edge(i, j, dist));
+                }
+            }
+
+            // calculate Minimum Spanning Tree - Kruskal's algorithm
+            edges.sort(Comparator.comparingInt(edge -> edge.weight));
+
+            int cost = 0;
+            UnionFind uf = new UnionFind(n);
+            int numConnected = 0;
+            for (Edge edge : edges) {
+                if (uf.union(edge.p1, edge.p2)) {
+                    cost += edge.weight;
+                    if (++numConnected == n - 1) {
+                        break;
+                    }
+                }
+            }
+            return cost;
+        }
+
+        private static class Edge {
+            final int p1;
+            final int p2;
+            final int weight;
+
+            Edge (int p1, int p2, int weight) {
+                this.p1 = p1;
+                this.p2 = p2;
+                this.weight = weight;
+            }
+        }
+
+        private static class UnionFind {
+            final int[] parent;
+
+            UnionFind(int n) {
+                parent = new int[n];
+                for (int i = 0; i < n; i++) {
+                    parent[i] = i;
+                }
+            }
+
+            int find(int x) {
+                if (parent[x] != x) {
+                    parent[x] = find(parent[x]);
+                }
+                return parent[x];
+            }
+
+            boolean union(int a, int b) {
+                int pa = find(a);
+                int pb = find(b);
+                if (pa != pb) {
+                    parent[pa] = pb;
+                    return true;
+                }
+                return false;
+            }
         }
     }
 
