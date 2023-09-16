@@ -223,10 +223,6 @@ public interface PathWithMinimumEffort {
                     return curr.effort;
                 }
 
-                if (visited[curr.row][curr.col]) {
-                    continue;
-                }
-
                 visited[curr.row][curr.col] = true;
                 for (int[] d : DIRS) {
                     int nextRow = curr.row + d[0];
