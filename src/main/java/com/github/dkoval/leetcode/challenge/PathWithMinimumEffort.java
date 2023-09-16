@@ -1,6 +1,8 @@
 package com.github.dkoval.leetcode.challenge;
 
 import java.util.ArrayDeque;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 /**
@@ -196,6 +198,66 @@ public interface PathWithMinimumEffort {
             Cell(int row, int col) {
                 this.row = row;
                 this.col = col;
+            }
+        }
+    }
+
+    class PathWithMinimumEffortRev3 implements PathWithMinimumEffort {
+
+        // up, down, left, right
+        private static final int[][] DIRS = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+        @Override
+        public int minimumEffortPath(int[][] heights) {
+            int rows = heights.length;
+            int cols = heights[0].length;
+
+            // Dijkstra's algorithm
+            Queue<Cell> q = new PriorityQueue<>(Comparator.comparingInt(cell -> cell.effort));
+            boolean[][] visited = new boolean[rows][cols];
+
+            q.offer(new Cell(0, 0, 0));
+            while (!q.isEmpty()) {
+                Cell curr = q.poll();
+                if (curr.row == rows - 1 && curr.col == cols - 1) {
+                    return curr.effort;
+                }
+
+                if (visited[curr.row][curr.col]) {
+                    continue;
+                }
+
+                visited[curr.row][curr.col] = true;
+                for (int[] d : DIRS) {
+                    int nextRow = curr.row + d[0];
+                    int nextCol = curr.col + d[1];
+
+                    // out of bounds?
+                    if (nextRow < 0 || nextRow >= rows || nextCol < 0 || nextCol >= cols) {
+                        continue;
+                    }
+
+                    // already visited?
+                    if (visited[nextRow][nextCol]) {
+                        continue;
+                    }
+
+                    int diff = Math.abs(heights[nextRow][nextCol] - heights[curr.row][curr.col]);
+                    q.offer(new Cell(nextRow, nextCol, Math.max(curr.effort, diff)));
+                }
+            }
+            return -1;
+        }
+
+        private static class Cell {
+            final int row;
+            final int col;
+            final int effort; // the maximum absolute difference in heights between two consecutive cells of the route.
+
+            Cell(int row, int col, int effort) {
+                this.row = row;
+                this.col = col;
+                this.effort = effort;
             }
         }
     }

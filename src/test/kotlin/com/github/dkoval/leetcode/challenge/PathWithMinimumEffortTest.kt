@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.PathWithMinimumEffort.PathWithMinimumEffortRev2
+import com.github.dkoval.leetcode.challenge.PathWithMinimumEffort.PathWithMinimumEffortRev3
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -73,6 +74,19 @@ internal class PathWithMinimumEffortTest {
             expected: Int
         ) {
             PathWithMinimumEffortRev2().test(heights, expected)
+        }
+    }
+
+    @Nested
+    inner class PathWithMinimumEffortRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum effort required to travel from the top-left cell to the bottom-right cell`(
+            heights: Array<IntArray>,
+            expected: Int
+        ) {
+            PathWithMinimumEffortRev3().test(heights, expected)
         }
     }
 }
