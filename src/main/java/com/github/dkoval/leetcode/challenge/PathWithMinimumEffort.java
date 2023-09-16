@@ -23,89 +23,180 @@ import java.util.Queue;
  *  <li>1 <= heights[i][j] <= 10^6</li>
  * </ul>
  */
-public class PathWithMinimumEffort {
+public interface PathWithMinimumEffort {
 
-    private static final int[][] DIRECTIONS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+    int minimumEffortPath(int[][] heights);
 
-    private static class Cell {
-        final int row;
-        final int col;
+    class PathWithMinimumEffortRev1 implements PathWithMinimumEffort {
 
-        Cell(int row, int col) {
-            this.row = row;
-            this.col = col;
+        private static final int[][] DIRS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+
+        @Override
+        public int minimumEffortPath(int[][] heights) {
+            // binary search on effort
+            int left = 0;
+            int right = max(heights);
+            while (left < right) {
+                int mid = left + (right - left) / 2;
+                if (possibleHike(heights, mid)) {
+                    // mid is a potential answer
+                    // can we find a better solution to the left of `mid`?
+                    right = mid;
+                } else {
+                    // mid is not an answer
+                    // skip everything to the left of `mid`, including `mid` itself
+                    left = mid + 1;
+                }
+            }
+            return left;
+        }
+
+        private int max(int[][] nums) {
+            int ans = Integer.MIN_VALUE;
+            for (int[] row : nums) {
+                for (int x : row) {
+                    ans = Math.max(ans, x);
+                }
+            }
+            return ans;
+        }
+
+        private boolean possibleHike(int[][] heights, int effort) {
+            int m = heights.length;
+            int n = heights[0].length;
+
+            // BFS
+            Queue<Cell> q = new ArrayDeque<>();
+            boolean[][] visited = new boolean[m][n];
+            q.offer(new Cell(0, 0));
+            visited[0][0] = true;
+
+            while (!q.isEmpty()) {
+                Cell curr = q.poll();
+                if (curr.row == m - 1 && curr.col == n - 1) {
+                    return true;
+                }
+
+                // explore adjacent cells
+                for (int[] d : DIRS) {
+                    int nextRow = curr.row + d[0];
+                    int nextCol = curr.col + d[1];
+
+                    // out of bounds?
+                    if (nextRow < 0 || nextRow >= m || nextCol < 0 || nextCol >= n) {
+                        continue;
+                    }
+
+                    // already visited?
+                    if (visited[nextRow][nextCol]) {
+                        continue;
+                    }
+
+                    // can take curr -> next edge?
+                    if (Math.abs(heights[nextRow][nextCol] - heights[curr.row][curr.col]) > effort) {
+                        continue;
+                    }
+
+                    q.offer(new Cell(nextRow, nextCol));
+                    visited[nextRow][nextCol] = true;
+                }
+            }
+            return false;
+        }
+
+        private static class Cell {
+            final int row;
+            final int col;
+
+            Cell(int row, int col) {
+                this.row = row;
+                this.col = col;
+            }
         }
     }
 
-    public int minimumEffortPath(int[][] heights) {
-        // binary search on effort
-        int l = 0;
-        int r = max(heights);
-        while (l < r) {
-            int mid = l + (r - l) / 2;
-            if (possibleHike(heights, mid)) {
-                // mid is a potential answer
-                // can we find a better solution to the left of `mid`?
-                r = mid;
-            } else {
-                // mid is not an answer
-                // skip everything to the left of `mid`, including `mid` itself
-                l = mid + 1;
+    class PathWithMinimumEffortRev2 implements PathWithMinimumEffort {
+
+        // up, down, left, right
+        private static final int[][] DIRS = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+        @Override
+        public int minimumEffortPath(int[][] heights) {
+            int rows = heights.length;
+            int cols = heights[0].length;
+
+            // corner case
+            if (rows == 1 && cols == 1) {
+                return 0;
+            }
+
+            // binary search the absolute difference in heights between two consecutive cells of the route
+            // FF...FTT...T
+            //       ^ answer
+            // constraints: 1 <= heights[i][j] <= 10^6
+            int left = 0;
+            int right = 1_000_000 - 1;
+            while (left < right) {
+                int mid = left + (right - left) / 2;
+                if (canGo(heights, mid)) {
+                    // mid might be the answer;
+                    // check if there's a better option to the left of mid
+                    right = mid;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            return left;
+        }
+
+        // Checks whether it is possible to go from (0, 0) to (rows - 1, cols - 1) using only edges of ≤ threshold cost
+        private boolean canGo(int[][] heights, int threshold) {
+            int rows = heights.length;
+            int cols = heights[0].length;
+
+            // BFS
+            Queue<Cell> q = new ArrayDeque<>();
+            boolean[][] visited = new boolean[rows][cols];
+            q.offer(new Cell(0, 0));
+            visited[0][0] = true;
+            while (!q.isEmpty()) {
+                Cell curr = q.poll();
+                for (int[] d : DIRS) {
+                    int nextRow = curr.row + d[0];
+                    int nextCol = curr.col + d[1];
+
+                    // out of bounds?
+                    if (nextRow < 0 || nextRow >= rows || nextCol < 0 || nextCol >= cols) {
+                        continue;
+                    }
+
+                    // already visited?
+                    if (visited[nextRow][nextCol]) {
+                        continue;
+                    }
+
+                    // can take curr -> next edge?
+                    if (Math.abs(heights[curr.row][curr.col] - heights[nextRow][nextCol]) <= threshold) {
+                        if (nextRow == rows - 1 && nextCol == cols - 1) {
+                            return true;
+                        }
+
+                        q.offer(new Cell(nextRow, nextCol));
+                        visited[nextRow][nextCol] = true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private static class Cell {
+            final int row;
+            final int col;
+
+            Cell(int row, int col) {
+                this.row = row;
+                this.col = col;
             }
         }
-        return l;
-    }
-
-    private int max(int[][] nums) {
-        int ans = Integer.MIN_VALUE;
-        for (int[] row : nums) {
-            for (int x : row) {
-                ans = Math.max(ans, x);
-            }
-        }
-        return ans;
-    }
-
-    private boolean possibleHike(int[][] heights, int effort) {
-        int m = heights.length;
-        int n = heights[0].length;
-
-        // BFS
-        Queue<Cell> q = new ArrayDeque<>();
-        boolean[][] visited = new boolean[m][n];
-        q.offer(new Cell(0, 0));
-        visited[0][0] = true;
-
-        while (!q.isEmpty()) {
-            Cell curr = q.poll();
-            if (curr.row == m - 1 && curr.col == n - 1) {
-                return true;
-            }
-
-            // explore adjacent cells
-            for (int[] d : DIRECTIONS) {
-                int nextRow = curr.row + d[0];
-                int nextCol = curr.col + d[1];
-
-                // check boundaries?
-                if (nextRow < 0 || nextRow >= m || nextCol < 0 || nextCol >= n) {
-                    continue;
-                }
-
-                // already visited?
-                if (visited[nextRow][nextCol]) {
-                    continue;
-                }
-
-                // is next cell good at all?
-                if (Math.abs(heights[nextRow][nextCol] - heights[curr.row][curr.col]) > effort) {
-                    continue;
-                }
-
-                q.offer(new Cell(nextRow, nextCol));
-                visited[nextRow][nextCol] = true;
-            }
-        }
-        return false;
     }
 }
