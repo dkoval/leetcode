@@ -33,6 +33,28 @@ internal class ShortestPathVisitingAllNodesTest {
                     intArrayOf(1, 2)
                 ),
                 4
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(2, 3, 5, 7),
+                    intArrayOf(2, 3, 7),
+                    intArrayOf(0, 1),
+                    intArrayOf(0, 1),
+                    intArrayOf(7),
+                    intArrayOf(0),
+                    intArrayOf(10),
+                    intArrayOf(9, 10, 0, 1, 4),
+                    intArrayOf(9),
+                    intArrayOf(7, 8),
+                    intArrayOf(7, 6)
+                ),
+                14
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf()
+                ),
+                0
             )
         )
     }
@@ -49,9 +71,9 @@ internal class ShortestPathVisitingAllNodesTest {
             ShortestPathVisitingAllNodesUsingBFSAndBitmask().test(graph, expected)
         }
     }
+}
 
-    private fun ShortestPathVisitingAllNodes.test(graph: Array<IntArray>, expected: Int) {
-        val actual = shortestPathLength(graph)
-        assertEquals(expected, actual)
-    }
+private fun ShortestPathVisitingAllNodes.test(graph: Array<IntArray>, expected: Int) {
+    val actual = shortestPathLength(graph)
+    assertEquals(expected, actual)
 }

@@ -44,18 +44,25 @@ public interface ShortestPathVisitingAllNodes {
         public int shortestPathLength(int[][] graph) {
             // Idea:
             // - start multi-BFS from all nodes at the same time
-            // - use a bitmask to represent a path, where i-th bit denotes whether node i was visited or not
+            // - use a bitmask to represent a path, where the i-th bit set to 1 means that the i-th node was visited
             // - bitmask 11...1 means that all nodes were visited
             int n = graph.length;
-            int target = (1 << n) - 1; // 2^n - 1 -> 11...1 n 1's in binary representation
 
-            // visited[i] - records all paths starting at node i
-            Set<Integer>[] visited = new HashSet[n];
+            // corner case
+            if (graph[0].length == 0) {
+                return 0;
+            }
+
+            // 2^n - 1 -> 11...1 n 1's in binary representation
+            int target = (1 << n) - 1;
+
+            // paths[i] - records all paths starting at node i
+            Set<Integer>[] paths = new HashSet[n];
             Queue<Node> q = new ArrayDeque<>();
             for (int i = 0; i < n; i++) {
                 int path = 1 << i;
-                visited[i] = new HashSet<>();
-                visited[i].add(path);
+                paths[i] = new HashSet<>();
+                paths[i].add(path);
                 q.offer(new Node(i, path));
             }
 
@@ -64,19 +71,19 @@ public interface ShortestPathVisitingAllNodes {
                 int size = q.size();
                 while (size-- > 0) {
                     Node curr = q.poll();
-                    int u = curr.id;
-                    int path = curr.path;
+                    for (int neighbor : graph[curr.id]) {
+                        int path = curr.path | (1 << neighbor);
 
-                    if (path == target) {
-                        return length;
-                    }
-
-                    for (int v : graph[u]) {
-                        int newPath = path | (1 << v);
-                        if (!visited[v].contains(newPath)) {
-                            visited[v].add(newPath);
-                            q.offer(new Node(v, newPath));
+                        if (paths[neighbor].contains(path)) {
+                            continue;
                         }
+
+                        if (path == target) {
+                            return length + 1;
+                        }
+
+                        paths[neighbor].add(path);
+                        q.offer(new Node(neighbor, path));
                     }
                 }
                 length++;
