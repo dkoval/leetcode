@@ -1,9 +1,6 @@
 package com.github.dkoval.leetcode.problems;
 
-import java.util.ArrayDeque;
-import java.util.HashSet;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 
 /**
  * <a href="https://leetcode.com/problems/shortest-path-visiting-all-nodes/">Shortest Path Visiting All Nodes (Hard)</a>
@@ -28,7 +25,7 @@ public interface ShortestPathVisitingAllNodes {
 
     int shortestPathLength(int[][] graph);
 
-    class ShortestPathVisitingAllNodesUsingBFSAndBitmask implements ShortestPathVisitingAllNodes {
+    class ShortestPathVisitingAllNodesUsingBFSAndBitmaskRev1 implements ShortestPathVisitingAllNodes {
 
         private static class Node {
             final int id;
@@ -89,6 +86,81 @@ public interface ShortestPathVisitingAllNodes {
                 length++;
             }
             return -1;
+        }
+    }
+
+    class ShortestPathVisitingAllNodesUsingBFSAndBitmaskRev2 implements ShortestPathVisitingAllNodes {
+
+        @Override
+        public int shortestPathLength(int[][] graph) {
+            int n = graph.length;
+
+            // corner case
+            if (graph[0].length == 0) {
+                return 0;
+            }
+
+            // all nodes have been visited
+            int target = (1 << n) - 1; // 11...1 = 2^n - 1;
+
+            // run multi-BFS from all nodes at the same time
+            Queue<Node> q = new ArrayDeque<>();
+            Set<Node> visited = new HashSet<>();
+            for (int i = 0; i < n; i++) {
+                Node node =  new Node(i, 1 << i);
+                q.offer(node);
+                visited.add(node);
+            }
+
+            int length = 0;
+            while (!q.isEmpty()) {
+                int size = q.size();
+                while (size-- > 0) {
+                    Node curr = q.poll();
+                    for (int neighbor : graph[curr.id]) {
+                        Node next = new Node(neighbor, curr.path | (1 << neighbor));
+                        if (visited.contains(next)) {
+                            continue;
+                        }
+
+                        if (next.path == target) {
+                            return length + 1;
+                        }
+
+                        q.offer(next);
+                        visited.add(next);
+                    }
+                }
+                length++;
+            }
+            return -1;
+        }
+
+        private static class Node {
+            final int id;
+            final int path; // bitmask, i-th bit set to 1 denotes that the i-th node has been visited
+
+            Node(int id, int path) {
+                this.id = id;
+                this.path = path;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) {
+                    return true;
+                }
+                if (o == null || o.getClass() != Node.class) {
+                    return false;
+                }
+                Node that = (Node) o;
+                return (id == that.id) && (path == that.path);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(id, path);
+            }
         }
     }
 }

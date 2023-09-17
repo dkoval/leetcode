@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
-import com.github.dkoval.leetcode.problems.ShortestPathVisitingAllNodes.ShortestPathVisitingAllNodesUsingBFSAndBitmask
+import com.github.dkoval.leetcode.problems.ShortestPathVisitingAllNodes.ShortestPathVisitingAllNodesUsingBFSAndBitmaskRev1
+import com.github.dkoval.leetcode.problems.ShortestPathVisitingAllNodes.ShortestPathVisitingAllNodesUsingBFSAndBitmaskRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -60,7 +61,7 @@ internal class ShortestPathVisitingAllNodesTest {
     }
 
     @Nested
-    inner class ShortestPathVisitingAllNodesUsingBFSAndBitmaskTest {
+    inner class ShortestPathVisitingAllNodesUsingBFSAndBitmaskRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -68,7 +69,20 @@ internal class ShortestPathVisitingAllNodesTest {
             graph: Array<IntArray>,
             expected: Int
         ) {
-            ShortestPathVisitingAllNodesUsingBFSAndBitmask().test(graph, expected)
+            ShortestPathVisitingAllNodesUsingBFSAndBitmaskRev1().test(graph, expected)
+        }
+    }
+
+    @Nested
+    inner class ShortestPathVisitingAllNodesUsingBFSAndBitmaskRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the length of the shortest path that visits every node`(
+            graph: Array<IntArray>,
+            expected: Int
+        ) {
+            ShortestPathVisitingAllNodesUsingBFSAndBitmaskRev2().test(graph, expected)
         }
     }
 }
