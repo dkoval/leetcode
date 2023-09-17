@@ -219,11 +219,12 @@ public interface PathWithMinimumEffort {
             q.offer(new Cell(0, 0, 0));
             while (!q.isEmpty()) {
                 Cell curr = q.poll();
+                visited[curr.row][curr.col] = true;
+
                 if (curr.row == rows - 1 && curr.col == cols - 1) {
                     return curr.effort;
                 }
 
-                visited[curr.row][curr.col] = true;
                 for (int[] d : DIRS) {
                     int nextRow = curr.row + d[0];
                     int nextCol = curr.col + d[1];
