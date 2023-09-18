@@ -67,9 +67,9 @@ internal class KWeakestRowsInMatrixTest {
             KWeakestRowsInMatrixBySortingRows().test(mat, k, expected)
         }
     }
+}
 
-    private fun KWeakestRowsInMatrix.test(mat: Array<IntArray>, k: Int, expected: IntArray) {
-        val actual = kWeakestRows(mat, k)
-        assertArrayEquals(expected, actual)
-    }
+private fun KWeakestRowsInMatrix.test(mat: Array<IntArray>, k: Int, expected: IntArray) {
+    val actual = kWeakestRows(mat, k)
+    assertArrayEquals(expected, actual)
 }
