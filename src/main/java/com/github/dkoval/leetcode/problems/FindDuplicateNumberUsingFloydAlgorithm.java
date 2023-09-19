@@ -8,26 +8,37 @@ public class FindDuplicateNumberUsingFloydAlgorithm implements FindDuplicateNumb
     // O(N) time | O(1) extra space
     @Override
     public int findDuplicate(@NotNull int[] nums) {
+        // Represent nums[] as a singly linked list, where
+        // node.val = index
+        // node.next = nums[index]
+        //
+        // Example: nums = [1, 3, 4, 2, 2]
+        //        indices = 0, 1, 2, 3, 4
+        //
+        // 0 -> 1 -> 3 -> 2 -> 4
+        //                ^    |
+        //                |____|
+        //
+        // The repeated number is the start of the cycle.
+        //
         // The problem reduces to the problem of finding the starting node of the cycle in a linked list,
-        // which can be solved with Floyd's algorithm.
-        // Idea: to compose a linked list, interpret nums[i] as the index of next number of i.
-        int fast = 0; // index in nums[]
-        int slow = 0; // index in nums[]
-        do {
-            // move slow and fast indices 1 and 2 steps at a time correspondingly
-            // until both indices eventually meet
-            slow = nums[slow];       // index of the next number
-            fast = nums[nums[fast]]; // index of the 2nd next number
-        } while (nums[fast] != nums[slow]);
+        // which can be solved with Floyd's algorithm using "slow" and "fast" pointers.
+        int slow = nums[0];
+        int fast = nums[0];
 
-        fast = 0;
-        while (nums[fast] != nums[slow]) {
-            // now, move both slow and fast indices 1 step at a time
+        // Move "slow" and "fast" pointers 1 and 2 steps at a time respectively until they eventually meet.
+        do {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        } while (slow != fast);
+
+        // Now, move "slow" pointer at the beginning of the list, then start moving both "slow" and "fast" pointers
+        // 1 step at a time until they meet. The meeting point is the start of the cycle.
+        slow = nums[0];
+        while (slow != fast) {
             slow = nums[slow];
             fast = nums[fast];
         }
-
-        // both indices meet at the beginning of the cycle
-        return nums[fast];
+        return slow;
     }
 }
