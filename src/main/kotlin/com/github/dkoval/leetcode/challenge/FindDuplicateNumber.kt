@@ -79,29 +79,27 @@ object FindDuplicateNumberWithBinarySearch : FindDuplicateNumber {
 
     // O(N*logN) time | O(1) extra space
     override fun findDuplicate(nums: IntArray): Int {
-        val n: Int = nums.size - 1
-        var duplicate = -1
+        val n = nums.size - 1
 
-        // binary search in [1 : n] range
-        var l = 1
-        var r = n
-        while (l <= r) {
-            val mid = l + (r - l) / 2
+        // binary search the answer in [1 : n] range
+        var left = 1
+        var right = n
+        while (left < right) {
+            val mid = left + (right - left) / 2
             // count how many numbers in nums[] are <= mid
-            // ok(): count > mid (there's a duplicate)
+            // if count > mid, there's a duplicate
             // [F, F, ..., F, T, T, ..., T]
             //                ^ find min number x such that ok(x) is true
-            val count: Int = countLessThanOrEqualTo(nums, mid)
-            if (count > mid) {
-                duplicate = mid
+            if (countLessThanOrEqualTo(nums, mid) > mid) {
+                // mid might be the answer
                 // check if there's a better solution to the left of `mid`
-                r = mid - 1
+                right = mid
             } else {
-                // every number to the left of `mid` can't be a solution
-                l = mid + 1
+                // every number to the left of `mid` can't be the answer
+                left = mid + 1
             }
         }
-        return duplicate
+        return left
     }
 
     private fun countLessThanOrEqualTo(nums: IntArray, target: Int): Int {

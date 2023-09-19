@@ -73,9 +73,9 @@ internal class FindDuplicateNumberTest {
             FindDuplicateNumberUsingFloydAlgorithm().test(nums, expected)
         }
     }
+}
 
-    private fun FindDuplicateNumber.test(nums: IntArray, expected: Int) {
-        val actual = findDuplicate(nums)
-        assertEquals(expected, actual)
-    }
+private fun FindDuplicateNumber.test(nums: IntArray, expected: Int) {
+    val actual = findDuplicate(nums)
+    assertEquals(expected, actual)
 }
