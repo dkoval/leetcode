@@ -124,10 +124,9 @@ public interface MinimumOperationsToReduceXToZero {
 
             // sliding window
             int left = 0;
-            int right = 0;
             int sum = 0;
-            int len = -1;
-            while (right < n) {
+            int len = 0;
+            for (int right = 0; right < n; right++) {
                 sum += nums[right];
                 while (sum > target) {
                     sum -= nums[left];
@@ -136,9 +135,8 @@ public interface MinimumOperationsToReduceXToZero {
                 if (sum == target) {
                     len = Math.max(len, right - left + 1);
                 }
-                right++;
             }
-            return (len >= 0) ? n - len : -1;
+            return (len > 0) ? n - len : -1;
         }
     }
 }
