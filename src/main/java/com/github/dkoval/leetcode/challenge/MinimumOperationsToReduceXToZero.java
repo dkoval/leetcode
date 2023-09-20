@@ -98,4 +98,47 @@ public interface MinimumOperationsToReduceXToZero {
             return maxLength;
         }
     }
+
+    // O(N) time | O(1) space
+    class MinimumOperationsToReduceXToZeroRev3 implements MinimumOperationsToReduceXToZero {
+
+        @Override
+        public int minOperations(int[] nums, int x) {
+            int n = nums.length;
+
+            // find the length of the longest subarray that sums up to target = sum(nums) - x,
+            // then answer = N - L
+            int target = -x;
+            for (int num : nums) {
+                target += num;
+            }
+
+            // corner cases
+            if (target < 0) {
+                return -1;
+            }
+
+            if (target == 0) {
+                return n;
+            }
+
+            // sliding window
+            int left = 0;
+            int right = 0;
+            int sum = 0;
+            int len = -1;
+            while (right < n) {
+                sum += nums[right];
+                while (sum > target) {
+                    sum -= nums[left];
+                    left++;
+                }
+                if (sum == target) {
+                    len = Math.max(len, right - left + 1);
+                }
+                right++;
+            }
+            return (len >= 0) ? n - len : -1;
+        }
+    }
 }

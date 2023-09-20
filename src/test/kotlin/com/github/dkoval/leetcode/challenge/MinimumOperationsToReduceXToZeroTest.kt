@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.MinimumOperationsToReduceXToZero.MinimumOperationsToReduceXToZeroRev1
-import com.github.dkoval.leetcode.challenge.MinimumOperationsToReduceXToZero.MinimumOperationsToReduceXToZeroRev2
+import com.github.dkoval.leetcode.challenge.MinimumOperationsToReduceXToZero.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -32,6 +31,11 @@ internal class MinimumOperationsToReduceXToZeroTest {
                 5
             ),
             Arguments.of(
+                intArrayOf(8828, 9581, 49, 9818, 9974, 9869, 9991, 10000, 10000, 10000, 9999, 9993, 9904, 8819, 1231, 6309),
+                134365,
+                16
+            ),
+            Arguments.of(
                 intArrayOf(1, 1),
                 3,
                 -1
@@ -59,8 +63,18 @@ internal class MinimumOperationsToReduceXToZeroTest {
         }
     }
 
-    private fun MinimumOperationsToReduceXToZero.test(nums: IntArray, x: Int, expected: Int) {
-        val actual = minOperations(nums, x)
-        assertEquals(expected, actual)
+    @Nested
+    inner class MinimumOperationsToReduceXToZeroRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `return the minimum number of operations to reduce x to exactly 0`(nums: IntArray, x: Int, expected: Int) {
+            MinimumOperationsToReduceXToZeroRev3().test(nums, x, expected)
+        }
     }
+}
+
+private fun MinimumOperationsToReduceXToZero.test(nums: IntArray, x: Int, expected: Int) {
+    val actual = minOperations(nums, x)
+    assertEquals(expected, actual)
 }
