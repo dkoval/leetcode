@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.IsSubsequence.IsSubsequenceRev2
+import com.github.dkoval.leetcode.challenge.IsSubsequence.IsSubsequenceRev3
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -40,6 +41,16 @@ internal class IsSubsequenceTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should check if s is subsequence of t`(s: String, t: String, expected: Boolean) {
             IsSubsequenceRev2().test(s, t, expected)
+        }
+    }
+
+    @Nested
+    inner class IsSubsequenceRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should check if s is subsequence of t`(s: String, t: String, expected: Boolean) {
+            IsSubsequenceRev3().test(s, t, expected)
         }
     }
 }

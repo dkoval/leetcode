@@ -44,4 +44,25 @@ public interface IsSubsequence {
             return sIndex == s.length() && tIndex <= t.length();
         }
     }
+
+    class IsSubsequenceRev3 implements IsSubsequence {
+
+        @Override
+        public boolean isSubsequence(String s, String t) {
+            int tIndex = 0;
+            for (int sIndex = 0; sIndex < s.length(); sIndex++) {
+                char c = s.charAt(sIndex);
+                while (tIndex < t.length() && t.charAt(tIndex) != c) {
+                    tIndex++;
+                }
+
+                if (tIndex == t.length()) {
+                    return false;
+                }
+
+                tIndex++;
+            }
+            return true;
+        }
+    }
 }
