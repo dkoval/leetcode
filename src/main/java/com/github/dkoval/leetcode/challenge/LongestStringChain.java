@@ -30,16 +30,18 @@ public class LongestStringChain {
     public int longestStrChain(String[] words) {
         // sort words[] by their length
         Arrays.sort(words, Comparator.comparingInt(String::length));
-        // dp[word] is the length of the longest chain ending at word
+        // dp[word] is the length of the longest chain ending at `word`
         Map<String, Integer> dp = new HashMap<>();
 
         int maxLength = 1;
         for (String word : words) {
             int currLength = 1;
-            // generate all possible predecessors by removing the word's i-th character
+            // 1 <= words[i].length <= 16, therefore we can brute-forcefully
+            // generate all possible predecessors of word by removing the word's i-th character
             for (int i = 0; i < word.length(); i++) {
                 String predecessor = word.substring(0, i) + word.substring(i + 1);
                 if (dp.containsKey(predecessor)) {
+                    // can extend the chain [... -> predecessor -> word]
                     currLength = Math.max(currLength, 1 + dp.get(predecessor));
                 }
             }
