@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.FindDifference.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -18,33 +19,57 @@ internal class FindDifferenceTest {
                 "abcd",
                 "abcde",
                 'e'
+            ),
+            Arguments.of(
+                "",
+                "y",
+                'y'
             )
         )
     }
 
     @Nested
-    inner class FindDifferenceUsingSumTest {
+    inner class FindDifferenceUsingSumKtTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the letter that was added in t`(s: String, t: String, expected: Char) {
-            FindDifferenceUsingSum.test(s, t, expected)
+            FindDifferenceUsingSumKt.test(s, t, expected)
         }
     }
 
     @Nested
-    inner class FindDifferenceUsingXorTest {
+    inner class FindDifferenceUsingXorKtTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the letter that was added in t`(s: String, t: String, expected: Char) {
-            FindDifferenceUsingXor.test(s, t, expected)
+            FindDifferenceUsingXorKt.test(s, t, expected)
+        }
+    }
+
+    @Nested
+    inner class FindDifferenceUsingCountsRev1JavaTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the letter that was added in t`(s: String, t: String, expected: Char) {
+            FindDifferenceUsingCountsRev1Java().test(s, t, expected)
+        }
+    }
+
+    @Nested
+    inner class FindDifferenceUsingCountsRev2JavaTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the letter that was added in t`(s: String, t: String, expected: Char) {
+            FindDifferenceUsingCountsRev2Java().test(s, t, expected)
         }
     }
 
     @Nested
     inner class FindDifferenceUsingSumJavaTest {
-
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the letter that was added in t`(s: String, t: String, expected: Char) {
@@ -52,28 +77,18 @@ internal class FindDifferenceTest {
         }
     }
 
+
     @Nested
     inner class FindDifferenceUsingXorJavaTest {
-
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the letter that was added in t`(s: String, t: String, expected: Char) {
             FindDifferenceUsingXorJava().test(s, t, expected)
         }
     }
+}
 
-    @Nested
-    inner class FindDifferenceUsingCountsJavaTest {
-
-        @ParameterizedTest
-        @ArgumentsSource(InputArgumentsProvider::class)
-        fun `should find the letter that was added in t`(s: String, t: String, expected: Char) {
-            FindDifferenceUsingCountsJava().test(s, t, expected)
-        }
-    }
-
-    private fun FindDifference.test(s: String, t: String, expected: Char) {
-        val actual = findTheDifference(s, t)
-        assertEquals(expected, actual)
-    }
+private fun FindDifference.test(s: String, t: String, expected: Char) {
+    val actual = findTheDifference(s, t)
+    assertEquals(expected, actual)
 }
