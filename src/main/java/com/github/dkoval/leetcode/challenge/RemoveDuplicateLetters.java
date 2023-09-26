@@ -3,27 +3,33 @@ package com.github.dkoval.leetcode.challenge;
 import java.util.*;
 
 /**
- * <a href="https://leetcode.com/explore/featured/card/october-leetcoding-challenge/560/week-2-october-8th-october-14th/3491/">Remove Duplicate Letters</a>
+ * <a href="https://leetcode.com/problems/remove-duplicate-letters/description/">Remove Duplicate Letters</a>
  * <p>
  * Given a string s, remove duplicate letters so that every letter appears once and only once.
  * You must make sure your result is the smallest in lexicographical order among all possible results.
  * <p>
  * Note: This question is the same as 1081:
  * <a href="https://leetcode.com/problems/smallest-subsequence-of-distinct-characters/">Smallest Subsequence of Distinct Characters</a>
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= s.length <= 10^4</li>
+ *  <li>s consists of lowercase English letters</li>
+ * </ul>
  */
-public abstract class RemoveDuplicateLetters {
+public interface RemoveDuplicateLetters {
 
-    public abstract String removeDuplicateLetters(String s);
+    String removeDuplicateLetters(String s);
 
-    public static class RemoveDuplicateLettersGreedySolvingWithStack extends RemoveDuplicateLetters {
+    class RemoveDuplicateLettersGreedyWithIncreasingStack implements RemoveDuplicateLetters {
 
         @Override
         public String removeDuplicateLetters(String s) {
             // As we iterate over our string, if character i is greater than character (i + 1) and another occurrence of
             // character i exists later in the string, deleting character i will always lead to the optimal solution.
-            Map<Character, Integer> lastAppearedIndex = new HashMap<>();
+            Map<Character, Integer> lastAppearedAtIndex = new HashMap<>();
             for (int i = 0; i < s.length(); i++) {
-                lastAppearedIndex.put(s.charAt(i), i);
+                lastAppearedAtIndex.put(s.charAt(i), i);
             }
 
             // At each iteration we add the current character to the solution if it hasn't already been used.
@@ -34,19 +40,21 @@ public abstract class RemoveDuplicateLetters {
             //
             // - The character is greater than the current characters.
             // - The character can be removed because it occurs later on.
-            Stack<Character> stack = new Stack<>(); // chars in asc order
-            Set<Character> used = new HashSet<>();
+            Stack<Character> stack = new Stack<>(); // maintains characters in increasing order
+            Set<Character> used = new HashSet<>();  // makes sure that every character appears once and only once
             for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
-                if (used.contains(c)) continue;
+                if (used.contains(c)) {
+                    continue;
+                }
 
-                while (!stack.isEmpty() && c < stack.peek() && lastAppearedIndex.get(stack.peek()) > i) {
+                while (!stack.isEmpty() && stack.peek() > c && lastAppearedAtIndex.get(stack.peek()) > i) {
                     char top = stack.pop();
                     used.remove(top);
                 }
 
-                used.add(c);
                 stack.push(c);
+                used.add(c);
             }
 
             StringBuilder sb = new StringBuilder(stack.size());

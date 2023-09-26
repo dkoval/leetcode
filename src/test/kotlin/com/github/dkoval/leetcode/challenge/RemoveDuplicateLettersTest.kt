@@ -1,6 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.RemoveDuplicateLetters.RemoveDuplicateLettersGreedySolvingWithStack
+import com.github.dkoval.leetcode.challenge.RemoveDuplicateLetters.RemoveDuplicateLettersGreedyWithIncreasingStack
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -27,17 +27,17 @@ internal class RemoveDuplicateLettersTest {
     }
 
     @Nested
-    inner class RemoveDuplicateLettersGreedySolvingWithStackTest {
+    inner class RemoveDuplicateLettersGreedyWithIncreasingStackTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should remove duplicate letters`(s: String, expected: String) {
-            RemoveDuplicateLettersGreedySolvingWithStack().test(s, expected)
+            RemoveDuplicateLettersGreedyWithIncreasingStack().test(s, expected)
         }
     }
+}
 
-    private fun RemoveDuplicateLetters.test(s: String, expected: String) {
-        val actual = removeDuplicateLetters(s)
-        assertEquals(expected, actual)
-    }
+private fun RemoveDuplicateLetters.test(s: String, expected: String) {
+    val actual = removeDuplicateLetters(s)
+    assertEquals(expected, actual)
 }
