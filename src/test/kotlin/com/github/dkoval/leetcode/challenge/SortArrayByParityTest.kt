@@ -31,7 +31,7 @@ internal class SortArrayByParityTest {
             ),
             Arguments.of(
                 intArrayOf(1, 0, 3, 2, 4),
-                intArrayOf(2, 4, 3, 1)
+                intArrayOf(0, 2, 4, 1, 3)
             )
         )
     }
