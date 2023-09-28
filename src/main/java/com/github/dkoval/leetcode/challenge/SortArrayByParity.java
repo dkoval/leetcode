@@ -85,4 +85,38 @@ public interface SortArrayByParity {
             nums[j] = tmp;
         }
     }
+
+    // O(N) time | O(1) space
+    class SortArrayByParityInplaceRev3 implements SortArrayByParity {
+
+        @Override
+        public int[] sortArrayByParity(int[] nums) {
+            int n = nums.length;
+
+            int left = 0;
+            int right = n - 1;
+            while (left < right) {
+                // skip even numbers at the beginning of the array
+                while (left < right && nums[left] % 2 == 0) {
+                    left++;
+                }
+
+                // skip odd numbers at the end of the array
+                while (right > left && nums[right] %2 == 1) {
+                    right--;
+                }
+
+                if (left < right) {
+                    swap(nums, left, right);
+                }
+            }
+            return nums;
+        }
+
+        private void swap(int[] nums, int i, int j) {
+            int tmp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = tmp;
+        }
+    }
 }

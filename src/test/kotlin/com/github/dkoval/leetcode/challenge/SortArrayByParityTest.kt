@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.SortArrayByParity.SortArrayByParityInplaceRev1
-import com.github.dkoval.leetcode.challenge.SortArrayByParity.SortArrayByParityInplaceRev2
+import com.github.dkoval.leetcode.challenge.SortArrayByParity.*
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -84,7 +83,20 @@ internal class SortArrayByParityTest {
             nums: IntArray,
             expected: IntArray
         ) {
-            SortArrayByParityInplaceRev3.test(nums, expected)
+            SortArrayByParityInplaceRev3().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class SortArrayByParityInplaceRev4Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return an array consisting of all the even elements of A, followed by all the odd elements of A`(
+            nums: IntArray,
+            expected: IntArray
+        ) {
+            SortArrayByParityInplaceRev4.test(nums, expected)
         }
     }
 }
