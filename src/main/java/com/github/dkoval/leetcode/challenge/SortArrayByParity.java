@@ -46,10 +46,40 @@ public interface SortArrayByParity {
         }
 
         private void swap(int[] nums, int i, int j) {
-            if (i == j) {
-                return;
-            }
+            int tmp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = tmp;
+        }
+    }
 
+    // O(N) time | O(1) space
+    class SortArrayByParityInplaceRev2 implements SortArrayByParity {
+
+        @Override
+        public int[] sortArrayByParity(int[] nums) {
+            int n = nums.length;
+
+            int left = 0;
+            int right = n - 1;
+            while (left < right) {
+                if (nums[left] % 2 == 1 && nums[right] % 2 == 0) {
+                    swap(nums, left, right);
+                }
+
+                // skip even numbers at the beginning
+                if (nums[left] % 2 == 0) {
+                    left++;
+                }
+
+                // skip odd numbers at the end
+                if (nums[right] % 2 == 1) {
+                    right--;
+                }
+            }
+            return nums;
+        }
+
+        private void swap(int[] nums, int i, int j) {
             int tmp = nums[i];
             nums[i] = nums[j];
             nums[j] = tmp;

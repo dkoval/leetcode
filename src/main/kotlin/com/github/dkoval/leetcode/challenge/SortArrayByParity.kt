@@ -25,7 +25,7 @@ object SortArrayByParityNaive: SortArrayByParity {
 }
 
 // Complexity: time - O(N), space - O(1)
-object SortArrayByParityInplaceRev2: SortArrayByParity {
+object SortArrayByParityInplaceRev3: SortArrayByParity {
 
     override fun sortArrayByParity(nums: IntArray): IntArray {
         var writeIdx = 0 // points to the next vacant position of the `even` part
