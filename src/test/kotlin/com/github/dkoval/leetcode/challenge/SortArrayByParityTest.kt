@@ -1,6 +1,8 @@
 package com.github.dkoval.leetcode.challenge
 
-import org.junit.jupiter.api.Assertions.assertArrayEquals
+import com.github.dkoval.leetcode.challenge.SortArrayByParity.SortArrayByParityInplaceRev1
+import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
@@ -25,6 +27,10 @@ internal class SortArrayByParityTest {
             Arguments.of(
                 intArrayOf(3, 1, 2, 4),
                 intArrayOf(2, 4, 3, 1)
+            ),
+            Arguments.of(
+                intArrayOf(1, 0, 3, 2, 4),
+                intArrayOf(2, 4, 3, 1)
             )
         )
     }
@@ -35,28 +41,48 @@ internal class SortArrayByParityTest {
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return an array consisting of all the even elements of A, followed by all the odd elements of A`(
-            A: IntArray,
+            nums: IntArray,
             expected: IntArray
         ) {
-            SortArrayByParityNaive.test(A, expected)
+            SortArrayByParityNaive.test(nums, expected)
         }
     }
 
     @Nested
-    inner class SortArrayByParityOptimalTest {
+    inner class SortArrayByParityInplaceRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return an array consisting of all the even elements of A, followed by all the odd elements of A`(
-            A: IntArray,
+            nums: IntArray,
             expected: IntArray
         ) {
-            SortArrayByParityOptimal.test(A, expected)
+            SortArrayByParityInplaceRev1().test(nums, expected)
         }
     }
 
-    private fun SortArrayByParity.test(A: IntArray, expected: IntArray) {
-        val actual = sortArrayByParity(A)
-        assertArrayEquals(expected, actual)
+    @Nested
+    inner class SortArrayByParityInplaceRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return an array consisting of all the even elements of A, followed by all the odd elements of A`(
+            nums: IntArray,
+            expected: IntArray
+        ) {
+            SortArrayByParityInplaceRev2.test(nums, expected)
+        }
     }
+}
+
+private fun SortArrayByParity.test(nums: IntArray, expected: IntArray) {
+    val actual = sortArrayByParity(nums)
+    assertAll(
+        { assertEquals(expected.size, actual.size) },
+        {
+            for (i in expected.indices) {
+                assertEquals(expected[i] % 2, actual[i] % 2)
+            }
+        }
+    )
 }
