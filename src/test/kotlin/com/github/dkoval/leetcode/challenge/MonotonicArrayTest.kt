@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MonotonicArray.MonotonicArrayRev1
+import com.github.dkoval.leetcode.challenge.MonotonicArray.MonotonicArrayRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -41,6 +42,16 @@ internal class MonotonicArrayTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should check if the given array is monotonic`(nums: IntArray, expected: Boolean) {
             MonotonicArrayRev1().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class MonotonicArrayRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should check if the given array is monotonic`(nums: IntArray, expected: Boolean) {
+            MonotonicArrayRev2().test(nums, expected)
         }
     }
 }

@@ -62,4 +62,37 @@ public interface MonotonicArray {
             return (x > 0) ? 1 : -1;
         }
     }
+
+    // O(N) time | O(1) space
+    class MonotonicArrayRev2 implements MonotonicArray {
+
+        @Override
+        public boolean isMonotonic(int[] nums) {
+            int n = nums.length;
+
+            //  0 - unknown
+            // +1 - increasing
+            // -1 - decreasing
+            int force = 0;
+            for (int i = 1; i < n; i++) {
+                // ignore case where nums[i] == nums[i - 1] as it doesn't affect the answer
+                if (nums[i] > nums[i - 1]) {
+                    // current segment is increasing
+                    if (force == -1) {
+                        // previous segment was decreasing => contradiction
+                        return false;
+                    }
+                    force = 1;
+                } else if (nums[i] < nums[i - 1]) {
+                    // current segment is decreasing
+                    if (force == 1) {
+                        // previous segment was increasing => contradiction
+                        return false;
+                    }
+                    force = -1;
+                }
+            }
+            return true;
+        }
+    }
 }
