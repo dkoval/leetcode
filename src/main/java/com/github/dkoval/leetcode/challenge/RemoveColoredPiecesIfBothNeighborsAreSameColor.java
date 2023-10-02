@@ -59,4 +59,25 @@ public interface RemoveColoredPiecesIfBothNeighborsAreSameColor {
             return moves;
         }
     }
+
+    class RemoveColoredPiecesIfBothNeighborsAreSameColorRev2 implements RemoveColoredPiecesIfBothNeighborsAreSameColor {
+
+        @Override
+        public boolean winnerOfGame(String colors) {
+            int n = colors.length();
+
+            int aliceMoves = 0;
+            int bobMoves = 0;
+            for (int i = 1; i < n - 1; i++) {
+                if (colors.charAt(i - 1) == colors.charAt(i) && colors.charAt(i) == colors.charAt(i + 1)) {
+                    if (colors.charAt(i) == 'A') {
+                        aliceMoves++;
+                    } else if (colors.charAt(i) == 'B') {
+                        bobMoves++;
+                    }
+                }
+            }
+            return aliceMoves > bobMoves;
+        }
+    }
 }
