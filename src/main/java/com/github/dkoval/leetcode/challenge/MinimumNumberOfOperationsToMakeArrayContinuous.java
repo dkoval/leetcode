@@ -55,4 +55,45 @@ public interface MinimumNumberOfOperationsToMakeArrayContinuous {
             return n - noops;
         }
     }
+
+    class MinimumNumberOfOperationsToMakeArrayContinuousRev2 implements MinimumNumberOfOperationsToMakeArrayContinuous {
+
+        @Override
+        public int minOperations(int[] nums) {
+            int n = nums.length;
+
+            // handle duplicates
+            Set<Integer> uniq = new HashSet<>();
+            for (int x : nums) {
+                uniq.add(x);
+            }
+
+            int m = uniq.size();
+            nums = new int[m];
+
+            int i = 0;
+            for (int x : uniq) {
+                nums[i++] = x;
+            }
+
+            // sliding window
+            Arrays.sort(nums);
+            int best = n;
+
+            int left = 0;
+            int right = 0;
+            while (left < m) {
+                // x, ..., x + n - 1, where x = nums[left]
+                // ^ min   ^ max
+                // expand the current window, right boundary is exclusive
+                while (right < m && nums[right] <= nums[left] + n - 1) {
+                    right++;
+                }
+
+                best = Math.min(best, n - (right - left));
+                left++;
+            }
+            return best;
+        }
+    }
 }

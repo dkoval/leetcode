@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MinimumNumberOfOperationsToMakeArrayContinuous.MinimumNumberOfOperationsToMakeArrayContinuousRev1
+import com.github.dkoval.leetcode.challenge.MinimumNumberOfOperationsToMakeArrayContinuous.MinimumNumberOfOperationsToMakeArrayContinuousRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -41,6 +42,16 @@ internal class MinimumNumberOfOperationsToMakeArrayContinuousTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the minimum number of operations to make nums continuous`(nums: IntArray, expected: Int) {
             MinimumNumberOfOperationsToMakeArrayContinuousRev1().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class MinimumNumberOfOperationsToMakeArrayContinuousRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum number of operations to make nums continuous`(nums: IntArray, expected: Int) {
+            MinimumNumberOfOperationsToMakeArrayContinuousRev2().test(nums, expected)
         }
     }
 }
