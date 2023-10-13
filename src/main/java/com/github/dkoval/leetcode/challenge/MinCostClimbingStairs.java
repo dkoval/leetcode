@@ -162,4 +162,23 @@ public interface MinCostClimbingStairs {
             return dp[n];
         }
     }
+
+    // O(N) time | O(1) space
+    class MinCostClimbingStairsDPBottomUpRev5 implements MinCostClimbingStairs {
+
+        @Override
+        public int minCostClimbingStairs(int[] cost) {
+            int n = cost.length;
+
+            // DP bottom-up
+            int first = 0;  // min cost of getting to index (i - 2)
+            int second = 0; // min cost of getting to index (i - 1)
+            for (int i = 2; i <= n; i++) {
+                int third = Math.min(first + cost[i - 2], second + cost[i - 1]);
+                first = second;
+                second = third;
+            }
+            return second;
+        }
+    }
 }

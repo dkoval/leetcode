@@ -86,8 +86,18 @@ internal class MinCostClimbingStairsTest {
         }
     }
 
-    private fun MinCostClimbingStairs.test(cost: IntArray, expected: Int) {
-        val actual = minCostClimbingStairs(cost)
-        assertEquals(expected, actual)
+    @Nested
+    inner class MinCostClimbingStairsDPBottomUpRev5Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum cost to reach the top of the floor`(cost: IntArray, expected: Int) {
+            MinCostClimbingStairsDPBottomUpRev5().test(cost, expected)
+        }
     }
+}
+
+private fun MinCostClimbingStairs.test(cost: IntArray, expected: Int) {
+    val actual = minCostClimbingStairs(cost)
+    assertEquals(expected, actual)
 }
