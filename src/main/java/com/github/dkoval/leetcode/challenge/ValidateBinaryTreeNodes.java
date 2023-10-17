@@ -78,4 +78,56 @@ public interface ValidateBinaryTreeNodes {
             }
         }
     }
+
+    class ValidateBinaryTreeNodesRev2 implements ValidateBinaryTreeNodes {
+
+        @Override
+        public boolean validateBinaryTreeNodes(int n, int[] leftChild, int[] rightChild) {
+            int root = getRoot(n, leftChild, rightChild);
+            if (root == -1) {
+                return false;
+            }
+
+            // run DFS to make sure the graph is connected and has no cycles
+            Set<Integer> visited = new HashSet<>();
+            return dfs(root, leftChild, rightChild, visited) && (visited.size() == n);
+        }
+
+        private int getRoot(int n, int[] leftChild, int[] rightChild) {
+            Set<Integer> seen = new HashSet<>();
+            for (int i = 0; i < n; i++) {
+                if (leftChild[i] != -1) {
+                    seen.add(leftChild[i]);
+                }
+
+                if (rightChild[i] != -1) {
+                    seen.add(rightChild[i]);
+                }
+            }
+
+            if (seen.size() != n - 1) {
+                return -1;
+            }
+
+            for (int root = 0; root < n; root++) {
+                if (!seen.contains(root)) {
+                    return root;
+                }
+            }
+            return -1;
+        }
+
+        private boolean dfs(int root, int[] leftChild, int[] rightChild, Set<Integer> visited) {
+            if (visited.contains(root)) {
+                return false;
+            }
+
+            if (root == -1) {
+                return true;
+            }
+
+            visited.add(root);
+            return dfs(leftChild[root], leftChild, rightChild, visited) && dfs(rightChild[root], leftChild, rightChild, visited);
+        }
+    }
 }

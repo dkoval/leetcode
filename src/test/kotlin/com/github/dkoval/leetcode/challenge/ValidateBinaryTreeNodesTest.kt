@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.ValidateBinaryTreeNodes.ValidateBinaryTreeNodesRev1
+import com.github.dkoval.leetcode.challenge.ValidateBinaryTreeNodes.ValidateBinaryTreeNodesRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -72,6 +73,21 @@ internal class ValidateBinaryTreeNodesTest {
             expected: Boolean
         ) {
             ValidateBinaryTreeNodesRev1().test(n, leftChild, rightChild, expected)
+        }
+    }
+
+    @Nested
+    inner class ValidateBinaryTreeNodesRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return true if and only if all the given nodes form exactly one valid binary tree`(
+            n: Int,
+            leftChild: IntArray,
+            rightChild: IntArray,
+            expected: Boolean
+        ) {
+            ValidateBinaryTreeNodesRev2().test(n, leftChild, rightChild, expected)
         }
     }
 }
