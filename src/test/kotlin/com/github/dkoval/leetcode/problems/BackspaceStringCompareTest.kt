@@ -32,8 +32,7 @@ internal class BackspaceStringCompareTest {
             t: String,
             expected: Boolean
         ) {
-            val actual = BackspaceStringCompareUsingStack().backspaceCompare(s, t)
-            assertEquals(expected, actual)
+            BackspaceStringCompareUsingStack().test(s, t, expected)
         }
     }
 
@@ -47,13 +46,12 @@ internal class BackspaceStringCompareTest {
             t: String,
             expected: Boolean
         ) {
-            val actual = BackspaceStringCompareUsingStringBuilder().backspaceCompare(s, t)
-            assertEquals(expected, actual)
+            BackspaceStringCompareUsingStringBuilder().test(s, t, expected)
         }
     }
 
     @Nested
-    inner class BackspaceStringCompareUsingTwoPointersTest {
+    inner class BackspaceStringCompareUsingTwoPointersRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -62,8 +60,26 @@ internal class BackspaceStringCompareTest {
             t: String,
             expected: Boolean
         ) {
-            val actual = BackspaceStringCompareUsingTwoPointers().backspaceCompare(s, t)
-            assertEquals(expected, actual)
+            BackspaceStringCompareUsingTwoPointersRev1().test(s, t, expected)
         }
     }
+
+    @Nested
+    inner class BackspaceStringCompareUsingTwoPointersRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return true if both strings s and t are equal  after removing backspace characters`(
+            s: String,
+            t: String,
+            expected: Boolean
+        ) {
+            BackspaceStringCompareUsingTwoPointersRev2().test(s, t, expected)
+        }
+    }
+}
+
+private fun BackspaceStringCompare.test(s: String, t: String, expected: Boolean) {
+    val actual = backspaceCompare(s, t)
+    assertEquals(expected, actual)
 }

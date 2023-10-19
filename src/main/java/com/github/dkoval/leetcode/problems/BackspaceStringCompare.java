@@ -73,7 +73,7 @@ public interface BackspaceStringCompare {
 
     // Resource: https://leetcode.com/problems/backspace-string-compare/solution/
     // O(S + T) time | O(1) space, where S, T are the lengths of s and t respectively
-    class BackspaceStringCompareUsingTwoPointers implements BackspaceStringCompare {
+    class BackspaceStringCompareUsingTwoPointersRev1 implements BackspaceStringCompare {
 
         @Override
         public boolean backspaceCompare(String s, String t) {
@@ -124,6 +124,47 @@ public interface BackspaceStringCompare {
                 }
             }
             return i;
+        }
+    }
+
+    class BackspaceStringCompareUsingTwoPointersRev2 implements BackspaceStringCompare {
+
+        @Override
+        public boolean backspaceCompare(String s, String t) {
+            int index1 = s.length() - 1;
+            int index2 = t.length() - 1;
+            while (index1 >= 0 || index2 >= 0) {
+                index1 = findNextLetter(s, index1);
+                index2 = findNextLetter(t, index2);
+
+                char c1 = (index1 >= 0) ? s.charAt(index1) : '_';
+                char c2 = (index2 >= 0) ? t.charAt(index2) : '_';
+                if (c1 != c2) {
+                    return false;
+                }
+
+                index1--;
+                index2--;
+            }
+            return true;
+        }
+
+        private int findNextLetter(String str, int index) {
+            int backspaces = 0;
+            while (index >= 0) {
+                if (str.charAt(index) == '#') {
+                    backspaces++;
+                } else {
+                    if (backspaces > 0) {
+                        // can't take this char yet
+                        backspaces--;
+                    } else {
+                        break;
+                    }
+                }
+                index--;
+            }
+            return index;
         }
     }
 }
