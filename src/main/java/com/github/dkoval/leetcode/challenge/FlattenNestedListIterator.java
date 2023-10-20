@@ -8,7 +8,7 @@ import java.util.List;
 import static java.util.Objects.requireNonNull;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/april-leetcoding-challenge-2021/594/week-2-april-8th-april-14th/3706/">Flatten Nested List Iterator</a>
+ * <a href="https://leetcode.com/problems/flatten-nested-list-iterator/">Flatten Nested List Iterator</a>
  * <p>
  * You are given a nested list of integers nestedList. Each element is either an integer or a list whose elements
  * may also be integers or other lists. Implement an iterator to flatten it.
@@ -18,6 +18,11 @@ import static java.util.Objects.requireNonNull;
  *  <li>NestedIterator(List<NestedInteger> nestedList) Initializes the iterator with the nested list nestedList.</li>
  *  <li>int next() Returns the next integer in the nested list.</li>
  *  <li>boolean hasNext() Returns true if there are still some integers in the nested list and false otherwise.</li>
+ * </ul>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= nestedList.length <= 500</li>
+ *  <li>The values of the integers in the nested list is in the range [-10^6, 10^6].</li>
  * </ul>
  */
 public class FlattenNestedListIterator {
@@ -84,19 +89,6 @@ public class FlattenNestedListIterator {
             this.iter = flatten(nestedList).iterator();
         }
 
-        private List<Integer> flatten(List<NestedInteger> nestedList) {
-            List<Integer> result = new ArrayList<>();
-            for (NestedInteger x : nestedList) {
-                if (x.isInteger()) {
-                    result.add(x.getInteger());
-                } else {
-                    List<Integer> nested = flatten(x.getList());
-                    result.addAll(nested);
-                }
-            }
-            return result;
-        }
-
         @Override
         public Integer next() {
             return iter.next();
@@ -105,6 +97,22 @@ public class FlattenNestedListIterator {
         @Override
         public boolean hasNext() {
             return iter.hasNext();
+        }
+
+        private List<Integer> flatten(List<NestedInteger> nums) {
+            List<Integer> ans = new ArrayList<>();
+            dfs(nums, ans);
+            return ans;
+        }
+
+        private void dfs(List<NestedInteger> nums, List<Integer> ans) {
+            for (NestedInteger x : nums) {
+                if (x.isInteger()) {
+                    ans.add(x.getInteger());
+                } else {
+                    ans.addAll(flatten(x.getList()));
+                }
+            }
         }
     }
 }
