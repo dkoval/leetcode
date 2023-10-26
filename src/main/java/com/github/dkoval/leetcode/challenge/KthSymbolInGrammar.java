@@ -20,6 +20,7 @@ public interface KthSymbolInGrammar {
 
     int kthGrammar(int n, int k);
 
+    // O(N) time | O(N) space
     class KthSymbolInGrammarRev1 implements KthSymbolInGrammar {
 
         @Override
