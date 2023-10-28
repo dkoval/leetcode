@@ -3,7 +3,7 @@ package com.github.dkoval.leetcode.challenge;
 import java.util.*;
 
 /**
- * <a href="https://leetcode.com/problems/count-vowels-permutation/">Count Vowels Permutation (Hard)</a>
+ * <a href="https://leetcode.com/problems/count-vowels-permutation/">Count Vowels Permutation (Hard )</a>
  * <p>
  * Given an integer n, your task is to count how many strings of length n can be formed under the following rules:
  * <ul>
@@ -58,14 +58,14 @@ public interface CountVowelsPermutation {
                 return dp.get(key);
             }
 
-            int ans = 0;
+            int total = 0;
             for (char x : transitions.get(c)) {
-                ans += count(x, n - 1, dp);
-                ans %= MOD;
+                total += count(x, n - 1, dp);
+                total %= MOD;
             }
 
-            dp.put(key, ans);
-            return ans;
+            dp.put(key, total);
+            return total;
         }
 
         private static class Key {
