@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.CountVowelsPermutation.CountVowelsPermutationDP
-import com.github.dkoval.leetcode.challenge.CountVowelsPermutation.CountVowelsPermutationDPSpaceOptimized
+import com.github.dkoval.leetcode.challenge.CountVowelsPermutation.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -23,27 +22,37 @@ class CountVowelsPermutationTest {
     }
 
     @Nested
-    inner class CountVowelsPermutationDPTest {
+    inner class CountVowelsPermutationDPTopDownTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should count how many strings of length n can be formed following rules`(n: Int, expected: Int) {
-            CountVowelsPermutationDP().test(n, expected)
+            CountVowelsPermutationDPTopDown().test(n, expected)
         }
     }
 
     @Nested
-    inner class CountVowelsPermutationDPSpaceOptimizedTest {
+    inner class CountVowelsPermutationDPBottomUpTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should count how many strings of length n can be formed following rules`(n: Int, expected: Int) {
-            CountVowelsPermutationDPSpaceOptimized().test(n, expected)
+            CountVowelsPermutationDPBottomUp().test(n, expected)
         }
     }
 
-    private fun CountVowelsPermutation.test(n: Int, expected: Int) {
-        val actual = countVowelPermutation(n)
-        assertEquals(expected, actual)
+    @Nested
+    inner class CountVowelsPermutationDPBottomUpSpaceOptimizedTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should count how many strings of length n can be formed following rules`(n: Int, expected: Int) {
+            CountVowelsPermutationDPBottomUpSpaceOptimized().test(n, expected)
+        }
     }
+}
+
+private fun CountVowelsPermutation.test(n: Int, expected: Int) {
+    val actual = countVowelPermutation(n)
+    assertEquals(expected, actual)
 }

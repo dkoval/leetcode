@@ -1,9 +1,9 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/july-leetcoding-challenge-2021/608/week-1-july-1st-july-7th/3802/">Count Vowels Permutation</a>
+ * <a href="https://leetcode.com/problems/count-vowels-permutation/">Count Vowels Permutation (Hard)</a>
  * <p>
  * Given an integer n, your task is to count how many strings of length n can be formed under the following rules:
  * <ul>
@@ -15,23 +15,93 @@ import java.util.Arrays;
  *  <li>Each vowel 'u' may only be followed by an 'a'.</li>
  * </ul>
  * Since the answer may be too large, return it modulo 10^9 + 7
+ * <p>
+ * Constraints:
+ * <p>
+ * 1 <= n <= 2 * 10^4
  */
 public interface CountVowelsPermutation {
 
     int MOD = 1_000_000_007;
 
-    // transitions[i] denotes the indices of vowels that can be placed after i-th vowel under the following rules:
-    // - each vowel 'a' may only be followed by an 'e'.
-    // - each vowel 'e' may only be followed by an 'a' or an 'i'.
-    // - each vowel 'i' may not be followed by another 'i'.
-    // - each vowel 'o' may only be followed by an 'i' or a 'u'.
-    // - each vowel 'u' may only be followed by an 'a'.
-    int[][] transitions = {{1}, {0, 2}, {0, 1, 3, 4}, {2, 4}, {0}};
-
     int countVowelPermutation(int n);
 
+    class CountVowelsPermutationDPTopDown implements CountVowelsPermutation {
 
-    class CountVowelsPermutationDP implements CountVowelsPermutation {
+        private static final Map<Character, List<Character>> transitions = Map.of(
+            'a', List.of('e'),
+            'e', List.of('a', 'i'),
+            'i', List.of('a', 'e', 'o', 'u'),
+            'o', List.of('i', 'u'),
+            'u', List.of('a')
+        );
+
+        @Override
+        public int countVowelPermutation(int n) {
+            Map<Key, Integer> dp = new HashMap<>();
+            int total = 0;
+            for (char c : Arrays.asList('a', 'e', 'i', 'o', 'u')) {
+                total += count(c, n - 1, dp);
+                total %= MOD;
+            }
+            return total;
+        }
+
+        private int count(char c, int n, Map<Key, Integer> dp) {
+            if (n == 0) {
+                return 1;
+            }
+
+            // already solved?
+            Key key = new Key(c, n);
+            if (dp.containsKey(key)) {
+                return dp.get(key);
+            }
+
+            int ans = 0;
+            for (char x : transitions.get(c)) {
+                ans += count(x, n - 1, dp);
+                ans %= MOD;
+            }
+
+            dp.put(key, ans);
+            return ans;
+        }
+
+        private static class Key {
+            final char c;
+            final int n;
+
+            Key(char c, int n) {
+                this.c = c;
+                this.n = n;
+            }
+
+            public boolean equals(Object o) {
+                if (this == o) {
+                    return true;
+                }
+                if (o == null || o.getClass() != Key.class) {
+                    return false;
+                }
+                Key that = (Key) o;
+                return (c == that.c) && (n == that.n);
+            }
+
+            public int hashCode() {
+                return Objects.hash(c, n);
+            }
+        }
+    }
+
+    class CountVowelsPermutationDPBottomUp implements CountVowelsPermutation {
+        // transitions[i] denotes the indices of vowels that can be placed after i-th vowel under the following rules:
+        // - each vowel 'a' may only be followed by an 'e'.
+        // - each vowel 'e' may only be followed by an 'a' or an 'i'.
+        // - each vowel 'i' may not be followed by another 'i'.
+        // - each vowel 'o' may only be followed by an 'i' or a 'u'.
+        // - each vowel 'u' may only be followed by an 'a'.
+        private static final int[][] transitions = {{1}, {0, 2}, {0, 1, 3, 4}, {2, 4}, {0}};
 
         @Override
         public int countVowelPermutation(int n) {
@@ -67,7 +137,14 @@ public interface CountVowelsPermutation {
         }
     }
 
-    class CountVowelsPermutationDPSpaceOptimized implements CountVowelsPermutation {
+    class CountVowelsPermutationDPBottomUpSpaceOptimized implements CountVowelsPermutation {
+        // transitions[i] denotes the indices of vowels that can be placed after i-th vowel under the following rules:
+        // - each vowel 'a' may only be followed by an 'e'.
+        // - each vowel 'e' may only be followed by an 'a' or an 'i'.
+        // - each vowel 'i' may not be followed by another 'i'.
+        // - each vowel 'o' may only be followed by an 'i' or a 'u'.
+        // - each vowel 'u' may only be followed by an 'a'.
+        private static final int[][] transitions = {{1}, {0, 2}, {0, 1, 3, 4}, {2, 4}, {0}};
 
         @Override
         public int countVowelPermutation(int n) {
