@@ -27,17 +27,19 @@ public class PoorPigs {
 
     public int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
         // the number of tests we can perform in total
-        int numTests = minutesToTest / minutesToDie;
+        int tests = minutesToTest / minutesToDie;
 
-        // with a single pig we can check up to k = (numTests + 1) buckets:
+        // with a single pig we can check up to (T + 1) buckets, where T is the number of test we can perform:
         // G, G, ..., G, P
         // k buckets are "good", whereas the last one is poisonous
 
-        // use pigs independently to compute p - the minimum number of pigs needed to check n buckets
-        // (k + 1) * (k + 1) * ... * (k + 1) = n
-        // (k + 1) ^ p = n
-        // p * log(k + 1) = log(n)
-        // p = log(n) / log(k + 1)
-        return (int) Math.ceil(Math.log(buckets) / Math.log(numTests + 1));
+        // use pigs independently to compute x - the minimum number of pigs needed to check N buckets
+        // (T + 1) * (T + 1) * ... * (T + 1) = N
+        // <------------ x times ---------->
+        //
+        // (T + 1) ^ x = N
+        // x * log(T + 1) = log(N)
+        // x = log(N) / log(T + 1)
+        return (int) Math.ceil(Math.log(buckets) / Math.log(tests + 1));
     }
 }
