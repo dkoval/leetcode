@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
 /**
- * <a href="https://leetcode.com/problems/poor-pigs/">Poor Pigs</a>
+ * <a href="https://leetcode.com/problems/poor-pigs/">Poor Pigs (Hard)</a>
  * <p>
  * There are buckets buckets of liquid, where exactly one of the buckets is poisonous. To figure out which one is poisonous,
  * you feed some number of (poor) pigs the liquid to see whether they will die or not.
@@ -23,23 +23,43 @@ package com.github.dkoval.leetcode.challenge;
  *  <li>1 <= minutesToDie <= minutesToTest <= 100</li>
  * </ul>
  */
-public class PoorPigs {
+public interface PoorPigs {
 
-    public int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
-        // the number of tests we can perform in total
-        int tests = minutesToTest / minutesToDie;
+    int poorPigs(int buckets, int minutesToDie, int minutesToTest);
 
-        // with a single pig we can check up to (T + 1) buckets, where T is the number of test we can perform:
-        // G, G, ..., G, P
-        // k buckets are "good", whereas the last one is poisonous
 
-        // use pigs independently to compute x - the minimum number of pigs needed to check N buckets
-        // (T + 1) * (T + 1) * ... * (T + 1) = N
-        // <------------ x times ---------->
-        //
-        // (T + 1) ^ x = N
-        // x * log(T + 1) = log(N)
-        // x = log(N) / log(T + 1)
-        return (int) Math.ceil(Math.log(buckets) / Math.log(tests + 1));
+    class PoorPigsRev1 implements PoorPigs {
+
+        @Override
+        public int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
+            if (buckets == 1) {
+                return 0;
+            }
+
+            // the number of tests we can perform in total
+            int tests = minutesToTest / minutesToDie;
+
+            // with a single pig we can check up to (T + 1) buckets, where T is the number of test we can perform:
+            // G, G, ..., G, P
+            // k buckets are "good", whereas the last one is poisonous
+
+            // use pigs independently to compute x - the minimum number of pigs needed to check N buckets
+            // (T + 1) * (T + 1) * ... * (T + 1) = N
+            // <------------ x times ---------->
+            //
+            // (T + 1) ^ x = N
+            // x * log(T + 1) = log(N)
+            // x = log(N) / log(T + 1)
+            //
+            // To workaround issues with floating-point arithmetic though, we want to find the minimum x such that
+            // (T + 1)^x >= N
+            int pigs = 0;
+            int prod = 1; // (T + 1)^0 = 1
+            while (prod < buckets) {
+                pigs++;
+                prod *= tests + 1;
+            }
+            return pigs;
+        }
     }
 }
