@@ -18,17 +18,17 @@ internal class BuildArrayWithStackOperationsTest {
             Arguments.of(
                 intArrayOf(1, 3),
                 3,
-                arrayOf("Push", "Push", "Pop", "Push")
+                listOf("Push", "Push", "Pop", "Push")
             ),
             Arguments.of(
                 intArrayOf(1, 2, 3),
                 3,
-                arrayOf("Push", "Push", "Push")
+                listOf("Push", "Push", "Push")
             ),
             Arguments.of(
                 intArrayOf(1, 2),
                 4,
-                arrayOf("Push", "Push")
+                listOf("Push", "Push")
             )
         )
     }
@@ -41,7 +41,7 @@ internal class BuildArrayWithStackOperationsTest {
         fun `should return the stack operations needed to build target`(
             target: IntArray,
             n: Int,
-            expected: Array<String>
+            expected: List<String>
         ) {
             BuildArrayWithStackOperationsRev1().test(target, n, expected)
         }
@@ -51,7 +51,7 @@ internal class BuildArrayWithStackOperationsTest {
 private fun BuildArrayWithStackOperationsRev1.test(
     target: IntArray,
     n: Int,
-    expected: Array<String>
+    expected: List<String>
 ) {
     val actual = buildArray(target, n)
     assertEquals(expected, actual)
