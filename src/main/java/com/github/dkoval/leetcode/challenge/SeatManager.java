@@ -1,5 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -37,6 +39,7 @@ public abstract class SeatManager {
     static class SeatManagerRev1 extends SeatManager {
         private final SortedSet<Integer> availableSeats = new TreeSet<>();
 
+        // O(N * logN) time
         public SeatManagerRev1(int n) {
             super(n);
             for (int i = 1; i <= n; i++) {
@@ -44,6 +47,7 @@ public abstract class SeatManager {
             }
         }
 
+        // O(logN) time
         @Override
         public int reserve() {
             // returns the lowest element currently in this set
@@ -52,9 +56,36 @@ public abstract class SeatManager {
             return reservedSeatNumber;
         }
 
+        // O(logN) time
         @Override
         public void unreserve(int seatNumber) {
             availableSeats.add(seatNumber);
+        }
+    }
+
+    static class SeatManagerRev2 extends SeatManager {
+        // min heap
+        private final Queue<Integer> availableSeats = new PriorityQueue<>();
+
+        // O(N * logN) time
+        public SeatManagerRev2(int n) {
+            super(n);
+            for (int i = 1; i <= n; i++) {
+                availableSeats.offer(i);
+            }
+        }
+
+        // O(logN) time
+        @Override
+        public int reserve() {
+            // returns the lowest element
+            return availableSeats.poll();
+        }
+
+        // O(logN) time
+        @Override
+        public void unreserve(int seatNumber) {
+            availableSeats.offer(seatNumber);
         }
     }
 }

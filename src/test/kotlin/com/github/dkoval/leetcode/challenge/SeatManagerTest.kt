@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.SeatManager.SeatManagerRev1
+import com.github.dkoval.leetcode.challenge.SeatManager.SeatManagerRev2
 import com.github.dkoval.leetcode.challenge.SeatManagerTest.Command
 import com.github.dkoval.leetcode.challenge.SeatManagerTest.Command.Reserve
 import com.github.dkoval.leetcode.challenge.SeatManagerTest.Command.Unreserve
@@ -46,6 +47,16 @@ internal class SeatManagerTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should validate data structure design`(n: Int, commands: List<Command>) {
             SeatManagerRev1(n).test(commands)
+        }
+    }
+
+    @Nested
+    inner class SeatManagerRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should validate data structure design`(n: Int, commands: List<Command>) {
+            SeatManagerRev2(n).test(commands)
         }
     }
 }
