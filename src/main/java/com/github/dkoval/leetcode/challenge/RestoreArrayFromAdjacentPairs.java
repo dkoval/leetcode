@@ -45,43 +45,33 @@ public interface RestoreArrayFromAdjacentPairs {
             // Step #1: find the first (or last) element of nums[] - it only appears once in adjacentPairs[]
             // Step #2: perform DFS from the first (or last) element to restore nums[] from adjacent pairs (are similar to edges of a graph)
             Map<Integer, List<Integer>> adj = new HashMap<>();
-            Map<Integer, Integer> counts = new HashMap<>();
             for (int[] pair : adjacentPairs) {
                 adj.computeIfAbsent(pair[0], __ -> new ArrayList<>()).add(pair[1]);
                 adj.computeIfAbsent(pair[1], __ -> new ArrayList<>()).add(pair[0]);
-                counts.put(pair[0], counts.getOrDefault(pair[0], 0) + 1);
-                counts.put(pair[1], counts.getOrDefault(pair[1], 0) + 1);
             }
 
             int first = 42;
-            for (Map.Entry<Integer, Integer> entry : counts.entrySet()) {
-                if (entry.getValue() == 1) {
+            for (Map.Entry<Integer, List<Integer>> entry : adj.entrySet()) {
+                if (entry.getValue().size() == 1) {
                     first = entry.getKey();
                     break;
                 }
             }
 
-            List<Integer> nums = new ArrayList<>();
+            int[] nums = new int[n + 1];
             Set<Integer> visited = new HashSet<>();
-            dfs(adj, first, visited, nums);
-
-            int i = 0;
-            int[] ans = new int[nums.size()];
-            for (int x : nums) {
-                ans[i++] = x;
-            }
-            return ans;
+            dfs(adj, first, visited, nums, 0);
+            return nums;
         }
 
-        private void dfs(Map<Integer, List<Integer>> adj, int current, Set<Integer> visited, List<Integer> nums) {
+        private void dfs(Map<Integer, List<Integer>> adj, int current, Set<Integer> visited, int[] nums, int index) {
             visited.add(current);
-            nums.add(current);
+            nums[index] = current;
             for (int neighbor : adj.getOrDefault(current, Collections.emptyList())) {
                 if (!visited.contains(neighbor)) {
-                    dfs(adj, neighbor, visited, nums);
+                    dfs(adj, neighbor, visited, nums, index + 1);
                 }
             }
         }
-
     }
 }
