@@ -75,6 +75,7 @@ public interface RestoreArrayFromAdjacentPairs {
         }
     }
 
+    // O(N) time | O(N) space
     class RestoreArrayFromAdjacentPairsRev2 implements RestoreArrayFromAdjacentPairs {
 
         @Override
