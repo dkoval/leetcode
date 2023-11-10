@@ -2,7 +2,7 @@ package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.RestoreArrayFromAdjacentPairs.RestoreArrayFromAdjacentPairsRev1
 import com.github.dkoval.leetcode.challenge.RestoreArrayFromAdjacentPairs.RestoreArrayFromAdjacentPairsRev2
-import org.junit.jupiter.api.Assertions.assertArrayEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
@@ -70,5 +70,5 @@ internal class RestoreArrayFromAdjacentPairsTest {
 
 private fun RestoreArrayFromAdjacentPairs.test(adjacentPairs: Array<IntArray>, expected: IntArray) {
     val actual = restoreArray(adjacentPairs)
-    assertArrayEquals(expected, actual)
+    assertTrue(expected.contentEquals(actual) || expected.contentEquals(actual.reversedArray()))
 }
