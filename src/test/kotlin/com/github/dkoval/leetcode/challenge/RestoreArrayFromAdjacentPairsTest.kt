@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.RestoreArrayFromAdjacentPairs.RestoreArrayFromAdjacentPairsRev1
+import com.github.dkoval.leetcode.challenge.RestoreArrayFromAdjacentPairs.RestoreArrayFromAdjacentPairsRev2
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -50,6 +51,19 @@ internal class RestoreArrayFromAdjacentPairsTest {
             expected: IntArray
         ) {
             RestoreArrayFromAdjacentPairsRev1().test(adjacentPairs, expected)
+        }
+    }
+
+    @Nested
+    inner class RestoreArrayFromAdjacentPairsRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the original array nums, if there are multiple solutions, return any of them`(
+            adjacentPairs: Array<IntArray>,
+            expected: IntArray
+        ) {
+            RestoreArrayFromAdjacentPairsRev2().test(adjacentPairs, expected)
         }
     }
 }

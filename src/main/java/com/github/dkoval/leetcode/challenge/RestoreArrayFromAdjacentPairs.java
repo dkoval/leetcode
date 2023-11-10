@@ -74,4 +74,54 @@ public interface RestoreArrayFromAdjacentPairs {
             }
         }
     }
+
+    class RestoreArrayFromAdjacentPairsRev2 implements RestoreArrayFromAdjacentPairs {
+
+        @Override
+        public int[] restoreArray(int[][] adjacentPairs) {
+            // n >= 1
+            int n = adjacentPairs.length;
+
+            if (n == 1) {
+                return adjacentPairs[0];
+            }
+
+            Map<Integer, List<Integer>> adj = new HashMap<>();
+            for (int[] pair : adjacentPairs) {
+                adj.computeIfAbsent(pair[0], __ -> new ArrayList<>()).add(pair[1]);
+                adj.computeIfAbsent(pair[1], __ -> new ArrayList<>()).add(pair[0]);
+            }
+
+            int curr = 42;
+            int end = 42;
+            int count = 0;
+            for (Map.Entry<Integer, List<Integer>> entry : adj.entrySet()) {
+                if (entry.getValue().size() == 1) {
+                    if (count == 0) {
+                        curr = entry.getKey();
+                        count++;
+                    } else if (count == 1) {
+                        end = entry.getKey();
+                        break;
+                    }
+                }
+            }
+
+            int i = 0;
+            int[] nums = new int[n + 1];
+            Integer prev = null;
+            while (curr != end) {
+                nums[i++] = curr;
+                for (int next : adj.getOrDefault(curr, Collections.emptyList())) {
+                    if (prev == null || next != prev) {
+                        prev = curr;
+                        curr = next;
+                        break;
+                    }
+                }
+            }
+            nums[i] = end;
+            return nums;
+        }
+    }
 }
