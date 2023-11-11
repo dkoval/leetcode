@@ -2,6 +2,7 @@ package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.DesignGraphWithShortestPathCalculator.Graph
 import com.github.dkoval.leetcode.challenge.DesignGraphWithShortestPathCalculator.GraphRev1
+import com.github.dkoval.leetcode.challenge.DesignGraphWithShortestPathCalculatorTest.Command
 import com.github.dkoval.leetcode.challenge.DesignGraphWithShortestPathCalculatorTest.Command.AddEdge
 import com.github.dkoval.leetcode.challenge.DesignGraphWithShortestPathCalculatorTest.Command.ShortestPath
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -53,7 +54,7 @@ internal class DesignGraphWithShortestPathCalculatorTest {
     }
 }
 
-private fun Graph.test(commands: List<DesignGraphWithShortestPathCalculatorTest.Command>) {
+private fun Graph.test(commands: List<Command>) {
     assertAll(commands.map {
         when (it) {
             is AddEdge -> { -> addEdge(it.edge) }
