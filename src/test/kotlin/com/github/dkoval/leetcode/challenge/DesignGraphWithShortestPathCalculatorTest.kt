@@ -38,9 +38,7 @@ internal class DesignGraphWithShortestPathCalculatorTest {
     }
 
     sealed interface Command {
-        class AddEdge(src: Int, dst: Int, cost: Int) : Command {
-            val edge: IntArray = intArrayOf(src, dst, cost)
-        }
+        class AddEdge(src: Int, dst: Int, cost: Int) : Command { val edge: IntArray = intArrayOf(src, dst, cost) }
         class ShortestPath(val src: Int, val dst: Int, val expected: Int) : Command
     }
 
