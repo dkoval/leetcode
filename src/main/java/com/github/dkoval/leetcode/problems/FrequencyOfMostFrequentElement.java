@@ -61,22 +61,20 @@ public interface FrequencyOfMostFrequentElement {
 
             // sliding window
             int left = 0;
-            int right = 1;
             int cost = 0;
             int best = 1;
-            while (right < n) {
+            for (int right = 1; right < n; right++) {
                 // turn numbers to the left of nums[right] into nums[right]
                 int diff = nums[right] - nums[right - 1];
                 cost += (right - left) * diff;
 
                 // if cost is too big, shrink the window
-                while (cost > k && left <= right) {
+                while (cost > k) {
                     cost -= nums[right] - nums[left];
                     left++;
                 }
 
                 best = Math.max(best, right - left + 1);
-                right++;
             }
             return best;
         }
