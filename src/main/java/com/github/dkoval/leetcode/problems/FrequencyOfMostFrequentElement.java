@@ -23,7 +23,7 @@ public interface FrequencyOfMostFrequentElement {
     int maxFrequency(int[] nums, int k);
 
     // O(N*logN) time | O(1) space
-    class FrequencyOfMostFrequentElementSlidingWindow implements FrequencyOfMostFrequentElement {
+    class FrequencyOfMostFrequentElementRev1 implements FrequencyOfMostFrequentElement {
 
         @Override
         public int maxFrequency(int[] nums, int k) {
@@ -44,6 +44,37 @@ public interface FrequencyOfMostFrequentElement {
                     sum -= nums[left];
                     left++;
                 }
+                best = Math.max(best, right - left + 1);
+                right++;
+            }
+            return best;
+        }
+    }
+
+    // O(N*logN) time | O(1) space
+    class FrequencyOfMostFrequentElementRev2 implements FrequencyOfMostFrequentElement {
+
+        @Override
+        public int maxFrequency(int[] nums, int k) {
+            int n = nums.length;
+            Arrays.sort(nums);
+
+            // sliding window
+            int left = 0;
+            int right = 1;
+            int cost = 0;
+            int best = 1;
+            while (right < n) {
+                // turn numbers to the left of nums[right] into nums[right]
+                int diff = nums[right] - nums[right - 1];
+                cost += (right - left) * diff;
+
+                // if cost is too big, shrink the window
+                while (cost > k && left <= right) {
+                    cost -= nums[right] - nums[left];
+                    left++;
+                }
+
                 best = Math.max(best, right - left + 1);
                 right++;
             }

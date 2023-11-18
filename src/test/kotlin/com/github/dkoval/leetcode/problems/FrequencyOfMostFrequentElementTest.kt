@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
-import com.github.dkoval.leetcode.problems.FrequencyOfMostFrequentElement.FrequencyOfMostFrequentElementSlidingWindow
+import com.github.dkoval.leetcode.problems.FrequencyOfMostFrequentElement.FrequencyOfMostFrequentElementRev1
+import com.github.dkoval.leetcode.problems.FrequencyOfMostFrequentElement.FrequencyOfMostFrequentElementRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -34,7 +35,7 @@ internal class FrequencyOfMostFrequentElementTest {
     }
 
     @Nested
-    inner class FrequencyOfMostFrequentElementSlidingWindowTest {
+    inner class FrequencyOfMostFrequentElementRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -43,12 +44,26 @@ internal class FrequencyOfMostFrequentElementTest {
             k: Int,
             expected: Int
         ) {
-            FrequencyOfMostFrequentElementSlidingWindow().test(nums, k, expected)
+            FrequencyOfMostFrequentElementRev1().test(nums, k, expected)
         }
     }
 
-    private fun FrequencyOfMostFrequentElement.test(nums: IntArray, k: Int, expected: Int) {
-        val actual = maxFrequency(nums, k)
-        assertEquals(expected, actual)
+    @Nested
+    inner class FrequencyOfMostFrequentElementRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum possible frequency of an element after performing at most k operations`(
+            nums: IntArray,
+            k: Int,
+            expected: Int
+        ) {
+            FrequencyOfMostFrequentElementRev2().test(nums, k, expected)
+        }
     }
+}
+
+private fun FrequencyOfMostFrequentElement.test(nums: IntArray, k: Int, expected: Int) {
+    val actual = maxFrequency(nums, k)
+    assertEquals(expected, actual)
 }
