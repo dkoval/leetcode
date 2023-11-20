@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MinimumAmountOfTimeToCollectGarbage.MinimumAmountOfTimeToCollectGarbageRev1
+import com.github.dkoval.leetcode.challenge.MinimumAmountOfTimeToCollectGarbage.MinimumAmountOfTimeToCollectGarbageRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -39,6 +40,20 @@ internal class MinimumAmountOfTimeToCollectGarbageTest {
             expected: Int
         ) {
             MinimumAmountOfTimeToCollectGarbageRev1().test(garbage, travel, expected)
+        }
+    }
+
+    @Nested
+    inner class MinimumAmountOfTimeToCollectGarbageRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum number of minutes needed to pick up all the garbage`(
+            garbage: Array<String>,
+            travel: IntArray,
+            expected: Int
+        ) {
+            MinimumAmountOfTimeToCollectGarbageRev2().test(garbage, travel, expected)
         }
     }
 }

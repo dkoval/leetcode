@@ -1,5 +1,8 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * <a href="https://leetcode.com/problems/minimum-amount-of-time-to-collect-garbage/">Minimum Amount of Time to Collect Garbage</a>
  * <p>
@@ -43,10 +46,10 @@ public interface MinimumAmountOfTimeToCollectGarbage {
             // 2 - 'G'
             int[] pickupTime = new int[3];
 
-            int t = 0;
+            int time = 0;
             for (int i = 0; i < n; i++) {
                 if (i > 0) {
-                    t += travel[i - 1];
+                    time += travel[i - 1];
                 }
 
                 // count units of each type of garbage
@@ -59,8 +62,51 @@ public interface MinimumAmountOfTimeToCollectGarbage {
                 for (int k = 0; k < 3; k++) {
                     if (units[k] > 0) {
                         totalTime += units[k];
-                        pickupTime[k] = t;
+                        pickupTime[k] = time;
                     }
+                }
+            }
+
+            for (int x : pickupTime) {
+                totalTime += x;
+            }
+            return totalTime;
+        }
+    }
+
+    class MinimumAmountOfTimeToCollectGarbageRev2 implements MinimumAmountOfTimeToCollectGarbage {
+
+        @Override
+        public int garbageCollection(String[] garbage, int[] travel) {
+            int n = garbage.length;
+
+            int totalTime = 0;
+
+            // pickupTime[k] - min time needed to pick up all units of k-th type of garbage
+            // 0 - 'M'
+            // 1 - 'P'
+            // 2 - 'G'
+            int[] pickupTime = new int[3];
+
+            int time = 0;
+            for (int i = 0; i < n; i++) {
+                if (i > 0) {
+                    time += travel[i - 1];
+                }
+
+                // pickup up all the garbage from the i-th house
+                totalTime += garbage[i].length();
+
+                // count units of each type of garbage
+                Set<Character> uniq = new HashSet<>();
+                for (int j = 0; j < garbage[i].length() && uniq.size() < 3; j++) {
+                    char t = garbage[i].charAt(j);
+                    uniq.add(t);
+                }
+
+                for (char t : uniq) {
+                    // minutes needed to travel to the last house containing t type of garbage
+                    pickupTime["MPG".indexOf(t)] = time;
                 }
             }
 
