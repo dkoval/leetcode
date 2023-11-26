@@ -19,7 +19,6 @@ internal class LargestSubmatrixWithRearrangementsTest {
                 arrayOf(
                     intArrayOf(0, 0, 1),
                     intArrayOf(1, 1, 1),
-                    intArrayOf(1, 1, 1),
                     intArrayOf(1, 0, 1)
                 ),
                 4
