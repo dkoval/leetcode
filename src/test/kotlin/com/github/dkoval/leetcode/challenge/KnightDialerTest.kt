@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.KnightDialer.KnightDialerDPTopDownRev1
+import com.github.dkoval.leetcode.challenge.KnightDialer.KnightDialerDPBottomUp
+import com.github.dkoval.leetcode.challenge.KnightDialer.KnightDialerDPTopDown
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -22,12 +23,22 @@ internal class KnightDialerTest {
     }
 
     @Nested
-    inner class KnightDialerDPTopDownRev1Test {
+    inner class KnightDialerDPTopDownTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return how many distinct phone numbers of length n we can dial`(n: Int, expected: Int) {
-            KnightDialerDPTopDownRev1().test(n, expected)
+            KnightDialerDPTopDown().test(n, expected)
+        }
+    }
+
+    @Nested
+    inner class KnightDialerDPBottomUpTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return how many distinct phone numbers of length n we can dial`(n: Int, expected: Int) {
+            KnightDialerDPBottomUp().test(n, expected)
         }
     }
 }

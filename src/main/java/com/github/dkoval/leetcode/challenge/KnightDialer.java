@@ -1,9 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * <a href="https://leetcode.com/problems/knight-dialer/">Knight Dialer</a>
@@ -36,27 +33,27 @@ public interface KnightDialer {
 
     int knightDialer(int n);
 
-    class KnightDialerDPTopDownRev1 implements KnightDialer {
+    class KnightDialerDPTopDown implements KnightDialer {
+
+        private static final Map<Integer, List<Integer>> MOVES = Map.of(
+                0, List.of(4, 6),
+                1, List.of(6, 8),
+                2, List.of(7, 9),
+                3, List.of(4, 8),
+                4, List.of(0, 3, 9),
+                5, List.of(),
+                6, List.of(0, 1, 7),
+                7, List.of(2, 6),
+                8, List.of(1, 3),
+                9, List.of(2, 4)
+        );
 
         @Override
         public int knightDialer(int n) {
-            Map<Integer, List<Integer>> moves = Map.of(
-                    0, List.of(4, 6),
-                    1, List.of(6, 8),
-                    2, List.of(7, 9),
-                    3, List.of(4, 8),
-                    4, List.of(0, 3, 9),
-                    5, List.of(),
-                    6, List.of(0, 1, 7),
-                    7, List.of(2, 6),
-                    8, List.of(1, 3),
-                    9, List.of(2, 4)
-            );
-
             int count = 0;
             Map<Key, Integer> dp = new HashMap<>();
             for (int x = 0; x <= 9; x++) {
-                count += calculate(moves, n, x, 1, dp);
+                count += calculate(MOVES, n, x, 1, dp);
                 count %= MOD;
             }
             return count;
@@ -109,6 +106,46 @@ public interface KnightDialer {
             public int hashCode() {
                 return Objects.hash(x1, x2);
             }
+        }
+    }
+
+    class KnightDialerDPBottomUp implements KnightDialer {
+
+        private static final int[][] MOVES = {
+                {4, 6},
+                {6, 8},
+                {7, 9},
+                {4, 8},
+                {0, 3, 9},
+                new int[0],
+                {0, 1, 7},
+                {2, 6},
+                {1, 3},
+                {2, 4}
+        };
+
+        @Override
+        public int knightDialer(int n) {
+            // dp[x] - the number of phone numbers of length n we can make that end with digit x
+            int[] dp = new int[10];
+            Arrays.fill(dp, 1);
+            while (n-- > 1) {
+                int[] newDp = new int[10];
+                for (int x = 0; x <= 9; x++) {
+                    for (int y : MOVES[x]) {
+                        newDp[y] += dp[x];
+                        newDp[y] %= MOD;
+                    }
+                }
+                dp = newDp;
+            }
+
+            int count = 0;
+            for (int x : dp) {
+                count += x;
+                count %= MOD;
+            }
+            return count;
         }
     }
 }
