@@ -84,4 +84,29 @@ public interface NumberOfWaysToDivideLongCorridor {
             return segmentStarted ? 0 : (int) ans;
         }
     }
+
+    class NumberOfWaysToDivideLongCorridorRev2 implements NumberOfWaysToDivideLongCorridor {
+
+        @Override
+        public int numberOfWays(String corridor) {
+            int n = corridor.length();
+
+            long ans = 1L;
+            int lastSeat = -1;
+            int seats = 0;
+            for (int i = 0; i < n; i++) {
+                if (corridor.charAt(i) == 'S') {
+                    seats++;
+                    if (seats % 2 == 0) {
+                        // record the index of the seat closing the current segment
+                        lastSeat = i;
+                    } else if (seats > 1) {
+                        ans *= i - lastSeat;
+                        ans %= MOD;
+                    }
+                }
+            }
+            return (seats >= 2 && seats % 2 == 0) ? (int) ans : 0;
+        }
+    }
 }
