@@ -24,7 +24,8 @@ internal class NumberOfWaysToDivideLongCorridorTest {
                 1
             ),
             Arguments.of(
-                "S"
+                "S",
+                0
             ),
             Arguments.of(
                 "SSSPPPSPPSPSSSSSSPPPSPP",
