@@ -74,11 +74,8 @@ public interface FindPlayersWithZeroOrOneLosses {
             // loser -> number of lost matches
             Map<Integer, Integer> losses = new HashMap<>();
             for (int[] match : matches) {
-                int winner = match[0];
-                int loser = match[1];
-
-                losses.put(loser, losses.getOrDefault(loser, 0) + 1);
-                losses.putIfAbsent(winner, 0);
+                losses.putIfAbsent(match[0], 0);
+                losses.put(match[1], losses.getOrDefault(match[1], 0) + 1);
             }
 
             List<Integer> players = new ArrayList<>(losses.keySet());
@@ -86,12 +83,11 @@ public interface FindPlayersWithZeroOrOneLosses {
 
             List<List<Integer>> ans = Arrays.asList(new ArrayList<>(), new ArrayList<>());
             for (int player : players) {
-                int x = losses.get(player);
-                if (x == 0) {
-                    ans.get(0).add(player);
-                } else if (x == 1) {
-                    ans.get(1).add(player);
+                int count = losses.get(player);
+                if (count > 1) {
+                    continue;
                 }
+                ans.get(count).add(player);
             }
             return ans;
         }
