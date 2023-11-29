@@ -71,7 +71,7 @@ public interface FindPlayersWithZeroOrOneLosses {
 
         @Override
         public List<List<Integer>> findWinners(int[][] matches) {
-            // loser -> number of lost matches
+            // player -> number of lost matches
             Map<Integer, Integer> losses = new HashMap<>();
             for (int[] match : matches) {
                 losses.putIfAbsent(match[0], 0);
