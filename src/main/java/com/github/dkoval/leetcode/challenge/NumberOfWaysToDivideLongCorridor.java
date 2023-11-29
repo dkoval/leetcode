@@ -31,12 +31,14 @@ public interface NumberOfWaysToDivideLongCorridor {
 
     int numberOfWays(String corridor);
 
+    // O(N) time | O(1) space
     class NumberOfWaysToDivideLongCorridorRev1 implements NumberOfWaysToDivideLongCorridor {
 
         @Override
         public int numberOfWays(String corridor) {
             int n = corridor.length();
 
+            // Idea: combinatorics
             // S...S P...P S...S P...P S...S ...
             // <--->       <--->       <---> segment starts and ends with 'S'
             // Given there are k plants between 2 consecutive segments, we can place (k + 1) dividers.
@@ -85,12 +87,14 @@ public interface NumberOfWaysToDivideLongCorridor {
         }
     }
 
+    // O(N) time | O(1) space
     class NumberOfWaysToDivideLongCorridorRev2 implements NumberOfWaysToDivideLongCorridor {
 
         @Override
         public int numberOfWays(String corridor) {
             int n = corridor.length();
 
+            // Idea: combinatorics
             long ans = 1L;
             int lastSeat = -1;
             int seats = 0;
@@ -107,6 +111,55 @@ public interface NumberOfWaysToDivideLongCorridor {
                 }
             }
             return (seats >= 2 && seats % 2 == 0) ? (int) ans : 0;
+        }
+    }
+
+    class NumberOfWaysToDivideLongCorridorDPTopDown implements NumberOfWaysToDivideLongCorridor {
+
+        @Override
+        public int numberOfWays(String corridor) {
+            int n = corridor.length();
+
+            // DP top-down
+            Integer[][] dp = new Integer[n][3];
+            return calculate(corridor, 0, 0, dp);
+        }
+
+        private int calculate(String corridor, int index, int seats, Integer[][] dp) {
+            int n = corridor.length();
+
+            // base case
+            if (index == n) {
+                return (seats == 2) ? 1 : 0;
+            }
+
+            // already solved?
+            if (dp[index][seats] != null) {
+                return dp[index][seats];
+            }
+
+            int count = 0;
+            char c = corridor.charAt(index);
+            if (seats == 2) {
+                // got enough seats to form a segment
+                if (c == 'S') {
+                    // put a divider and start a new segment
+                    count += calculate(corridor, index + 1, 1, dp);
+                } else {
+                    // option #1: put a divider and start a new segment
+                    // option #2: skip and proceed to the next index
+                    count += calculate(corridor, index + 1, 0, dp) + calculate(corridor, index + 1, seats, dp);
+                    count %= MOD;
+                }
+            } else {
+                // keep on accumulating seats
+                if (c == 'S') {
+                    count += calculate(corridor, index + 1, seats + 1, dp);
+                } else {
+                    count += calculate(corridor, index + 1, seats, dp);
+                }
+            }
+            return dp[index][seats] = count;
         }
     }
 }

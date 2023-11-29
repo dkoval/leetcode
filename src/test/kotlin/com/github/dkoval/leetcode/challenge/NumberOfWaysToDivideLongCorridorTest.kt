@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.NumberOfWaysToDivideLongCorridor.NumberOfWaysToDivideLongCorridorRev1
-import com.github.dkoval.leetcode.challenge.NumberOfWaysToDivideLongCorridor.NumberOfWaysToDivideLongCorridorRev2
+import com.github.dkoval.leetcode.challenge.NumberOfWaysToDivideLongCorridor.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -64,6 +63,16 @@ internal class NumberOfWaysToDivideLongCorridorTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the number of ways to divide the corridor`(corridor: String, expected: Int) {
             NumberOfWaysToDivideLongCorridorRev2().test(corridor, expected)
+        }
+    }
+
+    @Nested
+    inner class NumberOfWaysToDivideLongCorridorDPTopDownTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of ways to divide the corridor`(corridor: String, expected: Int) {
+            NumberOfWaysToDivideLongCorridorDPTopDown().test(corridor, expected)
         }
     }
 }
