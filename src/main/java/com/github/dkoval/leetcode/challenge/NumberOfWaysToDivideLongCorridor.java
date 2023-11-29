@@ -32,7 +32,7 @@ public interface NumberOfWaysToDivideLongCorridor {
     int numberOfWays(String corridor);
 
     // O(N) time | O(1) space
-    class NumberOfWaysToDivideLongCorridorRev1 implements NumberOfWaysToDivideLongCorridor {
+    class NumberOfWaysToDivideLongCorridorCombinatoricsRev1 implements NumberOfWaysToDivideLongCorridor {
 
         @Override
         public int numberOfWays(String corridor) {
@@ -88,7 +88,7 @@ public interface NumberOfWaysToDivideLongCorridor {
     }
 
     // O(N) time | O(1) space
-    class NumberOfWaysToDivideLongCorridorRev2 implements NumberOfWaysToDivideLongCorridor {
+    class NumberOfWaysToDivideLongCorridorCombinatoricsRev2 implements NumberOfWaysToDivideLongCorridor {
 
         @Override
         public int numberOfWays(String corridor) {

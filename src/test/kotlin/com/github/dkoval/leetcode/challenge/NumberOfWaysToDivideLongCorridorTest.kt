@@ -47,22 +47,22 @@ internal class NumberOfWaysToDivideLongCorridorTest {
     }
 
     @Nested
-    inner class NumberOfWaysToDivideLongCorridorRev1Test {
+    inner class NumberOfWaysToDivideLongCorridorCombinatoricsRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the number of ways to divide the corridor`(corridor: String, expected: Int) {
-            NumberOfWaysToDivideLongCorridorRev1().test(corridor, expected)
+            NumberOfWaysToDivideLongCorridorCombinatoricsRev1().test(corridor, expected)
         }
     }
 
     @Nested
-    inner class NumberOfWaysToDivideLongCorridorRev2Test {
+    inner class NumberOfWaysToDivideLongCorridorCombinatoricsRev2Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the number of ways to divide the corridor`(corridor: String, expected: Int) {
-            NumberOfWaysToDivideLongCorridorRev2().test(corridor, expected)
+            NumberOfWaysToDivideLongCorridorCombinatoricsRev2().test(corridor, expected)
         }
     }
 
