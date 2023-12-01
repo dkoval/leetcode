@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.CheckIfTwoStringArraysAreEquivalent.CheckIfTwoStringArraysAreEquivalentRev1
-import com.github.dkoval.leetcode.challenge.CheckIfTwoStringArraysAreEquivalent.CheckIfTwoStringArraysAreEquivalentRev2
+import com.github.dkoval.leetcode.challenge.CheckIfTwoStringArraysAreEquivalent.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -34,8 +33,9 @@ internal class CheckIfTwoStringArraysAreEquivalentTest {
         )
     }
 
-    @Nested
-    inner class CheckIfTwoStringArraysAreEquivalentTestRev1 {
+    abstract class BaseCheckIfTwoStringArraysAreEquivalentTestSupport(
+        private val solution: CheckIfTwoStringArraysAreEquivalent
+    ) {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -44,26 +44,20 @@ internal class CheckIfTwoStringArraysAreEquivalentTest {
             word2: Array<String>,
             expected: Boolean
         ) {
-            CheckIfTwoStringArraysAreEquivalentRev1().test(word1, word2, expected)
+            val actual = solution.arrayStringsAreEqual(word1, word2)
+            assertEquals(expected, actual)
         }
     }
 
     @Nested
-    inner class CheckIfTwoStringArraysAreEquivalentTestRev2 {
+    inner class CheckIfTwoStringArraysAreEquivalentRev1Test :
+        BaseCheckIfTwoStringArraysAreEquivalentTestSupport(CheckIfTwoStringArraysAreEquivalentRev1())
 
-        @ParameterizedTest
-        @ArgumentsSource(InputArgumentsProvider::class)
-        fun `should check if two string arrays are equivalent`(
-            word1: Array<String>,
-            word2: Array<String>,
-            expected: Boolean
-        ) {
-            CheckIfTwoStringArraysAreEquivalentRev2().test(word1, word2, expected)
-        }
-    }
+    @Nested
+    inner class CheckIfTwoStringArraysAreEquivalentRev2Test :
+        BaseCheckIfTwoStringArraysAreEquivalentTestSupport(CheckIfTwoStringArraysAreEquivalentRev2())
 
-    private fun CheckIfTwoStringArraysAreEquivalent.test(word1: Array<String>, word2: Array<String>, expected: Boolean) {
-        val actual = arrayStringsAreEqual(word1, word2)
-        assertEquals(expected, actual)
-    }
+    @Nested
+    inner class CheckIfTwoStringArraysAreEquivalentRev3Test :
+        BaseCheckIfTwoStringArraysAreEquivalentTestSupport(CheckIfTwoStringArraysAreEquivalentRev3())
 }

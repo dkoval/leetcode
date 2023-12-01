@@ -71,4 +71,36 @@ public interface CheckIfTwoStringArraysAreEquivalent {
             return true;
         }
     }
+
+    class CheckIfTwoStringArraysAreEquivalentRev3 implements CheckIfTwoStringArraysAreEquivalent {
+
+        @Override
+        public boolean arrayStringsAreEqual(String[] word1, String[] word2) {
+            int n1 = word1.length;
+            int n2 = word2.length;
+
+            int index1 = 0;
+            int offset1 = 0;
+            int index2 = 0;
+            int offset2 = 0;
+            while (index1 < n1 && index2 < n2) {
+                if (word1[index1].charAt(offset1) != word2[index2].charAt(offset2)) {
+                    return false;
+                }
+
+                offset1++;
+                if (offset1 == word1[index1].length()) {
+                    index1++;
+                    offset1 = 0;
+                }
+
+                offset2++;
+                if (offset2 == word2[index2].length()) {
+                    index2++;
+                    offset2 = 0;
+                }
+            }
+            return (index1 == n1) && (index2 == n2);
+        }
+    }
 }
