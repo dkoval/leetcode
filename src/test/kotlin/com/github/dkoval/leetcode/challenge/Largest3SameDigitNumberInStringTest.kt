@@ -37,14 +37,14 @@ internal class Largest3SameDigitNumberInStringTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the maximum good integer as a string or an empty string if no such integer exists`(
             num: String,
-            expected: Int
+            expected: String
         ) {
             Largest3SameDigitNumberInStringRev1().test(num, expected)
         }
     }
 }
 
-private fun Largest3SameDigitNumberInString.test(num: String, expected: Int) {
+private fun Largest3SameDigitNumberInString.test(num: String, expected: String) {
     val actual = largestGoodInteger(num)
     assertEquals(expected, actual)
 }
