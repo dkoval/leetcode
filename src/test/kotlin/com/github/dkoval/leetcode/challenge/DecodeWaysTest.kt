@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.DecodeWays.DecodeWaysDPBottomUp
-import com.github.dkoval.leetcode.challenge.DecodeWays.DecodeWaysTopDownWithMemoization
+import com.github.dkoval.leetcode.challenge.DecodeWays.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -64,6 +63,16 @@ internal class DecodeWaysTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the number of ways to decode string s`(s: String, expected: Int) {
             DecodeWaysDPBottomUp().test(s, expected)
+        }
+    }
+
+    @Nested
+    inner class DecodeWaysDPBottomUpSpaceOptimizedTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of ways to decode string s`(s: String, expected: Int) {
+            DecodeWaysDPBottomUpSpaceOptimized().test(s, expected)
         }
     }
 }

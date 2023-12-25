@@ -109,4 +109,38 @@ public interface DecodeWays {
             return dp[0];
         }
     }
+
+    // O(N) time | O(1) space
+    class DecodeWaysDPBottomUpSpaceOptimized implements DecodeWays {
+
+        @Override
+        public int numDecodings(String s) {
+            int n = s.length();
+            // i, i + 1, i + 2
+            // ^  x = dp[i + 1], y = dp[i + 2]
+            // x', y'
+            int x = 1;
+            int y = 0;
+            for (int i = n - 1; i >= 0; i--) {
+                int curr = 0;
+                if (s.charAt(i) != '0') {
+                    // take 1 digit
+                    curr += x;
+
+                    // take 2 digits: 1[0-9]
+                    if (s.charAt(i) == '1' && i + 1 < n) {
+                        curr += y;
+                    }
+
+                    // take 2 digits: 2[0-6]
+                    if (s.charAt(i) == '2' && i + 1 < n && s.charAt(i + 1) >= '0' && s.charAt(i + 1) <= '6') {
+                        curr += y;
+                    }
+                }
+                y = x;
+                x = curr;
+            }
+            return x;
+        }
+    }
 }
