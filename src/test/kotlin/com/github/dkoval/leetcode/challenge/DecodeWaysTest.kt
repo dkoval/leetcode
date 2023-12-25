@@ -66,9 +66,9 @@ internal class DecodeWaysTest {
             DecodeWaysDPBottomUp().test(s, expected)
         }
     }
+}
 
-    private fun DecodeWays.test(s: String, expected: Int) {
-        val actual = numDecodings(s)
-        assertEquals(expected, actual)
-    }
+private fun DecodeWays.test(s: String, expected: Int) {
+    val actual = numDecodings(s)
+    assertEquals(expected, actual)
 }
