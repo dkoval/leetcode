@@ -25,29 +25,28 @@ public interface NumberOfDiceRollsWithTargetSum {
         @Override
         public int numRollsToTarget(int n, int k, int target) {
             // DP: top-down
-            Integer[][] memo = new Integer[n + 1][target + 1];
-            return count(n, target, k, memo);
+            return count(n, target, k, new Integer[n + 1][target + 1]);
         }
 
         // Here n is the number of available dices.
-        private int count(int n, int target, int k, Integer[][] memo) {
+        private int count(int n, int target, int k, Integer[][] dp) {
             if (n == 0) {
                 return (target == 0) ? 1 : 0;
             }
 
-            if (memo[n][target] != null) {
-                return memo[n][target];
+            if (dp[n][target] != null) {
+                return dp[n][target];
             }
 
             // brute-force on k
             int count = 0;
             for (int i = 1; i <= k; i++) {
                 if (target - i >= 0) {
-                    count += count(n - 1, target - i, k, memo);
+                    count += count(n - 1, target - i, k, dp);
                     count %= MOD;
                 }
             }
-            return memo[n][target] = count;
+            return dp[n][target] = count;
         }
     }
 

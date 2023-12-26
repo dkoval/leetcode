@@ -22,7 +22,6 @@ internal class NumberOfDiceRollsWithTargetSumTest {
         )
     }
 
-
     @Nested
     inner class NumberOfDiceRollsWithTargetSumDPTopDownTest {
 
@@ -52,9 +51,9 @@ internal class NumberOfDiceRollsWithTargetSumTest {
             NumberOfDiceRollsWithTargetSumDpBottomUp().test(n, k, target, expected)
         }
     }
+}
 
-    private fun NumberOfDiceRollsWithTargetSum.test(n: Int, k: Int, target: Int, expected: Int) {
-        val actual = numRollsToTarget(n, k, target)
-        assertEquals(expected, actual)
-    }
+private fun NumberOfDiceRollsWithTargetSum.test(n: Int, k: Int, target: Int, expected: Int) {
+    val actual = numRollsToTarget(n, k, target)
+    assertEquals(expected, actual)
 }
