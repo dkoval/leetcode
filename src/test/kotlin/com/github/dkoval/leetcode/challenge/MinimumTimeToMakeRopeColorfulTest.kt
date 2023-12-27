@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MinimumTimeToMakeRopeColorful.MinimumTimeToMakeRopeColorfulRev1
+import com.github.dkoval.leetcode.challenge.MinimumTimeToMakeRopeColorful.MinimumTimeToMakeRopeColorfulRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -46,8 +47,22 @@ internal class MinimumTimeToMakeRopeColorfulTest {
         }
     }
 
-    private fun MinimumTimeToMakeRopeColorful.test(colors: String, neededTime: IntArray, expected: Int) {
-        val actual = minCost(colors, neededTime)
-        assertEquals(expected, actual)
+    @Nested
+    inner class MinimumTimeToMakeRopeColorfulRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum time to make the rope colorful`(
+            colors: String,
+            neededTime: IntArray,
+            expected: Int
+        ) {
+            MinimumTimeToMakeRopeColorfulRev2().test(colors, neededTime, expected)
+        }
     }
+}
+
+private fun MinimumTimeToMakeRopeColorful.test(colors: String, neededTime: IntArray, expected: Int) {
+    val actual = minCost(colors, neededTime)
+    assertEquals(expected, actual)
 }

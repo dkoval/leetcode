@@ -51,4 +51,31 @@ public interface MinimumTimeToMakeRopeColorful {
             return total;
         }
     }
+
+    // O(N) time | O(1) space
+    class MinimumTimeToMakeRopeColorfulRev2 implements MinimumTimeToMakeRopeColorful {
+
+        @Override
+        public int minCost(String colors, int[] neededTime) {
+            int n = colors.length();
+
+            int cost = 0;
+            int last = 0;
+            for (int i = 1; i < n; i++) {
+                if (colors.charAt(i) == colors.charAt(last)) {
+                    if (neededTime[i] < neededTime[last]) {
+                        // remove the current balloon
+                        cost += neededTime[i];
+                    } else {
+                        // remove the last balloon
+                        cost += neededTime[last];
+                        last = i;
+                    }
+                } else {
+                    last = i;
+                }
+            }
+            return cost;
+        }
+    }
 }
