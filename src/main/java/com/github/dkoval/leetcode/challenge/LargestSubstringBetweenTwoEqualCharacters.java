@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +37,27 @@ public interface LargestSubstringBetweenTwoEqualCharacters {
                 } else {
                     int start = seen.get(c);
                     best = Math.max(best, end - start - 1);
+                }
+            }
+            return best;
+        }
+    }
+
+    class LargestSubstringBetweenTwoEqualCharactersRev2 implements LargestSubstringBetweenTwoEqualCharacters {
+
+        @Override
+        public int maxLengthBetweenEqualCharacters(String s) {
+            int n = s.length();
+
+            int best = -1;
+            int[] seen = new int[26];
+            Arrays.fill(seen, -1);
+            for (int i = 0; i < n; i++) {
+                int c = s.charAt(i) - 'a';
+                if (seen[c] == -1) {
+                    seen[c] = i;
+                } else {
+                    best = Math.max(best, i - seen[c] - 1);
                 }
             }
             return best;

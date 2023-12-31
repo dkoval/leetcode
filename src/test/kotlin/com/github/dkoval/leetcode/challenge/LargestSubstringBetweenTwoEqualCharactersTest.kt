@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.LargestSubstringBetweenTwoEqualCharacters.LargestSubstringBetweenTwoEqualCharactersRev1
+import com.github.dkoval.leetcode.challenge.LargestSubstringBetweenTwoEqualCharacters.LargestSubstringBetweenTwoEqualCharactersRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -32,6 +33,19 @@ internal class LargestSubstringBetweenTwoEqualCharactersTest {
             expected: Int
         ) {
             LargestSubstringBetweenTwoEqualCharactersRev1().test(s, expected)
+        }
+    }
+
+    @Nested
+    inner class LargestSubstringBetweenTwoEqualCharactersRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the length of the longest substring between two equal characters, excluding the two characters`(
+            s: String,
+            expected: Int
+        ) {
+            LargestSubstringBetweenTwoEqualCharactersRev2().test(s, expected)
         }
     }
 }
