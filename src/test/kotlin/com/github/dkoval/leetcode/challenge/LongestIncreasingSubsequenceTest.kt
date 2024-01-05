@@ -50,9 +50,9 @@ internal class LongestIncreasingSubsequenceTest {
             LongestIncreasingSubsequenceDpBottomUpRev2().test(nums, expected)
         }
     }
+}
 
-    private fun LongestIncreasingSubsequence.test(nums: IntArray, expected: Int) {
-        val actual = lengthOfLIS(nums)
-        assertEquals(expected, actual)
-    }
+private fun LongestIncreasingSubsequence.test(nums: IntArray, expected: Int) {
+    val actual = lengthOfLIS(nums)
+    assertEquals(expected, actual)
 }

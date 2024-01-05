@@ -3,7 +3,7 @@ package com.github.dkoval.leetcode.challenge;
 import java.util.Arrays;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/july-leetcoding-challenge-2021/609/week-2-july-8th-july-14th/3808/">Longest Increasing Subsequence</a>
+ * <a href="https://leetcode.com/problems/longest-increasing-subsequence/">Longest Increasing Subsequence</a>
  * <p>
  * Given an integer array nums, return the length of the longest strictly increasing subsequence.
  * <p>
@@ -39,9 +39,9 @@ public interface LongestIncreasingSubsequence {
                     if (nums[i] > nums[j]) {
                         // append nums[i] to LIS ending at index j
                         dp[i] = Math.max(dp[i], dp[j] + 1);
-                        best = Math.max(best, dp[i]);
                     }
                 }
+                best = Math.max(best, dp[i]);
             }
             return best;
         }
