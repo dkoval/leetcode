@@ -1,15 +1,21 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.MaximumProfitInJobScheduling.MaximumProfitInJobSchedulingRev1
+import com.github.dkoval.leetcode.challenge.MaximumProfitInJobScheduling.MaximumProfitInJobSchedulingRev2
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
 
 internal class MaximumProfitInJobSchedulingTest {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(1, 2, 3, 3),
                 intArrayOf(3, 4, 5, 6),
@@ -37,15 +43,38 @@ internal class MaximumProfitInJobSchedulingTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should return the maximum profit you can take such that there are no two jobs in the subset with overlapping time range`(
-        startTime: IntArray,
-        endTime: IntArray,
-        profit: IntArray,
-        expected: Int
-    ) {
-        val actual = MaximumProfitInJobScheduling().jobScheduling(startTime, endTime, profit)
-        assertEquals(expected, actual)
+    @Nested
+    inner class MaximumProfitInJobSchedulingRev1Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum profit you can take such that there are no two jobs in the subset with overlapping time range`(
+            startTime: IntArray,
+            endTime: IntArray,
+            profit: IntArray,
+            expected: Int
+        ) {
+            MaximumProfitInJobSchedulingRev1().test(startTime, endTime, profit, expected)
+        }
     }
+
+    @Nested
+    inner class MaximumProfitInJobSchedulingRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum profit you can take such that there are no two jobs in the subset with overlapping time range`(
+            startTime: IntArray,
+            endTime: IntArray,
+            profit: IntArray,
+            expected: Int
+        ) {
+            MaximumProfitInJobSchedulingRev2().test(startTime, endTime, profit, expected)
+        }
+    }
+}
+
+private fun MaximumProfitInJobScheduling.test(startTime: IntArray, endTime: IntArray, profit: IntArray, expected: Int) {
+    val actual = jobScheduling(startTime, endTime, profit)
+    assertEquals(expected, actual)
 }
