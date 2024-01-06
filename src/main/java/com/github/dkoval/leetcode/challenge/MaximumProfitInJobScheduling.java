@@ -57,18 +57,6 @@ public interface MaximumProfitInJobScheduling {
             }
             return maxProfit;
         }
-
-        private static class Job {
-            final int startTime;
-            final int endTime;
-            final int profit;
-
-            Job(int startTime, int endTime, int profit) {
-                this.startTime = startTime;
-                this.endTime = endTime;
-                this.profit = profit;
-            }
-        }
     }
 
     // O(N * logN) time | O(N) space
@@ -131,17 +119,17 @@ public interface MaximumProfitInJobScheduling {
             }
             return left;
         }
+    }
+}
 
-        private static class Job {
-            final int startTime;
-            final int endTime;
-            final int profit;
+class Job {
+    final int startTime;
+    final int endTime;
+    final int profit;
 
-            Job(int startTime, int endTime, int profit) {
-                this.startTime = startTime;
-                this.endTime = endTime;
-                this.profit = profit;
-            }
-        }
+    Job(int startTime, int endTime, int profit) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.profit = profit;
     }
 }
