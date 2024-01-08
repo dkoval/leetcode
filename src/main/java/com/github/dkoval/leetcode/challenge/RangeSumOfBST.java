@@ -16,24 +16,29 @@ import com.github.dkoval.leetcode.TreeNode;
  *  <li>All Node.val are unique</li>
  * </ul>
  */
-public class RangeSumOfBST {
+public interface RangeSumOfBST {
+
+    int rangeSumBST(TreeNode root, int low, int high);
 
     // O(N) time | O(H), where H is the height of a BST; H = N in the worst case
-    public int rangeSumBST(TreeNode root, int low, int high) {
-        if (root == null) {
-            return 0;
-        }
+    class RangeSumOfBSTRev1 implements RangeSumOfBST {
 
-        int sum = 0;
-        if (root.val >= low && root.val <= high) {
-            sum += root.val;
-        }
-        if (root.val >= low) {
+        @Override
+        public int rangeSumBST(TreeNode root, int low, int high) {
+            if (root == null) {
+                return 0;
+            }
+
+            if (root.val < low) {
+                return rangeSumBST(root.right, low, high);
+            } else if (root.val > high) {
+                return rangeSumBST(root.left, low, high);
+            }
+
+            int sum = root.val;
             sum += rangeSumBST(root.left, low, high);
-        }
-        if (root.val <= high) {
             sum += rangeSumBST(root.right, low, high);
+            return sum;
         }
-        return sum;
     }
 }

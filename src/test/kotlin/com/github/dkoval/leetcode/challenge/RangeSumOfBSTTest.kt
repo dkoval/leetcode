@@ -1,16 +1,21 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.TreeNode
+import com.github.dkoval.leetcode.challenge.RangeSumOfBST.RangeSumOfBSTRev1
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
 
 internal class RangeSumOfBSTTest {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 TreeNode(10).apply {
                     left = TreeNode(5).apply {
@@ -47,15 +52,23 @@ internal class RangeSumOfBSTTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should return the sum of values of all nodes with a value in the inclusive range`(
-        root: TreeNode,
-        low: Int,
-        high: Int,
-        expected: Int
-    ) {
-        val actual = RangeSumOfBST().rangeSumBST(root, low, high)
-        assertEquals(expected, actual)
+    @Nested
+    inner class RangeSumOfBSTRev1Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the sum of values of all nodes with a value in the inclusive range`(
+            root: TreeNode,
+            low: Int,
+            high: Int,
+            expected: Int
+        ) {
+            RangeSumOfBSTRev1().test(root, low, high, expected)
+        }
     }
+}
+
+private fun RangeSumOfBST.test(root: TreeNode, low: Int, high: Int, expected: Int) {
+    val actual = rangeSumBST(root, low, high)
+    assertEquals(expected, actual)
 }
