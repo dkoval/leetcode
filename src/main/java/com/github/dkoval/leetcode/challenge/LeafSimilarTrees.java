@@ -24,7 +24,7 @@ public interface LeafSimilarTrees {
 
     boolean leafSimilar(TreeNode root1, TreeNode root2);
 
-    class LeafSimilarTreesDFS implements LeafSimilarTrees {
+    class LeafSimilarTreesDFSUsingStack implements LeafSimilarTrees {
 
         @Override
         public boolean leafSimilar(TreeNode root1, TreeNode root2) {
@@ -52,6 +52,36 @@ public interface LeafSimilarTrees {
                 }
             }
             return ans;
+        }
+    }
+
+    class LeafSimilarTreesDFSUsingRecursion implements LeafSimilarTrees {
+
+        @Override
+        public boolean leafSimilar(TreeNode root1, TreeNode root2) {
+            List<Integer> res1 = getLeaves(root1);
+            List<Integer> res2 = getLeaves(root2);
+            return res1.equals(res2);
+        }
+
+        private List<Integer> getLeaves(TreeNode root) {
+            List<Integer> ans = new ArrayList<>();
+            dfs(root, ans);
+            return ans;
+        }
+
+        private void dfs(TreeNode root, List<Integer> ans) {
+            if (root == null) {
+                return;
+            }
+
+            if (root.left == null && root.right == null) {
+                ans.add(root.val);
+                return;
+            }
+
+            dfs(root.left, ans);
+            dfs(root.right, ans);
         }
     }
 }

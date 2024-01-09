@@ -1,7 +1,8 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.TreeNode
-import com.github.dkoval.leetcode.challenge.LeafSimilarTrees.LeafSimilarTreesDFS
+import com.github.dkoval.leetcode.challenge.LeafSimilarTrees.LeafSimilarTreesDFSUsingRecursion
+import com.github.dkoval.leetcode.challenge.LeafSimilarTrees.LeafSimilarTreesDFSUsingStack
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -60,7 +61,7 @@ internal class LeafSimilarTreesTest {
     }
 
     @Nested
-    inner class LeafSimilarTreesDFSTest {
+    inner class LeafSimilarTreesDFSUsingStackTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -69,12 +70,26 @@ internal class LeafSimilarTreesTest {
             root2: TreeNode,
             expected: Boolean
         ) {
-            LeafSimilarTreesDFS().test(root1, root2, expected)
+            LeafSimilarTreesDFSUsingStack().test(root1, root2, expected)
         }
     }
 
-    private fun LeafSimilarTrees.test(root1: TreeNode, root2: TreeNode, expected: Boolean) {
-        val actual = leafSimilar(root1, root2)
-        assertEquals(expected, actual)
+    @Nested
+    inner class LeafSimilarTreesDFSUsingRecursionTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return true IFF the two given trees with head nodes root1 and root2 are leaf-similar`(
+            root1: TreeNode,
+            root2: TreeNode,
+            expected: Boolean
+        ) {
+            LeafSimilarTreesDFSUsingRecursion().test(root1, root2, expected)
+        }
     }
+}
+
+private fun LeafSimilarTrees.test(root1: TreeNode, root2: TreeNode, expected: Boolean) {
+    val actual = leafSimilar(root1, root2)
+    assertEquals(expected, actual)
 }
