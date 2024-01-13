@@ -35,7 +35,7 @@ public interface MinimumNumberOfStepsToMakeTwoStringsAnagram {
 
             int steps = 0;
             for (int i = 0; i < 26; i++) {
-                if (counts[1][i] < counts[0][i]) {
+                if (counts[0][i] > counts[1][i]) {
                     steps += counts[0][i] - counts[1][i];
                 }
             }
