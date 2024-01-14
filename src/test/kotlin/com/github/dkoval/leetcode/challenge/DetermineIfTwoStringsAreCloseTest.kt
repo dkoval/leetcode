@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.DetermineIfTwoStringsAreClose.DetermineIfTwoStringsAreCloseRev1
+import com.github.dkoval.leetcode.challenge.DetermineIfTwoStringsAreClose.DetermineIfTwoStringsAreCloseRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -17,7 +18,8 @@ internal class DetermineIfTwoStringsAreCloseTest {
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of("abc", "bca", true),
             Arguments.of("a", "aa", false),
-            Arguments.of("cabbba", "abbccc", true)
+            Arguments.of("cabbba", "abbccc", true),
+            Arguments.of("uau", "ssx", false)
         )
     }
 
@@ -31,8 +33,18 @@ internal class DetermineIfTwoStringsAreCloseTest {
         }
     }
 
-    private fun DetermineIfTwoStringsAreClose.test(word1: String, word2: String, expected: Boolean) {
-        val actual = closeStrings(word1, word2)
-        assertEquals(expected, actual)
+    @Nested
+    inner class DetermineIfTwoStringsAreCloseRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should determine if two strings are close`(word1: String, word2: String, expected: Boolean) {
+            DetermineIfTwoStringsAreCloseRev2().test(word1, word2, expected)
+        }
     }
+}
+
+private fun DetermineIfTwoStringsAreClose.test(word1: String, word2: String, expected: Boolean) {
+    val actual = closeStrings(word1, word2)
+    assertEquals(expected, actual)
 }

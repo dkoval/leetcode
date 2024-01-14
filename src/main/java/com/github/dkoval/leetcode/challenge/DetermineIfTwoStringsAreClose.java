@@ -68,4 +68,44 @@ public interface DetermineIfTwoStringsAreClose {
             return freq;
         }
     }
+
+    class DetermineIfTwoStringsAreCloseRev2 implements DetermineIfTwoStringsAreClose {
+
+        @Override
+        public boolean closeStrings(String word1, String word2) {
+            int n1 = word1.length();
+            int n2 = word2.length();
+
+            if (n1 != n2) {
+                return false;
+            }
+
+            Set<Character> seen1 = new HashSet<>();
+            Set<Character> seen2 = new HashSet<>();
+            int[][] counts = new int[2][26];
+            for (int i = 0; i < n1; i++) {
+                counts[0][word1.charAt(i) - 'a']++;
+                seen1.add(word1.charAt(i));
+
+                counts[1][word2.charAt(i) - 'a']++;
+                seen2.add(word2.charAt(i));
+            }
+
+            // Operation 1 allows you to freely reorder the string.
+            if (!seen1.equals(seen2)) {
+                return false;
+            }
+
+            // Operation 2 allows you to freely reassign the letters' frequencies.
+            Arrays.sort(counts[0]);
+            Arrays.sort(counts[1]);
+
+            for (int i = 0; i < 26; i++) {
+                if (counts[0][i] != counts[1][i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
 }
