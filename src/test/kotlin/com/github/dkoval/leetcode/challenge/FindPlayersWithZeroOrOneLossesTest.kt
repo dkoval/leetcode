@@ -77,9 +77,8 @@ internal class FindPlayersWithZeroOrOneLossesTest {
             FindPlayersWithZeroOrOneLossesRev2().test(matches, expected)
         }
     }
-
-    private fun FindPlayersWithZeroOrOneLosses.test(matches: Array<IntArray>, expected: List<List<Int>>) {
-        val actual = findWinners(matches)
-        assertEquals(expected, actual)
-    }
+}
+private fun FindPlayersWithZeroOrOneLosses.test(matches: Array<IntArray>, expected: List<List<Int>>) {
+    val actual = findWinners(matches)
+    assertEquals(expected, actual)
 }
