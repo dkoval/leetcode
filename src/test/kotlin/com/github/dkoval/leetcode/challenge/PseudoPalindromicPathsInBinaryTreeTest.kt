@@ -59,9 +59,9 @@ internal class PseudoPalindromicPathsInBinaryTreeTest {
             PseudoPalindromicPathsInBinaryTreeRev1().test(root, expected)
         }
     }
+}
 
-    private fun PseudoPalindromicPathsInBinaryTree.test(root: TreeNode, expected: Int) {
-        val actual = pseudoPalindromicPaths(root)
-        assertEquals(expected, actual)
-    }
+private fun PseudoPalindromicPathsInBinaryTree.test(root: TreeNode, expected: Int) {
+    val actual = pseudoPalindromicPaths(root)
+    assertEquals(expected, actual)
 }

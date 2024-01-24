@@ -28,35 +28,40 @@ public interface PseudoPalindromicPathsInBinaryTree {
             return dfs(root, new int[10]);
         }
 
-        private int dfs(TreeNode root, int[] digits) {
+        private int dfs(TreeNode root, int[] counts) {
             if (root == null) {
                 return 0;
             }
 
-            digits[root.val]++;
-            int count = 0;
+            counts[root.val]++;
+            int ans = 0;
 
-            if (root.left == null && root.right == null && isPseudoPalindromic(digits)) {
-                count++;
+            if (root.left == null && root.right == null) {
+                if (isPseudoPalindromic(counts)) {
+                    ans++;
+                }
             } else {
-                count += dfs(root.left, digits);
-                count += dfs(root.right, digits);
+                ans += dfs(root.left, counts);
+                ans += dfs(root.right, counts);
             }
 
             // backtrack
-            digits[root.val]--;
-            return count;
+            counts[root.val]--;
+            return ans;
         }
 
-        private boolean isPseudoPalindromic(int[] digits) {
+        private boolean isPseudoPalindromic(int[] counts) {
             // count digits having odd frequency
-            int odd = 0;
+            int odds = 0;
             for (int i = 1; i <= 9; i++) {
-                if (digits[i] % 2 != 0) {
-                    odd++;
+                if (counts[i] % 2 != 0) {
+                    odds++;
+                    if (odds > 1) {
+                        return false;
+                    }
                 }
             }
-            return odd <= 1;
+            return true;
         }
     }
 }
