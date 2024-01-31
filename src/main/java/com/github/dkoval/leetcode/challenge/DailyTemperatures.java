@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * <a href="https://leetcode.com/problems/daily-temperatures/">Daily Temperatures</a>
@@ -15,32 +16,39 @@ import java.util.Stack;
  *  <li>30 <= temperatures[i] <= 100</li>
  * </ul>
  */
-public class DailyTemperatures {
+public interface DailyTemperatures {
 
-    private static class IndexedValue {
-        final int index;
-        final int value;
-
-        IndexedValue(int index, int value) {
-            this.index = index;
-            this.value = value;
-        }
-    }
+    int[] dailyTemperatures(int[] temperatures);
 
     // O(N) time | O(N) space
-    public int[] dailyTemperatures(int[] temperatures) {
-        int n = temperatures.length;
-        int[] ans = new int[n];
+    class DailyTemperaturesRev1 implements DailyTemperatures {
 
-        Stack<IndexedValue> stack = new Stack<>();
-        stack.push(new IndexedValue(0, temperatures[0]));
-        for (int i = 1; i < n; i++) {
-            while (!stack.isEmpty() && temperatures[i] > stack.peek().value) {
-                IndexedValue prev = stack.pop();
-                ans[prev.index] = i - prev.index;
+        @Override
+        public int[] dailyTemperatures(int[] temperatures) {
+            int n = temperatures.length;
+
+            int[] ans = new int[n];
+            Deque<IndexedValue> stack = new ArrayDeque<>();
+            stack.push(new IndexedValue(0, temperatures[0]));
+            for (int i = 1; i < n; i++) {
+                // pop all previous temperatures that are < current temperatures[i]
+                while (!stack.isEmpty() && temperatures[i] > stack.peek().value) {
+                    IndexedValue prev = stack.pop();
+                    ans[prev.index] = i - prev.index;
+                }
+                stack.push(new IndexedValue(i, temperatures[i]));
             }
-            stack.push(new IndexedValue(i, temperatures[i]));
+            return ans;
         }
-        return ans;
+
+        private static class IndexedValue {
+            final int index;
+            final int value;
+
+            IndexedValue(int index, int value) {
+                this.index = index;
+                this.value = value;
+            }
+        }
     }
 }
