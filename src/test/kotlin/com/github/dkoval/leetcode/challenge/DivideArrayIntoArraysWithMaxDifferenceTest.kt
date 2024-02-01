@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.DivideArrayIntoArraysWithMaxDifference.DivideArrayIntoArraysWithMaxDifferenceRev1
+import com.github.dkoval.leetcode.challenge.DivideArrayIntoArraysWithMaxDifference.DivideArrayIntoArraysWithMaxDifferenceRev2
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -48,6 +49,20 @@ internal class DivideArrayIntoArraysWithMaxDifferenceTest {
             expected: Array<IntArray>
         ) {
             DivideArrayIntoArraysWithMaxDifferenceRev1().test(nums, k, expected)
+        }
+    }
+
+    @Nested
+    inner class DivideArrayIntoArraysWithMaxDifferenceRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return a 2D array containing all the arrays if it is impossible to satisfy the conditions`(
+            nums: IntArray,
+            k: Int,
+            expected: Array<IntArray>
+        ) {
+            DivideArrayIntoArraysWithMaxDifferenceRev2().test(nums, k, expected)
         }
     }
 }

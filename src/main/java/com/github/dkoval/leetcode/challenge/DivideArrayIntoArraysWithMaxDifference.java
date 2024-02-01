@@ -31,11 +31,8 @@ public interface DivideArrayIntoArraysWithMaxDifference {
 
         @Override
         public int[][] divideArray(int[] nums, int k) {
+            // n is a multiple of 3
             int n = nums.length;
-
-            if (n % 3 != 0) {
-                return new int[0][0];
-            }
 
             Arrays.sort(nums);
 
@@ -51,6 +48,28 @@ public interface DivideArrayIntoArraysWithMaxDifference {
                     }
                     ans[g][i - g * 3] = nums[i];
                 }
+            }
+            return ans;
+        }
+    }
+
+    class DivideArrayIntoArraysWithMaxDifferenceRev2 implements DivideArrayIntoArraysWithMaxDifference {
+
+        @Override
+        public int[][] divideArray(int[] nums, int k) {
+            // n is a multiple of 3
+            int n = nums.length;
+
+            Arrays.sort(nums);
+
+            // Greedy
+            int chunk = 0;
+            int[][] ans = new int[n / 3][3];
+            for (int i = 0; i < n; i += 3) {
+                if (nums[i + 2] - nums[i] > k) {
+                    return new int[0][0];
+                }
+                ans[chunk++] = Arrays.copyOfRange(nums, i, i + 3);
             }
             return ans;
         }
