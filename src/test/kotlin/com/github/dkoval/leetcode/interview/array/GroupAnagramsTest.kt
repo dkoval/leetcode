@@ -56,9 +56,9 @@ internal class GroupAnagramsTest {
             GroupAnagramsJava().test(strs, expected)
         }
     }
+}
 
-    private fun GroupAnagrams.test(strs: Array<String>, expected: List<Set<String>>) {
-        val actual = groupAnagrams(strs).map { it.toSet() }
-        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
-    }
+private fun GroupAnagrams.test(strs: Array<String>, expected: List<Set<String>>) {
+    val actual = groupAnagrams(strs).map { it.toSet() }
+    assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
 }
