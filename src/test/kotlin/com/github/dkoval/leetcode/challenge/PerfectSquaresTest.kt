@@ -41,9 +41,9 @@ internal class PerfectSquaresTest {
             PerfectSquaresDPBottomUp().test(n, expected)
         }
     }
+}
 
-    private fun PerfectSquares.test(n: Int, expected: Int) {
-        val actual = numSquares(n)
-        assertEquals(expected, actual)
-    }
+private fun PerfectSquares.test(n: Int, expected: Int) {
+    val actual = numSquares(n)
+    assertEquals(expected, actual)
 }
