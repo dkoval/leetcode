@@ -45,9 +45,9 @@ internal class LargestDivisibleSubsetTest {
             LargestDivisibleSubsetKnowledgeCenter.test(nums, expected)
         }
     }
+}
 
-    private fun LargestDivisibleSubset.test(nums: IntArray, expected: List<Int>) {
-        val actual = largestDivisibleSubset(nums)
-        assertEquals(expected, actual)
-    }
+private fun LargestDivisibleSubset.test(nums: IntArray, expected: List<Int>) {
+    val actual = largestDivisibleSubset(nums)
+    assertEquals(expected, actual)
 }
