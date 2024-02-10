@@ -1,36 +1,50 @@
 package com.github.dkoval.leetcode.challenge;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/march-leetcoding-challenge-2021/591/week-4-march-22nd-march-28th/3686/">Palindromic Substrings</a>
+ * <a href="https://leetcode.com/problems/palindromic-substrings/">Palindromic Substrings</a>
  * <p>
- * Given a string, your task is to count how many palindromic substrings in this string.
+ * Given a string s, return the number of palindromic substrings in it.
  * <p>
- * The substrings with different start indexes or end indexes are counted as different substrings even they consist of same characters.
+ * A string is a palindrome when it reads the same backward as forward.
+ * <p>
+ * A substring is a contiguous sequence of characters within the string.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= s.length <= 1000</li>
+ *  <li>s consists of lowercase English letters</li>
+ * </ul>
  */
-public class PalindromicSubstrings {
+public interface PalindromicSubstrings {
+
+    int countSubstrings(String s);
 
     // O(N^2) time | O(1) space
-    public int countSubstrings(String s) {
-        int count = 0;
-        for (int mid = 0; mid < s.length(); mid++) {
-            // odd-length palindrome: b a b
-            // .........................^
-            count += expandOut(s, mid, mid);
+    class PalindromicSubstringsRev1 implements PalindromicSubstrings {
 
-            // even-length palindrome: a a
-            // .........................^
-            count += expandOut(s, mid - 1, mid);
-        }
-        return count;
-    }
+        @Override
+        public int countSubstrings(String s) {
+            int count = 0;
+            for (int i = 0; i < s.length(); i++) {
+                // odd-length palindrome: b a b
+                // .........................^ center
+                count += expandFromCenter(s, i, i);
 
-    private int expandOut(String s, int left, int right) {
-        int count = 0;
-        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
-            left--;
-            right++;
-            count++;
+                // even-length palindrome: a a
+                // .........................^ center
+                count += expandFromCenter(s, i - 1, i);
+            }
+            return count;
         }
-        return count;
+
+        private int expandFromCenter(String s, int left, int right) {
+            int count = 0;
+            while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+                left--;
+                right++;
+                count++;
+            }
+            return count;
+        }
     }
 }
