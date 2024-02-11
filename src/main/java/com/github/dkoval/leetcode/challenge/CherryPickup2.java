@@ -19,49 +19,54 @@ package com.github.dkoval.leetcode.challenge;
  *  <li>Both robots should reach the bottom row in grid.</li>
  * </ul>
  */
-public class CherryPickup2 {
+public interface CherryPickup2 {
 
-    public int cherryPickup(int[][] grid) {
-        // DP top-down
-        int numRows = grid.length;
-        int numCols = grid[0].length;
-        // the maximum number of cherries that both robots can take starting on the i-th row, and column j and k of Robot 1 and 2 respectively
-        Integer[][][] memo = new Integer[numRows][numCols][numCols];
-        return getCherries(grid, 0, 0, numCols - 1, memo);
-    }
+    int cherryPickup(int[][] grid);
 
     // O(R * C^2) time | O(R * N^2) space
     // R - number of rows, C - number of columns in the grid
-    private int getCherries(int[][] grid, int row, int col1, int col2, Integer[][][] memo) {
-        int numRows = grid.length;
-        int numCols = grid[0].length;
-        if (row == numRows) {
-            return 0;
+    class CherryPickup2DPTopDown implements CherryPickup2 {
+
+        public int cherryPickup(int[][] grid) {
+            int numRows = grid.length;
+            int numCols = grid[0].length;
+
+            // DP top-down
+            // dp[row][col1][col2] the maximum number of cherries two bots can collect when
+            // both start on the `row` row, whereas bot 1 is on `col1` and bot 2 is on column `col2`
+            return calc(grid, 0, 0, numCols - 1, new Integer[numRows][numCols][numCols]);
         }
 
-        if (memo[row][col1][col2] != null) {
-            return memo[row][col1][col2];
-        }
+        private int calc(int[][] grid, int row, int col1, int col2, Integer[][][] dp) {
+            int numRows = grid.length;
+            int numCols = grid[0].length;
 
-        // the number cherries two robots collect at their positions in the current row
-        int numCherries = (col1 == col2) ? grid[row][col1] : grid[row][col1] + grid[row][col2];
-
-        // the maximum number of cherries two robots can collect in the next row
-        int best = 0;
-        // simulate all possible simultaneous moves of two rows to the next row
-        for (int dy1 = -1; dy1 <= 1; dy1++) {
-            int nextCol1 = col1 + dy1;
-            if (nextCol1 < 0 || nextCol1 >= numCols) {
-                continue;
+            // base case #1: nothing to do
+            if (row == numRows) {
+                return 0;
             }
-            for (int dy2 = -1; dy2 <= 1; dy2++) {
-                int nextCol2 = col2 + dy2;
-                if (nextCol2 < 0 || nextCol2 >= numCols) {
-                    continue;
+
+            // base case #2: either bot 1 or bot 2 is out of bounds
+            if (Math.min(col1, col2) < 0 || Math.max(col1, col2) == numCols) {
+                return Integer.MIN_VALUE;
+            }
+
+            // already solved?
+            if (dp[row][col1][col2] != null) {
+                return dp[row][col1][col2];
+            }
+
+            // the number cherries two robots collect at their positions in the current row
+            int total = (col1 == col2) ? grid[row][col1] : grid[row][col1] + grid[row][col2];
+
+            // simulate all possible 9 combinations of moves that 2 bots can make
+            int best = Integer.MIN_VALUE;
+            for (int dc1 = -1; dc1 <= 1; dc1++) {
+                for (int dc2 = -1; dc2 <= 1; dc2++) {
+                    best = Math.max(best, total + calc(grid, row + 1, col1 + dc1, col2 + dc2, dp));
                 }
-                best = Math.max(best, getCherries(grid, row + 1, nextCol1, nextCol2, memo));
             }
+            return dp[row][col1][col2] = best;
         }
-        return memo[row][col1][col2] = numCherries + best;
     }
 }
