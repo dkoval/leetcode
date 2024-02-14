@@ -55,4 +55,27 @@ public interface RearrangeArrayElementsBySign {
             return nums;
         }
     }
+
+    // O(N) time | O(N) space
+    class RearrangeArrayElementsBySignRev2 implements RearrangeArrayElementsBySign {
+
+        @Override
+        public int[] rearrangeArray(int[] nums) {
+            int n = nums.length;
+
+            int[] ans = new int[n];
+            int positiveIndex = 0;
+            int negativeIndex = 1;
+            for (int x : nums) {
+                if (x > 0) {
+                    ans[positiveIndex] = x;
+                    positiveIndex += 2;
+                } else {
+                    ans[negativeIndex] = x;
+                    negativeIndex += 2;
+                }
+            }
+            return ans;
+        }
+    }
 }

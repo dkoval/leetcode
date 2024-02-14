@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.RearrangeArrayElementsBySign.RearrangeArrayElementsBySignRev1
+import com.github.dkoval.leetcode.challenge.RearrangeArrayElementsBySign.RearrangeArrayElementsBySignRev2
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -36,6 +37,19 @@ internal class RearrangeArrayElementsBySignTest {
             expected: IntArray
         ) {
             RearrangeArrayElementsBySignRev1().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class RearrangeArrayElementsBySignRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the modified array after rearranging the elements to satisfy the conditions`(
+            nums: IntArray,
+            expected: IntArray
+        ) {
+            RearrangeArrayElementsBySignRev2().test(nums, expected)
         }
     }
 }
