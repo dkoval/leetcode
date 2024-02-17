@@ -25,36 +25,46 @@ import java.util.PriorityQueue;
  *  <li>0 <= ladders <= heights.length</li>
  * </ul>
  */
-public class FurthestBuildingYouCanReach {
+public interface FurthestBuildingYouCanReach {
+
+    int furthestBuilding(int[] heights, int bricks, int ladders);
 
     // O(N * logL) time | O(L) space
-    public int furthestBuilding(int[] heights, int bricks, int ladders) {
-        int n = heights.length;
-        // Hint #2: You'll have to do a set of jumps, and choose for each one whether to do it using a ladder or bricks.
-        // It's always optimal to use ladders in the largest jumps.
-        PriorityQueue<Integer> minHeap = new PriorityQueue<>(); // stores L largest jumps
-        int bricksRemaining = bricks;
-        for (int i = 0; i < n - 1; i++) {
-            if (heights[i] >= heights[i + 1]) {
-                continue;
-            }
-            int height = heights[i + 1] - heights[i];
-            if (minHeap.size() < ladders) {
-                // At first, try to use ladders until there are none available
-                minHeap.offer(height);
-            } else {
-                // Optimize: save a ladder for a larger jump and use bricks, if possible
-                int bricksNeeded = height;
-                if (!minHeap.isEmpty() && minHeap.peek() < height) {
-                    bricksNeeded = minHeap.poll();
-                    minHeap.offer(height);
+    class FurthestBuildingYouCanReachRev1 implements FurthestBuildingYouCanReach {
+
+        @Override
+        public int furthestBuilding(int[] heights, int bricks, int ladders) {
+            int n = heights.length;
+
+            // It's always optimal to use ladders in the largest jumps.
+            // Min heap stores L largest jumps.
+            PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+            int bricksRemaining = bricks;
+            for (int i = 0; i < n - 1; i++) {
+                if (heights[i] >= heights[i + 1]) {
+                    continue;
                 }
-                bricksRemaining -= bricksNeeded;
-                if (bricksRemaining < 0) {
-                    return i;
+
+                int jump = heights[i + 1] - heights[i];
+                if (minHeap.size() < ladders) {
+                    // At first, try to use ladders until there are none available
+                    minHeap.offer(jump);
+                } else {
+                    // Optimize: save a ladder for a larger jump and use bricks, if possible
+                    int bricksNeeded = jump;
+                    if (!minHeap.isEmpty() && minHeap.peek() < jump) {
+                        bricksNeeded = minHeap.poll();
+                        minHeap.offer(jump);
+                    }
+
+                    if (bricksNeeded > bricksRemaining) {
+                        return i;
+                    }
+
+                    bricksRemaining -= bricksNeeded;
                 }
             }
+            return n - 1;
         }
-        return n - 1;
     }
 }

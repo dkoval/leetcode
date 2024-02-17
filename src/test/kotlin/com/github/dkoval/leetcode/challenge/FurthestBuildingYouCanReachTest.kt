@@ -1,15 +1,20 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.FurthestBuildingYouCanReach.FurthestBuildingYouCanReachRev1
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
 
 internal class FurthestBuildingYouCanReachTest {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(4, 2, 7, 6, 9, 14, 12),
                 5,
@@ -31,15 +36,23 @@ internal class FurthestBuildingYouCanReachTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should return the furthest building index (0-indexed) you can reach if you use the given ladders and bricks optimally`(
-        heights: IntArray,
-        bricks: Int,
-        ladders: Int,
-        expected: Int
-    ) {
-        val actual = FurthestBuildingYouCanReach().furthestBuilding(heights, bricks, ladders)
-        assertEquals(expected, actual)
+    @Nested
+    inner class FurthestBuildingYouCanReachRev1Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the furthest building index (0-indexed) you can reach if you use the given ladders and bricks optimally`(
+            heights: IntArray,
+            bricks: Int,
+            ladders: Int,
+            expected: Int
+        ) {
+            FurthestBuildingYouCanReachRev1().test(heights, bricks, ladders, expected)
+        }
     }
+}
+
+private fun FurthestBuildingYouCanReach.test(heights: IntArray, bricks: Int, ladders: Int, expected: Int) {
+    val actual = furthestBuilding(heights, bricks, ladders)
+    assertEquals(expected, actual)
 }
