@@ -1,6 +1,8 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.Comparator;
 import java.util.PriorityQueue;
+import java.util.Queue;
 
 /**
  * <a href="https://leetcode.com/problems/furthest-building-you-can-reach/">Furthest Building You Can Reach</a>
@@ -62,6 +64,39 @@ public interface FurthestBuildingYouCanReach {
                     }
 
                     bricksRemaining -= bricksNeeded;
+                }
+            }
+            return n - 1;
+        }
+    }
+
+    class FurthestBuildingYouCanReachRev2 implements FurthestBuildingYouCanReach {
+
+        @Override
+        public int furthestBuilding(int[] heights, int bricks, int ladders) {
+            int n = heights.length;
+
+            // max heap records largest jumps made with bricks
+            Queue<Integer> maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
+            for (int i = 0; i < n - 1; i++) {
+                if (heights[i] >= heights[i + 1]) {
+                    continue;
+                }
+
+                int jump = heights[i + 1] - heights[i];
+
+                // at first, try to use as many bricks as possible
+                bricks -= jump;
+                maxHeap.offer(jump);
+
+                // not enough bricks?
+                if (bricks < 0) {
+                    // use a ladder, if available, to replace the largest jump made with bricks
+                    if (ladders == 0) {
+                        return i;
+                    }
+                    ladders--;
+                    bricks += maxHeap.poll();
                 }
             }
             return n - 1;

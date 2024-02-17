@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.FurthestBuildingYouCanReach.FurthestBuildingYouCanReachRev1
+import com.github.dkoval.leetcode.challenge.FurthestBuildingYouCanReach.FurthestBuildingYouCanReachRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -48,6 +49,21 @@ internal class FurthestBuildingYouCanReachTest {
             expected: Int
         ) {
             FurthestBuildingYouCanReachRev1().test(heights, bricks, ladders, expected)
+        }
+    }
+
+    @Nested
+    inner class FurthestBuildingYouCanReachRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the furthest building index (0-indexed) you can reach if you use the given ladders and bricks optimally`(
+            heights: IntArray,
+            bricks: Int,
+            ladders: Int,
+            expected: Int
+        ) {
+            FurthestBuildingYouCanReachRev2().test(heights, bricks, ladders, expected)
         }
     }
 }
