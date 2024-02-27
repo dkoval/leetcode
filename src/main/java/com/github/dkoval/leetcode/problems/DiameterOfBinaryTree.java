@@ -11,7 +11,7 @@ import com.github.dkoval.leetcode.TreeNode;
  * <p>
  * Constraints:
  * <ul>
- *  <li>The number of nodes in the tree is in the range [1, 104]</li>
+ *  <li>The number of nodes in the tree is in the range [1, 10^4]</li>
  *  <li>-100 <= Node.val <= 100</li>
  * </ul>
  */
@@ -19,7 +19,7 @@ public interface DiameterOfBinaryTree {
 
     int diameterOfBinaryTree(TreeNode root);
 
-    class DiameterOfBinaryTreeRecursive implements DiameterOfBinaryTree {
+    class DiameterOfBinaryTreeRecursiveBruteForce implements DiameterOfBinaryTree {
 
         @Override
         public int diameterOfBinaryTree(TreeNode root) {
@@ -42,7 +42,8 @@ public interface DiameterOfBinaryTree {
         }
     }
 
-    class DiameterOfBinaryTreeRecursiveOptimized implements DiameterOfBinaryTree {
+    // O(N) time | O(N) space
+    class DiameterOfBinaryTreeRecursiveOptimizedRev1 implements DiameterOfBinaryTree {
 
         @Override
         public int diameterOfBinaryTree(TreeNode root) {
@@ -78,6 +79,37 @@ public interface DiameterOfBinaryTree {
                 this.diameter = diameter;
                 this.height = height;
             }
+        }
+    }
+
+    // O(N) time | O(N) space
+    class DiameterOfBinaryTreeRecursiveOptimizedRev2 implements DiameterOfBinaryTree {
+
+        public int diameterOfBinaryTree(TreeNode root) {
+            int[] ans = {0};
+            traverse(root, ans);
+            return ans[0];
+        }
+
+        // returns the height of the tree in terms of edges;
+        // in other words, height(node) is the longest path that starts at this node
+        private int traverse(TreeNode root, int[] ans) {
+            if (root == null) {
+                return -1;
+            }
+
+            int leftHeight = traverse(root.left, ans);
+            int rightHeight = traverse(root.right, ans);
+
+            // diameter going through this node:
+            // D = H_LEFT + H_RIGHT + 2
+            // ROOT
+            // /  \
+            // L   R
+            ans[0] = Math.max(ans[0], leftHeight + rightHeight + 2); // + 2 edges to the root
+
+            // return the height of this tree
+            return Math.max(leftHeight, rightHeight) + 1; // +1 edge to the root
         }
     }
 }

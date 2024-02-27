@@ -1,8 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
 import com.github.dkoval.leetcode.TreeNode
-import com.github.dkoval.leetcode.problems.DiameterOfBinaryTree.DiameterOfBinaryTreeRecursive
-import com.github.dkoval.leetcode.problems.DiameterOfBinaryTree.DiameterOfBinaryTreeRecursiveOptimized
+import com.github.dkoval.leetcode.problems.DiameterOfBinaryTree.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -47,27 +46,37 @@ internal class DiameterOfBinaryTreeTest {
     }
 
     @Nested
-    inner class DiameterOfBinaryTreeRecursiveTest {
+    inner class DiameterOfBinaryTreeRecursiveBruteForceTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the length of the diameter of the tree`(root: TreeNode, expected: Int) {
-            DiameterOfBinaryTreeRecursive().test(root, expected)
+            DiameterOfBinaryTreeRecursiveBruteForce().test(root, expected)
         }
     }
 
     @Nested
-    inner class DiameterOfBinaryTreeRecursiveOptimizedTest {
+    inner class DiameterOfBinaryTreeRecursiveOptimizedRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the length of the diameter of the tree`(root: TreeNode, expected: Int) {
-            DiameterOfBinaryTreeRecursiveOptimized().test(root, expected)
+            DiameterOfBinaryTreeRecursiveOptimizedRev1().test(root, expected)
         }
     }
 
-    private fun DiameterOfBinaryTree.test(root: TreeNode, expected: Int) {
-        val actual = diameterOfBinaryTree(root)
-        assertEquals(expected, actual)
+    @Nested
+    inner class DiameterOfBinaryTreeRecursiveOptimizedRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the length of the diameter of the tree`(root: TreeNode, expected: Int) {
+            DiameterOfBinaryTreeRecursiveOptimizedRev2().test(root, expected)
+        }
     }
+}
+
+private fun DiameterOfBinaryTree.test(root: TreeNode, expected: Int) {
+    val actual = diameterOfBinaryTree(root)
+    assertEquals(expected, actual)
 }
