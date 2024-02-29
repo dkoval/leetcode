@@ -32,7 +32,8 @@ internal class EvenOddTreeTest {
                             right = TreeNode(2)
                         }
                     }
-                }
+                },
+                true
             ),
             Arguments.of(
                 TreeNode(5).apply {
@@ -43,7 +44,8 @@ internal class EvenOddTreeTest {
                     right = TreeNode(2).apply {
                         left = TreeNode(7)
                     }
-                }
+                },
+                false
             ),
             Arguments.of(
                 TreeNode(5).apply {
@@ -54,7 +56,8 @@ internal class EvenOddTreeTest {
                     right = TreeNode(1).apply {
                         left = TreeNode(7)
                     }
-                }
+                },
+                false
             )
         )
     }
