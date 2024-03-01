@@ -1,8 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
 import com.github.dkoval.leetcode.TreeNode
-import com.github.dkoval.leetcode.problems.FindBottomLeftTreeValue.FindBottomLeftTreeValueRev1
-import com.github.dkoval.leetcode.problems.FindBottomLeftTreeValue.FindBottomLeftTreeValueRev2
+import com.github.dkoval.leetcode.problems.FindBottomLeftTreeValue.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -62,6 +61,16 @@ internal class FindBottomLeftTreeValueTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the leftmost value in the last row of the tree`(root: TreeNode, expected: Int) {
             FindBottomLeftTreeValueRev2().test(root, expected)
+        }
+    }
+
+    @Nested
+    inner class FindBottomLeftTreeValueRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the leftmost value in the last row of the tree`(root: TreeNode, expected: Int) {
+            FindBottomLeftTreeValueRev3().test(root, expected)
         }
     }
 }

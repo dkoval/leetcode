@@ -75,4 +75,38 @@ public interface FindBottomLeftTreeValue {
             return leftMost.val;
         }
     }
+
+    class FindBottomLeftTreeValueRev3 implements FindBottomLeftTreeValue {
+
+        @Override
+        public int findBottomLeftValue(TreeNode root) {
+            TreeNodeInfo ans = new TreeNodeInfo(root, 0);
+            traverse(root, 0, ans);
+            return ans.node.val;
+        }
+
+        private void traverse(TreeNode node, int level, TreeNodeInfo ans) {
+            if (node == null) {
+                return;
+            }
+
+            traverse(node.left, level + 1, ans);
+            traverse(node.right, level + 1, ans);
+
+            if (level > ans.level) {
+                ans.node = node;
+                ans.level = level;
+            }
+        }
+
+        private static class TreeNodeInfo {
+            TreeNode node;
+            int level;
+
+            TreeNodeInfo(TreeNode node, int level) {
+                this.node = node;
+                this.level = level;
+            }
+        }
+    }
 }
