@@ -3,9 +3,16 @@ package com.github.dkoval.leetcode.challenge;
 import java.util.Arrays;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/december-leetcoding-challenge/571/week-3-december-15th-december-21st/3567/">Squares of a Sorted Array</a>
+ * <a href="https://leetcode.com/problems/squares-of-a-sorted-array/">Squares of a Sorted Array</a>
  * <p>
  * Given an integer array nums sorted in non-decreasing order, return an array of the squares of each number sorted in non-decreasing order.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= nums.length <= 10^4</li>
+ *  <li>-10^4 <= nums[i] <= 10^4</li>
+ *  <li>nums is sorted in non-decreasing order</li>
+ * </ul>
  */
 public interface SquaresOfSortedArray {
 
@@ -30,19 +37,19 @@ public interface SquaresOfSortedArray {
         @Override
         public int[] sortedSquares(int[] nums) {
             int n = nums.length;
+
             int[] ans = new int[n];
-            int l = 0;
-            int r = n - 1;
             int i = n - 1;
-            while (l <= r) {
-                int x = Math.abs(nums[l]);
-                int y = Math.abs(nums[r]);
-                if (x < y) {
-                    ans[i] = y * y;
-                    r--;
+
+            int left = 0;
+            int right = n - 1;
+            while (left <= right) {
+                if (Math.abs(nums[left]) >= nums[right]) {
+                    ans[i] = nums[left] * nums[left];
+                    left++;
                 } else {
-                    ans[i] = x * x;
-                    l++;
+                    ans[i] = nums[right] * nums[right];
+                    right--;
                 }
                 i--;
             }

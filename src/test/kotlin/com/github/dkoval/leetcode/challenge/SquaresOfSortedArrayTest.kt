@@ -52,9 +52,9 @@ internal class SquaresOfSortedArrayTest {
             SquaresOfSortedArrayUsingTwoPointers().test(nums, expected)
         }
     }
+}
 
-    private fun SquaresOfSortedArray.test(nums: IntArray, expected: IntArray) {
-        val actual = sortedSquares(nums)
-        assertArrayEquals(expected, actual)
-    }
+private fun SquaresOfSortedArray.test(nums: IntArray, expected: IntArray) {
+    val actual = sortedSquares(nums)
+    assertArrayEquals(expected, actual)
 }
