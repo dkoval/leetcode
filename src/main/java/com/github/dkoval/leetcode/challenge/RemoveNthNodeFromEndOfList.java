@@ -17,33 +17,38 @@ import com.github.dkoval.leetcode.ListNode;
  *  <li>1 <= n <= sz.</li>
  * </ul>
  */
-public class RemoveNthNodeFromEndOfList {
+public interface RemoveNthNodeFromEndOfList {
+
+    ListNode removeNthFromEnd(ListNode head, int n);
 
     // O(N) time | O(1) space
-    public ListNode removeNthFromEnd(ListNode head, int n) {
-        // advance `fast` pointer by n steps forward
-        ListNode fast = head;
-        while (n-- > 0) {
-            fast = fast.next;
-        }
+    class RemoveNthNodeFromEndOfListRev1 implements RemoveNthNodeFromEndOfList {
 
-        // now, keep on shifting `slow` and `fast `pointers until `fast` reaches the end of the list;
-        // at the time `fast` reaches the end of the list, `slow` will point at the n-th node from the end of the list
-        ListNode slow = head;
-        ListNode prev = null;
-        while (fast != null) {
-            prev = slow;
-            slow = slow.next;
-            fast = fast.next;
-        }
+        @Override
+        public ListNode removeNthFromEnd(ListNode head, int n) {
+            // advance `fast` pointer by n steps forward
+            ListNode fast = head;
+            while (n-- > 0) {
+                fast = fast.next;
+            }
 
-        // finally, remove n-th node from the end of the list
-        if (prev == null) {
+            // now, keep on shifting `slow` and `fast `pointers until `fast` reaches the end of the list;
+            // at the time `fast` reaches the end of the list, `slow` will point at the n-th node from the end of the list
+            ListNode slow = head;
+            ListNode prev = null;
+            while (fast != null) {
+                prev = slow;
+                slow = slow.next;
+                fast = fast.next;
+            }
+
+            // finally, remove n-th node from the end of the list
+            if (prev != null) {
+                prev.next = slow.next;
+                return head;
+            }
             // corner case: 1st node of the list is to be removed
             return head.next;
-        } else {
-            prev.next = slow.next;
-            return head;
         }
     }
 }
