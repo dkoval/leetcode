@@ -19,26 +19,61 @@ package com.github.dkoval.leetcode.problems;
  *  <li>s only consists of characters 'a', 'b', and 'c'</li>
  * </ul>
  */
-public class MinimumLengthOfStringAfterDeletingSimilarEnds {
+public interface MinimumLengthOfStringAfterDeletingSimilarEnds {
 
-    public int minimumLength(String s) {
-        int left = 0;
-        int right = s.length() - 1;
-        while (left < right && s.charAt(left) == s.charAt(right)) {
-            // remove prefix consisting of equal chars
-            char c = s.charAt(left);
-            left++;
-            while (left < right && s.charAt(left) == c) {
+    int minimumLength(String s);
+
+    // O(N) time | O(1) space
+    class MinimumLengthOfStringAfterDeletingSimilarEndsRev1 implements MinimumLengthOfStringAfterDeletingSimilarEnds {
+
+        @Override
+        public int minimumLength(String s) {
+            int left = 0;
+            int right = s.length() - 1;
+            while (left < right && s.charAt(left) == s.charAt(right)) {
+                // remove prefix consisting of equal chars
+                char c = s.charAt(left);
                 left++;
-            }
+                while (left < right && s.charAt(left) == c) {
+                    left++;
+                }
 
-            // remove suffix consisting of equal chars
-            c = s.charAt(right);
-            right--;
-            while (right > left && s.charAt(right) == c) {
+                // remove suffix consisting of equal chars
+                c = s.charAt(right);
                 right--;
+                while (right > left && s.charAt(right) == c) {
+                    right--;
+                }
             }
+            return (left <= right) ? right - left + 1 : 0;
         }
-        return (left <= right) ? right - left + 1 : 0;
+    }
+
+    // O(N) time | O(1) space
+    class MinimumLengthOfStringAfterDeletingSimilarEndsRev2 implements MinimumLengthOfStringAfterDeletingSimilarEnds {
+
+        @Override
+        public int minimumLength(String s) {
+            int n = s.length();
+
+            int left = 0;
+            int right = n - 1;
+            while (left < right) {
+                if (s.charAt(left) != s.charAt(right)) {
+                    break;
+                }
+
+                left++;
+                while (left < right && s.charAt(left) == s.charAt(left - 1)) {
+                    left++;
+                }
+
+                right--;
+                while (right > left && s.charAt(right) == s.charAt(right + 1)) {
+                    right--;
+                }
+            }
+            return right - left + 1;
+        }
     }
 }
