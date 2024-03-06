@@ -12,15 +12,25 @@ import com.github.dkoval.leetcode.ListNode;
  * is connected to. Note that pos is not passed as a parameter.
  * <p>
  * Return true if there is a cycle in the linked list. Otherwise, return false.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>The number of the nodes in the list is in the range [0, 10^4].</li>
+ *  <li>-10^5 <= Node.val <= 10^5</li>
+ *  <li>pos is -1 or a valid index in the linked-list</li>
+ * </ul>
  */
 public class LinkedListCycle {
 
     public boolean hasCycle(ListNode head) {
-        ListNode slow = head, fast = head;
+        ListNode slow = head;
+        ListNode fast = head;
         while (fast != null && fast.next != null) {
-            slow = slow.next;
             fast = fast.next.next;
-            if (slow == fast) return true;
+            slow = slow.next;
+            if (slow == fast) {
+                return true;
+            }
         }
         return false;
     }
