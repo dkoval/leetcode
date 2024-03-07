@@ -15,21 +15,41 @@ import com.github.dkoval.leetcode.ListNode;
  *  <li>1 <= Node.val <= 100</li>
  * </ul>
  */
-public class MiddleOfLinkedList {
+public interface MiddleOfLinkedList {
 
-    public ListNode middleNode(ListNode head) {
-        ListNode curr = head;
-        int size = 0;
-        while (curr != null) {
-            size++;
-            curr = curr.next;
-        }
+    ListNode middleNode(ListNode head);
 
-        int mid = size / 2;
-        curr = head;
-        while (mid-- > 0) {
-            curr = curr.next;
+    class MiddleOfLinkedListRev1 implements MiddleOfLinkedList {
+
+        @Override
+        public ListNode middleNode(ListNode head) {
+            ListNode curr = head;
+            int size = 0;
+            while (curr != null) {
+                size++;
+                curr = curr.next;
+            }
+
+            int mid = size / 2;
+            curr = head;
+            while (mid-- > 0) {
+                curr = curr.next;
+            }
+            return curr;
         }
-        return curr;
+    }
+
+    class MiddleOfLinkedListRev2 implements MiddleOfLinkedList {
+
+        @Override
+        public ListNode middleNode(ListNode head) {
+            ListNode slow = head;
+            ListNode fast = head;
+            while (fast != null && fast.next != null) {
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+            return slow;
+        }
     }
 }

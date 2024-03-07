@@ -1,17 +1,23 @@
 package com.github.dkoval.leetcode.problems
 
 import com.github.dkoval.leetcode.ListNode
+import com.github.dkoval.leetcode.problems.MiddleOfLinkedList.MiddleOfLinkedListRev1
+import com.github.dkoval.leetcode.problems.MiddleOfLinkedList.MiddleOfLinkedListRev2
 import com.github.dkoval.leetcode.toList
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
 
 internal class MiddleOfLinkedListTest {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 ListNode(1),
                 listOf(1)
@@ -59,10 +65,28 @@ internal class MiddleOfLinkedListTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should return the middle node of the linked list`(head: ListNode, expected: List<Int>) {
-        val actual = MiddleOfLinkedList().middleNode(head)
-        assertEquals(expected, actual.toList())
+    @Nested
+    inner class MiddleOfLinkedListRev1Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the middle node of the linked list`(head: ListNode, expected: List<Int>) {
+            MiddleOfLinkedListRev1().test(head, expected)
+        }
     }
+
+    @Nested
+    inner class MiddleOfLinkedListRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the middle node of the linked list`(head: ListNode, expected: List<Int>) {
+            MiddleOfLinkedListRev2().test(head, expected)
+        }
+    }
+}
+
+private fun MiddleOfLinkedList.test(head: ListNode, expected: List<Int>) {
+    val actual = middleNode(head)
+    assertEquals(expected, actual.toList())
 }
