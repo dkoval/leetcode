@@ -23,7 +23,7 @@ public interface ProductOfArrayExceptSelf {
     int[] productExceptSelf(int[] nums);
 
     // O(N) time | O(N) extra space
-    class ProductOfArrayExceptSelfUsingExtraSpace implements ProductOfArrayExceptSelf {
+    class ProductOfArrayExceptSelfUsingExtraSpaceRev1 implements ProductOfArrayExceptSelf {
 
         @Override
         public int[] productExceptSelf(int[] nums) {
@@ -42,6 +42,30 @@ public interface ProductOfArrayExceptSelf {
             for (int i = 1; i < n - 1; i++) {
                 ans[i] = prefixProduct[i - 1] * suffixProduct[i + 1];
             }
+            return ans;
+        }
+    }
+
+    // O(N) time | O(N) extra space
+    class ProductOfArrayExceptSelfUsingExtraSpaceRev2 implements ProductOfArrayExceptSelf {
+
+        @Override
+        public int[] productExceptSelf(int[] nums) {
+            int n = nums.length;
+
+            int[] prefixProd = new int[n];
+            prefixProd[0] = nums[0];
+            for (int i = 1; i < n; i++) {
+                prefixProd[i] = nums[i] * prefixProd[i - 1];
+            }
+
+            int prod = 1;
+            int[] ans = new int[n];
+            for (int i = n - 1; i > 0; i--) {
+                ans[i] = prod * prefixProd[i - 1];
+                prod *= nums[i];
+            }
+            ans[0] = prod;
             return ans;
         }
     }

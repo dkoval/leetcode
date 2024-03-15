@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.problems
 
-import com.github.dkoval.leetcode.problems.ProductOfArrayExceptSelf.ProductOfArrayExceptSelfUsingExtraSpace
-import com.github.dkoval.leetcode.problems.ProductOfArrayExceptSelf.ProductOfArrayExceptSelfWithoutExtraSpace
+import com.github.dkoval.leetcode.problems.ProductOfArrayExceptSelf.*
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -28,7 +27,7 @@ internal class ProductOfArrayExceptSelfTest {
     }
 
     @Nested
-    inner class ProductOfArrayExceptSelfUsingExtraSpaceTest {
+    inner class ProductOfArrayExceptSelfUsingExtraSpaceRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -36,7 +35,20 @@ internal class ProductOfArrayExceptSelfTest {
             nums: IntArray,
             expected: IntArray
         ) {
-            ProductOfArrayExceptSelfUsingExtraSpace().test(nums, expected)
+            ProductOfArrayExceptSelfUsingExtraSpaceRev1().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class ProductOfArrayExceptSelfUsingExtraSpaceRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return an array answer such that answer(i) is equal to the product of all the elements of nums except nums(i)`(
+            nums: IntArray,
+            expected: IntArray
+        ) {
+            ProductOfArrayExceptSelfUsingExtraSpaceRev2().test(nums, expected)
         }
     }
 
@@ -52,9 +64,9 @@ internal class ProductOfArrayExceptSelfTest {
             ProductOfArrayExceptSelfWithoutExtraSpace().test(nums, expected)
         }
     }
+}
 
-    private fun ProductOfArrayExceptSelf.test(nums: IntArray, expected: IntArray) {
-        val actual = productExceptSelf(nums)
-        assertArrayEquals(expected, actual)
-    }
+private fun ProductOfArrayExceptSelf.test(nums: IntArray, expected: IntArray) {
+    val actual = productExceptSelf(nums)
+    assertArrayEquals(expected, actual)
 }
