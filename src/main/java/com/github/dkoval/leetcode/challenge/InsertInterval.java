@@ -7,8 +7,8 @@ import java.util.List;
  * <a href="https://leetcode.com/problems/insert-interval/">Insert Interval</a>
  * <p>
  * You are given an array of non-overlapping intervals intervals where intervals[i] = [starti, endi] represent
- * the start and the end of the ith interval and intervals is sorted in ascending order by starti.
- * You are also given an interval newInterval = [start, end] that represents the start and end of another interval.
+ * the start and the end of the ith curr and intervals is sorted in ascending order by starti.
+ * You are also given an curr newInterval = [start, end] that represents the start and end of another curr.
  * <p>
  * Insert newInterval into intervals such that intervals is still sorted in ascending order by starti and intervals
  * still does not have any overlapping intervals (merge overlapping intervals if necessary).
@@ -117,6 +117,35 @@ public interface InsertInterval {
                 ans.add(newInterval);
             }
 
+            return ans.toArray(int[][]::new);
+        }
+    }
+
+    // O(N) time | O(1) time
+    class InsertIntervalRev4 implements InsertInterval {
+
+        @Override
+        public int[][] insert(int[][] intervals, int[] newInterval) {
+            int n = intervals.length;
+
+            List<int[]> ans = new ArrayList<>();
+            // denotes the interval to be compared with the current i-th interval
+            int[] last = newInterval;
+            for (int[] curr : intervals) {
+                if (last[0] > curr[1]) {
+                    // case #1: `last` comes AFTER the current one
+                    ans.add(curr);
+                } else if (last[1] < curr[0]) {
+                    // case #2: `last` comes BEFORE the current one
+                    ans.add(last);
+                    last = curr;
+                } else {
+                    // case #3: new curr overlaps with the current one
+                    last = new int[]{Math.min(last[0], curr[0]), Math.max(last[1], curr[1])};
+                }
+            }
+
+            ans.add(last);
             return ans.toArray(int[][]::new);
         }
     }
