@@ -2,14 +2,9 @@ package com.github.dkoval.leetcode.challenge
 
 import kotlin.math.max
 
-/**
- * [Contiguous Array](https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/537/week-4-may-22nd-may-28th/3341/)
- *
- * Given a binary array, find the maximum length of a contiguous subarray with equal number of 0 and 1.
- */
-object ContiguousArray {
+object ContiguousArrayRev1 : ContiguousArray {
 
-    fun findMaxLength(nums: IntArray): Int {
+    override fun findMaxLength(nums: IntArray): Int {
         // stores relative number of 1's and 0's encountered so far while
         var count = 0
         var maxLength = 0
