@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.InsertInterval.InsertIntervalRev1
+import com.github.dkoval.leetcode.challenge.InsertInterval.InsertIntervalRev3
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -137,8 +138,22 @@ internal class InsertIntervalTest {
         }
     }
 
-    private fun InsertInterval.test(intervals: Array<IntArray>, newInterval: IntArray, expected: Array<IntArray>) {
-        val actual = insert(intervals, newInterval)
-        assertArrayEquals(expected, actual)
+    @Nested
+    inner class InsertIntervalRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should insert a new interval into into a set of non-overlapping intervals`(
+            intervals: Array<IntArray>,
+            newInterval: IntArray,
+            expected: Array<IntArray>
+        ) {
+            InsertIntervalRev3().test(intervals, newInterval, expected)
+        }
     }
+}
+
+private fun InsertInterval.test(intervals: Array<IntArray>, newInterval: IntArray, expected: Array<IntArray>) {
+    val actual = insert(intervals, newInterval)
+    assertArrayEquals(expected, actual)
 }

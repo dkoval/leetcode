@@ -66,4 +66,58 @@ public interface InsertInterval {
             return ans.toArray(int[][]::new);
         }
     }
+
+    // O(N) time | O(1) time
+    class InsertIntervalRev3 implements InsertInterval {
+
+        @Override
+        public int[][] insert(int[][] intervals, int[] newInterval) {
+            int n = intervals.length;
+            if (n == 0) {
+                return new int[][]{newInterval};
+            }
+
+            List<int[]> ans = new ArrayList<>();
+            boolean inserted = false;
+            for (int[] currInterval : intervals) {
+                if (newInterval[1] < currInterval[0] || newInterval[0] > currInterval[1]) {
+                    // case #1: no overlap
+                    //
+                    // Does the new interval come BEFORE the current one?
+                    //
+                    // Ignore the case where the new interval comes AFTER the current one as the new interval
+                    // may potentially overlap with the existing intervals from range [i + 1 : n - 1].
+                    // The "Overlap" case is handled separately.
+                    //
+                    // ................, [new interval], [curr Interval], ...
+                    // <-- processed -->                  ^
+                    if (!inserted && newInterval[1] < currInterval[0]) {
+                        ans.add(newInterval);
+                        inserted = true;
+                    }
+                    ans.add(currInterval);
+                } else {
+                    // case #2: overlap
+                    if (!inserted) {
+                        int[] overlap = {
+                                Math.min(currInterval[0], newInterval[0]),
+                                Math.max(currInterval[1], newInterval[1])
+                        };
+                        ans.add(overlap);
+                        inserted = true;
+                    } else {
+                        int[] lastInterval = ans.get(ans.size() - 1);
+                        lastInterval[1] = Math.max(lastInterval[1], currInterval[1]);
+                    }
+                }
+            }
+
+            // corner case: append the new interval
+            if (!inserted) {
+                ans.add(newInterval);
+            }
+
+            return ans.toArray(int[][]::new);
+        }
+    }
 }
