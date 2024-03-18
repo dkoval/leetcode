@@ -72,7 +72,7 @@ internal class MinimumNumberOfArrowsToBurstBalloonsTest {
     }
 
     @Nested
-    inner class MinimumNumberOfArrowsToBurstBalloonsSortByStartPointTest {
+    inner class MinimumNumberOfArrowsToBurstBalloonsSortByStartPointRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -80,7 +80,20 @@ internal class MinimumNumberOfArrowsToBurstBalloonsTest {
             points: Array<IntArray>,
             expected: Int
         ) {
-            MinimumNumberOfArrowsToBurstBalloonsSortByStartPoint().test(points, expected)
+            MinimumNumberOfArrowsToBurstBalloonsSortByStartPointRev1().test(points, expected)
+        }
+    }
+
+    @Nested
+    inner class MinimumNumberOfArrowsToBurstBalloonsSortByStartPointRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum number of arrows that must be shot to burst all balloons`(
+            points: Array<IntArray>,
+            expected: Int
+        ) {
+            MinimumNumberOfArrowsToBurstBalloonsSortByStartPointRev2().test(points, expected)
         }
     }
 

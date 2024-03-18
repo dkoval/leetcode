@@ -49,7 +49,7 @@ public interface MinimumNumberOfArrowsToBurstBalloons {
     }
 
     // O(N * logN) time | O(1) space
-    class MinimumNumberOfArrowsToBurstBalloonsSortByStartPoint implements MinimumNumberOfArrowsToBurstBalloons {
+    class MinimumNumberOfArrowsToBurstBalloonsSortByStartPointRev1 implements MinimumNumberOfArrowsToBurstBalloons {
 
         @Override
         public int findMinArrowShots(int[][] points) {
@@ -65,6 +65,33 @@ public interface MinimumNumberOfArrowsToBurstBalloons {
                 }
             }
             return count;
+        }
+    }
+
+    // O(N * logN) time | O(1) space
+    class MinimumNumberOfArrowsToBurstBalloonsSortByStartPointRev2 implements MinimumNumberOfArrowsToBurstBalloons {
+
+        @Override
+        public int findMinArrowShots(int[][] points) {
+            int n = points.length;
+
+            Arrays.sort(points, Comparator.comparingInt(it -> it[0]));
+
+            int arrows = 1;
+            int[] last = points[0];
+            for (int i = 1; i < n; i++) {
+                // find intersection
+                int start = Math.max(points[i][0], last[0]);
+                int end = Math.min(points[i][1], last[1]);
+                if (start <= end) {
+                    last[0] = start;
+                    last[1] = end;
+                } else {
+                    arrows++;
+                    last = points[i];
+                }
+            }
+            return arrows;
         }
     }
 
