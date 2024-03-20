@@ -7,18 +7,19 @@ class ListNode @JvmOverloads constructor(
     @JvmField var next: ListNode? = null
 ) {
     companion object {
-        fun headOf(vararg xs: Int): ListNode? =
+        fun headOf(vararg xs: Int): ListNode? {
             if (xs.isEmpty()) {
-                null
-            } else {
-                val dummy = ListNode(42)
-                var curr = dummy
-                for (x in xs) {
-                    curr.next = ListNode(x)
-                    curr = curr.next!!
-                }
-                dummy.next
+                return null
             }
+
+            val dummy = ListNode(42)
+            var curr = dummy
+            for (x in xs) {
+                curr.next = ListNode(x)
+                curr = curr.next!!
+            }
+            return dummy.next
+        }
     }
 }
 

@@ -52,6 +52,5 @@ internal class MergeInBetweenLinkedListsTest {
 }
 
 private fun MergeInBetweenLinkedLists.test(list1: ListNode, a: Int, b: Int, list2: ListNode, expected: ListNode) {
-    val actual = mergeInBetween(list1, a, b, list2)
-    assertTrue { expected.equalsTo(actual) }
+    assertTrue { mergeInBetween(list1, a, b, list2).equalsTo(expected) }
 }
