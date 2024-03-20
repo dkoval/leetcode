@@ -3,7 +3,7 @@ package com.github.dkoval.leetcode.challenge
 import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.challenge.RemoveDuplicatesFromSortedList2.RemoveDuplicatesFromSortedList2Rev1
 import com.github.dkoval.leetcode.challenge.RemoveDuplicatesFromSortedList2.RemoveDuplicatesFromSortedList2Rev2
-import com.github.dkoval.leetcode.toList
+import com.github.dkoval.leetcode.dump
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -83,6 +83,6 @@ internal class RemoveDuplicatesFromSortedList2Test {
 
     private fun RemoveDuplicatesFromSortedList2.test(head: ListNode?, expected: List<Int>) {
         val actual = deleteDuplicates(head)
-        assertEquals(expected, actual.toList())
+        assertEquals(expected, actual.dump())
     }
 }

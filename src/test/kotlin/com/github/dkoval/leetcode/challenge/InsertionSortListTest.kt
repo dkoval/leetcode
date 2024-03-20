@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.ListNode
-import com.github.dkoval.leetcode.toList
+import com.github.dkoval.leetcode.dump
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -65,8 +65,8 @@ internal class InsertionSortListTest {
     @ParameterizedTest
     @MethodSource("input")
     fun `should sort a singly linked list using insertion sort and return the sorted list's head`(head: ListNode) {
-        val expected = head.toList().sorted()
+        val expected = head.dump().sorted()
         val actual = InsertionSortList().insertionSortList(head)
-        assertEquals(expected, actual.toList())
+        assertEquals(expected, actual.dump())
     }
 }

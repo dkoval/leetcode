@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
 import com.github.dkoval.leetcode.ListNode
-import com.github.dkoval.leetcode.toList
+import com.github.dkoval.leetcode.dump
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -63,6 +63,6 @@ internal class ReverseNodesInEvenLengthGroupsTest {
     @MethodSource("input")
     fun `should Reverse the nodes in each group with an even length`(head: ListNode, expected: List<Int>) {
         val actual = ReverseNodesInEvenLengthGroups().reverseEvenLengthGroups(head)
-        assertEquals(expected, actual.toList())
+        assertEquals(expected, actual.dump())
     }
 }

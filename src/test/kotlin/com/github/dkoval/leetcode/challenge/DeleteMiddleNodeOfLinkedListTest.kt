@@ -2,7 +2,7 @@ package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.challenge.DeleteMiddleNodeOfLinkedList.DeleteMiddleNodeOfLinkedListRev1
-import com.github.dkoval.leetcode.toList
+import com.github.dkoval.leetcode.dump
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -67,6 +67,6 @@ internal class DeleteMiddleNodeOfLinkedListTest {
 
     private fun DeleteMiddleNodeOfLinkedList.test(head: ListNode, expected: List<Int>) {
         val actual = deleteMiddle(head)
-        assertEquals(expected, actual.toList())
+        assertEquals(expected, actual.dump())
     }
 }

@@ -46,12 +46,12 @@ fun ListNode?.find(value: Int): ListNode? {
     return null
 }
 
-fun ListNode?.toList(): List<Int> {
-    val result = LinkedList<Int>()
+fun ListNode?.dump(): List<Int> {
+    val dump = LinkedList<Int>()
     var curr = this
     while (curr != null) {
-        result.add(curr.`val`)
+        dump.add(curr.`val`)
         curr = curr.next
     }
-    return result
+    return dump
 }

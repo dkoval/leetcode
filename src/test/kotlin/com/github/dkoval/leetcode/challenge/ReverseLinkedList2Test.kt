@@ -2,7 +2,7 @@ package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.challenge.ReverseLinkedList2.*
-import com.github.dkoval.leetcode.toList
+import com.github.dkoval.leetcode.dump
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -96,5 +96,5 @@ class ReverseLinkedList2Test {
 
 private fun ReverseLinkedList2.test(head: ListNode, left: Int, right: Int, expected: List<Int>) {
     val actual = reverseBetween(head, left, right)
-    assertThat(actual.toList()).containsExactlyElementsOf(expected)
+    assertThat(actual.dump()).containsExactlyElementsOf(expected)
 }

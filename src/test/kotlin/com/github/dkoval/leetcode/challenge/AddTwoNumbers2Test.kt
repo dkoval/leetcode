@@ -2,7 +2,7 @@ package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.challenge.AddTwoNumbers2.AddTwoNumbers2Rev1
-import com.github.dkoval.leetcode.toList
+import com.github.dkoval.leetcode.dump
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -71,5 +71,5 @@ internal class AddTwoNumbers2Test {
 
 private fun AddTwoNumbers2.test(l1: ListNode, l2: ListNode, expected: List<Int>) {
     val actual = addTwoNumbers(l1, l2)
-    assertEquals(expected, actual.toList())
+    assertEquals(expected, actual.dump())
 }

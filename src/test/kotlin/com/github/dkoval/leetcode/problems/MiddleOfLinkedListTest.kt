@@ -1,9 +1,9 @@
 package com.github.dkoval.leetcode.problems
 
 import com.github.dkoval.leetcode.ListNode
+import com.github.dkoval.leetcode.dump
 import com.github.dkoval.leetcode.problems.MiddleOfLinkedList.MiddleOfLinkedListRev1
 import com.github.dkoval.leetcode.problems.MiddleOfLinkedList.MiddleOfLinkedListRev2
-import com.github.dkoval.leetcode.toList
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -88,5 +88,5 @@ internal class MiddleOfLinkedListTest {
 
 private fun MiddleOfLinkedList.test(head: ListNode, expected: List<Int>) {
     val actual = middleNode(head)
-    assertEquals(expected, actual.toList())
+    assertEquals(expected, actual.dump())
 }

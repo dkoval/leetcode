@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.ListNode
-import com.github.dkoval.leetcode.toList
+import com.github.dkoval.leetcode.dump
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -59,6 +59,6 @@ internal class PartitionListTest {
     @MethodSource("input")
     fun `should partition list`(head: ListNode, x: Int, expected: List<Int>) {
         val actual = PartitionList().partition(head, x)
-        assertEquals(actual.toList(), expected)
+        assertEquals(actual.dump(), expected)
     }
 }

@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.ListNode
-import com.github.dkoval.leetcode.toList
+import com.github.dkoval.leetcode.dump
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -53,6 +53,6 @@ internal class OddEvenLinkedListTest {
     @MethodSource("input")
     fun `should group all odd nodes together followed by the even nodes`(head: ListNode?, expected: List<Int>) {
         val actual = OddEvenLinkedList.oddEvenList(head)
-        assertEquals(actual.toList(), expected)
+        assertEquals(actual.dump(), expected)
     }
 }

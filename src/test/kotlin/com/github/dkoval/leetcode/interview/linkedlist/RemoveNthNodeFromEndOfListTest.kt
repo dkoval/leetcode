@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.interview.linkedlist
 
 import com.github.dkoval.leetcode.ListNode
-import com.github.dkoval.leetcode.toList
+import com.github.dkoval.leetcode.dump
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -55,6 +55,6 @@ internal class RemoveNthNodeFromEndOfListTest {
         expected: List<Int>
     ) {
         val actual = RemoveNthNodeFromEndOfList.removeNthFromEnd(head, n)
-        assertEquals(expected, actual.toList())
+        assertEquals(expected, actual.dump())
     }
 }

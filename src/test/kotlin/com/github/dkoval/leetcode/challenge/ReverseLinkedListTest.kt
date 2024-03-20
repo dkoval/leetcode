@@ -3,7 +3,7 @@ package com.github.dkoval.leetcode.challenge
 import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.challenge.ReverseLinkedList.ReverseLinkedListIterative
 import com.github.dkoval.leetcode.challenge.ReverseLinkedList.ReverseLinkedListRecursive
-import com.github.dkoval.leetcode.toList
+import com.github.dkoval.leetcode.dump
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -65,6 +65,6 @@ internal class ReverseLinkedListTest {
 
     private fun ReverseLinkedList.test(head: ListNode?, expected: List<Int>) {
         val actual = reverseList(head)
-        assertEquals(expected, actual.toList())
+        assertEquals(expected, actual.dump())
     }
 }

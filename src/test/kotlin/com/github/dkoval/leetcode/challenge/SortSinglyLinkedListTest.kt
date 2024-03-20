@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.ListNode
-import com.github.dkoval.leetcode.toList
+import com.github.dkoval.leetcode.dump
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -45,6 +45,6 @@ internal class SortSinglyLinkedListTest {
     @MethodSource("input")
     fun `should sort singly linked list in ascending order`(head: ListNode?, expected: List<Int>) {
         val actual = SortSinglyLinkedList().sortList(head)
-        assertEquals(expected, actual.toList())
+        assertEquals(expected, actual.dump())
     }
 }

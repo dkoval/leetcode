@@ -1,10 +1,10 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.ListNode
+import com.github.dkoval.leetcode.dump
 import com.github.dkoval.leetcode.problems.ReorderList
 import com.github.dkoval.leetcode.problems.ReorderList.ReorderListByCalculatingNumberPairsToConnect
 import com.github.dkoval.leetcode.problems.ReorderList.ReorderListUsingFastAndSlowPointers
-import com.github.dkoval.leetcode.toList
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -84,6 +84,6 @@ internal class ReorderListTest {
 
     private fun ReorderList.test(head: ListNode?, expected: List<Int>) {
         reorderList(head)
-        assertEquals(expected, head.toList())
+        assertEquals(expected, head.dump())
     }
 }

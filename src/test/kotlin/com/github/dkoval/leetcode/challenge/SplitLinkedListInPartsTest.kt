@@ -3,7 +3,7 @@ package com.github.dkoval.leetcode.challenge
 import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.challenge.SplitLinkedListInParts.SplitLinkedListInPartsRev1
 import com.github.dkoval.leetcode.challenge.SplitLinkedListInParts.SplitLinkedListInPartsRev2
-import com.github.dkoval.leetcode.toList
+import com.github.dkoval.leetcode.dump
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -95,5 +95,5 @@ internal class SplitLinkedListInPartsTest {
 
 private fun SplitLinkedListInParts.test(head: ListNode?, k: Int, expected: Iterable<List<Int>>) {
     val actual = splitListToParts(head, k)
-    assertThat(actual.map { part -> part.toList() }).containsExactlyElementsOf(expected)
+    assertThat(actual.map { part -> part.dump() }).containsExactlyElementsOf(expected)
 }

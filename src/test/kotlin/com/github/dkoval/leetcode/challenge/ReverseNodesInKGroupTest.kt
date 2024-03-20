@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.ListNode
-import com.github.dkoval.leetcode.toList
+import com.github.dkoval.leetcode.dump
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -67,6 +67,6 @@ internal class ReverseNodesInKGroupTest {
         expected: List<Int>
     ) {
         val actual = ReverseNodesInKGroup().reverseKGroup(head, k)
-        assertEquals(expected, actual.toList())
+        assertEquals(expected, actual.dump())
     }
 }

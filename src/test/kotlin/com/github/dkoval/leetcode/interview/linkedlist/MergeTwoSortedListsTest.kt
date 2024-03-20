@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.interview.linkedlist
 
 import com.github.dkoval.leetcode.ListNode
-import com.github.dkoval.leetcode.toList
+import com.github.dkoval.leetcode.dump
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -62,6 +62,6 @@ internal class MergeTwoSortedListsTest {
 
     private fun MergeTwoSortedLists.test(l1: ListNode?, l2: ListNode?, expected: List<Int>) {
         val actual = mergeTwoLists(l1, l2)
-        assertEquals(expected, actual.toList())
+        assertEquals(expected, actual.dump())
     }
 }
