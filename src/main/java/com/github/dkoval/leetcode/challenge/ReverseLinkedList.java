@@ -3,7 +3,7 @@ package com.github.dkoval.leetcode.challenge;
 import com.github.dkoval.leetcode.ListNode;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/september-leetcoding-challenge-2021/636/week-1-september-1st-september-7th/3966/">Reverse Linked List</a>
+ * <a href="https://leetcode.com/problems/reverse-linked-list/">Reverse Linked List</a>
  * <p>
  * Given the head of a singly linked list, reverse the list, and return the reversed list.
  * <p>
@@ -39,18 +39,23 @@ public interface ReverseLinkedList {
     class ReverseLinkedListRecursive implements ReverseLinkedList {
 
         @Override
-        public ListNode reverseList(ListNode head) {
-            if (head == null || head.next == null) {
-                return head;
+        public ListNode reverseList(ListNode node) {
+            if (node == null || node.next == null) {
+                return node;
             }
 
-            // n[1] -> ... -> n[k] <- n[k + 1] <- ... <- n[N]
-            //                        ^ already reversed ^
-            // we want n[k + 1] to point to n[k], where n[k] is the current `head`
-            ListNode headOfReversedList = reverseList(head.next);
-            head.next.next = head; // make n[k + 1] point to n[k]
-            head.next = null; // to avoid cycles
-            return headOfReversedList; // head of the reversed list, i.e. n[N]
+            // n[1] <- ...      <- n[k] -> n[k + 1] -> ... -> n[N]
+            //                     ^ curr  ^ next
+            // |-- already reversed --|    |-- to be reversed --|
+            //                          -> remove, i.e. curr.next = null
+            //                          <- create, i.e. next.next = curr
+            // we want n[k + 1] to point to n[k], where n[k] is the current node
+            ListNode next = node.next;
+            node.next = null; // to avoid cycles
+
+            ListNode head = reverseList(next);
+            next.next = node; // make n[k + 1] point to n[k]
+            return head; // head of the reversed list, i.e. n[N]
         }
     }
 }

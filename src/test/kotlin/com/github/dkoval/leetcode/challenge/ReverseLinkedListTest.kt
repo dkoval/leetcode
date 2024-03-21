@@ -3,8 +3,8 @@ package com.github.dkoval.leetcode.challenge
 import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.challenge.ReverseLinkedList.ReverseLinkedListIterative
 import com.github.dkoval.leetcode.challenge.ReverseLinkedList.ReverseLinkedListRecursive
-import com.github.dkoval.leetcode.dump
-import org.junit.jupiter.api.Assertions.assertEquals
+import com.github.dkoval.leetcode.equalsTo
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
@@ -19,26 +19,16 @@ internal class ReverseLinkedListTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode(1).apply {
-                    next = ListNode(2).apply {
-                        next = ListNode(3).apply {
-                            next = ListNode(4).apply {
-                                next = ListNode(5)
-                            }
-                        }
-                    }
-                },
-                listOf(5, 4, 3, 2, 1)
+                ListNode.headOf(1, 2, 3, 4, 5),
+                ListNode.headOf(5, 4, 3, 2, 1)
             ),
             Arguments.of(
-                ListNode(1).apply {
-                    next = ListNode(2)
-                },
-                listOf(2, 1)
+                ListNode.headOf(1, 2),
+                ListNode.headOf(2, 1)
             ),
             Arguments.of(
                 null,
-                listOf<Int>()
+                null
             )
         )
     }
@@ -48,7 +38,7 @@ internal class ReverseLinkedListTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
-        fun `should reverse a singly linked list`(head: ListNode?, expected: List<Int>) {
+        fun `should reverse a singly linked list`(head: ListNode?, expected: ListNode?) {
             ReverseLinkedListIterative().test(head, expected)
         }
     }
@@ -58,13 +48,12 @@ internal class ReverseLinkedListTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
-        fun `should reverse a singly linked list`(head: ListNode?, expected: List<Int>) {
+        fun `should reverse a singly linked list`(head: ListNode?, expected: ListNode?) {
             ReverseLinkedListRecursive().test(head, expected)
         }
     }
+}
 
-    private fun ReverseLinkedList.test(head: ListNode?, expected: List<Int>) {
-        val actual = reverseList(head)
-        assertEquals(expected, actual.dump())
-    }
+private fun ReverseLinkedList.test(head: ListNode?, expected: ListNode?) {
+    assertTrue { reverseList(head).equalsTo(expected) }
 }
