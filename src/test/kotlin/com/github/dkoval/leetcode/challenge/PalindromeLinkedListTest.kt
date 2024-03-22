@@ -3,6 +3,8 @@ package com.github.dkoval.leetcode.challenge
 import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.challenge.PalindromeLinkedList.PalindromeLinkedListFollowUp
 import com.github.dkoval.leetcode.challenge.PalindromeLinkedList.PalindromeLinkedListUsingExtraSpace
+import com.github.dkoval.leetcode.interview.linkedlist.PalindromeLinkedListBreakAndReverseSecondHalf
+import com.github.dkoval.leetcode.interview.linkedlist.PalindromeLinkedListUsingExtraSpaceKt
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -18,31 +20,15 @@ class PalindromeLinkedListTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode(1).apply {
-                    next = ListNode(2).apply {
-                        next = ListNode(2).apply {
-                            next = ListNode(1)
-                        }
-                    }
-                },
+                ListNode.headOf(1, 2, 2, 1),
                 true
             ),
             Arguments.of(
-                ListNode(1).apply {
-                    next = ListNode(2)
-                },
+                ListNode.headOf(1, 2),
                 false
             ),
             Arguments.of(
-                ListNode(1).apply {
-                    next = ListNode(2).apply {
-                        next = ListNode(3).apply {
-                            next = ListNode(2).apply {
-                                next = ListNode(1)
-                            }
-                        }
-                    }
-                },
+                ListNode.headOf(1, 2, 3, 2, 1),
                 true
             )
         )
@@ -59,18 +45,37 @@ class PalindromeLinkedListTest {
     }
 
     @Nested
+    inner class PalindromeLinkedListUsingExtraSpaceKtTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should check if a singly linked list is a palindrome`(head: ListNode, expected: Boolean) {
+            PalindromeLinkedListUsingExtraSpaceKt.test(head, expected)
+        }
+    }
+
+    @Nested
     inner class PalindromeLinkedListFollowUpTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should check if a singly linked list is a palindrome`(head: ListNode, expected: Boolean) {
-            PalindromeLinkedListFollowUp()
-                .test(head, expected)
+            PalindromeLinkedListFollowUp().test(head, expected)
         }
     }
 
-    private fun PalindromeLinkedList.test(head: ListNode, expected: Boolean) {
-        val actual = isPalindrome(head)
-        assertEquals(expected, actual)
+    @Nested
+    inner class PalindromeLinkedListBreakAndReverseSecondHalfTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should check if a singly linked list is a palindrome`(head: ListNode, expected: Boolean) {
+            PalindromeLinkedListBreakAndReverseSecondHalf.test(head, expected)
+        }
     }
+}
+
+private fun PalindromeLinkedList.test(head: ListNode, expected: Boolean) {
+    val actual = isPalindrome(head)
+    assertEquals(expected, actual)
 }

@@ -1,22 +1,10 @@
 package com.github.dkoval.leetcode.interview.linkedlist
 
 import com.github.dkoval.leetcode.ListNode
+import com.github.dkoval.leetcode.challenge.PalindromeLinkedList
 
-/**
- * [Palindrome Linked List](https://leetcode.com/explore/featured/card/top-interview-questions-easy/93/linked-list/772/)
- *
- * Given a singly linked list, determine if it is a palindrome.
- *
- * Follow up:
- * Could you do it in O(n) time and O(1) space?
- */
-interface PalindromeLinkedList {
-
-    fun isPalindrome(head: ListNode?): Boolean
-}
-
-// Time complexity: O(N), space complexity; O(N)
-object PalindromeLinkedListUsingExtraSpace : PalindromeLinkedList {
+// Time complexity: O(N), space complexity: O(N)
+object PalindromeLinkedListUsingExtraSpaceKt : PalindromeLinkedList {
 
     override fun isPalindrome(head: ListNode?): Boolean {
         var curr1 = head
