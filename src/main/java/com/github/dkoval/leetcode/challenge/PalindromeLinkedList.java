@@ -47,21 +47,33 @@ public interface PalindromeLinkedList {
 
         @Override
         public boolean isPalindrome(ListNode head) {
-            // find the middle node of the list
+            // find middle element
             ListNode curr1 = head;
             ListNode curr2 = head;
+            ListNode prev2 = null;
             while (curr1 != null && curr1.next != null) {
                 curr1 = curr1.next.next;
+                prev2 = curr2;
                 curr2 = curr2.next;
             }
 
-            // split the list into 2 halves, then reverse 2nd half
+            // split list into 2 halves
+            //
+            // case #1: length(head) is even, both halves contain equal number of elements
+            // case #2: length(head) is odd, 2nd half contains an extra (middle) element
+            //
+            // 1 -> 2 -> 2 -> 1      => 1 -> 2 | 2 -> 1
+            // 1 -> 2 -> 3 -> 2 -> 1 => 1 -> 2 | 3 -> 2 -> 1
+            if (prev2 != null) {
+                prev2.next = null;
+            }
+
+            // reverse 2nd half
             curr1 = head;
             curr2 = reverse(curr2);
 
-            // Note that 2nd half contains as many elements as the 1st half if the length of the list is even,
-            // or is exactly one element less if the length of the list is odd
-            while (curr2 != null) {
+            // main check
+            while (curr1 != null) {
                 if (curr1.val != curr2.val) {
                     return false;
                 }
