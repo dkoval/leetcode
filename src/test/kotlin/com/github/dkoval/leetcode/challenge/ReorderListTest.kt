@@ -1,11 +1,10 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.ListNode
-import com.github.dkoval.leetcode.dump
+import com.github.dkoval.leetcode.equalsTo
 import com.github.dkoval.leetcode.problems.ReorderList
-import com.github.dkoval.leetcode.problems.ReorderList.ReorderListByCalculatingNumberPairsToConnect
-import com.github.dkoval.leetcode.problems.ReorderList.ReorderListUsingFastAndSlowPointers
-import org.junit.jupiter.api.Assertions.assertEquals
+import com.github.dkoval.leetcode.problems.ReorderList.*
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
@@ -20,55 +19,45 @@ internal class ReorderListTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode(1),
-                listOf(1)
+                ListNode.headOf(1),
+                ListNode.headOf(1)
             ),
             Arguments.of(
-                ListNode(1).apply {
-                    next = ListNode(2)
-                },
-                listOf(1, 2)
+                ListNode.headOf(1, 2),
+                ListNode.headOf(1, 2)
             ),
             Arguments.of(
-                ListNode(1).apply {
-                    next = ListNode(2).apply {
-                        next = ListNode(3)
-                    }
-                },
-                listOf(1, 3, 2)
+                ListNode.headOf(1, 2, 3),
+                ListNode.headOf(1, 3, 2)
             ),
             Arguments.of(
-                ListNode(1).apply {
-                    next = ListNode(2).apply {
-                        next = ListNode(3).apply {
-                            next = ListNode(4)
-                        }
-                    }
-                },
-                listOf(1, 4, 2, 3)
+                ListNode.headOf(1, 2, 3, 4),
+                ListNode.headOf(1, 4, 2, 3)
             ),
             Arguments.of(
-                ListNode(1).apply {
-                    next = ListNode(2).apply {
-                        next = ListNode(3).apply {
-                            next = ListNode(4).apply {
-                                next = ListNode(5)
-                            }
-                        }
-                    }
-                },
-                listOf(1, 5, 2, 4, 3)
+                ListNode.headOf(1, 2, 3, 4, 5),
+                ListNode.headOf(1, 5, 2, 4, 3)
             )
         )
     }
 
     @Nested
-    inner class ReorderListUsingFastAndSlowPointersTest {
+    inner class ReorderListUsingSplitAndReverseRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
-        fun `should reorder list`(head: ListNode?, expected: List<Int>) {
-            ReorderListUsingFastAndSlowPointers().test(head, expected)
+        fun `should reorder list`(head: ListNode?, expected: ListNode?) {
+            ReorderListUsingSplitAndReverseRev1().test(head, expected)
+        }
+    }
+
+    @Nested
+    inner class ReorderListUsingSplitAndReverseRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should reorder list`(head: ListNode?, expected: ListNode?) {
+            ReorderListUsingSplitAndReverseRev2().test(head, expected)
         }
     }
 
@@ -77,13 +66,16 @@ internal class ReorderListTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
-        fun `should reorder list`(head: ListNode?, expected: List<Int>) {
+        fun `should reorder list`(head: ListNode?, expected: ListNode?) {
             ReorderListByCalculatingNumberPairsToConnect().test(head, expected)
         }
     }
 
-    private fun ReorderList.test(head: ListNode?, expected: List<Int>) {
+}
+
+private fun ReorderList.test(head: ListNode?, expected: ListNode?) {
+    assertTrue {
         reorderList(head)
-        assertEquals(expected, head.dump())
+        head.equalsTo(expected)
     }
 }

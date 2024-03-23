@@ -24,51 +24,123 @@ public interface ReorderList {
     void reorderList(ListNode head);
 
     // O(N) time | O(1) space
-    class ReorderListUsingFastAndSlowPointers implements ReorderList {
+    class ReorderListUsingSplitAndReverseRev1 implements ReorderList {
 
         @Override
         public void reorderList(ListNode head) {
-            // split the list into 2 halves
-            ListNode first = head;
-            ListNode second = head;
-            while (second != null && second.next != null) {
-                first = first.next;
-                second = second.next.next;
+            // corner case: empty or a single element list
+            if (head == null || head.next == null) {
+                return;
             }
 
-            second = first.next;
-            first.next = null;
+            // find middle element
+            ListNode curr1 = head;
+            ListNode curr2 = head;
+            while (curr2 != null && curr2.next != null) {
+                curr1 = curr1.next;
+                curr2 = curr2.next.next;
+            }
+
+            // split the list into 2 halves
+            curr2 = curr1.next;
+            curr1.next = null;
 
             // reverse the 2nd half
-            ListNode prev = null;
-            while (second != null) {
-                ListNode next = second.next;
-                second.next = prev;
-                prev = second;
-                second = next;
-            }
+            curr1 = head;
+            curr2 = reverse(curr2);
 
             // reorder the list
-            first = head;
-            second = prev;
             ListNode last = null;
-            while (first != null && second != null) {
-                ListNode next1 = first.next;
-                ListNode next2 = second.next;
+            while (curr1 != null && curr2 != null) {
+                ListNode next1 = curr1.next;
 
-                first.next = second;
+                curr1.next = curr2;
                 if (last != null) {
-                    last.next = first;
+                    last.next = curr1;
                 }
+                last = curr2;
 
-                last = second;
-                first = next1;
-                second = next2;
+                curr1 = next1;
+                curr2 = curr2.next;
             }
 
-            if (last != null && first != null) {
-                last.next = first;
+            if (last != null && curr1 != null) {
+                last.next = curr1;
             }
+        }
+
+        private ListNode reverse(ListNode head) {
+            ListNode curr = head;
+            ListNode prev = null;
+            while (curr != null) {
+                ListNode next = curr.next;
+                curr.next = prev;
+                prev = curr;
+                curr = next;
+            }
+            return prev;
+        }
+    }
+
+    class ReorderListUsingSplitAndReverseRev2 implements ReorderList {
+
+        @Override
+        public void reorderList(ListNode head) {
+            // corner case: empty or a single element list
+            if (head == null || head.next == null) {
+                return;
+            }
+
+            // find middle element
+            ListNode curr1 = head;
+            ListNode curr2 = head;
+            ListNode prev2 = null;
+            while (curr1 != null && curr1.next != null) {
+                curr1 = curr1.next.next;
+                prev2 = curr2;
+                curr2 = curr2.next;
+            }
+
+            // split list into 2 halves
+            if (prev2 != null) {
+                prev2.next = null;
+            }
+
+            curr1 = head;
+            curr2 = reverse(curr2);
+
+            // case #1: length(head) is even, both halves contain equal number of elements.
+            // case #2: length(head) is odd, length(half1) = length(half2) - 1.
+            ListNode last = null;
+            while (curr1 != null) {
+                ListNode next1 = curr1.next;
+
+                curr1.next = curr2;
+                if (last != null) {
+                    last.next = curr1;
+                }
+                last = curr2;
+
+                curr1 = next1;
+                curr2 = curr2.next;
+            }
+
+            // corner case: length(head) is odd, process the last element of 2nd half
+            if (curr2 != null && curr2.next != null) {
+                last.next = curr2.next;
+            }
+        }
+
+        private ListNode reverse(ListNode head) {
+            ListNode curr = head;
+            ListNode prev = null;
+            while (curr != null) {
+                ListNode next = curr.next;
+                curr.next = prev;
+                prev = curr;
+                curr = next;
+            }
+            return prev;
         }
     }
 
