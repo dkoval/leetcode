@@ -1,6 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.problems.FindDuplicateNumberUsingFloydAlgorithm
+import com.github.dkoval.leetcode.challenge.FindDuplicateNumber.FindDuplicateNumberUsingFloydAlgorithm
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
