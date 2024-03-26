@@ -82,7 +82,7 @@ internal class FirstMissingPositiveTest {
     }
 
     @Nested
-    inner class FirstMissingPositiveInLinearTimeAndConstantSpaceTest {
+    inner class FirstMissingPositiveInLinearTimeAndConstantSpaceRev1Test {
 
         @Nested
         inner class FirstMissingPositiveBruteForceJavaTest {
@@ -90,7 +90,21 @@ internal class FirstMissingPositiveTest {
             @ParameterizedTest
             @ArgumentsSource(InputArgumentsProvider::class)
             fun `should find the smallest missing positive integer`(nums: IntArray, expected: Int) {
-                FirstMissingPositiveInLinearTimeAndConstantSpace.test(nums, expected)
+                FirstMissingPositiveInLinearTimeAndConstantSpaceRev1.test(nums, expected)
+            }
+        }
+    }
+
+    @Nested
+    inner class FirstMissingPositiveInLinearTimeAndConstantSpaceRev2Test {
+
+        @Nested
+        inner class FirstMissingPositiveBruteForceJavaTest {
+
+            @ParameterizedTest
+            @ArgumentsSource(InputArgumentsProvider::class)
+            fun `should find the smallest missing positive integer`(nums: IntArray, expected: Int) {
+                FirstMissingPositiveInLinearTimeAndConstantSpaceRev2.test(nums, expected)
             }
         }
     }
@@ -109,8 +123,9 @@ internal class FirstMissingPositiveTest {
         }
     }
 
-    private fun FirstMissingPositive.test(nums: IntArray, expected: Int) {
-        val actual = firstMissingPositive(nums)
-        assertEquals(expected, actual)
-    }
+}
+
+private fun FirstMissingPositive.test(nums: IntArray, expected: Int) {
+    val actual = firstMissingPositive(nums)
+    assertEquals(expected, actual)
 }
