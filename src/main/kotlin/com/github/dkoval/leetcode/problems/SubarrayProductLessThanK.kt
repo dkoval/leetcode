@@ -1,11 +1,16 @@
 package com.github.dkoval.leetcode.problems
 
 /**
- * [Subarray Product Less Than K](https://leetcode.com/explore/featured/card/september-leetcoding-challenge/557/week-4-september-22nd-september-28th/3475/)
+ * [Subarray Product Less Than K](https://leetcode.com/problems/subarray-product-less-than-k)
  *
- * Your are given an array of positive integers nums.
+ * Given an array of integers `nums` and an integer `k`, return the number of contiguous subarrays where the product of
+ * all the elements in the subarray is strictly less than `k`.
  *
- * Count and print the number of (contiguous) subarrays where the product of all the elements in the subarray is less than k.
+ * Constraints:
+ *
+ * ```1 <= nums.length <= 3 * 10^4```
+ * ```1 <= nums[i] <= 1000```
+ * ```0 <= k <= 10^6```
  */
 interface SubarrayProductLessThanK {
 

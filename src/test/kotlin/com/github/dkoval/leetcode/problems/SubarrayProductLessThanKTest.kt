@@ -96,9 +96,9 @@ internal class SubarrayProductLessThanKTest {
             SubarrayProductLessThanKUsingWindowJava().test(nums, k, expected)
         }
     }
+}
 
-    private fun SubarrayProductLessThanK.test(nums: IntArray, k: Int, expected: Int) {
-        val actual = numSubarrayProductLessThanK(nums, k)
-        assertEquals(expected, actual)
-    }
+private fun SubarrayProductLessThanK.test(nums: IntArray, k: Int, expected: Int) {
+    val actual = numSubarrayProductLessThanK(nums, k)
+    assertEquals(expected, actual)
 }
