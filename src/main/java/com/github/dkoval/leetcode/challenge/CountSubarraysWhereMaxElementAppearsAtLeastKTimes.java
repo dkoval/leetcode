@@ -55,7 +55,7 @@ public interface CountSubarraysWhereMaxElementAppearsAtLeastKTimes {
                     continue;
                 }
 
-                // shrink the window from the left to make the smallest possible containing exactly k max elements
+                // shrink the window from the left to make it the smallest possible containing exactly k max elements
                 while (nums[left] != max || count > k) {
                     if (nums[left] == max) {
                         count--;
