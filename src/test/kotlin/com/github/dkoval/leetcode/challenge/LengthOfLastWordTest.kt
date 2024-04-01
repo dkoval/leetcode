@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.LengthOfLastWord.LengthOfLastWordRev3
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -34,27 +35,37 @@ internal class LengthOfLastWordTest {
     }
 
     @Nested
-    inner class LengthOfLastWordSolution1Test {
+    inner class LengthOfLastWordRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the length of last word`(s: String, expected: Int) {
-            LengthOfLastWordSolution1.test(s, expected)
+            LengthOfLastWordRev1.test(s, expected)
         }
     }
 
     @Nested
-    inner class LengthOfLastWordSolution2Test {
+    inner class LengthOfLastWordRev2Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the length of last word`(s: String, expected: Int) {
-            LengthOfLastWordSolution2.test(s, expected)
+            LengthOfLastWordRev2.test(s, expected)
         }
     }
 
-    private fun LengthOfLastWord.test(s: String, expected: Int) {
-        val actual = lengthOfLastWord(s)
-        assertEquals(expected, actual)
+    @Nested
+    inner class LengthOfLastWordRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the length of last word`(s: String, expected: Int) {
+            LengthOfLastWordRev3().test(s, expected)
+        }
     }
+}
+
+private fun LengthOfLastWord.test(s: String, expected: Int) {
+    val actual = lengthOfLastWord(s)
+    assertEquals(expected, actual)
 }
