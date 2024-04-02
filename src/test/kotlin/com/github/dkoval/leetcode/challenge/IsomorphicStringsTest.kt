@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.IsomorphicStrings.IsomorphicStringsRev1
-import com.github.dkoval.leetcode.challenge.IsomorphicStrings.IsomorphicStringsRev2
+import com.github.dkoval.leetcode.challenge.IsomorphicStrings.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -24,7 +23,7 @@ internal class IsomorphicStringsTest {
             Arguments.of(
                 "foo",
                 "bar",
-                false
+                false // o -> a at first, therefore o -> r is not allowed
             ),
             Arguments.of(
                 "paper",
@@ -32,9 +31,14 @@ internal class IsomorphicStringsTest {
                 true
             ),
             Arguments.of(
+                "bar",
+                "foo",
+                false // a -> o, r -> o
+            ),
+            Arguments.of(
                 "paler",
                 "title",
-                false // both p and l map to t
+                false // p -> t, l -> t
             ),
             Arguments.of(
                 "abcd",
@@ -61,6 +65,17 @@ internal class IsomorphicStringsTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should determine of two strings are isomorphic`(s: String, t: String, expected: Boolean) {
             IsomorphicStringsRev2().test(s, t, expected)
+        }
+    }
+
+    @Nested
+    inner class IsomorphicStringsMessyTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should determine of two strings are isomorphic`(s: String, t: String, expected: Boolean) {
+            IsomorphicStringsMessy()
+                .test(s, t, expected)
         }
     }
 }

@@ -53,6 +53,38 @@ public interface IsomorphicStrings {
         @Override
         public boolean isIsomorphic(String s, String t) {
             // t.length == s.length
+            int n = s.length();
+
+            // s' char -> t's char
+            Map<Character, Character> mapping = new HashMap<>();
+            // t's char -> s' char
+            Map<Character, Character> reverseMapping = new HashMap<>();
+            for (int i = 0; i < n; i++) {
+                char c1 = s.charAt(i);
+                char c2 = t.charAt(i);
+
+                if (!mapping.containsKey(c1)) {
+                    mapping.put(c1, c2);
+                }
+
+                if (!reverseMapping.containsKey(c2)) {
+                    reverseMapping.put(c2, c1);
+                }
+
+                if (mapping.get(c1) != c2 || reverseMapping.get(c2) != c1) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    // O(N) time | O(N) space
+    class IsomorphicStringsMessy implements IsomorphicStrings {
+
+        @Override
+        public boolean isIsomorphic(String s, String t) {
+            // t.length == s.length
             int n = t.length();
 
             Map<Character, Integer> counts1 = new HashMap<>();
