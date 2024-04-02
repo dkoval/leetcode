@@ -32,6 +32,11 @@ internal class IsomorphicStringsTest {
                 true
             ),
             Arguments.of(
+                "paler",
+                "title",
+                false // both p and l map to t
+            ),
+            Arguments.of(
                 "abcd",
                 "abae",
                 false
