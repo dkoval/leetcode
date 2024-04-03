@@ -1,15 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-/**
- * [Word Search](https://leetcode.com/explore/challenge/card/july-leetcoding-challenge/546/week-3-july-15th-july-21st/3397/)
- *
- * Given a 2D board and a word, find if the word exists in the grid.
- *
- * The word can be constructed from letters of sequentially adjacent cell,
- * where "adjacent" cells are those horizontally or vertically neighboring.
- * The same letter cell may not be used more than once.
- */
-object WordSearch {
+object WordSearchRev1 : WordSearch {
 
     private val directions = arrayOf(
         intArrayOf(-1, 0),
@@ -19,7 +10,7 @@ object WordSearch {
     )
 
     // Resource: https://www.youtube.com/watch?v=X0kX7PMOYi0&t=2s
-    fun exist(board: Array<CharArray>, word: String): Boolean {
+    override fun exist(board: Array<CharArray>, word: String): Boolean {
         for (row in board.indices) {
             for (col in board[0].indices) {
                 if (board[row][col] == word[0] && existDFS(board, row, col, word, 0)) {
