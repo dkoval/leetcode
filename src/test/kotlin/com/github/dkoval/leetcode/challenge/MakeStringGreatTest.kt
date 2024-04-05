@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MakeStringGreat.MakeStringGreatRev1
+import com.github.dkoval.leetcode.challenge.MakeStringGreat.MakeStringGreatRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -32,8 +33,18 @@ internal class MakeStringGreatTest {
         }
     }
 
-    private fun MakeStringGreat.test(s: String, expected: String) {
-        val actual = makeGood(s)
-        assertEquals(expected, actual)
+    @Nested
+    inner class MakeStringGreatRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should make the string great`(s: String, expected: String) {
+            MakeStringGreatRev2().test(s, expected)
+        }
     }
+}
+
+private fun MakeStringGreat.test(s: String, expected: String) {
+    val actual = makeGood(s)
+    assertEquals(expected, actual)
 }

@@ -58,4 +58,32 @@ public interface MakeStringGreat {
             return String.valueOf(ans);
         }
     }
+
+    // O(N) time | O(N) space
+    class MakeStringGreatRev2 implements MakeStringGreat {
+
+        @Override
+        public String makeGood(String s) {
+            int n = s.length();
+
+            Deque<Character> q = new ArrayDeque<>();
+            for (int i = 0; i < n; i++) {
+                if (!q.isEmpty() && (badAdj(q.peekLast(), s.charAt(i)) || badAdj(s.charAt(i), q.peekLast()))) {
+                    q.pollLast();
+                } else {
+                    q.offerLast(s.charAt(i));
+                }
+            }
+
+            StringBuilder sb = new StringBuilder(q.size());
+            while (!q.isEmpty()) {
+                sb.append(q.pollFirst());
+            }
+            return sb.toString();
+        }
+
+        private boolean badAdj(char c1, char c2) {
+            return c2 >= 'A' && (c2 - 'A' + 'a') == c1;
+        }
+    }
 }
