@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.MinimumRemoveToMakeValidParentheses.MinimumRemoveToMakeValidParenthesesUsingCounter
-import com.github.dkoval.leetcode.challenge.MinimumRemoveToMakeValidParentheses.MinimumRemoveToMakeValidParenthesesUsingStack
+import com.github.dkoval.leetcode.challenge.MinimumRemoveToMakeValidParentheses.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -49,7 +48,7 @@ internal class MinimumRemoveToMakeValidParenthesesTest {
     }
 
     @Nested
-    inner class MinimumRemoveToMakeValidParenthesesUsingStackTest {
+    inner class MinimumRemoveToMakeValidParenthesesUsingStackRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -57,12 +56,25 @@ internal class MinimumRemoveToMakeValidParenthesesTest {
             s: String,
             expected: String
         ) {
-            MinimumRemoveToMakeValidParenthesesUsingStack().test(s, expected)
+            MinimumRemoveToMakeValidParenthesesUsingStackRev1().test(s, expected)
         }
     }
 
-    private fun MinimumRemoveToMakeValidParentheses.test(s: String, expected: String) {
-        val actual = minRemoveToMakeValid(s)
-        assertEquals(expected, actual)
+    @Nested
+    inner class MinimumRemoveToMakeValidParenthesesUsingStackRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should remove the minimum number of parentheses so that the resulting parentheses string is valid`(
+            s: String,
+            expected: String
+        ) {
+            MinimumRemoveToMakeValidParenthesesUsingStackRev2().test(s, expected)
+        }
     }
+}
+
+private fun MinimumRemoveToMakeValidParentheses.test(s: String, expected: String) {
+    val actual = minRemoveToMakeValid(s)
+    assertEquals(expected, actual)
 }

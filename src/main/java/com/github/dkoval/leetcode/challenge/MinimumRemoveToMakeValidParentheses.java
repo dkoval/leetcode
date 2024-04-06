@@ -1,12 +1,10 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/february-leetcoding-challenge-2021/586/week-3-february-15th-february-21st/3645/">Minimum Remove to Make Valid Parentheses</a>
- *
+ * <a href="https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/">Minimum Remove to Make Valid Parentheses</a>
+ * <p>
  * Given a string s of '(' , ')' and lowercase English characters.
  * <p>
  * Your task is to remove the minimum number of parentheses ( '(' or ')', in any positions ) so that the resulting
@@ -17,6 +15,11 @@ import java.util.Stack;
  *  <li>It is the empty string, contains only lowercase characters, or</li>
  *  <li>It can be written as AB (A concatenated with B), where A and B are valid strings, or</li>
  *  <li>It can be written as (A), where A is a valid string.</li>
+ * </ul>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= s.length <= 10^5</li>
+ *  <li>s[i] is either'(' , ')', or lowercase English letter</li>
  * </ul>
  */
 public interface MinimumRemoveToMakeValidParentheses {
@@ -69,7 +72,7 @@ public interface MinimumRemoveToMakeValidParentheses {
         }
     }
 
-    class MinimumRemoveToMakeValidParenthesesUsingStack implements MinimumRemoveToMakeValidParentheses {
+    class MinimumRemoveToMakeValidParenthesesUsingStackRev1 implements MinimumRemoveToMakeValidParentheses {
 
         @Override
         public String minRemoveToMakeValid(String s) {
@@ -115,6 +118,45 @@ public interface MinimumRemoveToMakeValidParentheses {
                 if (!badIndices.contains(i)) {
                     sb.append(s.charAt(i));
                 }
+            }
+            return sb.toString();
+        }
+    }
+
+    class MinimumRemoveToMakeValidParenthesesUsingStackRev2 implements MinimumRemoveToMakeValidParentheses {
+
+        @Override
+        public String minRemoveToMakeValid(String s) {
+            int n = s.length();
+
+            // stores indices of '(' parentheses
+            Deque<Integer> stack = new ArrayDeque<>();
+            // stores indices of ')' parentheses initially
+            Set<Integer> badIndices = new HashSet<>();
+            for (int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+                if (c == '(') {
+                    stack.push(i);
+                } else if (c == ')') {
+                    if (!stack.isEmpty()) {
+                        stack.pop();
+                    } else {
+                        badIndices.add(i);
+                    }
+                }
+            }
+
+            // add indices of '(' parentheses not having a matching ')'
+            badIndices.addAll(stack);
+
+            // construct the result
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+                if ((c == '(' || c == ')') && badIndices.contains(i)) {
+                    continue;
+                }
+                sb.append(c);
             }
             return sb.toString();
         }
