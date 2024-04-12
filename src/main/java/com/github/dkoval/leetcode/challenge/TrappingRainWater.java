@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/july-leetcoding-challenge-2021/612/week-5-july-29th-july-31st/3833/">Trapping Rain Water</a>
+ * <a href="https://leetcode.com/problems/trapping-rain-water/">Trapping Rain Water</a>
  * <p>
  * Given n non-negative integers representing an elevation map where the width of each bar is 1,
  * compute how much water it can trap after raining.
