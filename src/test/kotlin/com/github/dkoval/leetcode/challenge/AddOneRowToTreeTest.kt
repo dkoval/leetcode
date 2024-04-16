@@ -2,6 +2,7 @@ package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.TreeNode
 import com.github.dkoval.leetcode.challenge.AddOneRowToTree.AddOneRowToTreeRev1
+import com.github.dkoval.leetcode.challenge.AddOneRowToTree.AddOneRowToTreeRev2
 import com.github.dkoval.leetcode.equalsTo
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
@@ -113,13 +114,28 @@ internal class AddOneRowToTreeTest {
         }
     }
 
-    private fun AddOneRowToTree.test(
-        root: TreeNode,
-        `val`: Int,
-        depth: Int,
-        expected: TreeNode
-    ) {
-        val actual = addOneRow(root, `val`, depth)
-        assertTrue(actual.equalsTo(expected))
+    @Nested
+    inner class AddOneRowToTreeRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should add a row of nodes with value val at the given depth`(
+            root: TreeNode,
+            `val`: Int,
+            depth: Int,
+            expected: TreeNode
+        ) {
+            AddOneRowToTreeRev2().test(root, `val`, depth, expected)
+        }
     }
+}
+
+private fun AddOneRowToTree.test(
+    root: TreeNode,
+    `val`: Int,
+    depth: Int,
+    expected: TreeNode
+) {
+    val actual = addOneRow(root, `val`, depth)
+    assertTrue(actual.equalsTo(expected))
 }

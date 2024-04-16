@@ -75,4 +75,51 @@ public interface AddOneRowToTree {
             return root;
         }
     }
+
+    class AddOneRowToTreeRev2 implements AddOneRowToTree {
+
+        @Override
+        public TreeNode addOneRow(TreeNode root, int val, int depth) {
+            if (depth == 1) {
+                TreeNode newRoot = new TreeNode(val);
+                newRoot.left = root;
+                return newRoot;
+            }
+
+            dfs(null, root, false, depth - 1, val);
+            return root;
+        }
+
+        private void dfs(TreeNode parent, TreeNode node, boolean leftChild, int depth, int val) {
+            // base case
+            if (depth == 0) {
+                TreeNode newNode = new TreeNode(val);
+                if (node == null) {
+                    // append to the last level
+                    if (leftChild) {
+                        parent.left = newNode;
+                    } else {
+                        parent.right = newNode;
+                    }
+                } else {
+                    // insert in the middle
+                    if (leftChild) {
+                        parent.left = newNode;
+                        newNode.left = node;
+                    } else {
+                        parent.right = newNode;
+                        newNode.right = node;
+                    }
+                }
+                return;
+            }
+
+            if (node == null) {
+                return;
+            }
+
+            dfs(node, node.left, true, depth - 1, val);
+            dfs(node, node.right, false, depth - 1, val);
+        }
+    }
 }
