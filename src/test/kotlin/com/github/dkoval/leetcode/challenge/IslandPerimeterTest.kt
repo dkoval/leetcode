@@ -58,9 +58,9 @@ internal class IslandPerimeterTest {
             IslandPerimeterDFS.test(grid, expected)
         }
     }
+}
 
-    private fun IslandPerimeter.test(grid: Array<IntArray>, expected: Int) {
-        val actual = islandPerimeter(grid)
-        assertEquals(expected, actual)
-    }
+private fun IslandPerimeter.test(grid: Array<IntArray>, expected: Int) {
+    val actual = islandPerimeter(grid)
+    assertEquals(expected, actual)
 }

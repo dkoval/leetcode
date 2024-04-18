@@ -1,16 +1,25 @@
 package com.github.dkoval.leetcode.challenge
 
 /**
- * [Island Perimeter](https://leetcode.com/explore/challenge/card/july-leetcoding-challenge/544/week-1-july-1st-july-7th/3383/)
+ * [Island Perimeter](https://leetcode.com/problems/island-perimeter/)
  *
- * You are given a map in form of a two-dimensional integer grid where 1 represents land and 0 represents water.
+ * You are given `row x col` grid representing a map where ```grid[i][j] = 1``` represents land and ```grid[i][j] = 0```
+ * represents water.
  *
- * Grid cells are connected horizontally/vertically (not diagonally). The grid is completely surrounded by water,
+ * Grid cells are connected horizontally/vertically (not diagonally). The `grid` is completely surrounded by water,
  * and there is exactly one island (i.e., one or more connected land cells).
  *
  * The island doesn't have "lakes" (water inside that isn't connected to the water around the island).
  * One cell is a square with side length 1. The grid is rectangular, width and height don't exceed 100.
  * Determine the perimeter of the island.
+ *
+ * Constraints:
+ *
+ * - ```row == grid.length```
+ * - ```col == grid[i].length```
+ * - ```1 <= row, col <= 100```
+ * - ```grid[i][j] is 0 or 1```
+ * - ```There is exactly one island in grid```
  */
 interface IslandPerimeter {
 
@@ -63,32 +72,37 @@ object IslandPerimeterDFS : IslandPerimeter {
     override fun islandPerimeter(grid: Array<IntArray>): Int {
         for (row in grid.indices) {
             for (col in grid[0].indices) {
-                if (grid[row][col] == 0) continue
-                return dfs(grid, row, col, mutableSetOf())
+                // there is exactly one island in grid
+                if (grid[row][col] == 1) {
+                    return dfs(grid, Cell(row, col), mutableSetOf())
+                }
             }
         }
         return -1
     }
 
-    private fun dfs(grid: Array<IntArray>, row: Int, col: Int, visited: MutableSet<Cell>): Int {
+    private fun dfs(grid: Array<IntArray>, curr: Cell, visited: MutableSet<Cell>): Int {
         val m = grid.size
         val n = grid[0].size
 
-        if (row !in 0 until m || col !in 0 until n || grid[row][col] == 0) {
-            return 1
-        }
-
-        val cell = Cell(row, col)
-        if (cell in visited) {
-            return 0
-        }
-
         // mark current cell as visited
-        visited += cell
+        visited += curr
+
         var p = 0
         // explore all 4 directions
         for ((dx, dy) in directions) {
-           p += dfs(grid, row + dx, col + dy, visited)
+            val nextRow = curr.row + dx
+            val nextCol = curr.col + dy
+
+            if (nextRow !in 0 until m || nextCol !in 0 until n || grid[nextRow][nextCol] == 0) {
+                p++
+                continue
+            }
+
+            val next = Cell(nextRow, nextCol)
+            if (next !in visited) {
+                p += dfs(grid, next, visited)
+            }
         }
         return p
     }
