@@ -23,7 +23,7 @@ internal class StampingTheSequenceTest {
             Arguments.of(
                 "abca",
                 "aabcaca",
-                intArrayOf(3, 0, 1)
+                intArrayOf(0, 3, 1)
             )
         )
     }
@@ -41,9 +41,9 @@ internal class StampingTheSequenceTest {
             StampingTheSequenceRev1().test(stamp, target, expected)
         }
     }
+}
 
-    private fun StampingTheSequence.test(stamp: String, target: String, expected: IntArray) {
-        val actual = movesToStamp(stamp, target)
-        assertThat(actual).containsExactly(*expected)
-    }
+private fun StampingTheSequence.test(stamp: String, target: String, expected: IntArray) {
+    val actual = movesToStamp(stamp, target)
+    assertThat(actual).containsExactly(*expected)
 }
