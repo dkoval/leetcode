@@ -26,15 +26,15 @@ internal class LongestPalindromicSubstringTest {
             ),
             Arguments.of(
                 "a",
-                1
+                setOf("a")
             ),
             Arguments.of(
                 "aa",
-                2
+                setOf("aa")
             ),
             Arguments.of(
                 "aaa",
-                3
+                setOf("aaa")
             )
         )
     }
@@ -88,9 +88,9 @@ internal class LongestPalindromicSubstringTest {
             LongestPalindromicSubstringDPBottomUp().test(s, expected)
         }
     }
+}
 
-    private fun LongestPalindromicSubstring.test(s: String, expected: Set<String>) {
-        val actual = longestPalindrome(s)
-        assertThat(actual).isIn(expected)
-    }
+private fun LongestPalindromicSubstring.test(s: String, expected: Set<String>) {
+    val actual = longestPalindrome(s)
+    assertThat(actual).isIn(expected)
 }
