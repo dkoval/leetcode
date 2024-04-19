@@ -6,7 +6,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  tests:
+  challenges:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -26,6 +26,9 @@ jobs:
 
     - name: Run tests with Gradle Wrapper
       run: ./gradlew test
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
 
   dependency-submission:
     runs-on: ubuntu-latest
