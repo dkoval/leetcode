@@ -8,7 +8,7 @@ import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsSource
 import java.util.stream.Stream
 
 internal class ShortestPathInBinaryMatrixTest {
@@ -60,7 +60,7 @@ internal class ShortestPathInBinaryMatrixTest {
     inner class ShortestPathInBinaryMatrixRev1Test {
 
         @ParameterizedTest
-        @MethodSource("input")
+        @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the length of the shortest such clear path from top-left to bottom-right`(
             grid: Array<IntArray>,
             expected: Int
@@ -73,7 +73,7 @@ internal class ShortestPathInBinaryMatrixTest {
     inner class ShortestPathInBinaryMatrixRev2Test {
 
         @ParameterizedTest
-        @MethodSource("input")
+        @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the length of the shortest such clear path from top-left to bottom-right`(
             grid: Array<IntArray>,
             expected: Int
