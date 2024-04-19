@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.PartitionToKEqualSumSubsets.PartitionToKEqualSumSubsetsRecursiveWithBacktracking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -37,11 +38,12 @@ internal class PartitionToKEqualSumSubsetsTest {
             k: Int,
             expected: Boolean
         ) {
+            PartitionToKEqualSumSubsetsRecursiveWithBacktracking().test(nums, k, expected)
         }
     }
+}
 
-    private fun PartitionToKEqualSumSubsets.test(nums: IntArray, k: Int, expected: Boolean) {
-        val actual = canPartitionKSubsets(nums, k)
-        assertEquals(expected, actual)
-    }
+private fun PartitionToKEqualSumSubsets.test(nums: IntArray, k: Int, expected: Boolean) {
+    val actual = canPartitionKSubsets(nums, k)
+    assertEquals(expected, actual)
 }

@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.problems
 
+import com.github.dkoval.leetcode.problems.MostProfitAssigningWork.MostProfitAssigningWorkUsingSortingByDifficulty
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -40,12 +41,12 @@ internal class MostProfitAssigningWorkTest {
             worker: IntArray,
             expected: Int
         ) {
-
+            MostProfitAssigningWorkUsingSortingByDifficulty().test(difficulty, profit, worker, expected)
         }
     }
+}
 
-    private fun MostProfitAssigningWork.test(difficulty: IntArray, profit: IntArray, worker: IntArray, expected: Int) {
-        val actual = maxProfitAssignment(difficulty, profit, worker)
-        assertEquals(expected, actual)
-    }
+private fun MostProfitAssigningWork.test(difficulty: IntArray, profit: IntArray, worker: IntArray, expected: Int) {
+    val actual = maxProfitAssignment(difficulty, profit, worker)
+    assertEquals(expected, actual)
 }

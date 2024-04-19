@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.problems
 
+import com.github.dkoval.leetcode.problems.TargetSum.TargetSumDPTopDown
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -37,12 +38,12 @@ internal class TargetSumTest {
             target: Int,
             expected: Int
         ) {
-
+            TargetSumDPTopDown().test(nums, target, expected)
         }
     }
+}
 
-    private fun TargetSum.test(nums: IntArray, target: Int, expected: Int) {
-        val actual = findTargetSumWays(nums, target)
-        assertEquals(expected, actual)
-    }
+private fun TargetSum.test(nums: IntArray, target: Int, expected: Int) {
+    val actual = findTargetSumWays(nums, target)
+    assertEquals(expected, actual)
 }
