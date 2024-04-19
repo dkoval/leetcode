@@ -1,34 +1,38 @@
 name: Java CI with Gradle
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - master
   pull_request:
-    branches: [ "master" ]
+    branches:
+      - master
 
 jobs:
-  challenges:
+  run-challenges:
     runs-on: ubuntu-latest
     permissions:
       contents: read
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK
-      uses: actions/setup-java@v4
-      with:        
-        distribution: 'temurin'
-        java-version-file: .java-version
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version-file: .java-version
 
-    # Configure Gradle for optimal use in GiHub Actions, including caching of downloaded dependencies.
-    # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+      # Configure Gradle for optimal use in GiHub Actions, including caching of downloaded dependencies.
+      # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
 
-    - name: Run tests with Gradle Wrapper
-      run: ./gradlew test
+      - name: Run tests with Gradle Wrapper
+        run: ./gradlew test
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   dependency-submission:
     runs-on: ubuntu-latest
@@ -36,14 +40,14 @@ jobs:
       contents: write
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK
-      uses: actions/setup-java@v4
-      with:        
-        distribution: 'temurin'
-        java-version-file: .java-version
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version-file: .java-version
 
-    # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies.
-    # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
-    - name: Generate and submit dependency graph
-      uses: gradle/actions/dependency-submission@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+      # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies.
+      # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
+      - name: Generate and submit dependency graph
+        uses: gradle/actions/dependency-submission@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
