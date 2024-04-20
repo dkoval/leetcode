@@ -1,7 +1,3 @@
-val javaVersion = "17"
-val gradleVersion = "7.6.4"
-val jacocoVersion = "0.8.12"
-
 plugins {
     kotlin("jvm") version "1.9.23"
     jacoco
@@ -19,29 +15,16 @@ dependencies {
     testImplementation("org.assertj:assertj-core:3.16.1")
 }
 
+kotlin {
+    // updates the toolchain for Java compile tasks as well
+    jvmToolchain(17)
+}
+
 jacoco {
-    toolVersion = jacocoVersion
+    toolVersion = "0.8.12"
 }
 
 tasks {
-    compileJava {
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
-    }
-
-    compileTestJava {
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
-    }
-
-    compileKotlin {
-        kotlinOptions.jvmTarget = javaVersion
-    }
-
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = javaVersion
-    }
-
     test {
         useJUnitPlatform()
         testLogging { events("passed", "skipped", "failed") }
@@ -57,6 +40,6 @@ tasks {
     }
 
     wrapper {
-        gradleVersion = gradleVersion
+        gradleVersion = "7.6.4"
     }
 }
