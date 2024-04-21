@@ -1,4 +1,4 @@
-name: CI/CD
+name: CI
 on:
   push:
     branches:
@@ -8,7 +8,7 @@ on:
       - master
 
 jobs:
-  run-challenges:
+  leetcode-challenges:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -24,7 +24,7 @@ jobs:
       # Configure Gradle for optimal use in GiHub Actions, including caching of downloaded dependencies.
       # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+        uses: gradle/actions/setup-gradle@v3
 
       - name: Run tests with Gradle Wrapper
         run: ./gradlew test
@@ -34,7 +34,7 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-  dependency-submission:
+  dependency-graph:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -50,4 +50,4 @@ jobs:
       # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies.
       # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
       - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+        uses: gradle/actions/dependency-submission@v3
