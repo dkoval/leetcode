@@ -60,4 +60,36 @@ public interface LongestIdealSubsequence {
             return best;
         }
     }
+
+    class LongestIdealSubsequenceDPBottomUpRev2 implements LongestIdealSubsequence {
+
+        @Override
+        public int longestIdealString(String s, int k) {
+            int n = s.length();
+
+            // Given an index i of the input string s,
+            // dp[c] represents the length of the longest ideal subsequence that ends a c,
+            // for any character c that occurs before s[i], where c is in ['a'..'z'].
+            // c = 0 -> 'a', c = 1 -> 'b', ..., c = 25 -> 'z'
+            int[] dp = new int[26];
+
+            int best = 0;
+            for (int i = 0; i < n; i++) {
+                int currLength = 1;
+                // try to append s[i] to any previous subsequence
+                for (int j = 0; j < 26; j++) {
+                    char c = (char)('a' + j);
+                    int diff = Math.abs(s.charAt(i) - c);
+                    if (diff <= k) {
+                        currLength = Math.max(currLength, dp[j] + 1);
+                    }
+                }
+
+                int index = s.charAt(i) - 'a';
+                dp[index] = Math.max(dp[index], currLength);
+                best = Math.max(best, dp[index]);
+            }
+            return best;
+        }
+    }
 }

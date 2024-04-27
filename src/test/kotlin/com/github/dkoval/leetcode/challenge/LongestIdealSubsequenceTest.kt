@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.LongestIdealSubsequence.LongestIdealSubsequenceDPBottomUpRev1
+import com.github.dkoval.leetcode.challenge.LongestIdealSubsequence.LongestIdealSubsequenceDPBottomUpRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -40,6 +41,16 @@ internal class LongestIdealSubsequenceTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the length of the longest ideal string`(s: String, k: Int, expected: Int) {
             LongestIdealSubsequenceDPBottomUpRev1().test(s, k, expected)
+        }
+    }
+
+    @Nested
+    inner class LongestIdealSubsequenceDPBottomUpRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the length of the longest ideal string`(s: String, k: Int, expected: Int) {
+            LongestIdealSubsequenceDPBottomUpRev2().test(s, k, expected)
         }
     }
 }
