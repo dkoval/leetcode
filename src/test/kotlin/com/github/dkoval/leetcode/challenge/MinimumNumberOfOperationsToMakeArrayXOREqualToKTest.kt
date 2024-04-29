@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MinimumNumberOfOperationsToMakeArrayXOREqualToK.MinimumNumberOfOperationsToMakeArrayXOREqualToKRev1
+import com.github.dkoval.leetcode.challenge.MinimumNumberOfOperationsToMakeArrayXOREqualToK.MinimumNumberOfOperationsToMakeArrayXOREqualToKRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -39,6 +40,20 @@ internal class MinimumNumberOfOperationsToMakeArrayXOREqualToKTest {
             expected: Int
         ) {
             MinimumNumberOfOperationsToMakeArrayXOREqualToKRev1().test(nums, k, expected)
+        }
+    }
+
+    @Nested
+    inner class MinimumNumberOfOperationsToMakeArrayXOREqualToKRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum number of operations required to make the bitwise XOR of all elements of the final array equal to k`(
+            nums: IntArray,
+            k: Int,
+            expected: Int
+        ) {
+            MinimumNumberOfOperationsToMakeArrayXOREqualToKRev2().test(nums, k, expected)
         }
     }
 }

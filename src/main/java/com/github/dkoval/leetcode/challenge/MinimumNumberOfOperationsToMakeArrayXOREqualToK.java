@@ -53,4 +53,36 @@ public interface MinimumNumberOfOperationsToMakeArrayXOREqualToK {
             return count;
         }
     }
+
+    class MinimumNumberOfOperationsToMakeArrayXOREqualToKRev2 implements MinimumNumberOfOperationsToMakeArrayXOREqualToK {
+
+        @Override
+        public int minOperations(int[] nums, int k) {
+            // nums = [2, 1, 3, 4], k = 1
+            // XOR(nums):
+            // 010
+            // 001
+            // 011
+            // 100
+            // ---
+            // x = 100 -> k = 001
+            // count bits that differ in x and k (again, can be done with XOR)
+            int x = 0;
+            for (int num : nums) {
+                x ^= num;
+            }
+
+            // to get the result, count 1-bits of x XOR k
+            x ^= k;
+            int count = 0;
+            while (x > 0) {
+                if ((x & 1) == 1) {
+                    count++;
+                }
+                // remove the last bit of x
+                x >>= 1;
+            }
+            return count;
+        }
+    }
 }
