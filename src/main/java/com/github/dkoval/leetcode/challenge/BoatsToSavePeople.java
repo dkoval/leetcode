@@ -17,26 +17,58 @@ import java.util.Arrays;
  *  <li>1 <= people[i] <= limit <= 3 * 10^4</li>
  * </ul>
  */
-public class BoatsToSavePeople {
+public interface BoatsToSavePeople {
+
+    int numRescueBoats(int[] people, int limit);
 
     // O(N * logN) time | O(1) space
-    public int numRescueBoats(int[] people, int limit) {
-        int n = people.length;
-        Arrays.sort(people);
+    class BoatsToSavePeopleRev1 implements BoatsToSavePeople {
 
-        // greedy
-        int count = 0;
-        int left = 0;
-        int right = n - 1;
-        while (left <= right) {
-            // 1 <= people[i] <= limit,
-            // meaning that we can always carry the heaviest person
-            if (people[left] + people[right] <= limit) {
-                left++;
+        @Override
+        public int numRescueBoats(int[] people, int limit) {
+            int n = people.length;
+            Arrays.sort(people);
+
+            // greedy
+            int count = 0;
+            int left = 0;
+            int right = n - 1;
+            while (left <= right) {
+                // 1 <= people[i] <= limit,
+                // meaning that we can always carry the heaviest person
+                if (people[left] + people[right] <= limit) {
+                    left++;
+                }
+                right--;
+                count++;
             }
-            right--;
-            count++;
+            return count;
         }
-        return count;
+    }
+
+    // O(N * logN) time | O(1) space
+    class BoatsToSavePeopleRev2 implements BoatsToSavePeople {
+
+        @Override
+        public int numRescueBoats(int[] people, int limit) {
+            int n = people.length;
+            Arrays.sort(people);
+
+            int count = 0;
+            int left = 0;
+            int right = n - 1;
+            while (left < right) {
+                count++;
+                if (people[left] + people[right] <= limit) {
+                    left++;
+                }
+                right--;
+            }
+
+            if (left == right) {
+                count++;
+            }
+            return count;
+        }
     }
 }
