@@ -7,14 +7,14 @@ class ListNode @JvmOverloads constructor(
     @JvmField var next: ListNode? = null
 ) {
     companion object {
-        fun headOf(vararg xs: Int): ListNode? {
-            if (xs.isEmpty()) {
+        fun headOf(vararg nums: Int): ListNode? {
+            if (nums.isEmpty()) {
                 return null
             }
 
             val dummy = ListNode(42)
             var curr = dummy
-            for (x in xs) {
+            for (x in nums) {
                 curr.next = ListNode(x)
                 curr = curr.next!!
             }
@@ -36,10 +36,10 @@ fun ListNode?.equalsTo(that: ListNode?): Boolean {
     return (curr1 == null) && (curr2 == null)
 }
 
-fun ListNode?.find(value: Int): ListNode? {
+fun ListNode?.findFirst(`val`: Int): ListNode? {
     var curr = this
     while (curr != null) {
-        if (curr.`val` == value) {
+        if (curr.`val` == `val`) {
             return curr
         }
         curr = curr.next
@@ -51,7 +51,7 @@ fun ListNode?.dump(): List<Int> {
     val dump = LinkedList<Int>()
     var curr = this
     while (curr != null) {
-        dump.add(curr.`val`)
+        dump += curr.`val`
         curr = curr.next
     }
     return dump

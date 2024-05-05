@@ -2,7 +2,7 @@ package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.dump
-import com.github.dkoval.leetcode.find
+import com.github.dkoval.leetcode.findFirst
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -63,7 +63,7 @@ internal class DeleteNodeInLinkedListTest {
     @ParameterizedTest
     @MethodSource("input")
     fun `should delete a node from a singly-linked list`(head: ListNode?, nodeValue: Int, expected: List<Int>) {
-        DeleteNodeInLinkedList.deleteNode(head.find(nodeValue))
+        DeleteNodeInLinkedList.deleteNode(head.findFirst(nodeValue))
         assertEquals(expected, head.dump())
     }
 }
