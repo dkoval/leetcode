@@ -69,4 +69,26 @@ public interface SumOfAllSubsetXORTotals {
             return sum;
         }
     }
+
+    class SumOfAllSubsetXORTotalsRev3 implements SumOfAllSubsetXORTotals {
+
+        @Override
+        public int subsetXORSum(int[] nums) {
+            int n = nums.length;
+
+            // iteratively generate all possible subsets, but only record xor(subset)
+            int sum = 0;
+            int[] xorTotals = new int[1 << n];
+            int lastIndex = 0;
+            for (int num : nums) {
+                int currLastIndex = lastIndex;
+                for (int i = 0; i <= currLastIndex; i++) {
+                    int newXorTotal = xorTotals[i] ^ num;
+                    xorTotals[++lastIndex] = newXorTotal;
+                    sum += newXorTotal;
+                }
+            }
+            return sum;
+        }
+    }
 }

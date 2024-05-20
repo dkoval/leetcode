@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.SumOfAllSubsetXORTotals.SumOfAllSubsetXORTotalsRev1
-import com.github.dkoval.leetcode.challenge.SumOfAllSubsetXORTotals.SumOfAllSubsetXORTotalsRev2
+import com.github.dkoval.leetcode.challenge.SumOfAllSubsetXORTotals.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -48,6 +47,16 @@ internal class SumOfAllSubsetXORTotalsTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the sum of all XOR totals for every subset of nums`(nums: IntArray, expected: Int) {
             SumOfAllSubsetXORTotalsRev2().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class SumOfAllSubsetXORTotalsRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the sum of all XOR totals for every subset of nums`(nums: IntArray, expected: Int) {
+            SumOfAllSubsetXORTotalsRev3().test(nums, expected)
         }
     }
 }
