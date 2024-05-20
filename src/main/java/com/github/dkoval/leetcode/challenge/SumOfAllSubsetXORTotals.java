@@ -1,5 +1,8 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <a href="https://leetcode.com/problems/sum-of-all-subset-xor-totals/">Sum of All Subset XOR Totals</a>
  * <p>
@@ -40,6 +43,29 @@ public interface SumOfAllSubsetXORTotals {
             sum += calc(nums, index + 1, xorTotal ^ nums[index]);
             // option #1: exclude nums[i]
             sum += calc(nums, index + 1, xorTotal);
+            return sum;
+        }
+    }
+
+    class SumOfAllSubsetXORTotalsRev2 implements SumOfAllSubsetXORTotals {
+
+        @Override
+        public int subsetXORSum(int[] nums) {
+            int n = nums.length;
+
+            // iteratively generate all possible subsets;
+            // for every subset, keep track of the total xor(subset), not the subset itself
+            int sum = 0;
+            List<Integer> xorTotals = new ArrayList<>(1 << n);
+            xorTotals.add(0);
+            for (int num : nums) {
+                int size = xorTotals.size();
+                for (int i = 0; i < size; i++) {
+                    int newXorTotal = xorTotals.get(i) ^ num;
+                    xorTotals.add(newXorTotal);
+                    sum += newXorTotal;
+                }
+            }
             return sum;
         }
     }
