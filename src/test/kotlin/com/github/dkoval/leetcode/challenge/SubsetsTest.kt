@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.Subsets.SubsetsIter2
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -26,6 +27,13 @@ internal class SubsetsTest {
                     listOf(1, 2),
                     emptyList()
                 )
+            ),
+            Arguments.of(
+                intArrayOf(0),
+                listOf(
+                    emptyList(),
+                    listOf(0)
+                )
             )
         )
     }
@@ -51,6 +59,16 @@ internal class SubsetsTest {
     }
 
     @Nested
+    inner class SubsetsIter2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return all possible subsets`(nums: IntArray, expected: List<List<Int>>) {
+            SubsetsIter2().test(nums, expected)
+        }
+    }
+
+    @Nested
     inner class SubsetsRecursiveTest {
 
         @ParameterizedTest
@@ -70,8 +88,9 @@ internal class SubsetsTest {
         }
     }
 
-    private fun Subsets.test(nums: IntArray, expected: List<List<Int>>) {
-        val actual = subsets(nums)
-        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
-    }
+}
+
+private fun Subsets.test(nums: IntArray, expected: List<List<Int>>) {
+    val actual = subsets(nums)
+    assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
 }
