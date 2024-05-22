@@ -18,7 +18,7 @@ dependencies {
 
 kotlin {
     // updates the toolchain for Java compile tasks as well
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 jacoco {
