@@ -24,7 +24,7 @@ object GoatLatin {
         val words = S.split("\\s".toRegex())
         val result = StringBuilder()
         words.forEachIndexed { index, word ->
-            if (word.first().toLowerCase() in vowels) {
+            if (word.first().lowercaseChar() in vowels) {
                 result.append(word)
             } else {
                 result.append(word.substring(1))
