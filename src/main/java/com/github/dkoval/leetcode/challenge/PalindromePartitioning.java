@@ -21,22 +21,23 @@ public interface PalindromePartitioning {
 
     List<List<String>> partition(String s);
 
-    // len(s) <= 16, meaning that there are at most 16 "spaces" to put a delimiter at.
+    // len(s) <= 16, meaning that there are at most 15 "spaces" to put a delimiter at.
     // There can be 15, 14, ..., 1 delimiters in total, resulting in
     // C(15, 15) + C(15, 14) + ... + C(15, 1) = 2^15 number of possibilities.
     class PalindromePartitioningRev1 implements PalindromePartitioning {
 
         @Override
         public List<List<String>> partition(String s) {
+            // idea: backtracking
             List<List<String>> ans = new ArrayList<>();
             generate(s, 0, new ArrayList<>(), ans);
             return ans;
         }
 
-        private void generate(String s, int start, List<String> partition, List<List<String>> ans) {
+        private void generate(String s, int start, List<String> partitions, List<List<String>> ans) {
             // base case
             if (start == s.length()) {
-                ans.add(new ArrayList<>(partition));
+                ans.add(List.copyOf(partitions));
                 return;
             }
 
@@ -44,11 +45,11 @@ public interface PalindromePartitioning {
                 if (isPalindrome(s, start, end)) {
                     // choice
                     String snippet = s.substring(start, end + 1);
-                    partition.add(snippet);
+                    partitions.add(snippet);
                     // explore
-                    generate(s, end + 1, partition, ans);
+                    generate(s, end + 1, partitions, ans);
                     // undo choice
-                    partition.remove(partition.size() - 1);
+                    partitions.removeLast();
                 }
             }
         }
