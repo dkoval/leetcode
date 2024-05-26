@@ -17,7 +17,6 @@ internal class StudentAttendanceRecord2Test {
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(2, 8),
             Arguments.of(1, 3),
-            // passes on LeetCode by fails locally with java.lang.StackOverflowError
             Arguments.of(10101, 183236316)
         )
     }
