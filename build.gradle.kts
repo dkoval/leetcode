@@ -30,6 +30,7 @@ tasks {
         useJUnitPlatform()
         testLogging { events("passed", "skipped", "failed") }
         finalizedBy(jacocoTestReport)
+        jvmArgs("-Xss4m")
     }
 
     jacocoTestReport {

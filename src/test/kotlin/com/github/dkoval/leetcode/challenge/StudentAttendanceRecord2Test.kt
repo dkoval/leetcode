@@ -18,7 +18,7 @@ internal class StudentAttendanceRecord2Test {
             Arguments.of(2, 8),
             Arguments.of(1, 3),
             // passes on LeetCode by fails locally with java.lang.StackOverflowError
-            //Arguments.of(10101, 183236316)
+            Arguments.of(10101, 183236316)
         )
     }
 
