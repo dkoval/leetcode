@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.SpecialArrayWithXElementGreaterThanOrEqualX.SpecialArrayWithXElementGreaterThanOrEqualXRev1
+import com.github.dkoval.leetcode.challenge.SpecialArrayWithXElementGreaterThanOrEqualX.SpecialArrayWithXElementGreaterThanOrEqualXRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -37,6 +38,16 @@ internal class SpecialArrayWithXElementGreaterThanOrEqualXTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return x if the array is special, otherwise, return -1`(nums: IntArray, expected: Int) {
             SpecialArrayWithXElementGreaterThanOrEqualXRev1().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class SpecialArrayWithXElementGreaterThanOrEqualXRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return x if the array is special, otherwise, return -1`(nums: IntArray, expected: Int) {
+            SpecialArrayWithXElementGreaterThanOrEqualXRev2().test(nums, expected)
         }
     }
 }

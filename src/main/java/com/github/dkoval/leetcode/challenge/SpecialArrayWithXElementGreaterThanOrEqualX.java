@@ -1,5 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.Arrays;
+
 /**
  * <a href="https://leetcode.com/problems/special-array-with-x-elements-greater-than-or-equal-x/">Special Array With X Elements Greater Than or Equal X</a>
  * <p>
@@ -43,6 +45,33 @@ public interface SpecialArrayWithXElementGreaterThanOrEqualX {
                 }
             }
             return count == x;
+        }
+    }
+
+    class SpecialArrayWithXElementGreaterThanOrEqualXRev2 implements SpecialArrayWithXElementGreaterThanOrEqualX {
+
+        @Override
+        public int specialArray(int[] nums) {
+            int n = nums.length;
+
+            Arrays.sort(nums);
+            int prev = -1;
+            int i = 0;
+            while (i < n) {
+                int x = n - i;
+                if ((nums[i] == x) || (x > prev && x < nums[i])) {
+                    return x;
+                }
+
+                // special case: ignore duplicates to the right of index i
+                while (i + 1 < n && nums[i] == nums[i + 1]) {
+                    i++;
+                }
+
+                prev = nums[i];
+                i++;
+            }
+            return -1;
         }
     }
 }
