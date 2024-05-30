@@ -59,4 +59,44 @@ public interface CountTripletsThatCanFormTwoArraysOfEqualXOR {
             return ans;
         }
     }
+
+    // O(N^2) time | O(N) space
+    class CountTripletsThatCanFormTwoArraysOfEqualXORRev2 implements CountTripletsThatCanFormTwoArraysOfEqualXOR {
+
+        @Override
+        public int countTriplets(int[] arr) {
+            int n = arr.length;
+
+            // We're looking for indices i < j <= k such that
+            // xor(arr[i : j - 1]) = xor(arr[j : k])
+            // <=>
+            // xor(arr[i : j - 1]) ^ xor(arr[j : k]) = 0
+            // <=>
+            // xor(arr[i : k]) = 0
+            // => there are (k - i) possibilities to put index j between i and k (i < j <= k)
+
+            // prefix[i] = xor(arr[0 : i])
+            // xor(arr[i : j]) = xor(arr[0 : j]) ^ xor(arr[0 : i - 1]) = prefix[j] ^ prefix[i - 1]
+            int[] prefix = new int[n];
+            prefix[0] = arr[0];
+            for (int i = 1; i < n; i++) {
+                prefix[i] = prefix[i - 1] ^ arr[i];
+            }
+
+            int count = 0;
+            for (int i = 0; i < n - 1; i++) {
+                for (int k = i + 1; k < n; k++) {
+                    if (xor(prefix, i, k) == 0) {
+                        count += k - i;
+                    }
+                }
+            }
+            return count;
+        }
+
+        private int xor(int[] prefix, int i, int j) {
+            // x ^ 0 = x
+            return prefix[j] ^ (i > 0 ? prefix[i - 1] : 0);
+        }
+    }
 }

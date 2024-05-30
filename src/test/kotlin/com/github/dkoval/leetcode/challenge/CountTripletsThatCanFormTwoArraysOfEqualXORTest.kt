@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.CountTripletsThatCanFormTwoArraysOfEqualXOR.CountTripletsThatCanFormTwoArraysOfEqualXORRev1
+import com.github.dkoval.leetcode.challenge.CountTripletsThatCanFormTwoArraysOfEqualXOR.CountTripletsThatCanFormTwoArraysOfEqualXORRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -33,6 +34,16 @@ internal class CountTripletsThatCanFormTwoArraysOfEqualXORTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the number of triplets`(arr: IntArray, expected: Int) {
             CountTripletsThatCanFormTwoArraysOfEqualXORRev1().test(arr, expected)
+        }
+    }
+
+    @Nested
+    inner class CountTripletsThatCanFormTwoArraysOfEqualXORRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of triplets`(arr: IntArray, expected: Int) {
+            CountTripletsThatCanFormTwoArraysOfEqualXORRev2().test(arr, expected)
         }
     }
 }
