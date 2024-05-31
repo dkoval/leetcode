@@ -1,10 +1,5 @@
 package com.github.dkoval.leetcode.challenge
 
-interface SingleNumber3 {
-
-    fun singleNumber(nums: IntArray): IntArray
-}
-
 object NaiveSingleNumber3 : SingleNumber3 {
 
     override fun singleNumber(nums: IntArray): IntArray {
@@ -20,7 +15,7 @@ object NaiveSingleNumber3 : SingleNumber3 {
     }
 }
 
-object SmartSingleNumber3 : SingleNumber3 {
+object SingleNumber3Rev1 : SingleNumber3 {
 
     // Resource: https://www.youtube.com/watch?v=L-EaPf5tD5A
     override fun singleNumber(nums: IntArray): IntArray {
