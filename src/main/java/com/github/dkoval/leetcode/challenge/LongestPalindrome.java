@@ -31,18 +31,13 @@ public interface LongestPalindrome {
                 counts[index]++;
             }
 
-            int ans = 0;
+            int pairs = 0;
             boolean tookOdd = false;
             for (int x : counts) {
-                ans += x;
-                if (x % 2 != 0) {
-                    if (tookOdd) {
-                        ans--;
-                    }
-                    tookOdd = true;
-                }
+                pairs += x / 2;
+                tookOdd |= x % 2 == 1;
             }
-            return ans;
+            return pairs * 2 + (tookOdd ? 1 : 0);
         }
 
         private int indexOf(char c) {
