@@ -1,17 +1,9 @@
 package com.github.dkoval.leetcode.challenge
 
-/**
- * [Longest Palindrome](https://leetcode.com/explore/challenge/card/august-leetcoding-challenge/550/week-2-august-8th-august-14th/3423/)
- *
- * Given a string which consists of lowercase or uppercase letters, find the length of the longest palindromes that
- * can be built with those letters.
- *
- * This is case sensitive, for example "Aa" is not considered a palindrome here.
- */
-object LongestPalindrome {
+object LongestPalindromeRev1 : LongestPalindrome {
 
     // O(N) time | O(ALPHA) space, where ALPHA is the number of characters in the alphabet
-    fun longestPalindrome(s: String): Int {
+    override fun longestPalindrome(s: String): Int {
         val counts = mutableMapOf<Char, Int>()
         for (c in s) {
             counts[c] = counts.getOrDefault(c, 0) + 1
