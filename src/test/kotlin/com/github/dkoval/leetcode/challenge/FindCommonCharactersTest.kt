@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.FindCommonCharacters.FindCommonCharactersRev1
+import com.github.dkoval.leetcode.challenge.FindCommonCharacters.FindCommonCharactersRev2
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -40,6 +41,19 @@ internal class FindCommonCharactersTest {
             expected: Array<String>
         ) {
             FindCommonCharactersRev1().test(words, expected)
+        }
+    }
+
+    @Nested
+    inner class FindCommonCharactersRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return an array of all characters that show up in all strings within the words (including duplicates)`(
+            words: Array<String>,
+            expected: Array<String>
+        ) {
+            FindCommonCharactersRev2().test(words, expected)
         }
     }
 }

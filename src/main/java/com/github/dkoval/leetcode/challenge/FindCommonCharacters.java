@@ -58,4 +58,44 @@ public interface FindCommonCharacters {
             return ans;
         }
     }
+
+    class FindCommonCharactersRev2 implements FindCommonCharacters {
+
+        @Override
+        public List<String> commonChars(String[] words) {
+            int n = words.length;
+
+            // 1 <= words.length <= 100
+            // let's count the occurrences of each letter in an arbitrary word
+            int[] commonCounts = counts(words[0]);
+
+            for (int w = 1; w < n; w++) {
+                int[] counts = counts(words[w]);
+                for (int i = 0; i < 26; i++) {
+                    commonCounts[i] = Math.min(commonCounts[i], counts[i]);
+                }
+            }
+
+            List<String> ans = new ArrayList<>();
+            for (int i = 0; i < 26; i++) {
+                if (commonCounts[i] == 0) {
+                    continue;
+                }
+
+                String c = String.valueOf((char) ('a' + i));
+                while (commonCounts[i]-- > 0) {
+                    ans.add(c);
+                }
+            }
+            return ans;
+        }
+
+        private int[] counts(String s) {
+            int[] counts = new int[26];
+            for (int i = 0; i < s.length(); i++) {
+                counts[s.charAt(i) - 'a']++;
+            }
+            return counts;
+        }
+    }
 }
