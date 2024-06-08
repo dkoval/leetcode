@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.ContinuousSubarraySum.ContinuousSubarraySumRev1
+import com.github.dkoval.leetcode.challenge.ContinuousSubarraySum.ContinuousSubarraySumRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -52,8 +53,22 @@ internal class ContinuousSubarraySumTest {
         }
     }
 
-    private fun ContinuousSubarraySum.test(nums: IntArray, k: Int, expected: Boolean) {
-        val actual = checkSubarraySum(nums, k)
-        assertEquals(expected, actual)
+    @Nested
+    inner class ContinuousSubarraySumRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should check if nums has a continuous subarray of size at least two whose elements sum up to a multiple of k`(
+            nums: IntArray,
+            k: Int,
+            expected: Boolean
+        ) {
+            ContinuousSubarraySumRev2().test(nums, k, expected)
+        }
     }
+}
+
+private fun ContinuousSubarraySum.test(nums: IntArray, k: Int, expected: Boolean) {
+    val actual = checkSubarraySum(nums, k)
+    assertEquals(expected, actual)
 }

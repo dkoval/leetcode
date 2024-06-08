@@ -63,4 +63,32 @@ public interface ContinuousSubarraySum {
             return false;
         }
     }
+
+    class ContinuousSubarraySumRev2 implements ContinuousSubarraySum {
+
+        @Override
+        public boolean checkSubarraySum(int[] nums, int k) {
+            int n = nums.length;
+
+            // sum(nums[0 : i]) % k -> i
+            Map<Integer, Integer> seen = new HashMap<>();
+            seen.put(0, -1);
+
+            int sum = 0;
+            for (int end = 0; end < n; end++) {
+                // property: (a + b) % c = (a % c + b % c) % c
+                sum += nums[end] % k;
+                sum %= k;
+                if (seen.containsKey(sum)) {
+                    int start = seen.get(sum);
+                    if (end - start >= 2) {
+                        return true;
+                    }
+                } else {
+                    seen.put(sum, end);
+                }
+            }
+            return false;
+        }
+    }
 }
