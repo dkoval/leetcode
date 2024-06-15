@@ -20,6 +20,17 @@ import java.util.Queue;
  * Pick a list of at most k distinct projects from given projects to maximize your final capital, and return the final maximized capital.
  * <p>
  * The answer is guaranteed to fit in a 32-bit signed integer.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= k <= 10^5</li>
+ *  <li>0 <= w <= 10^9</li>
+ *  <li>n == profits.length</li>
+ *  <li>n == capital.length</li>
+ *  <li>1 <= n <= 10^5</li>
+ *  <li>0 <= profits[i] <= 10^4</li>
+ *  <li>0 <= capital[i] <= 10^9</li>
+ * </ul>
  */
 public interface IPO {
 
@@ -31,6 +42,7 @@ public interface IPO {
         public int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {
             // idea: sorting + greedy
             int n = profits.length;
+            k = Math.min(k, n);
 
             Project[] projects = new Project[n];
             for (int i = 0; i < n; i++) {
@@ -39,33 +51,25 @@ public interface IPO {
 
             // sort projects by their capital in ASC order
             Arrays.sort(projects, Comparator.comparingInt(p -> p.capital));
-            // max heap is used to sort profits in DESC order
-            Queue<Integer> pq = new PriorityQueue<>(Comparator.reverseOrder());
+            // MAX heap is used to sort projects with the capital <= current capital by the profit in DESC order
+            Queue<Project> maxHeap = new PriorityQueue<>(Comparator.comparingInt(it -> -it.profit));
 
             int i = 0;
             int total = w;
-            k = Math.min(k, n);
             while (k-- > 0) {
                 while (i < n && projects[i].capital <= total) {
-                    pq.offer(projects[i].profit);
+                    maxHeap.offer(projects[i]);
                     i++;
                 }
 
-                if (!pq.isEmpty()) {
-                    total += pq.poll();
+                if (!maxHeap.isEmpty()) {
+                    total += maxHeap.poll().profit;
                 }
             }
             return total;
         }
 
-        private static class Project {
-            final int capital;
-            final int profit;
-
-            Project(int capital, int profit) {
-                this.capital = capital;
-                this.profit = profit;
-            }
+        private record Project(int capital, int profit) {
         }
     }
 }
