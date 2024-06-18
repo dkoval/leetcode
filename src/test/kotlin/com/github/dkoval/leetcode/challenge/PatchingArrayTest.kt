@@ -1,15 +1,21 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.PatchingArray.PatchingArrayRev1
+import com.github.dkoval.leetcode.challenge.PatchingArray.PatchingArrayRev2
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
 
 internal class PatchingArrayTest {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(1, 3),
                 6,
@@ -45,10 +51,28 @@ internal class PatchingArrayTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should return the minimum number of patches required`(nums: IntArray, n: Int, expected: Int) {
-        val actual = PatchingArray().minPatches(nums, n)
-        assertEquals(expected, actual)
+    @Nested
+    inner class PatchingArrayRev1Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum number of patches required`(nums: IntArray, n: Int, expected: Int) {
+            PatchingArrayRev1().test(nums, n, expected)
+        }
     }
+
+    @Nested
+    inner class PatchingArrayRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum number of patches required`(nums: IntArray, n: Int, expected: Int) {
+            PatchingArrayRev2().test(nums, n, expected)
+        }
+    }
+}
+
+private fun PatchingArray.test(nums: IntArray, n: Int, expected: Int) {
+    val actual = minPatches(nums, n)
+    assertEquals(expected, actual)
 }
