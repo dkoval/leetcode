@@ -34,36 +34,32 @@ public interface MostProfitAssigningWork {
         @Override
         public int maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
             int n = difficulty.length;
+
             Job[] jobs = new Job[n];
             for (int i = 0; i < n; i++) {
                 jobs[i] = new Job(difficulty[i], profit[i]);
             }
 
             // sort both arrays by difficulty
-            Arrays.sort(jobs, Comparator.comparingInt(job -> job.difficulty));
+            Arrays.sort(jobs, Comparator.comparingInt(it -> it.difficulty));
             Arrays.sort(worker);
 
-            int ans = 0;
-            int maxProfitSoFar = 0;
             int i = 0;
+            int total = 0;
+            int maxProfitSoFar = 0;
             for (int skill : worker) {
+                // Take the most profitable job among those the i-th worker can complete.
+                // N.B. One job can be completed multiple times.
                 while (i < n && skill >= jobs[i].difficulty) {
                     maxProfitSoFar = Math.max(maxProfitSoFar, jobs[i].profit);
                     i++;
                 }
-                ans += maxProfitSoFar;
+                total += maxProfitSoFar;
             }
-            return ans;
+            return total;
         }
 
-        private static class Job {
-            final int difficulty;
-            final int profit;
-
-            Job(int difficulty, int profit) {
-                this.difficulty = difficulty;
-                this.profit = profit;
-            }
+        private record Job(int difficulty, int profit) {
         }
     }
 }
