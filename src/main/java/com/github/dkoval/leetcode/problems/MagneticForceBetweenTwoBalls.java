@@ -71,16 +71,21 @@ public interface MagneticForceBetweenTwoBalls {
         @Override
         public int maxDistance(int[] position, int m) {
             int n = position.length;
+
+            // Idea: binary search.
+            // If m balls can be placed such that the answer is x,
+            // then the same can be done any y < x.
+            // T T ... T F F ... F
+            //         ^ answer (upper boundary)
             Arrays.sort(position);
 
-            // set lower and upper boundaries for the distance
             int left = 1;
             int right = position[n - 1] - position[0];
             while (left < right) {
                 int mid = left + (right - left + 1) / 2;
-                if (countBalls(position, mid, m) == m) {
+                if (canPlaceBalls(position, m, mid)) {
                     // mid might be the answer;
-                    // check if there is a better option to the right of mid
+                    // check if there is a better option to the left of it
                     left = mid;
                 } else {
                     // mid is not the answer + everything to the right of it
@@ -90,17 +95,17 @@ public interface MagneticForceBetweenTwoBalls {
             return left;
         }
 
-        private int countBalls(int[] position, int target, int m) {
+        private boolean canPlaceBalls(int[] position, int m, int force) {
             int count = 1;
             int lastPos = position[0];
             for (int i = 1; i < position.length && count < m; i++) {
-                if (position[i] - lastPos >= target) {
+                if (position[i] - lastPos >= force) {
                     // can place a ball at position[i]
                     count++;
                     lastPos = position[i];
                 }
             }
-            return count;
+            return count == m;
         }
     }
 }
