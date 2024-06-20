@@ -34,19 +34,20 @@ public interface MinimumNumberOfDaysToMakeMBouquets {
         @Override
         public int minDays(int[] bloomDay, int m, int k) {
             int n = bloomDay.length;
-            if (n < m * k) {
+
+            if (n < (long) m * k) {
                 return -1;
             }
 
-            // Can make >= m bouquets at day x?
-            // If that is true at day x, it is also true at any day y > x
-            // FF...FTT...T
+            // Can make >= m bouquets on day x?
+            // If that is true on day x, it is also true on any day y > x
+            // F F... F T T ... T
             //       ^ answer (lower boundary)
             int left = 1;
             int right = MAX_DAY;
             while (left < right) {
                 int mid = left + (right - left) / 2;
-                if (makeBouquets(bloomDay, k, mid) >= m) {
+                if (canMakeBouquets(bloomDay, m, k, mid)) {
                     // mid might be the answer;
                     // check if there is a better option to the left of it
                     right = mid;
@@ -58,29 +59,28 @@ public interface MinimumNumberOfDaysToMakeMBouquets {
             return (left > MAX_DAY) ? -1 : left;
         }
 
-        private int makeBouquets(int[] bloomDay, int k, int day) {
-            // count how bouquets consisting of k adjacent flowers we can make at day x
-            int n = bloomDay.length;
-            List<Integer> indices = new ArrayList<>();
-            for (int i = 0; i < n; i++) {
+        private boolean canMakeBouquets(int[] bloomDay, int m, int k, int day) {
+            // count how many bouquets consisting of k adjacent flowers we can make on day x
+            List<Integer> positions = new ArrayList<>();
+            for (int i = 0; i < bloomDay.length; i++) {
                 if (bloomDay[i] <= day) {
-                    indices.add(i);
+                    positions.add(i);
                 }
             }
 
             int count = 0;
             int i = 0;
-            while (i < indices.size()) {
+            while (i < positions.size()) {
                 // starting from index i, count adjacent flowers
                 int j = i + 1;
-                while (j < indices.size() && indices.get(j) == indices.get(j - 1) + 1) {
+                while (j < positions.size() && positions.get(j) == positions.get(j - 1) + 1) {
                     j++;
                 }
                 // how many new bouquets did we make?
                 count += (j - i) / k;
                 i = j;
             }
-            return count;
+            return count >= m;
         }
     }
 }
