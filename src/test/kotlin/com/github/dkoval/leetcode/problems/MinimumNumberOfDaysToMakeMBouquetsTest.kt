@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
 import com.github.dkoval.leetcode.problems.MinimumNumberOfDaysToMakeMBouquets.MinimumNumberOfDaysToMakeMBouquetsUsingBinarySearchRev1
+import com.github.dkoval.leetcode.problems.MinimumNumberOfDaysToMakeMBouquets.MinimumNumberOfDaysToMakeMBouquetsUsingBinarySearchRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -47,13 +48,27 @@ internal class MinimumNumberOfDaysToMakeMBouquetsTest {
             k: Int,
             expected: Int
         ) {
-            MinimumNumberOfDaysToMakeMBouquetsUsingBinarySearchRev1()
-                .test(bloomDay, m, k, expected)
+            MinimumNumberOfDaysToMakeMBouquetsUsingBinarySearchRev1().test(bloomDay, m, k, expected)
         }
     }
 
-    private fun MinimumNumberOfDaysToMakeMBouquets.test(bloomDay: IntArray, m: Int, k: Int, expected: Int) {
-        val actual = minDays(bloomDay, m, k)
-        assertEquals(expected, actual)
+    @Nested
+    inner class MinimumNumberOfDaysToMakeMBouquetsUsingBinarySearchRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum number of days you need to wait to be able to make m bouquets from the garden`(
+            bloomDay: IntArray,
+            m: Int,
+            k: Int,
+            expected: Int
+        ) {
+            MinimumNumberOfDaysToMakeMBouquetsUsingBinarySearchRev2().test(bloomDay, m, k, expected)
+        }
     }
+}
+
+private fun MinimumNumberOfDaysToMakeMBouquets.test(bloomDay: IntArray, m: Int, k: Int, expected: Int) {
+    val actual = minDays(bloomDay, m, k)
+    assertEquals(expected, actual)
 }

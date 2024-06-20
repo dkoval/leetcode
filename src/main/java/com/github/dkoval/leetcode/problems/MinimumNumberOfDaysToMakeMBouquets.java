@@ -83,4 +83,81 @@ public interface MinimumNumberOfDaysToMakeMBouquets {
             return count >= m;
         }
     }
+
+    class MinimumNumberOfDaysToMakeMBouquetsUsingBinarySearchRev2 implements MinimumNumberOfDaysToMakeMBouquets {
+
+        @Override
+        public int minDays(int[] bloomDay, int m, int k) {
+            int n = bloomDay.length;
+
+            if (n < (long) m * k) {
+                return -1;
+            }
+
+            int maxDay = maxOf(bloomDay);
+
+            // Idea: binary search.
+            // If we can make >= m bouquets on day x,
+            // we can also do the same on any day y > x
+            // F F ... F T T ... T
+            //           ^ answer (lowe boundary)
+            // Constraints: 1 <= bloomDay[i] <= 10^9
+            int left = 1;
+            int right = maxDay;
+            while (left < right) {
+                int mid = left + (right - left) / 2;
+                if (canMakeBouquets(bloomDay, m, k, mid)) {
+                    // mid can be the answer;
+                    // check if there's a better option to the left of it
+                    right = mid;
+                } else {
+                    // mid and everything to the left of it can't be the answer
+                    left = mid + 1;
+                }
+            }
+            return (left > maxDay) ? -1 : left;
+        }
+
+        private int maxOf(int[] arr) {
+            int best = Integer.MIN_VALUE;
+            for (int x : arr) {
+                best = Math.max(best, x);
+            }
+            return best;
+        }
+
+        private boolean canMakeBouquets(int[] bloomDay, int m, int k, int day) {
+            int n = bloomDay.length;
+
+            // count how bouquets consisting of k adjacent flowers we can make on day x
+            int count = 0;
+
+            // starting and ending indices of a group of adjacent flowers
+            int start = -1;
+            int end = -1;
+            for (int i = 0; i < n; i++) {
+                if (bloomDay[i] > day) {
+                    continue;
+                }
+
+                if (start < 0) {
+                    // start the 1st group
+                    start = i;
+                } else if (end + 1 != i) {
+                    // how many new bouquets did we make?
+                    count += (end - start + 1) / k;
+                    // start a new group
+                    start = i;
+                }
+                // expand a group
+                end = i;
+            }
+
+            // corner cases: handle either a single of the very last group of adjacent flowers
+            if (start >= 0) {
+                count += (end - start + 1) / k;
+            }
+            return count >= m;
+        }
+    }
 }
