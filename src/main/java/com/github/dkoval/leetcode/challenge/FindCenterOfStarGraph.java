@@ -1,5 +1,8 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * <a href="https://leetcode.com/problems/find-center-of-star-graph/">Find Center of Star Graph</a>
  * <p>
@@ -35,6 +38,24 @@ public interface FindCenterOfStarGraph {
                     if (++counts[edge[i] - 1] == n) {
                         return edge[i];
                     }
+                }
+            }
+            return -1;
+        }
+    }
+
+    class FindCenterOfStarGraphRev2 implements FindCenterOfStarGraph {
+
+        @Override
+        public int findCenter(int[][] edges) {
+            // Any two edges must have a common node, which is the center.
+            Set<Integer> seen = new HashSet<>();
+            for (int i = 0; i < 2; i++) {
+                for (int j = 0; j < 2; j++) {
+                    if (seen.contains(edges[i][j])) {
+                        return edges[i][j];
+                    }
+                    seen.add(edges[i][j]);
                 }
             }
             return -1;

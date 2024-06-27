@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.FindCenterOfStarGraph.FindCenterOfStarGraphRev1
+import com.github.dkoval.leetcode.challenge.FindCenterOfStarGraph.FindCenterOfStarGraphRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -42,6 +43,16 @@ internal class FindCenterOfStarGraphTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the center of the given star graph`(edges: Array<IntArray>, expected: Int) {
             FindCenterOfStarGraphRev1().test(edges, expected)
+        }
+    }
+
+    @Nested
+    inner class FindCenterOfStarGraphRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the center of the given star graph`(edges: Array<IntArray>, expected: Int) {
+            FindCenterOfStarGraphRev2().test(edges, expected)
         }
     }
 }
