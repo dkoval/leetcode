@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
 /**
- * <a href="https://leetcode.com/problems/remove-max-number-of-edges-to-keep-graph-fully-traversable/">Remove Max Number of Edges to Keep Graph Fully Traversable</a>
+ * <a href="https://leetcode.com/problems/remove-max-number-of-edges-to-keep-graph-fully-traversable/">Remove Max Number of Edges to Keep Graph Fully Traversable (Hard)</a>
  * <p>
  * Alice and Bob have an undirected graph of n nodes and three types of edges:
  * <ul>
@@ -43,22 +43,27 @@ public interface RemoveMaxNumberOfEdgesToKeepGraphFullyTraversable {
             // greedy - use as many type = 3 edges as possible (those edges can be used by both Alice and Bob)
             for (int[] edge : edges) {
                 if (edge[0] == 3) {
-                    boolean added = alice.union(edge[1], edge[2]) | bob.union(edge[1], edge[2]);
-                    keep += added ? 1 : 0;
+                    boolean a = alice.union(edge[1], edge[2]);
+                    boolean b = bob.union(edge[1], edge[2]);
+                    if (a || b) {
+                        keep++;
+                    }
                 }
             }
 
             for (int[] edge : edges) {
                 // keep edges that only Alice can use
                 if (edge[0] == 1) {
-                    boolean added = alice.union(edge[1], edge[2]);
-                    keep += added ? 1 : 0;
+                    if (alice.union(edge[1], edge[2])) {
+                        keep++;
+                    }
                 }
 
                 // keep edges that only Bob can use
                 if (edge[0] == 2) {
-                    boolean added = bob.union(edge[1], edge[2]);
-                    keep += added ? 1 : 0;
+                    if (bob.union(edge[1], edge[2])) {
+                        keep++;
+                    }
                 }
             }
 
@@ -71,7 +76,7 @@ public interface RemoveMaxNumberOfEdgesToKeepGraphFullyTraversable {
 
         private static class UnionFind {
             final int[] parent;
-            int disjoint;
+            int components;
 
             UnionFind(int n) {
                 // nodes are 1-indexed
@@ -79,7 +84,7 @@ public interface RemoveMaxNumberOfEdgesToKeepGraphFullyTraversable {
                 for (int i = 1; i <= n; i++) {
                     parent[i] = i;
                 }
-                disjoint = n;
+                components = n;
             }
 
             int find(int x) {
@@ -94,14 +99,14 @@ public interface RemoveMaxNumberOfEdgesToKeepGraphFullyTraversable {
                 int py = find(y);
                 if (px != py) {
                     parent[px] = py;
-                    disjoint--;
+                    components--;
                     return true;
                 }
                 return false;
             }
 
             boolean isConnected() {
-                return disjoint == 1;
+                return components == 1;
             }
         }
     }
