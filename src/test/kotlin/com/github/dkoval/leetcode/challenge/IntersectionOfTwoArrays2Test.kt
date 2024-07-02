@@ -56,9 +56,9 @@ internal class IntersectionOfTwoArrays2Test {
             IntersectionOfTwoArrays2UsingSorting().test(nums1, nums2, expected)
         }
     }
+}
 
-    private fun IntersectionOfTwoArrays2.test(nums1: IntArray, nums2: IntArray, expected: IntArray) {
-        val actual = intersect(nums1, nums2)
-        assertArrayEquals(expected, actual)
-    }
+private fun IntersectionOfTwoArrays2.test(nums1: IntArray, nums2: IntArray, expected: IntArray) {
+    val actual = intersect(nums1, nums2)
+    assertArrayEquals(expected, actual)
 }
