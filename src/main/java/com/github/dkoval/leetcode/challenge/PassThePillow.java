@@ -37,4 +37,16 @@ public interface PassThePillow {
             return index;
         }
     }
+
+    class PassThePillowRev2 implements PassThePillow {
+
+        @Override
+        public int passThePillow(int n, int time) {
+            // 0-index
+            int passes = time / (n - 1);
+            int offset = time % (n - 1);
+            // 1-index
+            return (passes % 2 == 0) ? offset + 1 : n - offset;
+        }
+    }
 }

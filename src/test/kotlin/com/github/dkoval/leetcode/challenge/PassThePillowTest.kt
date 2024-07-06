@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.PassThePillow.PassThePillowRev1
+import com.github.dkoval.leetcode.challenge.PassThePillow.PassThePillowRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -36,9 +37,23 @@ internal class PassThePillowTest {
             PassThePillowRev1().test(n, time, expected)
         }
     }
+
+    @Nested
+    inner class PassThePillowRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the index of the person holding the pillow after time seconds`(
+            n: Int,
+            time: Int,
+            expected: Int
+        ) {
+            PassThePillowRev2().test(n, time, expected)
+        }
+    }
 }
 
-private fun PassThePillowRev1.test(n: Int, time: Int, expected: Int) {
+private fun PassThePillow.test(n: Int, time: Int, expected: Int) {
     val actual = passThePillow(n, time)
     assertEquals(expected, actual)
 }
