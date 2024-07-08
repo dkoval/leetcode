@@ -36,21 +36,20 @@ public interface FindWinnerOfCircularGame {
 
             int i = 0;
             boolean[] used = new boolean[n];
-            int numPlayersInGame = n;
-            while (numPlayersInGame > 1) {
+            while (n > 1) {
                 // index of a player to leave
-                int j = indexOfNextPlayer(i, k - 1, used);
+                int j = nextPlayer(i, k - 1, used);
                 used[j] = true;
-                numPlayersInGame--;
+                n--;
                 // index of the next player to continue from
-                i = indexOfNextPlayer(j, 1, used);
+                i = nextPlayer(j, 1, used);
             }
             return i + 1;
         }
 
-        private int indexOfNextPlayer(int idx, int shift, boolean[] used) {
+        private int nextPlayer(int start, int shift, boolean[] used) {
             int n = used.length;
-            int i = idx;
+            int i = start;
             while (shift > 0) {
                 i = (i + 1) % n;
                 if (!used[i]) {

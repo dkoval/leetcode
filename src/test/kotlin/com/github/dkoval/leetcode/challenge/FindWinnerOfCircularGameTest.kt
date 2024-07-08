@@ -34,9 +34,9 @@ internal class FindWinnerOfCircularGameTest {
             FindWinnerOfCircularGameGoodEnough().test(n, k, expected)
         }
     }
+}
 
-    private fun FindWinnerOfCircularGame.test(n: Int, k: Int, expected: Int) {
-        val actual = findTheWinner(n, k)
-        assertEquals(expected, actual)
-    }
+private fun FindWinnerOfCircularGame.test(n: Int, k: Int, expected: Int) {
+    val actual = findTheWinner(n, k)
+    assertEquals(expected, actual)
 }
