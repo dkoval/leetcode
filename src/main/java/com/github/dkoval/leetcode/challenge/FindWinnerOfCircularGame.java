@@ -1,5 +1,8 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 /**
  * <a href="https://leetcode.com/problems/find-the-winner-of-the-circular-game/">Find the Winner of the Circular Game</a>
  * <p>
@@ -26,7 +29,7 @@ public interface FindWinnerOfCircularGame {
 
     int findTheWinner(int n, int k);
 
-    class FindWinnerOfCircularGameGoodEnough implements FindWinnerOfCircularGame {
+    class FindWinnerOfCircularGameRev1 implements FindWinnerOfCircularGame {
 
         @Override
         public int findTheWinner(int n, int k) {
@@ -57,6 +60,31 @@ public interface FindWinnerOfCircularGame {
                 }
             }
             return i;
+        }
+    }
+
+    class FindWinnerOfCircularGameRev2 implements FindWinnerOfCircularGame {
+
+        @Override
+        public int findTheWinner(int n, int k) {
+            // - use a queue to model a circle
+            // - at each step, move (k - 1) elements to the back of the queue,
+            // then poll() to remove k-th element from the circle
+            Queue<Integer> q = new ArrayDeque<>();
+            for (int x = 1; x <= n; x++) {
+                q.offer(x);
+            }
+
+            while (q.size() > 1) {
+                // move (k - 1) elements to the back of the queue
+                int repeat = k - 1;
+                while (repeat-- > 0) {
+                    q.offer(q.poll());
+                }
+                // remove k-th element
+                q.poll();
+            }
+            return q.poll();
         }
     }
 }

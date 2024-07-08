@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.FindWinnerOfCircularGame.FindWinnerOfCircularGameGoodEnough
+import com.github.dkoval.leetcode.challenge.FindWinnerOfCircularGame.FindWinnerOfCircularGameRev1
+import com.github.dkoval.leetcode.challenge.FindWinnerOfCircularGame.FindWinnerOfCircularGameRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -26,12 +27,22 @@ internal class FindWinnerOfCircularGameTest {
     }
 
     @Nested
-    inner class FindWinnerOfCircularGameGoodEnoughTest {
+    inner class FindWinnerOfCircularGameRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the winner of the game`(n: Int, k: Int, expected: Int) {
-            FindWinnerOfCircularGameGoodEnough().test(n, k, expected)
+            FindWinnerOfCircularGameRev1().test(n, k, expected)
+        }
+    }
+
+    @Nested
+    inner class FindWinnerOfCircularGameRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the winner of the game`(n: Int, k: Int, expected: Int) {
+            FindWinnerOfCircularGameRev2().test(n, k, expected)
         }
     }
 }
