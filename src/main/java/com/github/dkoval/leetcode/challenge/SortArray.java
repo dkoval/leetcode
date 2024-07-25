@@ -27,26 +27,29 @@ public interface SortArray {
             return nums;
         }
 
-        private void sort(int[] nums, int start, int end) {
-            if (start == end) {
+        private void sort(int[] nums, int left, int right) {
+            // base case
+            if (left == right) {
                 return;
             }
 
             // split phase
-            int mid = start + (end - start) / 2;
-            sort(nums, start, mid);
-            sort(nums, mid + 1, end);
+            int mid = left + (right - left) / 2;
+            sort(nums, left, mid);
+            sort(nums, mid + 1, right);
 
             // merge phase
-            merge(nums, start, mid, end);
+            merge(nums, left, mid, right);
         }
 
-        private void merge(int[] nums, int start, int mid, int end) {
-            int n = end - start + 1;
+        private void merge(int[] nums, int left, int mid, int right) {
+            int n = right - left + 1;
             int[] tmp = new int[n];
 
-            int i = start, j = mid + 1, k = 0;
-            while (i <= mid && j <= end) {
+            int i = left;
+            int j = mid + 1;
+            int k = 0;
+            while (i <= mid && j <= right) {
                 tmp[k++] = (nums[i] < nums[j]) ? nums[i++] : nums[j++];
             }
 
@@ -54,12 +57,14 @@ public interface SortArray {
                 tmp[k++] = nums[i++];
             }
 
-            while (j <= end) {
+            while (j <= right) {
                 tmp[k++] = nums[j++];
             }
 
+            // at this stage, tmp[] is sorted;
+            // replace nums[left : right] with tmp[]
             for (k = 0; k < n; k++) {
-                nums[start + k] = tmp[k];
+                nums[left + k] = tmp[k];
             }
         }
     }
