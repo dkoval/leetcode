@@ -63,4 +63,42 @@ public interface CountNumberOfTeams {
             return total;
         }
     }
+
+    // O(N^2) | O(1) space
+    class CountNumberOfTeamsRev2 implements CountNumberOfTeams {
+
+        @Override
+        public int numTeams(int[] rating) {
+            int n = rating.length;
+
+            // Scenario #1: rating[i] < rating[j] < rating[k]
+            // for any middle number x, the number of teams that can be formed:
+            // count(numbers to the left of x that are < x) * count(numbers to the right of x that are > x) = Cl * Cb
+            //
+            // Scenario #2: rating[i] > rating[j] > rating[k]
+            // for any middle number x, the number of teams that can be formed:
+            // count(numbers to the left of x that are > x) * count(numbers to the right of x that are < x)
+            // = (j - Cl) * (n - 1 - j - Cb)
+            int total = 0;
+            for (int j = 0; j < n; j++) {
+                int lesser = 0;
+                int bigger = 0;
+                for (int i = 0; i < j; i++) {
+                    if (rating[i] < rating[j]) {
+                        lesser++;
+                    }
+                }
+
+                for (int k = j + 1; k < n; k++) {
+                    if (rating[k] > rating[j]) {
+                        bigger++;
+                    }
+                }
+
+                total += lesser * bigger;
+                total += (j - lesser) * (n - 1 - j - bigger);
+            }
+            return total;
+        }
+    }
 }

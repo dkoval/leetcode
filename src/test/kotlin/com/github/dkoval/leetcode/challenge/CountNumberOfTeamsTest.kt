@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.CountNumberOfTeams.CountNumberOfTeamsRev1
+import com.github.dkoval.leetcode.challenge.CountNumberOfTeams.CountNumberOfTeamsRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -37,6 +38,16 @@ internal class CountNumberOfTeamsTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the number of teams you can form given the conditions`(rating: IntArray, expected: Int) {
             CountNumberOfTeamsRev1().test(rating, expected)
+        }
+    }
+
+    @Nested
+    inner class CountNumberOfTeamsRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of teams you can form given the conditions`(rating: IntArray, expected: Int) {
+            CountNumberOfTeamsRev2().test(rating, expected)
         }
     }
 }
