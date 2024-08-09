@@ -71,7 +71,10 @@ public interface MagicSquaresInGrid {
 
                 if (targetSum == -1) {
                     targetSum = rowSum;
-                } else if (rowSum != targetSum) {
+                    continue;
+                }
+
+                if (rowSum != targetSum) {
                     return false;
                 }
             }
