@@ -41,10 +41,10 @@ public interface MagicSquaresInGrid {
         }
 
         private boolean isMagicSquare(int[][] grid, int startRow, int startCol) {
-            // cols[j] is the sum of numbers in the j-th column
+            // colSums[j] - sum of numbers in the j-th column
             int[] colSums = new int[3];
-            // diagSums[0] - sum of the numbers on (0, 0) -> (1, 1) -> (2, 2) diagonal
-            // diagSums[1] - sum of the numbers on (0, 2) -> (1, 1) -> (2, 0) diagonal
+            // diagSums[0] - sum of numbers on (0, 0) -> (1, 1) -> (2, 2) diagonal
+            // diagSums[1] - sum of numbers on (0, 2) -> (1, 1) -> (2, 0) diagonal
             int[] diagSums = new int[2];
             // frequencies of numbers in 3x3 grid
             int[] counts = new int[10];
