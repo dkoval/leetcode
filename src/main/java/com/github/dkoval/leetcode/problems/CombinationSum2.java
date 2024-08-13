@@ -55,7 +55,7 @@ public interface CombinationSum2 {
             // option #1: take candidates[idx]
             combination.add(candidates[idx]);
             backtrack(candidates, target - candidates[idx], idx + 1, combination, ans);
-            combination.remove(combination.size() - 1);
+            combination.removeLast();
 
             // option #2: skip candidates[idx] along with its duplicates
             while (idx + 1 < n && candidates[idx + 1] == candidates[idx]) {
@@ -100,7 +100,7 @@ public interface CombinationSum2 {
 
                 combination.add(candidates[i]);
                 backtrack(candidates, target - candidates[i], i + 1, combination, ans);
-                combination.remove(combination.size() - 1);
+                combination.removeLast();
             }
         }
     }
