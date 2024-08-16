@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.MaximumDistanceInArrays.MaximumDistanceInArraysRev1
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -40,23 +41,27 @@ internal class MaximumDistanceInArraysTest {
     }
 
     @Nested
-    inner class MaximumDistanceInArraysTest {
+    inner class MaximumDistanceInArraysRev1Test {
+
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the maximum distance in arrays`(arrays: List<List<Int>>, expected: Int) {
-            val actual = MaximumDistanceInArrays.maxDistance(arrays)
-            assertEquals(expected, actual)
+            MaximumDistanceInArraysRev1().test(arrays, expected)
         }
     }
 
     @Nested
-    inner class MaximumDistanceInArraysJavaTest {
+    inner class MaximumDistanceInArraysKtTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the maximum distance in arrays`(arrays: List<List<Int>>, expected: Int) {
-            val actual = MaximumDistanceInArraysJava().maxDistance(arrays)
-            assertEquals(expected, actual)
+            MaximumDistanceInArraysKt.test(arrays, expected)
         }
     }
+}
+
+private fun MaximumDistanceInArrays.test(arrays: List<List<Int>>, expected: Int) {
+    val actual = maxDistance(arrays)
+    assertEquals(expected, actual)
 }
