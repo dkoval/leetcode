@@ -2,15 +2,9 @@ package com.github.dkoval.leetcode.challenge
 
 import kotlin.math.min
 
-/**
- * [Ugly Number II](https://leetcode.com/explore/featured/card/july-leetcoding-challenge/544/week-1-july-1st-july-7th/3380/)
- *
- * Write a program to find the n-th ugly number.
- * Ugly numbers are positive numbers whose prime factors only include 2, 3, 5.
- */
-object UglyNumber2 {
+object UglyNumber2Smart : UglyNumber2 {
 
-    fun nthUglyNumber(n: Int): Int {
+    override fun nthUglyNumber(n: Int): Int {
         val ugly = IntArray(n)
         ugly[0] = 1
         var idx2 = 0
