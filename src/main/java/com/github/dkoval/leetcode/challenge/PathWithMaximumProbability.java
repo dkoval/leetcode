@@ -44,38 +44,24 @@ public interface PathWithMaximumProbability {
             // Dijkstra
             Queue<Node> q = new PriorityQueue<>(Comparator.comparingDouble(node -> -1 * node.probability));
             boolean[] visited = new boolean[n];
-
             q.offer(new Node(start, 1.0));
             while (!q.isEmpty()) {
                 Node curr = q.poll();
-                if (visited[curr.id]) {
-                    continue;
-                }
-
-                visited[curr.id] = true;
                 if (curr.id == end) {
                     return curr.probability;
                 }
 
-                for (Node neighbor : adj.getOrDefault(curr.id, Collections.emptyList())) {
-                    q.offer(new Node(neighbor.id, curr.probability * neighbor.probability));
+                visited[curr.id] = true;
+                for (Node neighbor : adj.getOrDefault(curr.id, List.of())) {
+                    if (!visited[neighbor.id]) {
+                        q.offer(new Node(neighbor.id, curr.probability * neighbor.probability));
+                    }
                 }
             }
             return 0.0;
         }
 
-        private static class Node {
-            final int id;
-            final double probability;
-
-            Node(int id, double probability) {
-                this.id = id;
-                this.probability = probability;
-            }
-
-            public String toString() {
-                return String.format("(%d, %f)", id, probability);
-            }
+        private record Node(int id, double probability) {
         }
     }
 }
