@@ -1,5 +1,8 @@
 package com.github.dkoval.leetcode.problems;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 /**
  * <a href="https://leetcode.com/problems/count-sub-islands/">Count Sub Islands</a>
  * <p>
@@ -64,6 +67,67 @@ public interface CountSubIslands {
                 isSubIsland &= dfs(grid2, nextRow, nextCol, grid1);
             }
             return isSubIsland;
+        }
+    }
+
+    class CountSubIslandsBFS implements CountSubIslands {
+
+        private static final int[][] DIRS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+
+        @Override
+        public int countSubIslands(int[][] grid1, int[][] grid2) {
+            int m2 = grid2.length;
+            int n2 = grid2[0].length;
+
+            int count = 0;
+            for (int row = 0; row < m2; row++) {
+                for (int col = 0; col < n2; col++) {
+                    if (grid2[row][col] == 1) {
+                        count += bfs(grid2, row, col, grid1) ? 1 : 0;
+                    }
+                }
+            }
+            return count;
+        }
+
+        private boolean bfs(int[][] grid2, int row, int col, int[][] grid1) {
+            int m2 = grid2.length;
+            int n2 = grid2[0].length;
+
+            Queue<Cell> q = new ArrayDeque<>();
+            q.offer(new Cell(row, col));
+            // mark (row, col) cell in grid2 as visited
+            grid2[row][col] = 2;
+
+            boolean subIsland = true;
+            while (!q.isEmpty()) {
+                Cell curr = q.poll();
+
+                if (grid1[curr.row][curr.col] != 1) {
+                    subIsland = false;
+                }
+
+                for (int[] d : DIRS) {
+                    int nextRow = curr.row + d[0];
+                    int nextCol = curr.col + d[1];
+
+                    if (nextRow < 0 || nextRow >= m2 || nextCol < 0 || nextCol >= n2) {
+                        continue;
+                    }
+
+                    if (grid2[nextRow][nextCol] != 1) {
+                        continue;
+                    }
+
+                    q.offer(new Cell(nextRow, nextCol));
+                    grid2[nextRow][nextCol] = 2;
+                }
+            }
+
+            return subIsland;
+        }
+
+        private record Cell(int row, int col) {
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.problems
 
+import com.github.dkoval.leetcode.problems.CountSubIslands.CountSubIslandsBFS
 import com.github.dkoval.leetcode.problems.CountSubIslands.CountSubIslandsDFS
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -66,6 +67,19 @@ internal class CountSubIslandsTest {
         }
     }
 
+    @Nested
+    inner class CountSubIslandsBFSTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of islands in grid2 that are considered sub-islands`(
+            grid1: Array<IntArray>,
+            grid2: Array<IntArray>,
+            expected: Int
+        ) {
+            CountSubIslandsBFS().test(grid1, grid2, expected)
+        }
+    }
 }
 
 private fun CountSubIslands.test(grid1: Array<IntArray>, grid2: Array<IntArray>, expected: Int) {
