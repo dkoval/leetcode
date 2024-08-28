@@ -66,8 +66,9 @@ internal class CountSubIslandsTest {
         }
     }
 
-    private fun CountSubIslands.test(grid1: Array<IntArray>, grid2: Array<IntArray>, expected: Int) {
-        val actual = countSubIslands(grid1, grid2)
-        assertEquals(expected, actual)
-    }
+}
+
+private fun CountSubIslands.test(grid1: Array<IntArray>, grid2: Array<IntArray>, expected: Int) {
+    val actual = countSubIslands(grid1, grid2)
+    assertEquals(expected, actual)
 }
