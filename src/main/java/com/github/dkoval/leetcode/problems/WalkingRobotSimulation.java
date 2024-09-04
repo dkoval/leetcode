@@ -77,7 +77,7 @@ public interface WalkingRobotSimulation {
             return best;
         }
 
-        private static enum Direction {
+        private enum Direction {
             NORTH(0, 1), EAST(1, 0), SOUTH(0, -1), WEST(-1, 0);
 
             final int dx;
