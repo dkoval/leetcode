@@ -19,16 +19,16 @@ internal class LinkedListInBinaryTreeTest {
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 ListNode.headOf(4, 2, 8),
-                TreeNode(1).apply {
-                    left = TreeNode(4).apply {
-                        right = TreeNode(2).apply {
+                TreeNode(1) {
+                    left = TreeNode(4) {
+                        right = TreeNode(2) {
                             left = TreeNode(1)
                         }
                     }
-                    right = TreeNode(4).apply {
-                        left = TreeNode(2).apply {
+                    right = TreeNode(4) {
+                        left = TreeNode(2) {
                             left = TreeNode(6)
-                            right = TreeNode(8).apply {
+                            right = TreeNode(8) {
                                 left = TreeNode(1)
                                 right = TreeNode(3)
                             }
@@ -39,16 +39,16 @@ internal class LinkedListInBinaryTreeTest {
             ),
             Arguments.of(
                 ListNode.headOf(1, 4, 2, 6),
-                TreeNode(1).apply {
-                    left = TreeNode(4).apply {
-                        right = TreeNode(2).apply {
+                TreeNode(1) {
+                    left = TreeNode(4) {
+                        right = TreeNode(2) {
                             left = TreeNode(1)
                         }
                     }
-                    right = TreeNode(4).apply {
-                        left = TreeNode(2).apply {
+                    right = TreeNode(4) {
+                        left = TreeNode(2) {
                             left = TreeNode(6)
-                            right = TreeNode(8).apply {
+                            right = TreeNode(8) {
                                 left = TreeNode(1)
                                 right = TreeNode(3)
                             }
@@ -59,16 +59,16 @@ internal class LinkedListInBinaryTreeTest {
             ),
             Arguments.of(
                 ListNode.headOf(1, 4, 2, 6, 8),
-                TreeNode(1).apply {
-                    left = TreeNode(4).apply {
-                        right = TreeNode(2).apply {
+                TreeNode(1) {
+                    left = TreeNode(4) {
+                        right = TreeNode(2) {
                             left = TreeNode(1)
                         }
                     }
-                    right = TreeNode(4).apply {
-                        left = TreeNode(2).apply {
+                    right = TreeNode(4) {
+                        left = TreeNode(2) {
                             left = TreeNode(6)
-                            right = TreeNode(8).apply {
+                            right = TreeNode(8) {
                                 left = TreeNode(1)
                                 right = TreeNode(3)
                             }

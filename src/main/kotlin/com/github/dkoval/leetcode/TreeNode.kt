@@ -20,3 +20,5 @@ fun TreeNode?.equalsTo(that: TreeNode?): Boolean {
     }
     return (`val` == that.`val`) && left.equalsTo(that.left) && right.equalsTo(that.right)
 }
+
+fun TreeNode(`val`: Int, block: TreeNode.() -> Unit = {}): TreeNode = TreeNode(`val`).apply(block)
