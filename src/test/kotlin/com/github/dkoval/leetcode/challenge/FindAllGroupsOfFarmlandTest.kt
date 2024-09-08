@@ -60,5 +60,5 @@ internal class FindAllGroupsOfFarmlandTest {
 
 private fun FindAllGroupsOfFarmland.test(land: Array<IntArray>, expected: Array<IntArray>) {
     val actual = findFarmland(land)
-    assertThat(actual).containsExactlyInAnyOrder(*expected)
+    assertThat(actual.asIterable()).containsExactlyInAnyOrder(*expected)
 }

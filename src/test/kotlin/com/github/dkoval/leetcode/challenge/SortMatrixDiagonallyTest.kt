@@ -89,6 +89,6 @@ internal class SortMatrixDiagonallyTest {
 
     fun SortMatrixDiagonally.test(mat: Array<IntArray>, expected: Array<IntArray>) {
         val actual = diagonalSort(mat)
-        assertThat(actual).containsExactly(*expected)
+        assertThat(actual.asIterable()).containsExactly(*expected)
     }
 }
