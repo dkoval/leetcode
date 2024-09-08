@@ -3,6 +3,7 @@ package com.github.dkoval.leetcode.challenge
 import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.challenge.SplitLinkedListInParts.SplitLinkedListInPartsRev1
 import com.github.dkoval.leetcode.challenge.SplitLinkedListInParts.SplitLinkedListInPartsRev2
+import com.github.dkoval.leetcode.challenge.SplitLinkedListInParts.SplitLinkedListInPartsRev3
 import com.github.dkoval.leetcode.dump
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
@@ -34,15 +35,6 @@ internal class SplitLinkedListInPartsTest {
                 )
             ),
             Arguments.of(
-                null,
-                3,
-                listOf(
-                    listOf<Int>(),
-                    listOf(),
-                    listOf()
-                )
-            ),
-            Arguments.of(
                 ListNode(1).apply {
                     next = ListNode(2).apply {
                         next = ListNode(3).apply {
@@ -68,6 +60,15 @@ internal class SplitLinkedListInPartsTest {
                     listOf(5, 6, 7),
                     listOf(8, 9, 10)
                 )
+            ),
+            Arguments.of(
+                null,
+                3,
+                listOf(
+                    listOf<Int>(),
+                    listOf(),
+                    listOf()
+                )
             )
         )
     }
@@ -89,6 +90,16 @@ internal class SplitLinkedListInPartsTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return an array of the k parts`(head: ListNode?, k: Int, expected: Iterable<List<Int>>) {
             SplitLinkedListInPartsRev2().test(head, k, expected)
+        }
+    }
+
+    @Nested
+    inner class SplitLinkedListInPartsRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return an array of the k parts`(head: ListNode?, k: Int, expected: Iterable<List<Int>>) {
+            SplitLinkedListInPartsRev3().test(head, k, expected)
         }
     }
 }

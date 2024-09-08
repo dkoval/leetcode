@@ -118,4 +118,49 @@ public interface SplitLinkedListInParts {
             return length;
         }
     }
+
+    class SplitLinkedListInPartsRev3 implements SplitLinkedListInParts {
+
+        @Override
+        public ListNode[] splitListToParts(ListNode head, int k) {
+            int length = length(head);
+
+            int index = 0;
+            int remaining = length % k;
+            ListNode[] ans = new ListNode[k];
+            ListNode curr = head;
+            ListNode prev = null;
+            while (curr != null) {
+                // form a partition of size = length / k
+                ListNode start = curr;
+                int repeat = length / k;
+
+                // check if there's an extra item to be added to the current partition
+                if (remaining > 0) {
+                    repeat++;
+                    remaining--;
+                }
+
+                // accumulate items belonging to the current partition
+                while (repeat-- > 0) {
+                    prev = curr;
+                    curr = curr.next;
+                }
+                if (prev != null) {
+                    prev.next = null;
+                }
+                ans[index++] = start;
+            }
+            return ans;
+        }
+
+        private int length(ListNode head) {
+            int length = 0;
+            while (head != null) {
+                length++;
+                head = head.next;
+            }
+            return length;
+        }
+    }
 }
