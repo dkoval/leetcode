@@ -61,6 +61,6 @@ internal class KClosestPointsToOriginTest {
         expected: Array<IntArray>
     ) {
         val actual = kClosest(points, K)
-        assertThat(actual).containsExactlyInAnyOrder(*expected)
+        assertThat(actual.asIterable()).containsExactlyInAnyOrder(*expected)
     }
 }

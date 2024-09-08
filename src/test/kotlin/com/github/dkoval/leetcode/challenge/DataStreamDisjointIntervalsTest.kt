@@ -53,7 +53,7 @@ private fun DataStreamDisjointIntervals.SummaryRanges.test(commands: List<Comman
     commands.forEach { command ->
         when (command) {
             is Command.Add -> addNum(command.value)
-            is Command.GetIntervals -> assertThat(intervals).containsExactlyElementsOf(command.expected)
+            is Command.GetIntervals -> assertThat(intervals.asIterable()).containsExactlyElementsOf(command.expected)
         }
     }
 }
