@@ -26,27 +26,27 @@ internal class UniqueBinarySearchTrees2Test {
             Arguments.of(
                 3,
                 listOf(
-                    TreeNode(1).apply {
-                        right = TreeNode(3).apply {
+                    TreeNode(1) {
+                        right = TreeNode(3) {
                             left = TreeNode(2)
                         }
                     },
-                    TreeNode(1).apply {
-                        right = TreeNode(2).apply {
+                    TreeNode(1) {
+                        right = TreeNode(2) {
                             right = TreeNode(3)
                         }
                     },
-                    TreeNode(2).apply {
+                    TreeNode(2) {
                         left = TreeNode(1)
                         right = TreeNode(3)
                     },
-                    TreeNode(3).apply {
-                        left = TreeNode(2).apply {
+                    TreeNode(3) {
+                        left = TreeNode(2) {
                             left = TreeNode(1)
                         }
                     },
-                    TreeNode(3).apply {
-                        left = TreeNode(1).apply {
+                    TreeNode(3) {
+                        left = TreeNode(1) {
                             right = TreeNode(2)
                         }
                     }

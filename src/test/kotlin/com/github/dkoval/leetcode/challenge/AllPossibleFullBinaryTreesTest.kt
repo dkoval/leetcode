@@ -20,21 +20,21 @@ internal class AllPossibleFullBinaryTreesTest {
                 7,
                 listOf(
                     // #1
-                    TreeNode(0).apply {
+                    TreeNode(0) {
                         left = TreeNode(0)
-                        right = TreeNode(0).apply {
+                        right = TreeNode(0) {
                             left = TreeNode(0)
-                            right = TreeNode(0).apply {
+                            right = TreeNode(0) {
                                 left = TreeNode(0)
                                 right = TreeNode(0)
                             }
                         }
                     },
                     // #2
-                    TreeNode(0).apply {
+                    TreeNode(0) {
                         left = TreeNode(0)
-                        right = TreeNode(0).apply {
-                            left = TreeNode(0).apply {
+                        right = TreeNode(0) {
+                            left = TreeNode(0) {
                                 left = TreeNode(0)
                                 right = TreeNode(0)
                             }
@@ -42,21 +42,21 @@ internal class AllPossibleFullBinaryTreesTest {
                         }
                     },
                     // #3
-                    TreeNode(0).apply {
-                        left = TreeNode(0).apply {
+                    TreeNode(0) {
+                        left = TreeNode(0) {
                             left = TreeNode(0)
                             right = TreeNode(0)
                         }
-                        right = TreeNode(0).apply {
+                        right = TreeNode(0) {
                             left = TreeNode(0)
                             right = TreeNode(0)
                         }
                     },
                     // #4
-                    TreeNode(0).apply {
-                        left = TreeNode(0).apply {
+                    TreeNode(0) {
+                        left = TreeNode(0) {
                             left = TreeNode(0)
-                            right = TreeNode(0).apply {
+                            right = TreeNode(0) {
                                 left = TreeNode(0)
                                 right = TreeNode(0)
                             }
@@ -64,9 +64,9 @@ internal class AllPossibleFullBinaryTreesTest {
                         right = TreeNode(0)
                     },
                     // #5
-                    TreeNode(0).apply {
-                        left = TreeNode(0).apply {
-                            left = TreeNode(0).apply {
+                    TreeNode(0) {
+                        left = TreeNode(0) {
+                            left = TreeNode(0) {
                                 left = TreeNode(0)
                                 right = TreeNode(0)
                             }
@@ -79,7 +79,7 @@ internal class AllPossibleFullBinaryTreesTest {
             Arguments.of(
                 3,
                 listOf(
-                    TreeNode(0).apply {
+                    TreeNode(0) {
                         left = TreeNode(0)
                         right = TreeNode(0)
                     }

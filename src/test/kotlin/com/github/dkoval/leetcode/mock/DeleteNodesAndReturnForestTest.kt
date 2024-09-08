@@ -18,20 +18,20 @@ internal class DeleteNodesAndReturnForestTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                TreeNode(1).apply {
-                    left = TreeNode(2).apply {
+                TreeNode(1) {
+                    left = TreeNode(2) {
                         left = TreeNode(4)
                         right = TreeNode(5)
                     }
-                    right = TreeNode(3).apply {
+                    right = TreeNode(3) {
                         left = TreeNode(6)
                         right = TreeNode(7)
                     }
                 },
                 intArrayOf(3, 5),
                 listOf(
-                    TreeNode(1).apply {
-                        left = TreeNode(2).apply {
+                    TreeNode(1) {
+                        left = TreeNode(2) {
                             left = TreeNode(4)
                         }
                     },

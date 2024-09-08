@@ -19,78 +19,78 @@ internal class AddOneRowToTreeTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                TreeNode(4).apply {
-                    left = TreeNode(2).apply {
+                TreeNode(4) {
+                    left = TreeNode(2) {
                         left = TreeNode(3)
                         right = TreeNode(1)
                     }
-                    right = TreeNode(6).apply {
+                    right = TreeNode(6) {
                         left = TreeNode(5)
                     }
                 },
                 1,
                 2,
-                TreeNode(4).apply {
-                    left = TreeNode(1).apply {
-                        left = TreeNode(2).apply {
+                TreeNode(4) {
+                    left = TreeNode(1) {
+                        left = TreeNode(2) {
                             left = TreeNode(3)
                             right = TreeNode(1)
                         }
                     }
-                    right = TreeNode(1).apply {
-                        right = TreeNode(6).apply {
+                    right = TreeNode(1) {
+                        right = TreeNode(6) {
                             left = TreeNode(5)
                         }
                     }
                 }
             ),
             Arguments.of(
-                TreeNode(4).apply {
-                    left = TreeNode(2).apply {
+                TreeNode(4) {
+                    left = TreeNode(2) {
                         left = TreeNode(3)
                         right = TreeNode(1)
                     }
                 },
                 1,
                 3,
-                TreeNode(4).apply {
-                    left = TreeNode(2).apply {
-                        left = TreeNode(1).apply {
+                TreeNode(4) {
+                    left = TreeNode(2) {
+                        left = TreeNode(1) {
                             left = TreeNode(3)
                         }
-                        right = TreeNode(1).apply {
+                        right = TreeNode(1) {
                             right = TreeNode(1)
                         }
                     }
                 }
             ),
             Arguments.of(
-                TreeNode(1).apply {
+                TreeNode(1) {
                     left = TreeNode(2)
                     right = TreeNode(3)
                 },
                 1,
                 1,
-                TreeNode(1).apply {
-                    left = TreeNode(1).apply {
+                TreeNode(1) {
+                    left = TreeNode(1) {
                         left = TreeNode(2)
                         right = TreeNode(3)
                     }
                 }
             ),
             Arguments.of(
-                TreeNode(1).apply {
+                TreeNode(1) {
                     left = TreeNode(2)
                     right = TreeNode(3)
                 },
                 1,
                 3,
-                TreeNode(1).apply {
-                    left = TreeNode(2).apply {
+                TreeNode(1) {
+                    left = TreeNode(2) {
                         left = TreeNode(1)
                         right = TreeNode(1)
                     }
-                    right = TreeNode(3).apply {
+                    right = TreeNode(3) {
                         left = TreeNode(1)
                         right = TreeNode(1)
                     }
