@@ -2,6 +2,7 @@ package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.challenge.SpiralMatrix4.SpiralMatrix4Rev1
+import com.github.dkoval.leetcode.challenge.SpiralMatrix4.SpiralMatrix4Rev2
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -42,6 +43,16 @@ internal class SpiralMatrix4Test {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the generated matrix`(m: Int, n: Int, head: ListNode, expected: Array<IntArray>) {
             SpiralMatrix4Rev1().test(m, n, head, expected)
+        }
+    }
+
+    @Nested
+    inner class SpiralMatrix4Rev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the generated matrix`(m: Int, n: Int, head: ListNode, expected: Array<IntArray>) {
+            SpiralMatrix4Rev2().test(m, n, head, expected)
         }
     }
 }

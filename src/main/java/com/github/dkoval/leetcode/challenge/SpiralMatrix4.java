@@ -72,4 +72,44 @@ public interface SpiralMatrix4 {
             return ans;
         }
     }
+
+    class SpiralMatrix4Rev2 implements SpiralMatrix4 {
+
+        // right, down, left, up
+        private static final int[][] DIRS = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+
+        @Override
+        public int[][] spiralMatrix(int m, int n, ListNode head) {
+            int[][] ans = new int[m][n];
+            for (int[] row : ans) {
+                Arrays.fill(row, -1);
+            }
+
+            // current position in the grid
+            int row = 0;
+            int col = 0;
+            // current index in DIRS[]
+            int d = 0;
+
+            ListNode curr = head;
+            while (curr != null) {
+                ans[row][col] = curr.val;
+
+                int nextRow = row + DIRS[d][0];
+                int nextCol = col + DIRS[d][1];
+
+                // maybe change direction
+                if (nextRow < 0 || nextRow >= m || nextCol < 0 || nextCol >= n || ans[nextRow][nextCol] != -1) {
+                    d = (d + 1) % DIRS.length;
+                    nextRow = row + DIRS[d][0];
+                    nextCol = col + DIRS[d][1];
+                }
+
+                row = nextRow;
+                col = nextCol;
+                curr = curr.next;
+            }
+            return ans;
+        }
+    }
 }
