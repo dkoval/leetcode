@@ -49,4 +49,28 @@ public interface InsertGreatestCommonDivisorsInLinkedList {
             return gcd(b, a % b);
         }
     }
+
+    // O(N) time | O(1) space
+    class InsertGreatestCommonDivisorsInLinkedListRev2 implements InsertGreatestCommonDivisorsInLinkedList {
+
+        @Override
+        public ListNode insertGreatestCommonDivisors(ListNode head) {
+            ListNode curr = head;
+            while (curr != null && curr.next != null) {
+                ListNode next = curr.next;
+                curr.next = new ListNode(gcd(curr.val, next.val), next);
+                curr = next;
+            }
+            return head;
+        }
+
+        private int gcd(int a, int b) {
+            while (b > 0) {
+                int oldA = a;
+                a = b;
+                b = oldA % b;
+            }
+            return a;
+        }
+    }
 }

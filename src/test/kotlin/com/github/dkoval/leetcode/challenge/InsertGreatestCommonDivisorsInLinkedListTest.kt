@@ -2,6 +2,7 @@ package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.challenge.InsertGreatestCommonDivisorsInLinkedList.InsertGreatestCommonDivisorsInLinkedListRev1
+import com.github.dkoval.leetcode.challenge.InsertGreatestCommonDivisorsInLinkedList.InsertGreatestCommonDivisorsInLinkedListRev2
 import com.github.dkoval.leetcode.equalsTo
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
@@ -35,6 +36,16 @@ internal class InsertGreatestCommonDivisorsInLinkedListTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the linked list after insertion`(head: ListNode, expected: ListNode) {
             InsertGreatestCommonDivisorsInLinkedListRev1().test(head, expected)
+        }
+    }
+
+    @Nested
+    inner class InsertGreatestCommonDivisorsInLinkedListRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the linked list after insertion`(head: ListNode, expected: ListNode) {
+            InsertGreatestCommonDivisorsInLinkedListRev2().test(head, expected)
         }
     }
 }
