@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.LargestNumber.LargestNumberRev1
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -35,25 +36,23 @@ internal class LargestNumberTest {
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should arrange integers such that they form the largest number`(nums: IntArray, expected: String) {
-            val actual = LargestNumberKt.largestNumber(nums)
-            assertEquals(expected, actual)
+            LargestNumberKt.test(nums, expected)
         }
     }
 
 
     @Nested
-    inner class LargestNumberJavaTest {
+    inner class LargestNumberRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should arrange integers such that they form the largest number`(nums: IntArray, expected: String) {
-            val actual = LargestNumberJava().largestNumber(nums)
-            assertEquals(expected, actual)
+            LargestNumberRev1().test(nums, expected)
         }
     }
+}
 
-    private fun LargestNumber.test(nums: IntArray, expected: String) {
-        val actual = largestNumber(nums)
-        assertEquals(expected, actual)
-    }
+private fun LargestNumber.test(nums: IntArray, expected: String) {
+    val actual = largestNumber(nums)
+    assertEquals(expected, actual)
 }
