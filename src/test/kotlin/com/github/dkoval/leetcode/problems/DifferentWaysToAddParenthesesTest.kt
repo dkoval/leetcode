@@ -33,9 +33,9 @@ internal class DifferentWaysToAddParenthesesTest {
     ) {
         DifferentWaysToAddParenthesesDivideAndConquer().test(expression, expected)
     }
+}
 
-    private fun DifferentWaysToAddParentheses.test(expression: String, expected: List<Int>) {
-        val actual = diffWaysToCompute(expression)
-        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
-    }
+private fun DifferentWaysToAddParentheses.test(expression: String, expected: List<Int>) {
+    val actual = diffWaysToCompute(expression)
+    assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
 }
