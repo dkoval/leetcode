@@ -21,41 +21,63 @@ import java.util.TreeMap;
  * without causing a triple booking. Otherwise, return false and do not add the event to the calendar.
  * <p>
  * Your class will be called like this: MyCalendar cal = new MyCalendar(); MyCalendar.book(start, end)
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>0 <= start < end <= 10^9</li>
+ *  <li>At most 1000 calls will be made to book</li>
+ * </ul>
  */
-public abstract class MyCalendarTwo {
+public abstract class MyCalendar2 {
 
     public abstract boolean book(int start, int end);
 
     // Time complexity: O(N). For each new event, we process every previous event to decide whether the new event can be booked.
     // Space complexity: O(N), the size of the calendar.
-    public static class MyCalendarTwoBruteForce extends MyCalendarTwo {
-        private final List<int[]> allEvents = new ArrayList<>();
-        private final List<int[]> doubleBookingsEvents = new ArrayList<>();
+    public static class MyCalendar2BruteForce extends MyCalendar2 {
+
+        private final List<Interval> allEvents = new ArrayList<>();
+        private final List<Interval> doubleBookedEvents = new ArrayList<>();
 
         @Override
         public boolean book(int start, int end) {
-            // 2 events [start1, end1) and [start2, end2) do not conflict IFF one of them starts after the other one ends:
-            // either end1 <= start2 || end2 <= start1. Therefore, by De Morgan's laws, this means the 2 event conflict when
-            // end1 > start2 && end2 > start1 <=> start1 < end2 && start2 < end1
-            for (int[] event : doubleBookingsEvents) {
-                if (event[0] < end && start < event[1]) {
+            Interval newEvent = new Interval(start, end);
+            for (Interval existingEvent : doubleBookedEvents) {
+                if (overlap(existingEvent, newEvent)) {
                     // prevent triple booking
                     return false;
                 }
             }
-            for (int[] event : allEvents) {
-                if (event[0] < end && start < event[1]) {
-                    int overlapStart = Math.max(start, event[0]);
-                    int overlapEnd = Math.min(end, event[1]);
-                    doubleBookingsEvents.add(new int[]{overlapStart, overlapEnd});
+
+            // check if the new event causes double booking
+            for (Interval existingEvent : allEvents) {
+                if (overlap(existingEvent, newEvent)) {
+                    int overlapStart = Math.max(start, existingEvent.start);
+                    int overlapEnd = Math.min(end, existingEvent.end);
+                    doubleBookedEvents.add(new Interval(overlapStart, overlapEnd));
                 }
             }
-            allEvents.add(new int[]{start, end});
+            allEvents.add(newEvent);
             return true;
+        }
+
+        private boolean overlap(Interval event1, Interval event2) {
+            // 2 events [start1, end1) and [start2, end2) do not conflict IFF one of them starts after the other one ends:
+            // either end2 <= start1 || start2 >= end1.
+            // Therefore, 2 event conflicts when
+            // end2 > start1 && start2 < end1
+            return (event2.end > event1.start) && (event2.start < event1.end);
+        }
+
+        private record Interval(int start, int end) {
+            @Override
+            public String toString() {
+                return String.format("[%d, %d)", start, end);
+            }
         }
     }
 
-    public static class MyCalendarTwoBoundaryCount extends MyCalendarTwo {
+    public static class MyCalendar2BoundaryCount extends MyCalendar2 {
         private final SortedMap<Integer, Integer> delta = new TreeMap<>();
 
         @Override

@@ -1,17 +1,19 @@
 package com.github.dkoval.leetcode.mock
 
-import com.github.dkoval.leetcode.mock.MyCalendarTwo.MyCalendarTwoBoundaryCount
-import com.github.dkoval.leetcode.mock.MyCalendarTwo.MyCalendarTwoBruteForce
+import com.github.dkoval.leetcode.mock.MyCalendar2.MyCalendar2BoundaryCount
+import com.github.dkoval.leetcode.mock.MyCalendar2.MyCalendar2BruteForce
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
 import java.util.stream.Stream
+import kotlin.streams.asStream
 
-internal class MyCalendarTwoTest {
+internal class MyCalendar2Test {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
@@ -30,29 +32,34 @@ internal class MyCalendarTwoTest {
     }
 
     @Nested
-    inner class MyCalendarTwoBruteForceTest {
+    inner class MyCalendar2BruteForceTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should validate solution`(input: Map<IntArray, Boolean>) {
-            MyCalendarTwoBruteForce().test(input)
+            MyCalendar2BruteForce().test(input)
         }
     }
 
     @Nested
-    inner class MyCalendarTwoBoundaryCountTest {
+    inner class MyCalendar2BoundaryCountTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should validate solution`(input: Map<IntArray, Boolean>) {
-            MyCalendarTwoBoundaryCount().test(input)
+            MyCalendar2BoundaryCount().test(input)
         }
     }
+}
 
-    private fun MyCalendarTwo.test(input: Map<IntArray, Boolean>) {
-        for ((event, expected) in input) {
-            val actual = book(event[0], event[1])
-            assertEquals(expected, actual)
+private fun MyCalendar2.test(input: Map<IntArray, Boolean>) {
+    assertAll(input.asSequence()
+        .map { (event, expected) ->
+            {
+                val actual = book(event[0], event[1])
+                assertEquals(expected, actual)
+            }
         }
-    }
+        .asStream()
+    )
 }
