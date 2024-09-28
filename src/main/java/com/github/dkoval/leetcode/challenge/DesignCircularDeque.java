@@ -26,7 +26,7 @@ package com.github.dkoval.leetcode.challenge;
  */
 public interface DesignCircularDeque {
 
-    abstract sealed class MyCircularDeque {
+    abstract class MyCircularDeque {
         protected final int k;
 
         public MyCircularDeque(int k) {
@@ -50,7 +50,7 @@ public interface DesignCircularDeque {
         public abstract boolean isFull();
     }
 
-    non-sealed class MyCircularDequeRev1 extends MyCircularDeque {
+    final class MyCircularDequeRev1 extends MyCircularDeque {
         private Node head;
         private Node tail;
         private int size = 0;
