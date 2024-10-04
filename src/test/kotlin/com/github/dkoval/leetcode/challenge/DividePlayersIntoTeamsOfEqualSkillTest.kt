@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.DividePlayersIntoTeamsOfEqualSkill.DividePlayersIntoTeamsOfEqualSkillRev1
+import com.github.dkoval.leetcode.challenge.DividePlayersIntoTeamsOfEqualSkill.DividePlayersIntoTeamsOfEqualSkillRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -57,6 +58,16 @@ internal class DividePlayersIntoTeamsOfEqualSkillTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the sum of the chemistry of all the teams`(skill: IntArray, expected: Long) {
             DividePlayersIntoTeamsOfEqualSkillRev1().test(skill, expected)
+        }
+    }
+
+    @Nested
+    inner class DividePlayersIntoTeamsOfEqualSkillRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the sum of the chemistry of all the teams`(skill: IntArray, expected: Long) {
+            DividePlayersIntoTeamsOfEqualSkillRev2().test(skill, expected)
         }
     }
 }

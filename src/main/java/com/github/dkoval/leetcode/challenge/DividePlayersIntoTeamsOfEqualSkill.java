@@ -84,4 +84,53 @@ public interface DividePlayersIntoTeamsOfEqualSkill {
             return totalChemistry;
         }
     }
+
+    class DividePlayersIntoTeamsOfEqualSkillRev2 implements DividePlayersIntoTeamsOfEqualSkill {
+
+        @Override
+        public long dividePlayers(int[] skill) {
+            // n is even
+            int n = skill.length;
+            int numTeams = n / 2;
+
+            int totalSkill = 0;
+            Map<Integer, Integer> counts = new HashMap<>();
+            for (int x : skill) {
+                totalSkill += x;
+                counts.put(x, counts.getOrDefault(x, 0) + 1);
+            }
+
+            if (totalSkill % numTeams != 0) {
+                return -1;
+            }
+
+            int teamSkill = totalSkill / numTeams;
+
+            long totalChemistry = 0;
+            for (int x : counts.keySet()) {
+                int y = teamSkill - x;
+
+                // (x, y) and (y, x) represent the same valid pair, thus handle double counting
+                if (x > y) {
+                    continue;
+                }
+
+                int count = counts.get(x);
+                if (x == y) {
+                    // count must be even
+                    if (count % 2 != 0) {
+                        return -1;
+                    }
+                    totalChemistry += (long) x * x * (count / 2);
+                } else {
+                    // for x and y to form a valid pair, their corresponding counts must be equal
+                    if (count != counts.getOrDefault(y, 0)) {
+                        return -1;
+                    }
+                    totalChemistry += (long) x * y * count;
+                }
+            }
+            return totalChemistry;
+        }
+    }
 }
