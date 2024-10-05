@@ -1,23 +1,11 @@
 package com.github.dkoval.leetcode.challenge
 
-/**
- * [Permutation in String](https://leetcode.com/problems/permutation-in-string/)
- *
- * Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise.
- *
- * In other words, return true if one of s1's permutations is the substring of s2
- *
- * Constraints:
- *
- * - 1 <= s1.length, s2.length <= 10^4
- * - s1 and s2 consist of lowercase English letters.
- */
-object PermutationInString {
+object PermutationInStringRev1 : PermutationInString {
 
     private const val ALPHABET_SIZE = 26
 
     // O(l1 + 26 * (l2 - l1)) time | O(1) space - only counts1[] and counts2[] of size 26 are used
-    fun checkInclusion(s1: String, s2: String): Boolean {
+    override fun checkInclusion(s1: String, s2: String): Boolean {
         val l1 = s1.length
         val l2 = s2.length
 
