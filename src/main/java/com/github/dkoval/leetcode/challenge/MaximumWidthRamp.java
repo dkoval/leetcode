@@ -33,7 +33,7 @@ public interface MaximumWidthRamp {
                 items[i] = new IndexedValue(i, nums[i]);
             }
 
-            // sort indices of nums[] by value, i.e. nums[i]
+            // sort indices of nums[] based on values of nums
             Arrays.sort(items, Comparator.comparingInt(it -> it.value));
 
             // nums   =  [6, 0, 8, 2, 1, 5]
@@ -41,9 +41,9 @@ public interface MaximumWidthRamp {
             // indices = [1, 4, 3, 5, 0, 2]
 
             int best = 0;
-            int left = items[0].index; // min index i in nums[] seen so far
-            for (int j = 1; j < n; j++) {
-                int right = items[j].index;
+            int left = n; // the smallest index in nums[] seen so far
+            for (IndexedValue item : items) {
+                int right = item.index;
                 if (left < right) {
                     best = Math.max(best, right - left);
                 }
