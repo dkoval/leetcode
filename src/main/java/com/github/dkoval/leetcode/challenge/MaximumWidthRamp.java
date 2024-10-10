@@ -55,4 +55,32 @@ public interface MaximumWidthRamp {
         private record IndexedValue(int index, int value) {
         }
     }
+
+    // O(N) time | O(N) space
+    class MaximumWidthRampRev2 implements MaximumWidthRamp {
+
+        @Override
+        public int maxWidthRamp(int[] nums) {
+            int n = nums.length;
+
+            // maxRight[i] denotes the largest number to the right of nums[i]
+            int[] maxRight = new int[n];
+            maxRight[n - 1] = nums[n - 1];
+            for (int i = n - 2; i >= 0; i--) {
+                maxRight[i] = Math.max(maxRight[i + 1], nums[i]);
+            }
+
+            int best = 0;
+            int left = 0;
+            for (int right = 1; right < n; right++) {
+                // shrink the range to maintain invariant
+                // nums[left] <= nums[right]
+                while (nums[left] > maxRight[right]) {
+                    left++;
+                }
+                best = Math.max(best, right - left);
+            }
+            return best;
+        }
+    }
 }

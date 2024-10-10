@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MaximumWidthRamp.MaximumWidthRampRev1
+import com.github.dkoval.leetcode.challenge.MaximumWidthRamp.MaximumWidthRampRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -33,6 +34,16 @@ internal class MaximumWidthRampTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the maximum width of a ramp in nums`(nums: IntArray, expected: Int) {
             MaximumWidthRampRev1().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class MaximumWidthRampRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum width of a ramp in nums`(nums: IntArray, expected: Int) {
+            MaximumWidthRampRev2().test(nums, expected)
         }
     }
 }
