@@ -29,6 +29,7 @@ public interface DivideIntervalsIntoMinimumNumberOfGroups {
 
     int minGroups(int[][] intervals);
 
+    // Resource: https://algo.monster/liteproblems/2406
     class DivideIntervalsIntoMinimumNumberOfGroupsRev1 implements DivideIntervalsIntoMinimumNumberOfGroups {
 
         @Override
@@ -42,12 +43,14 @@ public interface DivideIntervalsIntoMinimumNumberOfGroups {
             int groups = 0;
             for (int[] interval : intervals) {
                 if (!endTimes.isEmpty() && endTimes.peek() < interval[0]) {
-                    // the current interval's starting time is greater than the earliest end time,
-                    // meaning there's no overlap, hence we can add the current interval to the group;
-                    // replace the old end time with the end time of the current interval
+                    // The current interval's starting time is greater than the earliest end time,
+                    // meaning there's no overlap with other intervals in the existing group,
+                    // therefore we can add the current interval to that group.
+                    // Replace the old end time with the end time of the current interval.
                     endTimes.poll();
                 } else {
-                    // the current interval overlaps with every group, and we need to start a new group
+                    // The current interval overlaps with all existing groups,
+                    // hence we need to start a new group.
                     groups++;
                 }
                 endTimes.offer(interval[1]);
