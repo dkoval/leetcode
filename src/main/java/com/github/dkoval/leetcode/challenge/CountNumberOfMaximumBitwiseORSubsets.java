@@ -1,7 +1,10 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * <a href="https://leetcode.com/problems/count-number-of-maximum-bitwise-or-subsets/">Count Number of Maximum Bitwise-OR Subsets</a>
+ * <a href="https://leetcode.com/problems/count-number-of-maximum-bitwise-or-subsets/"> </a>
  * <p>
  * Given an integer array nums, find the maximum possible bitwise OR of a subset of nums and return the number of different
  * non-empty subsets with the maximum bitwise OR.
@@ -44,6 +47,37 @@ public interface CountNumberOfMaximumBitwiseORSubsets {
             count += calc(nums, index + 1, current | nums[index], target);
             // option #2: skip nums[index]
             count += calc(nums, index + 1, current, target);
+            return count;
+        }
+    }
+
+    class CountNumberOfMaximumBitwiseORSubsetsRev2 implements CountNumberOfMaximumBitwiseORSubsets {
+
+        @Override
+        public int countMaxOrSubsets(int[] nums) {
+            // max bitwise-or
+            int target = 0;
+            for (int x : nums) {
+                target |= x;
+            }
+
+            int count = 0;
+
+            // Generate all possible subsets.
+            // Instead of recording subsets themselves, keep track of their bitwise-or.
+            List<Integer> subsets = new ArrayList<>();
+            subsets.add(0); // start with an empty subset
+            for (int x : nums) {
+                List<Integer> newSubsets = new ArrayList<>();
+                for (int subset : subsets) {
+                    int current = subset | x;
+                    newSubsets.add(current);
+                    if (current == target) {
+                        count++;
+                    }
+                }
+                subsets.addAll(newSubsets);
+            }
             return count;
         }
     }

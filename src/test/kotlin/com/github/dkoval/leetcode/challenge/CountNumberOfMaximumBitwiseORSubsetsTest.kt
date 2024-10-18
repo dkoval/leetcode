@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.CountNumberOfMaximumBitwiseORSubsets.CountNumberOfMaximumBitwiseORSubsetsRev1
+import com.github.dkoval.leetcode.challenge.CountNumberOfMaximumBitwiseORSubsets.CountNumberOfMaximumBitwiseORSubsetsRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -40,6 +41,19 @@ internal class CountNumberOfMaximumBitwiseORSubsetsTest {
             expected: Int
         ) {
             CountNumberOfMaximumBitwiseORSubsetsRev1().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class CountNumberOfMaximumBitwiseORSubsetsRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of different non-empty subsets with the maximum bitwise OR`(
+            nums: IntArray,
+            expected: Int
+        ) {
+            CountNumberOfMaximumBitwiseORSubsetsRev2().test(nums, expected)
         }
     }
 }
