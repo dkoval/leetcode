@@ -15,8 +15,8 @@ internal class FindKthBitInNthBinaryStringTest {
     class InputArgumentsProvider : ArgumentsProvider {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
-            Arguments.of(3, 1, "0"),
-            Arguments.of(4, 11, "1")
+            Arguments.of(3, 1, '0'),
+            Arguments.of(4, 11, '1')
         )
     }
 
@@ -25,13 +25,13 @@ internal class FindKthBitInNthBinaryStringTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
-        fun `should return the kth bit in Sn`(n: Int, k: Int, expected: Int) {
+        fun `should return the kth bit in Sn`(n: Int, k: Int, expected: Char) {
             FindKthBitInNthBinaryStringRev1().test(n, k, expected)
         }
     }
 }
 
-private fun FindKthBitInNthBinaryString.test(n: Int, k: Int, expected: Int) {
+private fun FindKthBitInNthBinaryString.test(n: Int, k: Int, expected: Char) {
     val actual = findKthBit(n, k)
     assertEquals(expected, actual)
 }
