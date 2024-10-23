@@ -1,9 +1,10 @@
 package com.github.dkoval.leetcode.challenge;
 
-
 import com.github.dkoval.leetcode.TreeNode;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -74,6 +75,61 @@ public interface CousinsInBinaryTree2 {
                 this.self = self;
                 this.siblingsSum = siblingsSum;
             }
+        }
+    }
+
+    class CousinsInBinaryTree2Rev2 implements CousinsInBinaryTree2 {
+
+        @Override
+        public TreeNode replaceValueInTree(TreeNode root) {
+            List<Integer> levelSums = getLevelSums(root);
+            traverse(root, root.val, 0, levelSums);
+            return root;
+        }
+
+        private List<Integer> getLevelSums(TreeNode root) {
+            // BFS
+            List<Integer> levelSums = new ArrayList<>();
+            Queue<TreeNode> q = new ArrayDeque<>();
+            q.offer(root);
+            while (!q.isEmpty()) {
+                int levelSum = 0;
+                int size = q.size();
+                while (size-- > 0) {
+                    TreeNode node = q.poll();
+                    levelSum += node.val;
+
+                    if (node.left != null) {
+                        q.offer(node.left);
+                    }
+
+                    if (node.right != null) {
+                        q.offer(node.right);
+                    }
+                }
+                levelSums.add(levelSum);
+            }
+            return levelSums;
+        }
+
+        private void traverse(TreeNode node, int siblingsSum, int depth, List<Integer> levelSums) {
+            if (node == null) {
+                return;
+            }
+
+            node.val = levelSums.get(depth) - siblingsSum;
+
+            int newSiblingsSum = 0;
+            if (node.left != null) {
+                newSiblingsSum += node.left.val;
+            }
+
+            if (node.right != null) {
+                newSiblingsSum += node.right.val;
+            }
+
+            traverse(node.left, newSiblingsSum, depth + 1, levelSums);
+            traverse(node.right, newSiblingsSum, depth + 1, levelSums);
         }
     }
 }

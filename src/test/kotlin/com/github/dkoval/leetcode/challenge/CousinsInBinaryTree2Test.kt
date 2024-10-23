@@ -2,6 +2,7 @@ package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.TreeNode
 import com.github.dkoval.leetcode.challenge.CousinsInBinaryTree2.CousinsInBinaryTree2Rev1
+import com.github.dkoval.leetcode.challenge.CousinsInBinaryTree2.CousinsInBinaryTree2Rev2
 import com.github.dkoval.leetcode.equalsTo
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
@@ -60,6 +61,19 @@ internal class CousinsInBinaryTree2Test {
             expected: TreeNode
         ) {
             CousinsInBinaryTree2Rev1().test(root, expected)
+        }
+    }
+
+    @Nested
+    inner class CousinsInBinaryTree2Rev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should replace the value of each node in the tree with the sum of all its cousins' values`(
+            root: TreeNode,
+            expected: TreeNode
+        ) {
+            CousinsInBinaryTree2Rev2().test(root, expected)
         }
     }
 }
