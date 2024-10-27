@@ -22,7 +22,7 @@ public interface CountSquareSubmatricesWithAllOnes {
             int m = matrix.length;
             int n = matrix[0].length;
 
-            // dp[i][j] - how many squares can be formed having (i, j) as their bottom-right corner.
+            // dp[i][j] - how many squares filled with 1's can be formed having (i, j) as their bottom-right corner.
             // The answer to the problem is the sum of dp[i][j].
             int[][] dp = new int[m][n];
 
