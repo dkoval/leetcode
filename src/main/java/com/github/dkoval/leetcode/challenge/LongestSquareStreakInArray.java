@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * <a href="https://leetcode.com/problems/longest-square-streak-in-an-array/">Longest Square Streak in an Array</a>
@@ -52,6 +51,30 @@ public interface LongestSquareStreakInArray {
                     last *= last;
                 }
                 best = Math.max(best, streak);
+            }
+            return (best > 1) ? best : -1;
+        }
+    }
+
+    class LongestSquareStreakInArrayRev2 implements LongestSquareStreakInArray {
+
+        @Override
+        public int longestSquareStreak(int[] nums) {
+            int n = nums.length;
+            Arrays.sort(nums);
+
+            int best = 0;
+            // dp[x] - the length of the longest square streak that starts at x
+            Map<Integer, Integer> dp = new HashMap<>();
+            for (int i = n - 1; i >= 0; i--) {
+                if (dp.containsKey(nums[i] * nums[i])) {
+                    // prepend x = nums[i] to the exising square streak, effectively extending the streak by 1
+                    // dp[x] = dp[x * x] + 1
+                    dp.put(nums[i], dp.get(nums[i] * nums[i]) + 1);
+                } else {
+                    dp.put(nums[i], 1);
+                }
+                best = Math.max(best, dp.get(nums[i]));
             }
             return (best > 1) ? best : -1;
         }

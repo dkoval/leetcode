@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.LongestSquareStreakInArray.LongestSquareStreakInArrayRev1
+import com.github.dkoval.leetcode.challenge.LongestSquareStreakInArray.LongestSquareStreakInArrayRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -37,6 +38,16 @@ internal class LongestSquareStreakInArrayTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the length of the longest square streak in nums`(nums: IntArray, expected: Int) {
             LongestSquareStreakInArrayRev1().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class LongestSquareStreakInArrayRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the length of the longest square streak in nums`(nums: IntArray, expected: Int) {
+            LongestSquareStreakInArrayRev2().test(nums, expected)
         }
     }
 }
