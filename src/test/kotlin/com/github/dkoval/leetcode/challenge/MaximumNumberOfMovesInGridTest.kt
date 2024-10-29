@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MaximumNumberOfMovesInGrid.MaximumNumberOfMovesInGridRev1
+import com.github.dkoval.leetcode.challenge.MaximumNumberOfMovesInGrid.MaximumNumberOfMovesInGridRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -42,6 +43,16 @@ internal class MaximumNumberOfMovesInGridTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the maximum number of moves that you can perform`(grid: Array<IntArray>, expected: Int) {
             MaximumNumberOfMovesInGridRev1().test(grid, expected)
+        }
+    }
+
+    @Nested
+    inner class MaximumNumberOfMovesInGridRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum number of moves that you can perform`(grid: Array<IntArray>, expected: Int) {
+            MaximumNumberOfMovesInGridRev2().test(grid, expected)
         }
     }
 }

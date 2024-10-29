@@ -66,4 +66,46 @@ public interface MaximumNumberOfMovesInGrid {
             return dp[row][col] = 1 + moves;
         }
     }
+
+    class MaximumNumberOfMovesInGridRev2 implements MaximumNumberOfMovesInGrid {
+
+        @Override
+        public int maxMoves(int[][] grid) {
+            int m = grid.length;
+            int n = grid[0].length;
+
+            // DP bottom-up
+            // dp[row][col] = (row, col) can be reached
+            boolean[][] dp = new boolean[m][n];
+
+            // base case: cells in the 0-th column are always reachable
+            for (int row = 0; row < m; row++) {
+                dp[row][0] = true;
+            }
+
+            int best = 0;
+            for (int col = 1; col < n; col++) {
+                for (int row = 0; row < m; row++) {
+                    // check if (row, col) is reachable from 3 previous cells:
+                    // (row - 1, col - 1), (row, col - 1), (row + 1, col - 1)
+                    for (int dr = -1; dr <= 1; dr++) {
+                        int prevRow = row + dr;
+                        if (prevRow < 0 || prevRow == m) {
+                            continue;
+                        }
+
+                        if (dp[prevRow][col - 1] && grid[prevRow][col - 1] < grid[row][col]) {
+                            dp[row][col] = true;
+                            break;
+                        }
+                    }
+
+                    if (dp[row][col]) {
+                        best = Math.max(best, col);
+                    }
+                }
+            }
+            return best;
+        }
+    }
 }
