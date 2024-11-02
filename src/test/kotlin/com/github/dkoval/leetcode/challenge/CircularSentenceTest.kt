@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.CircularSentence.CircularSentenceRev1
+import com.github.dkoval.leetcode.challenge.CircularSentence.CircularSentenceRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -28,6 +29,16 @@ internal class CircularSentenceTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return true if it is circular`(sentence: String, expected: Boolean) {
             CircularSentenceRev1().test(sentence, expected)
+        }
+    }
+
+    @Nested
+    inner class CircularSentenceRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return true if it is circular`(sentence: String, expected: Boolean) {
+            CircularSentenceRev2().test(sentence, expected)
         }
     }
 }
