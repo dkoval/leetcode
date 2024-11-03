@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.RotateString.RotateStringRev1
+import com.github.dkoval.leetcode.challenge.RotateString.RotateStringRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -31,6 +32,20 @@ internal class RotateStringTest {
             expected: Boolean
         ) {
             RotateStringRev1().test(s, goal, expected)
+        }
+    }
+
+    @Nested
+    inner class RotateStringRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return true if and only if s can become goal after some number of shifts on s`(
+            s: String,
+            goal: String,
+            expected: Boolean
+        ) {
+            RotateStringRev2().test(s, goal, expected)
         }
     }
 }

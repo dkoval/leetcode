@@ -40,4 +40,26 @@ public interface RotateString {
             return false;
         }
     }
+
+    class RotateStringRev2 implements RotateString {
+
+        @Override
+        public boolean rotateString(String s, String goal) {
+            int n = s.length();
+
+            if (n != goal.length()) {
+                return false;
+            }
+
+            String ss = s + s;
+
+            // try every possible starting position of ss
+            for (int i = 0; i < n; i++) {
+                if (ss.substring(i, i + n).equals(goal)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
 }
