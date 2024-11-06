@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.FindIfArrayCanBeSorted.FindIfArrayCanBeSortedRev1
+import com.github.dkoval.leetcode.challenge.FindIfArrayCanBeSorted.FindIfArrayCanBeSortedRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -37,6 +38,16 @@ internal class FindIfArrayCanBeSortedTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return true if you can sort the array, else return false`(nums: IntArray, expected: Boolean) {
             FindIfArrayCanBeSortedRev1().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class FindIfArrayCanBeSortedRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return true if you can sort the array, else return false`(nums: IntArray, expected: Boolean) {
+            FindIfArrayCanBeSortedRev2().test(nums, expected)
         }
     }
 }

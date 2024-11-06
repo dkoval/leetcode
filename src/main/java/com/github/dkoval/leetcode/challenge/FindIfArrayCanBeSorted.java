@@ -21,6 +21,7 @@ public interface FindIfArrayCanBeSorted {
 
     boolean canSortArray(int[] nums);
 
+    // O(N) time | O(1) space
     class FindIfArrayCanBeSortedRev1 implements FindIfArrayCanBeSorted {
 
         @Override
@@ -70,6 +71,38 @@ public interface FindIfArrayCanBeSorted {
             public String toString() {
                 return String.format("setBits = %d, min = %d, max = %d", setBits, min, max);
             }
+        }
+    }
+
+    // O(N^2) time | O(1) space
+    class FindIfArrayCanBeSortedRev2 implements FindIfArrayCanBeSorted {
+
+        @Override
+        public boolean canSortArray(int[] nums) {
+            int n = nums.length;
+
+            // modified bubble sort
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n - i - 1; j++) {
+                    if (nums[j] > nums[j + 1] && Integer.bitCount(nums[j]) == Integer.bitCount(nums[j + 1])) {
+                        swap(nums, j, j + 1);
+                    }
+                }
+            }
+
+            // check if the array is indeed sorted
+            for (int i = 0; i < n - 1; i++) {
+                if (nums[i] > nums[i + 1]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private void swap(int[] nums, int i, int j) {
+            int tmp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = tmp;
         }
     }
 }
