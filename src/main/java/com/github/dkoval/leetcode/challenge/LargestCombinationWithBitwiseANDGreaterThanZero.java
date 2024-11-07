@@ -49,19 +49,22 @@ public interface LargestCombinationWithBitwiseANDGreaterThanZero {
 
         @Override
         public int largestCombination(int[] candidates) {
-            int length = 0;
-            /// bits[i] - among all the candidates, how many set bits are there in the i-th bit position?
+            // bits[i] - among all the candidates, how many set bits are there in the i-th bit position?
             int[] bits = new int[32];
             for (int x : candidates) {
                 // consider every bit position
                 for (int i = 0; i < 32; i++) {
                     if (((x >> i) & 1) == 1) {
                         bits[i]++;
-                        length = Math.max(length, bits[i]);
                     }
                 }
             }
-            return length;
+
+            int best = 0;
+            for (int b : bits) {
+                best = Math.max(best, b);
+            }
+            return best;
         }
     }
 }
