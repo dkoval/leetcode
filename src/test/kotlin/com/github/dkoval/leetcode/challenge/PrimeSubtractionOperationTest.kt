@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.PrimeSubtractionOperation.PrimeSubtractionOperationRev1
+import com.github.dkoval.leetcode.challenge.PrimeSubtractionOperation.PrimeSubtractionOperationRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -26,6 +27,18 @@ internal class PrimeSubtractionOperationTest {
             Arguments.of(
                 intArrayOf(5, 8, 3),
                 false
+            ),
+            Arguments.of(
+                intArrayOf(2, 2),
+                false
+            ),
+            Arguments.of(
+                intArrayOf(4, 3, 7, 4),
+                false
+            ),
+            Arguments.of(
+                intArrayOf(998, 2),
+                true
             )
         )
     }
@@ -37,6 +50,16 @@ internal class PrimeSubtractionOperationTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return true if you can make nums a strictly increasing array`(nums: IntArray, expected: Boolean) {
             PrimeSubtractionOperationRev1().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class PrimeSubtractionOperationRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return true if you can make nums a strictly increasing array`(nums: IntArray, expected: Boolean) {
+            PrimeSubtractionOperationRev2().test(nums, expected)
         }
     }
 }

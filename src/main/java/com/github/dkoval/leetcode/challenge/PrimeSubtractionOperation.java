@@ -78,4 +78,48 @@ public interface PrimeSubtractionOperation {
             return true;
         }
     }
+
+    class PrimeSubtractionOperationRev2 implements PrimeSubtractionOperation {
+        // PRIMES[x] == true if x is a prime number.
+        // Constraints: 1 <= x <= 1000
+        private static final boolean[] PRIMES = primes(1001);
+
+        private static boolean[] primes(int n) {
+            // sieve of Eratosthenes
+            boolean[] primes = new boolean[n + 1];
+            Arrays.fill(primes, true);
+            primes[0] = false;
+            primes[1] = false;
+
+            for (int i = 2; i <= n; i++) {
+                if (primes[i]) {
+                    // discard all multiples of i
+                    for (int j = i * i; j <= n; j += i) {
+                        primes[j] = false;
+                    }
+                }
+            }
+            return primes;
+        }
+
+        @Override
+        public boolean primeSubOperation(int[] nums) {
+            int n = nums.length;
+
+            // Idea: to keep the array sorted in ASC order,
+            // try to replace it with a monotonically increasing sequence starting at 1.
+            // This approach, in essence, minimizes nums[i] by subtracting the biggest possible prime number.
+            int seqNum = 1;
+            for (int x : nums) {
+                while (seqNum < x && !PRIMES[x - seqNum]) {
+                    seqNum++;
+                }
+                if (seqNum > x) {
+                    return false;
+                }
+                seqNum++;
+            }
+            return true;
+        }
+    }
 }
