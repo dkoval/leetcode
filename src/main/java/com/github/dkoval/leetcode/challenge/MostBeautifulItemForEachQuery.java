@@ -68,4 +68,41 @@ public interface MostBeautifulItemForEachQuery {
             return (left > 0) ? items[left - 1][1] : 0;
         }
     }
+
+    class MostBeautifulItemForEachQueryRev2 implements MostBeautifulItemForEachQuery {
+
+        @Override
+        public int[] maximumBeauty(int[][] items, int[] queries) {
+            int n = items.length;
+            int q = queries.length;
+
+            // sort items by price
+            Arrays.sort(items, Comparator.comparingInt(it -> it[0]));
+
+            // sort queries
+            IndexedValue[] indexedQueries = new IndexedValue[q];
+            for (int i = 0; i < q; i++) {
+                indexedQueries[i] = new IndexedValue(i, queries[i]);
+            }
+
+            Arrays.sort(indexedQueries, Comparator.comparingInt(it -> it.value));
+
+            int[] ans = new int[q];
+            int i = 0;
+            int maxBeauty = 0;
+            for (int j = 0; j < q; j++) {
+                // consider all items with the price <= the current query;
+                // while doing so, record the max beauty seen so far
+                while (i < n && items[i][0] <= indexedQueries[j].value) {
+                    maxBeauty = Math.max(maxBeauty, items[i][1]);
+                    i++;
+                }
+                ans[indexedQueries[j].index] = maxBeauty;
+            }
+            return ans;
+        }
+
+        private record IndexedValue(int index, int value) {
+        }
+    }
 }

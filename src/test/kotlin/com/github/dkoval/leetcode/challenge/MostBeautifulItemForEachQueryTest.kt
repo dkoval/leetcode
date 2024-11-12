@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MostBeautifulItemForEachQuery.MostBeautifulItemForEachQueryRev1
+import com.github.dkoval.leetcode.challenge.MostBeautifulItemForEachQuery.MostBeautifulItemForEachQueryRev2
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -57,6 +58,20 @@ internal class MostBeautifulItemForEachQueryTest {
             expected: IntArray
         ) {
             MostBeautifulItemForEachQueryRev1().test(items, queries, expected)
+        }
+    }
+
+    @Nested
+    inner class MostBeautifulItemForEachQueryRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return  an array answer of the same length as queries where answer(i) is the answer to the i-th query`(
+            items: Array<IntArray>,
+            queries: IntArray,
+            expected: IntArray
+        ) {
+            MostBeautifulItemForEachQueryRev2().test(items, queries, expected)
         }
     }
 }
