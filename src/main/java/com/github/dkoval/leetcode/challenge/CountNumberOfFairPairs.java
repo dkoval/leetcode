@@ -48,33 +48,28 @@ public interface CountNumberOfFairPairs {
                 // 2. nums[j] <= upper - nums[i]
                 // TT...TFF...F
                 //      ^ answer (max number that satisfies the condition)
-                int left = bisectLeft(nums, lower - nums[i]);
+                int left = bisectLeft(nums, i + 1, n - 1, lower - nums[i]);
                 if (left < 0) {
                     continue;
                 }
 
-                // avoid double counting since (nums[i], nums[j]) and (nums[j], nums[i]) pairs  are considered the same
-                left = Math.max(left, i + 1);
-
-                int right = bisectRight(nums, upper - nums[i]);
+                int right = bisectRight(nums, i + 1, n - 1, upper - nums[i]);
                 if (right >= n) {
                     continue;
                 }
 
-                if (left <= right) {
-                    // for a fixed nums[i], the number of nums[j] to make a valid pair with is  (right - left + 1)
-                    count += right - left + 1;
-                }
+                // for a fixed nums[i], the number of nums[j] to make a valid pair with is  (right - left + 1)
+                count += right - left + 1;
             }
             return count;
         }
 
-        private int bisectLeft(int[] nums, int target) {
+        private int bisectLeft(int[] nums, int start, int end, int target) {
             // x >= target
             // FF...FTT...T
             //       ^ answer (min number that satisfies the condition)
-            int left = 0;
-            int right = nums.length - 1;
+            int left = start;
+            int right = end;
             while (left < right) {
                 int mid = left + (right - left) / 2;
                 if (nums[mid] < target) {
@@ -89,12 +84,12 @@ public interface CountNumberOfFairPairs {
             return (nums[left] >= target) ? left : -1;
         }
 
-        private int bisectRight(int[] nums, int target) {
+        private int bisectRight(int[] nums, int start, int end, int target) {
             // x <= target
             // TT...TFF...F
             //      ^ answer (max number that satisfies the condition)
-            int left = 0;
-            int right = nums.length - 1;
+            int left = start;
+            int right = end;
             while (left < right) {
                 int mid = left + (right - left + 1) / 2;
                 if (nums[mid] > target) {
@@ -106,7 +101,7 @@ public interface CountNumberOfFairPairs {
                     left = mid;
                 }
             }
-            return (nums[left] <= target) ? left : nums.length;
+            return (nums[left] <= target) ? left : end + 1;
         }
     }
 }
