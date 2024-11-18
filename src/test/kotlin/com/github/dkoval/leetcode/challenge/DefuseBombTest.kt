@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.DefuseBomb.DefuseBombRev1
+import com.github.dkoval.leetcode.challenge.DefuseBomb.DefuseBombRev2
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -40,6 +41,16 @@ internal class DefuseBombTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the decrypted code to defuse the bomb`(code: IntArray, k: Int, expected: IntArray) {
             DefuseBombRev1().test(code, k, expected)
+        }
+    }
+
+    @Nested
+    inner class DefuseBombRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the decrypted code to defuse the bomb`(code: IntArray, k: Int, expected: IntArray) {
+            DefuseBombRev2().test(code, k, expected)
         }
     }
 }

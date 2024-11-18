@@ -54,4 +54,40 @@ public interface DefuseBomb {
             return ans;
         }
     }
+
+    class DefuseBombRev2 implements DefuseBomb {
+
+        @Override
+        public int[] decrypt(int[] code, int k) {
+            int n = code.length;
+
+            int[] ans = new int[n];
+            if (k == 0) {
+                return ans;
+            }
+
+            // idea: maintain the sum of k-sized window
+            int left = (k > 0) ? 1 : n + k;
+            int right = left - 1;
+
+            // get the sum of the 1st window
+            int sum = 0;
+            int repeat = Math.abs(k);
+            while (repeat-- > 0) {
+                sum += code[++right];
+            }
+
+            ans[0] = sum;
+            for (int i = 1; i < n; i++) {
+                // exclude the 1st element of the previous window
+                sum -= code[left];
+                left = (left + 1) % n;
+                right = (right + 1) % n;
+                // include the last element of the current window
+                sum += code[right];
+                ans[i] = sum;
+            }
+            return ans;
+        }
+    }
 }
