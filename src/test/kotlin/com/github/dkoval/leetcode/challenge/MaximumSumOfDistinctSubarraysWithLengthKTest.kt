@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MaximumSumOfDistinctSubarraysWithLengthK.MaximumSumOfDistinctSubarraysWithLengthKRev1
+import com.github.dkoval.leetcode.challenge.MaximumSumOfDistinctSubarraysWithLengthK.MaximumSumOfDistinctSubarraysWithLengthKRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -39,6 +40,20 @@ internal class MaximumSumOfDistinctSubarraysWithLengthKTest {
             expected: Long
         ) {
             MaximumSumOfDistinctSubarraysWithLengthKRev1().test(nums, k, expected)
+        }
+    }
+
+    @Nested
+    inner class MaximumSumOfDistinctSubarraysWithLengthKRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum subarray sum of all the subarrays that meet the conditions`(
+            nums: IntArray,
+            k: Int,
+            expected: Long
+        ) {
+            MaximumSumOfDistinctSubarraysWithLengthKRev2().test(nums, k, expected)
         }
     }
 }

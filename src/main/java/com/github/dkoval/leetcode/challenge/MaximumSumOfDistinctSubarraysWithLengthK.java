@@ -60,4 +60,40 @@ public interface MaximumSumOfDistinctSubarraysWithLengthK {
             return best;
         }
     }
+
+    class MaximumSumOfDistinctSubarraysWithLengthKRev2 implements MaximumSumOfDistinctSubarraysWithLengthK {
+
+        @Override
+        public long maximumSubarraySum(int[] nums, int k) {
+            int n = nums.length;
+
+            // idea: sliding window
+            // x -> the last index x occurs in nums[]
+            Map<Integer, Integer> lastIndex = new HashMap<>();
+            long best = 0;
+            long sum = 0;
+            int left = 0;
+            for (int right = 0; right < n; right++) {
+                sum += nums[right];
+
+                int index = lastIndex.getOrDefault(nums[right], -1);
+
+                // If nums[right] was seen earlier, shrink the window to exclude the duplicate.
+                // At the time routine completes, the left pointer will be set to (index + 1).
+                // Alternatively, shrink the window if its size becomes > k.
+                while (left <= index || right - left + 1 > k) {
+                    sum -= nums[left];
+                    left++;
+                }
+
+                // maximize the sum of a valid sliding window
+                if (right - left + 1 == k) {
+                    best = Math.max(best, sum);
+                }
+
+                lastIndex.put(nums[right], right);
+            }
+            return best;
+        }
+    }
 }
