@@ -47,24 +47,29 @@ public interface CountUnguardedCellsInGrid {
         public int countUnguarded(int m, int n, int[][] guards, int[][] walls) {
             char[][] grid = new char[m][n];
 
+            // mark walls on the grid
             for (int[] wall : walls) {
                 grid[wall[0]][wall[1]] = WALL;
             }
 
             for (int[] guard : guards) {
                 grid[guard[0]][guard[1]] = GUARD;
+
                 // for each guard, explore 4 cardinal directions
                 for (Direction d : DIRS) {
                     int row = guard[0] + d.dx;
                     int col = guard[1] + d.dy;
+
                     while (row >= 0 && row < m && col >= 0 && col < n) {
                         if (grid[row][col] == GUARD || grid[row][col] == WALL || grid[row][col] == d.marker) {
+                            // grid[row][col] == d.marker conditions means that the current cell was already covered
+                            // by some other guard in this row (or column)
                             break;
                         }
 
                         // mark current cell as guarded
                         if (grid[row][col] == 0) {
-                            grid[row][col] = d.marker();
+                            grid[row][col] = d.marker;
                         }
 
                         // prepare for the next iteration
@@ -74,6 +79,7 @@ public interface CountUnguardedCellsInGrid {
                 }
             }
 
+            // count unguarded cells
             int count = 0;
             for (int row = 0; row < m; row++) {
                 for (int col = 0; col < n; col++) {
