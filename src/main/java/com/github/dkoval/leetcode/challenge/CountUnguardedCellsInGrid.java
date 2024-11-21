@@ -32,15 +32,15 @@ public interface CountUnguardedCellsInGrid {
     int countUnguarded(int m, int n, int[][] guards, int[][] walls);
 
     class CountUnguardedCellsInGridRev1 implements CountUnguardedCellsInGrid {
-
         private static final char GUARD = 'G';
         private static final char WALL = 'W';
+
         // Directions: up, down, left, right
         private static final List<Direction> DIRS = Arrays.asList(
-                new Direction(-1, 0),
-                new Direction(1, 0),
-                new Direction(0, -1),
-                new Direction(0, 1)
+                new Direction(-1, 0, '|'),
+                new Direction(1, 0, '|'),
+                new Direction(0, -1, '-'),
+                new Direction(0, 1, '-')
         );
 
         @Override
@@ -58,7 +58,7 @@ public interface CountUnguardedCellsInGrid {
                     int row = guard[0] + d.dx;
                     int col = guard[1] + d.dy;
                     while (row >= 0 && row < m && col >= 0 && col < n) {
-                        if (grid[row][col] == GUARD || grid[row][col] == WALL || grid[row][col] == d.marker()) {
+                        if (grid[row][col] == GUARD || grid[row][col] == WALL || grid[row][col] == d.marker) {
                             break;
                         }
 
@@ -85,11 +85,7 @@ public interface CountUnguardedCellsInGrid {
             return count;
         }
 
-        private record Direction(int dx, int dy) {
-
-            char marker() {
-                return (dx == 0) ? '-' : '|';
-            }
+        private record Direction(int dx, int dy, char marker) {
         }
     }
 }
