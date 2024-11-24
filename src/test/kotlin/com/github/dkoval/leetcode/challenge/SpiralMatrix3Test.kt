@@ -1,6 +1,5 @@
-package com.github.dkoval.leetcode
+package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.SpiralMatrix3
 import com.github.dkoval.leetcode.challenge.SpiralMatrix3.SpiralMatrix3Rev1
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested

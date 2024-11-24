@@ -1,6 +1,5 @@
-package com.github.dkoval.leetcode
+package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.RedistributeCharactersToMakeAllStringsEqual
 import com.github.dkoval.leetcode.challenge.RedistributeCharactersToMakeAllStringsEqual.RedistributeCharactersToMakeAllStringsEqualRev1
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
