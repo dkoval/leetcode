@@ -28,28 +28,84 @@ public class SlidingPuzzle {
             {4, 5, 0}
     };
 
-    private static final int[][] DIRECTIONS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+    private static int traverse(int[][] board, Cell zero) {
+        Board source = new Board(board, zero);
+        if (source.isTarget()) {
+            return 0;
+        }
 
-    private static class Cell {
-        final int row;
-        final int col;
+        // BFS
+        Queue<Board> q = new ArrayDeque<>();
+        Set<String> visited = new HashSet<>();
 
-        Cell(int row, int col) {
-            this.row = row;
-            this.col = col;
+        q.offer(source);
+        visited.add(source.dump());
+
+        int count = 0;
+        while (!q.isEmpty()) {
+            int size = q.size();
+            // process the current layer
+            while (size-- > 0) {
+                Board curr = q.poll();
+                for (Direction d : Direction.values()) {
+                    boolean found = curr.moveZero(d)
+                            .map(next -> {
+                                boolean isTarget = next.isTarget();
+                                if (!isTarget) {
+                                    String key = next.dump();
+                                    if (!visited.contains(key)) {
+                                        q.offer(next);
+                                        visited.add(key);
+                                    }
+                                }
+                                return isTarget;
+                            })
+                            .orElse(false);
+
+                    if (found) {
+                        return count + 1;
+                    }
+                }
+            }
+            count++;
+        }
+        return -1;
+    }
+
+    public int slidingPuzzle(int[][] board) {
+        int m = board.length;
+        int n = board[0].length;
+
+        for (int row = 0; row < m; row++) {
+            for (int col = 0; col < n; col++) {
+                if (board[row][col] == 0) {
+                    return traverse(board, new Cell(row, col));
+                }
+            }
+        }
+        return -1;
+    }
+
+    private enum Direction {
+        UP(-1, 0), DOWN(1, 0), LEFT(0, -1), RIGHT(0, 1);
+
+        final int drow;
+        final int dcol;
+
+        Direction(int drow, int dcol) {
+            this.drow = drow;
+            this.dcol = dcol;
         }
     }
 
-    private static class Board {
-        // actual state of the board
-        final int[][] board;
-        // (row, col) coordinates of 0 cell on the board
-        final Cell zero;
+    private record Cell(int row, int col) {
+    }
 
-        Board(int[][] board, Cell zero) {
-            this.board = board;
-            this.zero = zero;
-        }
+    /**
+     * @param board actual state of the board
+     * @param zero  (row, col) coordinates of 0 cell on the board
+     */
+    private record Board(int[][] board, Cell zero) {
 
         boolean isTarget() {
             for (int i = 0; i < board.length; i++) {
@@ -60,9 +116,16 @@ public class SlidingPuzzle {
             return true;
         }
 
-        Board moveZero(Cell dest) {
+        Optional<Board> moveZero(Direction d) {
             int m = board.length;
             int n = board[0].length;
+
+            int nextRow = zero.row + d.drow;
+            int nextCol = zero.col + d.dcol;
+
+            if (nextRow < 0 || nextRow >= m || nextCol < 0 || nextCol >= n) {
+                return Optional.empty();
+            }
 
             int[][] nextBoard = new int[m][n];
             for (int i = 0; i < m; i++) {
@@ -70,14 +133,14 @@ public class SlidingPuzzle {
             }
 
             // swap `zero` with `dest`
-            int tmp = nextBoard[dest.row][dest.col];
-            nextBoard[dest.row][dest.col] = 0;
-            nextBoard[zero.row][zero.col] = tmp;
+            nextBoard[zero.row][zero.col] = board[nextRow][nextCol];
+            nextBoard[nextRow][nextCol] = 0;
 
-            return new Board(nextBoard, dest);
+            return Optional.of(new Board(nextBoard, new Cell(nextRow, nextCol)));
         }
 
-        String encode() {
+        // Encodes the current state of the board into a String
+        String dump() {
             StringBuilder sb = new StringBuilder();
             sb.append('[');
             for (int i = 0; i < board.length; i++) {
@@ -89,67 +152,5 @@ public class SlidingPuzzle {
             sb.append(']');
             return sb.toString();
         }
-    }
-
-    public int slidingPuzzle(int[][] board) {
-        int m = board.length;
-        int n = board[0].length;
-
-        // find 0 cell
-        Cell zero = null;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (board[i][j] == 0) {
-                    zero = new Cell(i, j);
-                    break;
-                }
-            }
-        }
-
-        Board source = new Board(board, zero);
-        Set<String> seen = new HashSet<>();
-
-        // BFS to find the shortest distance between `source` and `target` states
-        Queue<Board> q = new ArrayDeque<>();
-        q.offer(source);
-        seen.add(source.encode());
-
-        int count = -1;
-        while (!q.isEmpty()) {
-            boolean done = false;
-            int size = q.size();
-
-            // process the current level
-            while (size-- > 0) {
-                Board curr = q.poll();
-                if (curr.isTarget()) {
-                    done = true;
-                    break;
-                }
-
-                for (int[] d : DIRECTIONS) {
-                    Cell zeroDest = new Cell(curr.zero.row + d[0], curr.zero.col + d[1]);
-                    if (zeroDest.row < 0 || zeroDest.row >= m || zeroDest.col < 0 || zeroDest.col >= n) {
-                        continue;
-                    }
-
-                    // generate next state of the board by swapping 0 with an adjacent number
-                    Board next = curr.moveZero(zeroDest);
-
-                    // add a new state to the next level
-                    String enc = next.encode();
-                    if (!seen.contains(enc)) {
-                        seen.add(enc);
-                        q.offer(next);
-                    }
-                }
-            }
-
-            count++;
-            if (done) {
-                return count;
-            }
-        }
-        return -1;
     }
 }
