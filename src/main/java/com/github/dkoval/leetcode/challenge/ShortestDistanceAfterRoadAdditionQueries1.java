@@ -30,6 +30,7 @@ public interface ShortestDistanceAfterRoadAdditionQueries1 {
 
     int[] shortestDistanceAfterQueries(int n, int[][] queries);
 
+    // O(Q * (N + Q)) time | O(N) space
     class ShortestDistanceAfterRoadAdditionQueries1Rev1 implements ShortestDistanceAfterRoadAdditionQueries1 {
 
         private static int bfs(Map<Integer, List<Integer>> adj, int n, int source, int target) {
@@ -61,12 +62,13 @@ public interface ShortestDistanceAfterRoadAdditionQueries1 {
 
         @Override
         public int[] shortestDistanceAfterQueries(int n, int[][] queries) {
+            // build initial directed graph
             Map<Integer, List<Integer>> adj = new HashMap<>();
             for (int i = 0; i < n - 1; i++) {
                 adj.computeIfAbsent(i, __ -> new ArrayList<>()).add(i + 1);
             }
 
-
+            // process queries
             int q = queries.length;
             int[] ans = new int[q];
             for (int i = 0; i < q; i++) {
