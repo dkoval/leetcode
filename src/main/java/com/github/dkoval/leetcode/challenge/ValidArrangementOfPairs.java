@@ -32,7 +32,26 @@ public interface ValidArrangementOfPairs {
     // Resource: https://www.youtube.com/watch?v=8MpoO2zA2l4
     class ValidArrangementOfPairsRev1 implements ValidArrangementOfPairs {
 
-        private static int findStart(Map<Integer, Degrees> degrees) {
+        @Override
+        public int[][] validArrangement(int[][] pairs) {
+            // Idea: find an Eulerian path
+            var adj = new HashMap<Integer, Deque<Integer>>();
+            var degrees = new HashMap<Integer, Degrees>();
+            for (var pair : pairs) {
+                adj.computeIfAbsent(pair[0], __ -> new ArrayDeque<>()).offerLast(pair[1]);
+                degrees.computeIfAbsent(pair[0], __ -> new Degrees()).out++;
+                degrees.computeIfAbsent(pair[1], __ -> new Degrees()).in++;
+            }
+
+            // find the starting node
+            var start = findStart(degrees);
+
+            // find an Eulerian path
+            var path = findEulerianPath(adj, start);
+            return formatPath(path);
+        }
+
+        private int findStart(Map<Integer, Degrees> degrees) {
             // Property. The starting node has an extra outgoing edge:
             // in + 1 = out
             var start = -1;
@@ -48,7 +67,7 @@ public interface ValidArrangementOfPairs {
             return start;
         }
 
-        private static Deque<Integer> findEulerianPath(Map<Integer, Deque<Integer>> adj, int start) {
+        private Deque<Integer> findEulerianPath(Map<Integer, Deque<Integer>> adj, int start) {
             var path = new ArrayDeque<Integer>();
 
             // modified DFS
@@ -69,35 +88,19 @@ public interface ValidArrangementOfPairs {
             return path;
         }
 
-        private static int[][] formatPath(Deque<Integer> path) {
+        private int[][] formatPath(Deque<Integer> path) {
             var ans = new int[path.size() - 1][2];
-            ans[0] = new int[]{path.pollFirst(), path.pollFirst()};
-
-            int i = 1;
+            int i = 0;
+            int prev = -1;
             while (!path.isEmpty()) {
-                ans[i] = new int[]{ans[i - 1][1], path.pollFirst()};
+                int curr = path.pollFirst();
+                if (i > 0) {
+                    ans[i - 1] = new int[]{prev, curr};
+                }
+                prev = curr;
                 i++;
             }
             return ans;
-        }
-
-        @Override
-        public int[][] validArrangement(int[][] pairs) {
-            // Idea: find an Eulerian path
-            var adj = new HashMap<Integer, Deque<Integer>>();
-            var degrees = new HashMap<Integer, Degrees>();
-            for (var pair : pairs) {
-                adj.computeIfAbsent(pair[0], __ -> new ArrayDeque<>()).offerLast(pair[1]);
-                degrees.computeIfAbsent(pair[0], __ -> new Degrees()).out++;
-                degrees.computeIfAbsent(pair[1], __ -> new Degrees()).in++;
-            }
-
-            // find the starting node
-            var start = findStart(degrees);
-
-            // find an Eulerian path
-            var path = findEulerianPath(adj, start);
-            return formatPath(path);
         }
 
         private static class Degrees {
