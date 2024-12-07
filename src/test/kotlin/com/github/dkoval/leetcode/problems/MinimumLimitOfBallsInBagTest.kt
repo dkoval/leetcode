@@ -46,9 +46,9 @@ internal class MinimumLimitOfBallsInBagTest {
             MinimumLimitOfBallsInBagUsingBinarySearchRev1().test(nums, maxOperations, expected)
         }
     }
+}
 
-    private fun MinimumLimitOfBallsInBag.test(nums: IntArray, maxOperations: Int, expected: Int) {
-        val actual = minimumSize(nums, maxOperations)
-        assertEquals(expected, actual)
-    }
+private fun MinimumLimitOfBallsInBag.test(nums: IntArray, maxOperations: Int, expected: Int) {
+    val actual = minimumSize(nums, maxOperations)
+    assertEquals(expected, actual)
 }

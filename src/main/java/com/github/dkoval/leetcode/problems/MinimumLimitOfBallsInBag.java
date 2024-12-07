@@ -29,16 +29,14 @@ public interface MinimumLimitOfBallsInBag {
         @Override
         public int minimumSize(int[] nums, int maxOperations) {
             // Given the maximum number of balls in a bag (i.e. your penalty) is K, can we achieve this in at most maxOperations?
-            // Note that
-            // - if K increases, the number of operations decreases
-            // - if K decreases, the number of operations increases
-            // f(K) >= f(K + 1)
-            // Now, condition f(K) <= maxOperations evaluates to true at some point:
+            // f(K)
+            // Note that f(K) >= f(K + 1)
+            // Condition f(K) <= maxOperations evaluates to true at some point:
             // FF...FTT...T
             //       ^ answer
-            // We can find the minimum such K using binary search
+            // We can find the minimum such K using binary search.
             int left = 1;
-            int right = 1_000_000_000; // the biggest number given in the constraints
+            int right = max(nums);
             while (left < right) {
                 int mid = left + (right - left) / 2;
                 if (isGood(nums, mid, maxOperations)) {
@@ -53,14 +51,24 @@ public interface MinimumLimitOfBallsInBag {
             return left;
         }
 
+        private int max(int[] nums) {
+            int max = Integer.MIN_VALUE;
+            for (int x : nums) {
+                max = Math.max(max, x);
+            }
+            return max;
+        }
+
         // O(N) time | O(1) space
-        private boolean isGood(int[] nums, int target, int maxOperations) {
-            // count how many new bags (i.e. the number of operations needed) of size target can we make?
+        private boolean isGood(int[] nums, int maxBallsInBag, int maxOperations) {
+            // How many new bags of size maxBallsInBag can we make?
             int count = 0;
             for (int x : nums) {
                 // 9 / 3 = 3: [9] -> [6, 3] -> [3, 3, 3], 2 new bags created
                 // 7 / 3 = 2: [7] -> [1, 6] -> [1, 3, 3], 2 new bags created
-                count += x / target - (x % target == 0 ? 1 : 0);
+                // div_round_up(x / y) = (x + y - 1) / y = (x - 1) / y + 1
+                // the number of new bags created = div_round_up(x, maxBallsInBag) - 1
+                count += (x - 1) / maxBallsInBag;
             }
             return count <= maxOperations;
         }
