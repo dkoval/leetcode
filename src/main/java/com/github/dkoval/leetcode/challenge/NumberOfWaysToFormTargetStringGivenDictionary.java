@@ -76,55 +76,58 @@ public interface NumberOfWaysToFormTargetStringGivenDictionary {
 
         @Override
         public int numWays(String[] words, String target) {
-            int t = target.length();
-            int k = words[0].length();
+            final var t = target.length();
+            // Constraint: all strings in words have the same length.
+            final var k = words[0].length();
 
-            // fix TLE: precompute the count of each character at each position
-            // takes O(W * K) time | O(K) space, where W - number of words
-            int[][] counts = new int[26][k];
+            // fix TLE: precompute the numbers of letters at each position
+            final var counts = new int[26][k];
             for (String word : words) {
-                for (int i = 0; i < k; i++) {
-                    char c = word.charAt(i);
-                    counts[c - 'a'][i]++;
+                for (int offset = 0; offset < k; offset++) {
+                    final var c = word.charAt(offset);
+                    counts[c - 'a'][offset]++;
                 }
             }
 
             // DP top-down, i.e. backtracking with memoization
             // takes O(T * K) time | O(T * K) space
-            Integer[][] dp = new Integer[t][k];
-            return getWays(counts, target, 0, 0, dp);
+            return calc(counts, target, 0, 0, new Integer[t][k]);
         }
 
-        private int getWays(int[][] counts, String target, int idx, int offset, Integer[][] dp) {
-            if (idx == target.length()) {
+        // 0 <= index < T
+        // 0 <= offset < K
+        private int calc(int[][] counts, String target, int index, int offset, Integer[][] dp) {
+            final var t = target.length();
+            final var k = counts[0].length;
+
+            if (index == target.length()) {
                 return 1;
             }
 
-            int k = counts[0].length;
-            if (offset == counts[0].length) {
+            if (offset == k) {
                 return 0;
             }
 
             // already solved?
-            if (dp[idx][offset] != null) {
-                return dp[idx][offset];
+            if (dp[index][offset] != null) {
+                return dp[index][offset];
             }
 
-            long total = 0;
-            char c = target.charAt(idx);
+            var total = 0L;
+            final var c = target.charAt(index);
 
             // option #1: skip "offset" position
-            total += getWays(counts, target, idx, offset + 1, dp);
+            total += calc(counts, target, index, offset + 1, dp);
 
             // option #2: take "offset" position
-            long matches = counts[c - 'a'][offset];
+            final var matches = counts[c - 'a'][offset];
             if (matches > 0) {
-                total += matches * getWays(counts, target, idx + 1, offset + 1, dp);
+                total += (long) matches * calc(counts, target, index + 1, offset + 1, dp);
                 total %= MOD;
             }
 
             // cache and return the answer
-            return dp[idx][offset] = (int) total;
+            return dp[index][offset] = (int) total;
         }
     }
 }
