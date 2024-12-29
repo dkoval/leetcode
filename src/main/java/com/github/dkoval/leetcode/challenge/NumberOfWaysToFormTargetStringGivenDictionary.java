@@ -36,38 +36,49 @@ public interface NumberOfWaysToFormTargetStringGivenDictionary {
 
         @Override
         public int numWays(String[] words, String target) {
-            int t = target.length();
-            int k = words[0].length();
+            final var t = target.length();
+            final var k = words[0].length();
 
             // DP top-down, i.e. backtracking with memoization
-            Integer[][] dp = new Integer[t][k];
-            return getWays(words, target, 0, 0, dp);
+            return calc(words, target, 0, 0, new Integer[t][k]);
         }
 
-        private int getWays(String[] words, String target, int idx, int offset, Integer[][] dp) {
-            if (idx == target.length()) {
+        private int calc(String[] words, String target, int index, int offset, Integer[][] dp) {
+            final var t = target.length();
+            final var k = words[0].length();
+
+            if (index == target.length()) {
                 return 1;
             }
 
-            if (offset == words[0].length()) {
+            if (offset == k) {
                 return 0;
             }
 
-            if (dp[idx][offset] != null) {
-                return dp[idx][offset];
+            // already solved?
+            if (dp[index][offset] != null) {
+                return dp[index][offset];
             }
 
-            int count = 0;
-            char c = target.charAt(idx);
+            var total = 0;
+            final var c = target.charAt(index);
+
+            // option #1: take `offset`
             for (String word : words) {
-                for (int i = offset; i < word.length(); i++) {
-                    if (word.charAt(i) == c) {
-                        count += getWays(words, target, idx + 1, i + 1, dp);
-                        count %= MOD;
-                    }
+                // NB. To fix TLE, precompute how many times this condition is true, then
+                // total += count * calc(words, target, index + 1, offset + 1, dp);
+                if (word.charAt(offset) == c) {
+                    total += calc(words, target, index + 1, offset + 1, dp);
+                    total %= MOD;
                 }
             }
-            return dp[idx][offset] = count;
+
+            // option #2: skip `offset`
+            total += calc(words, target, index, offset + 1, dp);
+            total %= MOD;
+
+            // cache and return the answer
+            return dp[index][offset] = total;
         }
     }
 
