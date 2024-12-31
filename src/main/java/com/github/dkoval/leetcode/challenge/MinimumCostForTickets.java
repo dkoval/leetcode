@@ -38,50 +38,41 @@ public interface MinimumCostForTickets {
 
         @Override
         public int mincostTickets(int[] days, int[] costs) {
-            int n = days.length;
+            final var n = days.length;
 
-            int[] durations = {1, 7, 30};
-            Ticket[] tickets = new Ticket[3];
-            for (int i = 0; i < 3; i++) {
+            final var durations = new int[]{1, 7, 30};
+            final var tickets = new Ticket[3];
+            for (var i = 0; i < 3; i++) {
                 tickets[i] = new Ticket(durations[i], costs[i]);
             }
-
-            Integer[][] memo = new Integer[n + 1][365 + 1];
-            return minCost(days, 0, 0, tickets, memo);
+            return minCost(days, 0, 0, tickets, new Integer[n + 1][365 + 1]);
         }
 
-        private int minCost(int[] days, int idx, int validTill, Ticket[] tickets, Integer[][] memo) {
+        private int minCost(int[] days, int idx, int validTo, Ticket[] tickets, Integer[][] dp) {
             if (idx >= days.length) {
                 return 0;
             }
 
             // already solved?
-            if (memo[idx][validTill] != null) {
-                return memo[idx][validTill];
+            if (dp[idx][validTo] != null) {
+                return dp[idx][validTo];
             }
 
             // option #1: if the owned ticket is still valid, skip days[i]
-            if (days[idx] <= validTill) {
-                return minCost(days, idx + 1, validTill, tickets, memo);
+            if (days[idx] <= validTo) {
+                return minCost(days, idx + 1, validTo, tickets, dp);
             }
 
             // option #2: buy a ticket on days[i]
-            int best = Integer.MAX_VALUE;
+            var best = Integer.MAX_VALUE;
             for (Ticket ticket : tickets) {
                 best = Math.min(best,
-                        ticket.cost + minCost(days, idx + 1, Math.min(days[idx] + ticket.duration - 1, 365), tickets, memo));
+                        ticket.cost + minCost(days, idx + 1, Math.min(days[idx] + ticket.duration - 1, 365), tickets, dp));
             }
-            return memo[idx][validTill] = best;
+            return dp[idx][validTo] = best;
         }
 
-        private static class Ticket {
-            final int duration;
-            final int cost;
-
-            Ticket(int duration, int cost) {
-                this.duration = duration;
-                this.cost = cost;
-            }
+        private record Ticket(int duration, int cost) {
         }
     }
 
@@ -89,39 +80,38 @@ public interface MinimumCostForTickets {
 
         @Override
         public int mincostTickets(int[] days, int[] costs) {
-            Set<Integer> travels = new HashSet<>();
-            int maxDay = -1;
-            for (int day : days) {
+            final var travels = new HashSet<Integer>();
+            var maxDay = -1;
+            for (var day : days) {
                 travels.add(day);
                 maxDay = Math.max(maxDay, day);
             }
 
-            Integer[] memo = new Integer[maxDay + 1];
-            return minCost(1, maxDay, travels, new int[]{1, 7, 30}, costs, memo);
+            return minCost(1, maxDay, travels, new int[]{1, 7, 30}, costs, new Integer[maxDay + 1]);
         }
 
-        private int minCost(int currDay, int maxDay, Set<Integer> travels, int[] durations, int[] costs, Integer[] memo) {
+        private int minCost(int currDay, int maxDay, Set<Integer> travels, int[] durations, int[] costs, Integer[] dp) {
             if (currDay > maxDay) {
                 return 0;
             }
 
             // already solved?
-            if (memo[currDay] != null) {
-                return memo[currDay];
+            if (dp[currDay] != null) {
+                return dp[currDay];
             }
 
             if (travels.contains(currDay)) {
                 // option #1: travel on this day, hence buy a ticket
-                int best = Integer.MAX_VALUE;
-                for (int i = 0; i < 3; i++) {
+                var best = Integer.MAX_VALUE;
+                for (var i = 0; i < 3; i++) {
                     best = Math.min(best,
-                            costs[i] + minCost(currDay + durations[i], maxDay, travels, durations, costs, memo));
+                            costs[i] + minCost(currDay + durations[i], maxDay, travels, durations, costs, dp));
                 }
-                return memo[currDay] = best;
+                return dp[currDay] = best;
             }
 
             // option #2: skip this day
-            return memo[currDay] = minCost(currDay + 1, maxDay, travels, durations, costs, memo);
+            return dp[currDay] = minCost(currDay + 1, maxDay, travels, durations, costs, dp);
         }
     }
 }
