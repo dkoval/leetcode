@@ -80,38 +80,40 @@ public interface MinimumCostForTickets {
 
         @Override
         public int mincostTickets(int[] days, int[] costs) {
+            final var n = days.length;
+
+            // days[] is in strictly increasing order
+            final var maxDay = days[n - 1];
+            // never buy a ticket on a day you don't travel
             final var travels = new HashSet<Integer>();
-            var maxDay = -1;
             for (var day : days) {
                 travels.add(day);
-                maxDay = Math.max(maxDay, day);
             }
 
-            return minCost(1, maxDay, travels, new int[]{1, 7, 30}, costs, new Integer[maxDay + 1]);
+            return minCost(1, maxDay, travels, costs, new Integer[maxDay + 1]);
         }
 
-        private int minCost(int currDay, int maxDay, Set<Integer> travels, int[] durations, int[] costs, Integer[] dp) {
-            if (currDay > maxDay) {
+        private int minCost(int day, int maxDay, Set<Integer> travels, int[] costs, Integer[] dp) {
+            if (day > maxDay) {
                 return 0;
             }
 
             // already solved?
-            if (dp[currDay] != null) {
-                return dp[currDay];
+            if (dp[day] != null) {
+                return dp[day];
             }
 
-            if (travels.contains(currDay)) {
+            if (travels.contains(day)) {
                 // option #1: travel on this day, hence buy a ticket
-                var best = Integer.MAX_VALUE;
-                for (var i = 0; i < 3; i++) {
-                    best = Math.min(best,
-                            costs[i] + minCost(currDay + durations[i], maxDay, travels, durations, costs, dp));
-                }
-                return dp[currDay] = best;
+                final var day1 = costs[0] + minCost(day + 1, maxDay, travels, costs, dp);
+                final var day7 = costs[1] + minCost(day + 7, maxDay, travels, costs, dp);
+                final var day30 = costs[2] + minCost(day + 30, maxDay, travels, costs, dp);
+                dp[day] = Math.min(day1, Math.min(day7, day30));
+            } else {
+                // option #2: skip this day
+                dp[day] = minCost(day + 1, maxDay, travels, costs, dp);
             }
-
-            // option #2: skip this day
-            return dp[currDay] = minCost(currDay + 1, maxDay, travels, durations, costs, dp);
+            return dp[day];
         }
     }
 }
