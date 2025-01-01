@@ -78,4 +78,32 @@ public interface MaximumScoreAfterSplittingString {
             return best;
         }
     }
+
+    // O(N) time | O(1) space
+    class MaximumScoreAfterSplittingStringRev3 implements MaximumScoreAfterSplittingString {
+
+        @Override
+        public int maxScore(String s) {
+            final var n = s.length();
+
+            var rightOnes = 0;
+            for (var i = 0; i < n; i++) {
+                if (s.charAt(i) == '1') {
+                    rightOnes++;
+                }
+            }
+
+            var best = 0;
+            var leftZeros = 0;
+            for (var i = 0; i < n - 1; i++) {
+                if (s.charAt(i) == '0') {
+                    leftZeros++;
+                } else {
+                    rightOnes--;
+                }
+                best = Math.max(best, leftZeros + rightOnes);
+            }
+            return best;
+        }
+    }
 }
