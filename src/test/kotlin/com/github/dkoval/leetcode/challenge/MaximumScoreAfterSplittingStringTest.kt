@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MaximumScoreAfterSplittingString.MaximumScoreAfterSplittingStringRev1
+import com.github.dkoval.leetcode.challenge.MaximumScoreAfterSplittingString.MaximumScoreAfterSplittingStringRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -17,7 +18,8 @@ internal class MaximumScoreAfterSplittingStringTest {
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of("011101", 5),
             Arguments.of("00111", 5),
-            Arguments.of("1111", 3)
+            Arguments.of("1111", 3),
+            Arguments.of("00", 1)
         )
     }
 
@@ -31,6 +33,19 @@ internal class MaximumScoreAfterSplittingStringTest {
             expected: Int
         ) {
             MaximumScoreAfterSplittingStringRev1().test(s, expected)
+        }
+    }
+
+    @Nested
+    inner class MaximumScoreAfterSplittingStringRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum score after splitting the string into two non-empty substrings`(
+            s: String,
+            expected: Int
+        ) {
+            MaximumScoreAfterSplittingStringRev2().test(s, expected)
         }
     }
 }
