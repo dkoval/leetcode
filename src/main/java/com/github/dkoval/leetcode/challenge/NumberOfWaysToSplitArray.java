@@ -37,7 +37,7 @@ public interface NumberOfWaysToSplitArray {
             }
 
             var count = 0;
-            for (int i = 0; i < n - 1; i++) {
+            for (var i = 0; i < n - 1; i++) {
                 if (prefixSum[i] >= prefixSum[n - 1] - prefixSum[i]) {
                     count++;
                 }
