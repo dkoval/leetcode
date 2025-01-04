@@ -2,8 +2,6 @@ package com.github.dkoval.leetcode.challenge;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * <a href="https://leetcode.com/problems/unique-length-3-palindromic-subsequences/">Unique Length-3 Palindromic Subsequences</a>
@@ -31,26 +29,21 @@ public interface UniqueLength3PalindromicSubsequences {
 
         @Override
         public int countPalindromicSubsequence(String s) {
-            int n = s.length();
+            final var n = s.length();
 
-            Map<Character, CharInfo> chars = new HashMap<>();
-            for (int i = 0; i < n; i++) {
-                char c = s.charAt(i);
-                if (!chars.containsKey(c)) {
-                    chars.put(c, new CharInfo(i));
-                } else {
-                    CharInfo info = chars.get(c);
-                    info.lastIndex = i;
-                }
+            final var chars = new HashMap<Character, CharInfo>();
+            for (var i = 0; i < n; i++) {
+                final var firstIndex = i;
+                chars.computeIfAbsent(s.charAt(i), __ -> new CharInfo(firstIndex)).lastIndex = i;
             }
 
-            int count = 0;
+            var count = 0;
             // up to 26 unique chars
-            for (CharInfo info : chars.values()) {
+            for (final var info : chars.values()) {
                 // collect unique chars between the first and the last indices
-                Set<Character> uniq = new HashSet<>();
+                final var uniq = new HashSet<>();
                 // O(N) time
-                for (int i = info.firstIndex + 1; i < info.lastIndex; i++) {
+                for (var i = info.firstIndex + 1; i < info.lastIndex; i++) {
                     uniq.add(s.charAt(i));
                 }
                 count += uniq.size();
