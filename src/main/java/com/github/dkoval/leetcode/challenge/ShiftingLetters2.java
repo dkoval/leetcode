@@ -25,6 +25,7 @@ public interface ShiftingLetters2 {
 
     String shiftingLetters(String s, int[][] shifts);
 
+    // O(N) time | O(N) space
     class ShiftingLetters2Rev1 implements ShiftingLetters2 {
 
         @Override
@@ -32,6 +33,7 @@ public interface ShiftingLetters2 {
             final var n = s.length();
 
             // idea: sweep line
+            // difference array technique + prefix sum
             final var deltas = new int[n + 1];
             for (final var shift : shifts) {
                 final var left = shift[0];
@@ -42,7 +44,7 @@ public interface ShiftingLetters2 {
             }
 
             final var sb = new StringBuilder();
-            var total = 0;
+            var total = 0; // prefix sum of deltas
             for (var i = 0; i < n; i++) {
                 total += deltas[i];
                 var c = s.charAt(i) - 'a';
