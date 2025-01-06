@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MinimumNumberOfOperationsToMoveAllBallsToEachBox.MinimumNumberOfOperationsToMoveAllBallsToEachBoxRev1
+import com.github.dkoval.leetcode.challenge.MinimumNumberOfOperationsToMoveAllBallsToEachBox.MinimumNumberOfOperationsToMoveAllBallsToEachBoxRev2
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -36,6 +37,19 @@ internal class MinimumNumberOfOperationsToMoveAllBallsToEachBoxTest {
             expected: IntArray
         ) {
             MinimumNumberOfOperationsToMoveAllBallsToEachBoxRev1().test(boxes, expected)
+        }
+    }
+
+    @Nested
+    inner class MinimumNumberOfOperationsToMoveAllBallsToEachBoxRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return an array answer of size n, where i-th answer is the minimum number of operations needed to move all the balls to the ith box`(
+            boxes: String,
+            expected: IntArray
+        ) {
+            MinimumNumberOfOperationsToMoveAllBallsToEachBoxRev2().test(boxes, expected)
         }
     }
 }
