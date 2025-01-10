@@ -8,21 +8,21 @@ import java.util.Map;
 /**
  * <a href="https://leetcode.com/problems/word-subsets/">Word Subsets</a>
  * <p>
- * We are given two arrays A and B of words.  Each word is a string of lowercase letters.
+ * You are given two string arrays words1 and words2.
  * <p>
- * Now, say that word b is a subset of word a if every letter in b occurs in a, including multiplicity.
- * For example, "wrr" is a subset of "warrior", but is not a subset of "world".
+ * A string b is a subset of string a if every letter in b occurs in a including multiplicity.
  * <p>
- * Now say a word a from A is universal if for every b in B, b is a subset of a.
+ * For example, "wrr" is a subset of "warrior" but is not a subset of "world".
+ * A string a from words1 is universal if for every string b in words2, b is a subset of a.
  * <p>
- * Return a list of all universal words in A.  You can return the words in any order.
+ * Return an array of all the universal strings in words1. You may return the answer in any order.
  * <p>
- * Note:
+ * Constraints:
  * <ul>
- *     <li>1 <= A.length, B.length <= 10000</li>
- *     <li>1 <= A[i].length, B[i].length <= 10</li>
- *     <li>A[i] and B[i] consist only of lowercase letters</li>
- *     <li>All words in A[i] are unique: there isn't i != j with A[i] == A[j]</li>
+ *  <li>1 <= words1.length, words2.length <= 10^4</li>
+ *  <li>1 <= words1[i].length, words2[i].length <= 10</li>
+ *  <li>words1[i] and words2[i] consist only of lowercase English letters.</li>
+ *  <li>All the strings of words1 are unique.</li>
  * </ul>
  */
 public interface WordSubsets {
@@ -80,43 +80,43 @@ public interface WordSubsets {
     class WordSubsetsAccepted implements WordSubsets {
 
         @Override
-        public List<String> wordSubsets(String[] A, String[] B) {
-            // merged frequency table of individual words in B[]
-            // this information is then needed to check whether A[i] is a universal string
-            int[] bCounts = new int[26];
-            for (String b : B) {
+        public List<String> wordSubsets(String[] words1, String[] words2) {
+            // merged frequency table of individual words in words2[]
+            // this information is then needed to check whether words1[i] is a universal string
+            final var counts2 = new int[26];
+            for (var word2 : words2) {
                 // frequency table of word b
-                int[] counts = counts(b);
+                final var counts = counts(word2);
                 // merge frequencies, i.e. for each character in the alphabet, record the maximum frequency
-                // across all words in B[]
-                for (int i = 0; i < 26; i++) {
-                    bCounts[i] = Math.max(bCounts[i], counts[i]);
+                // across all words in words2[]
+                for (var i = 0; i < 26; i++) {
+                    counts2[i] = Math.max(counts2[i], counts[i]);
                 }
             }
 
-            List<String> ans = new ArrayList<>();
-            for (String a : A) {
-                // frequency table of word a
-                int[] aCounts = counts(a);
-                if (isSubset(aCounts, bCounts)) {
-                    // there are enough characters in word `a` to cover every word in B[],
-                    // therefore `a` is a universal word
-                    ans.add(a);
+            final var ans = new ArrayList<String>();
+            for (var word1 : words1) {
+                // frequency table of word word1
+                final var counts1 = counts(word1);
+                if (isUniversal(counts1, counts2)) {
+                    // there are enough characters in word `word1` to cover every word in words2[],
+                    // therefore `word1` is word1 universal word
+                    ans.add(word1);
                 }
             }
             return ans;
         }
 
         private int[] counts(String s) {
-            int[] counts = new int[26];
-            for (int i = 0; i < s.length(); i++) {
+            final var counts = new int[26];
+            for (var i = 0; i < s.length(); i++) {
                 counts[s.charAt(i) - 'a']++;
             }
             return counts;
         }
 
-        private boolean isSubset(int[] srcCounts, int[] dstCounts) {
-            for (int i = 0; i < 26; i++) {
+        private boolean isUniversal(int[] srcCounts, int[] dstCounts) {
+            for (var i = 0; i < 26; i++) {
                 if (dstCounts[i] > srcCounts[i]) {
                     return false;
                 }

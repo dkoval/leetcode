@@ -63,9 +63,9 @@ internal class WordSubsetsTest {
             WordSubsetsAccepted().test(A, B, expected)
         }
     }
+}
 
-    private fun WordSubsets.test(A: Array<String>, B: Array<String>, expected: List<String>) {
-        val actual = wordSubsets(A, B)
-        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
-    }
+private fun WordSubsets.test(A: Array<String>, B: Array<String>, expected: List<String>) {
+    val actual = wordSubsets(A, B)
+    assertThat(actual).containsExactlyInAnyOrderElementsOf(expected)
 }
