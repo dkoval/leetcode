@@ -39,9 +39,7 @@ public interface MinimumLengthOfStringAfterOperations {
 
             var ans = 0;
             for (var count : counts) {
-                if (count < 3) {
-                    ans += count;
-                } else {
+                if (count > 0) {
                     ans += (count % 2 == 0) ? 2 : 1;
                 }
             }
