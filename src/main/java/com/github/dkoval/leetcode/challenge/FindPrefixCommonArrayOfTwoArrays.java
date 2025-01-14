@@ -58,4 +58,29 @@ public interface FindPrefixCommonArrayOfTwoArrays {
             return ans;
         }
     }
+
+    // O(N) time | O(N) space
+    class FindPrefixCommonArrayOfTwoArraysRev2 implements FindPrefixCommonArrayOfTwoArrays {
+
+        @Override
+        public int[] findThePrefixCommonArray(int[] A, int[] B) {
+            final var n = A.length;
+
+            final var ans = new int[n];
+            // 1 <= A[i], B[i] <= n
+            final var counts = new int[n + 1];
+            for (var i = 0; i < n; i++) {
+                if (++counts[A[i]] == 2) {
+                    ans[i]++;
+                }
+
+                if (++counts[B[i]] == 2) {
+                    ans[i]++;
+                }
+
+                ans[i] += (i > 0) ? ans[i - 1] : 0;
+            }
+            return ans;
+        }
+    }
 }

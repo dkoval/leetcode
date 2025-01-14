@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.FindPrefixCommonArrayOfTwoArrays.FindPrefixCommonArrayOfTwoArraysRev1
+import com.github.dkoval.leetcode.challenge.FindPrefixCommonArrayOfTwoArrays.FindPrefixCommonArrayOfTwoArraysRev2
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -35,6 +36,16 @@ internal class FindPrefixCommonArrayOfTwoArraysTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the prefix common array of A and B`(A: IntArray, B: IntArray, expected: IntArray) {
             FindPrefixCommonArrayOfTwoArraysRev1().test(A, B, expected)
+        }
+    }
+
+    @Nested
+    inner class FindPrefixCommonArrayOfTwoArraysRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the prefix common array of A and B`(A: IntArray, B: IntArray, expected: IntArray) {
+            FindPrefixCommonArrayOfTwoArraysRev2().test(A, B, expected)
         }
     }
 }
