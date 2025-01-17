@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.NeighboringBitwiseXOR.NeighboringBitwiseXORRev1
+import com.github.dkoval.leetcode.challenge.NeighboringBitwiseXOR.NeighboringBitwiseXORRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -37,6 +38,16 @@ internal class NeighboringBitwiseXORTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should check if original array exists`(derived: IntArray, expected: Boolean) {
             NeighboringBitwiseXORRev1().test(derived, expected)
+        }
+    }
+
+    @Nested
+    inner class NeighboringBitwiseXORRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should check if original array exists`(derived: IntArray, expected: Boolean) {
+            NeighboringBitwiseXORRev2().test(derived, expected)
         }
     }
 }

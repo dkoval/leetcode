@@ -45,4 +45,18 @@ public interface NeighboringBitwiseXOR {
             return curr == first;
         }
     }
+
+    // O(N) time | O(1) space
+    class NeighboringBitwiseXORRev2 implements NeighboringBitwiseXOR {
+
+        @Override
+        public boolean doesValidArrayExist(int[] derived) {
+            // The xor-sum of the derived array should be 0 since there since each element occurs twice
+            var xor = 0;
+            for (var x : derived) {
+                xor ^= x;
+            }
+            return xor == 0;
+        }
+    }
 }
