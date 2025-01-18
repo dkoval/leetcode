@@ -38,6 +38,23 @@ public interface MinimumCostToMakeAtLeastOneValidPathInGrid {
 
     int minCost(int[][] grid);
 
+    enum Direction {
+        RIGHT(0, 1, 1),
+        LEFT(0, -1, 2),
+        DOWN(1, 0, 3),
+        UP(-1, 0, 4);
+
+        final int drow;
+        final int dcol;
+        final int sign;
+
+        Direction(int drow, int dcol, int sign) {
+            this.drow = drow;
+            this.dcol = dcol;
+            this.sign = sign;
+        }
+    }
+
     class MinimumCostToMakeAtLeastOneValidPathInGridRev1 implements MinimumCostToMakeAtLeastOneValidPathInGrid {
 
         @Override
@@ -54,9 +71,9 @@ public interface MinimumCostToMakeAtLeastOneValidPathInGrid {
             }
 
             q.offer(new Cell(0, 0, 0));
+            costs[0][0] = 0;
             while (!q.isEmpty()) {
                 var curr = q.poll();
-                costs[curr.row][curr.col] = curr.cost;
 
                 if (curr.row == m - 1 && curr.col == n - 1) {
                     return curr.cost;
@@ -79,23 +96,6 @@ public interface MinimumCostToMakeAtLeastOneValidPathInGrid {
                 }
             }
             return Integer.MAX_VALUE;
-        }
-
-        private enum Direction {
-            RIGHT(0, 1, 1),
-            LEFT(0, -1, 2),
-            DOWN(1, 0, 3),
-            UP(-1, 0, 4);
-
-            final int drow;
-            final int dcol;
-            final int sign;
-
-            Direction(int drow, int dcol, int sign) {
-                this.drow = drow;
-                this.dcol = dcol;
-                this.sign = sign;
-            }
         }
 
         private record Cell(int row, int col, int cost) {
@@ -148,23 +148,6 @@ public interface MinimumCostToMakeAtLeastOneValidPathInGrid {
                 }
             }
             return Integer.MAX_VALUE;
-        }
-
-        private enum Direction {
-            RIGHT(0, 1, 1),
-            LEFT(0, -1, 2),
-            DOWN(1, 0, 3),
-            UP(-1, 0, 4);
-
-            final int drow;
-            final int dcol;
-            final int sign;
-
-            Direction(int drow, int dcol, int sign) {
-                this.drow = drow;
-                this.dcol = dcol;
-                this.sign = sign;
-            }
         }
 
         private record Cell(int row, int col) {
