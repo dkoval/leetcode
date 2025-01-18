@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
@@ -98,6 +99,75 @@ public interface MinimumCostToMakeAtLeastOneValidPathInGrid {
         }
 
         private record Cell(int row, int col, int cost) {
+        }
+    }
+
+    class MinimumCostToMakeAtLeastOneValidPathInGridRev2 implements MinimumCostToMakeAtLeastOneValidPathInGrid {
+
+        @Override
+        public int minCost(int[][] grid) {
+            final var m = grid.length;
+            final var n = grid[0].length;
+
+            // 0-1 BFS
+            final var q = new ArrayDeque<Cell>();
+
+            final var costs = new int[m][n];
+            for (var items : costs) {
+                Arrays.fill(items, Integer.MAX_VALUE);
+            }
+
+            q.offer(new Cell(0, 0));
+            costs[0][0] = 0;
+            while (!q.isEmpty()) {
+                var curr = q.poll();
+
+                if (curr.row == m - 1 && curr.col == n - 1) {
+                    return costs[m - 1][n - 1];
+                }
+
+                for (Direction d : Direction.values()) {
+                    final var nextRow = curr.row + d.drow;
+                    final var nextCol = curr.col + d.dcol;
+
+                    // out of bounds?
+                    if (nextRow < 0 || nextRow >= m || nextCol < 0 || nextCol >= n) {
+                        continue;
+                    }
+
+                    final var delta = (d.sign == grid[curr.row][curr.col]) ? 0 : 1;
+                    if (costs[curr.row][curr.col] + delta < costs[nextRow][nextCol]) {
+                        final var next = new Cell(nextRow, nextCol);
+                        if (delta == 0) {
+                            q.offerFirst(next);
+                        } else {
+                            q.offerLast(next);
+                        }
+                        costs[nextRow][nextCol] = costs[curr.row][curr.col] + delta;
+                    }
+                }
+            }
+            return Integer.MAX_VALUE;
+        }
+
+        private enum Direction {
+            RIGHT(0, 1, 1),
+            LEFT(0, -1, 2),
+            DOWN(1, 0, 3),
+            UP(-1, 0, 4);
+
+            final int drow;
+            final int dcol;
+            final int sign;
+
+            Direction(int drow, int dcol, int sign) {
+                this.drow = drow;
+                this.dcol = dcol;
+                this.sign = sign;
+            }
+        }
+
+        private record Cell(int row, int col) {
         }
     }
 }

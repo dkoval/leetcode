@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MinimumCostToMakeAtLeastOneValidPathInGrid.MinimumCostToMakeAtLeastOneValidPathInGridRev1
+import com.github.dkoval.leetcode.challenge.MinimumCostToMakeAtLeastOneValidPathInGrid.MinimumCostToMakeAtLeastOneValidPathInGridRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -52,6 +53,19 @@ internal class MinimumCostToMakeAtLeastOneValidPathInGridTest {
             expected: Int
         ) {
             MinimumCostToMakeAtLeastOneValidPathInGridRev1().test(grid, expected)
+        }
+    }
+
+    @Nested
+    inner class MinimumCostToMakeAtLeastOneValidPathInGridRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum cost to make the grid have at least one valid path`(
+            grid: Array<IntArray>,
+            expected: Int
+        ) {
+            MinimumCostToMakeAtLeastOneValidPathInGridRev2().test(grid, expected)
         }
     }
 }
