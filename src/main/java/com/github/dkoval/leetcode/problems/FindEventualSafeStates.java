@@ -29,7 +29,7 @@ public interface FindEventualSafeStates {
 
     List<Integer> eventualSafeNodes(int[][] graph);
 
-    class FindEventualSafeStatesDFS implements FindEventualSafeStates {
+    class FindEventualSafeStatesDFSRev1 implements FindEventualSafeStates {
         private static final int UNVISITED = 0;
         private static final int BEING_VISITED = 1;
         private static final int VISITED = 2;
@@ -68,6 +68,41 @@ public interface FindEventualSafeStates {
                 }
             }
             visited[u] = VISITED;
+            return true;
+        }
+    }
+
+    class FindEventualSafeStatesDFSRev2 implements FindEventualSafeStates {
+
+        @Override
+        public List<Integer> eventualSafeNodes(int[][] graph) {
+            // idea: check for cycles
+            final var n = graph.length;
+
+            final var ans = new ArrayList<Integer>();
+            final var safe = new HashMap<Integer, Boolean>();
+            for (var i = 0; i < n; i++) {
+                if (dfs(graph, i, safe)) {
+                    ans.add(i);
+                }
+            }
+            return ans;
+        }
+
+        // checks if `source` is a safe node
+        private boolean dfs(int[][] graph, int source, Map<Integer, Boolean> safe) {
+            if (safe.containsKey(source)) {
+                return safe.get(source);
+            }
+
+            // assume, initially, that the `source` is not safe
+            safe.put(source, false);
+            for (var neighbor : graph[source]) {
+                if (!dfs(graph, neighbor, safe)) {
+                    return false;
+                }
+            }
+            safe.put(source, true);
             return true;
         }
     }
