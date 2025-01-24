@@ -76,33 +76,37 @@ public interface FindEventualSafeStates {
 
         @Override
         public List<Integer> eventualSafeNodes(int[][] graph) {
-            int n = graph.length;
+            // idea: start with terminal nodes and walk backwards, i.e.
+            // do topological sorting
+            final var n = graph.length;
 
             // outdegree[i] - the number of outgoing edges from node i
-            int[] outdegree = new int[n];
+            final var outdegree = new int[n];
 
-            Queue<Integer> q = new ArrayDeque<>();
-            Map<Integer, List<Integer>> adjReversed = new HashMap<>();
-            for (int i = 0; i < n; i++) {
-                outdegree[i] = graph[i].length;
-                if (outdegree[i] == 0) {
-                    q.offer(i);
+            final var q = new ArrayDeque<Integer>();
+            final var adjReversed = new HashMap<Integer, List<Integer>>();
+            for (var u = 0; u < n; u++) {
+                outdegree[u] = graph[u].length;
+
+                if (outdegree[u] == 0) {
+                    q.offer(u);
                 }
 
-                for (int x : graph[i]) {
-                    adjReversed.computeIfAbsent(x, __ -> new ArrayList<>()).add(i);
+                for (int v : graph[u]) {
+                    adjReversed.computeIfAbsent(v, __ -> new ArrayList<>()).add(u);
                 }
             }
 
-            List<Integer> ans = new ArrayList<>();
+            // topological sorting part
+            final var ans = new ArrayList<Integer>();
             while (!q.isEmpty()) {
-                int x = q.poll();
-                ans.add(x);
+                int u = q.poll();
+                ans.add(u);
 
-                for (int i : adjReversed.getOrDefault(x, Collections.emptyList())) {
-                    outdegree[i]--;
-                    if (outdegree[i] == 0) {
-                        q.offer(i);
+                for (int v : adjReversed.getOrDefault(u, List.of())) {
+                    outdegree[v]--;
+                    if (outdegree[v] == 0) {
+                        q.offer(v);
                     }
                 }
             }
