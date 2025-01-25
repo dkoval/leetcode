@@ -39,29 +39,21 @@ public interface MakeLexicographicallySmallestArrayBySwappingElements {
             }
             Arrays.sort(copy, Comparator.comparingInt(it -> it.value));
 
-            // id of the current group
-            var gid = 0;
             final var groups = new ArrayList<Deque<Integer>>();
-            groups.add(new ArrayDeque<>());
-
-            // index -> group id
+            // index in nums[] -> group index
             final var lookup = new HashMap<Integer, Integer>();
             for (var i = 0; i < n; i++) {
-                var lastGroup = groups.getLast();
-                if (i > 0 && Math.abs(copy[i].value - lastGroup.peekLast()) > limit) {
+                if (groups.isEmpty() || copy[i].value - groups.getLast().peekLast() > limit) {
                     // start a new group
-                    lastGroup = new ArrayDeque<>();
-                    groups.add(lastGroup);
-                    gid++;
+                    groups.add(new ArrayDeque<>());
                 }
-
-                lastGroup.offerLast(copy[i].value);
-                lookup.put(copy[i].index, gid);
+                groups.getLast().offerLast(copy[i].value);
+                lookup.put(copy[i].index, groups.size() - 1);
             }
 
             final var ans = new int[n];
             for (var i = 0; i < n; i++) {
-                gid = lookup.get(i);
+                var gid = lookup.get(i);
                 ans[i] = groups.get(gid).pollFirst();
             }
             return ans;
