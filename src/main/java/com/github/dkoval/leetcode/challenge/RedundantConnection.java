@@ -1,9 +1,12 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/june-leetcoding-challenge-2021/606/week-4-june-22nd-june-28th/3791/">Redundant Connection</a>
+ * <a href="https://leetcode.com/problems/redundant-connection/">Redundant Connection</a>
  * <p>
  * In this problem, a tree is an undirected graph that is connected and has no cycles.
  * <p>
@@ -14,6 +17,17 @@ import java.util.*;
  * <p>
  * Return an edge that can be removed so that the resulting graph is a tree of n nodes.
  * If there are multiple answers, return the answer that occurs last in the input.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>n == edges.length</li>
+ *  <li>3 <= n <= 1000</li>
+ *  <li>edges[i].length == 2</li>
+ *  <li>1 <= ai < bi <= edges.length</li>
+ *  <li>ai != bi</li>
+ *  <li>There are no repeated edges.</li>
+ *  <li>The given graph is connected.</li>
+ * </ul>
  */
 public interface RedundantConnection {
 
@@ -21,8 +35,21 @@ public interface RedundantConnection {
 
     class RedundantConnectionUsingUnionFind implements RedundantConnection {
 
+        @Override
+        public int[] findRedundantConnection(int[][] edges) {
+            final var n = edges.length;
+
+            final var uf = new UnionFind(n + 1);
+            for (var edge : edges) {
+                if (!uf.union(edge[0], edge[1])) {
+                    return edge;
+                }
+            }
+            return new int[0];
+        }
+
         private static class UnionFind {
-            // parent[i] = p denotes the parent of i
+            // parent[i] denotes the parent of i
             int[] parent;
 
             UnionFind(int n) {
@@ -39,25 +66,15 @@ public interface RedundantConnection {
                 return parent[x];
             }
 
-            void union(int x, int y) {
-                int rootX = find(x);
-                int rootY = find(y);
-                parent[rootX] = rootY;
-            }
-        }
-
-        @Override
-        public int[] findRedundantConnection(int[][] edges) {
-            int n = edges.length;
-            UnionFind uf = new UnionFind(n);
-            for (int[] edge : edges) {
-                if (uf.find(edge[0] - 1) == uf.find(edge[1] - 1)) {
-                    // belong to the same connected component
-                    return edge;
+            boolean union(int a, int b) {
+                final var pa = find(a);
+                final var pb = find(b);
+                if (pa != pb) {
+                    parent[pa] = pb;
+                    return true;
                 }
-                uf.union(edge[0] - 1, edge[1] - 1);
+                return false;
             }
-            return new int[0];
         }
     }
 
@@ -65,8 +82,8 @@ public interface RedundantConnection {
 
         @Override
         public int[] findRedundantConnection(int[][] edges) {
-            Map<Integer, Set<Integer>> adj = new HashMap<>();
-            for (int[] edge : edges) {
+            final var adj = new HashMap<Integer, Set<Integer>>();
+            for (var edge : edges) {
                 if (dfs(adj, edge[0], edge[1], new HashSet<>())) {
                     return edge;
                 }
@@ -80,8 +97,9 @@ public interface RedundantConnection {
             if (curr == target) {
                 return true;
             }
+
             visited.add(curr);
-            for (int next : adj.getOrDefault(curr, Collections.emptySet())) {
+            for (var next : adj.getOrDefault(curr, Set.of())) {
                 if (!visited.contains(next) && dfs(adj, next, target, visited)) {
                     return true;
                 }

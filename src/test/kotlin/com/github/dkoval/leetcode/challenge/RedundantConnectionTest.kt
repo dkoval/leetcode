@@ -77,9 +77,9 @@ class RedundantConnectionTest {
             RedundantConnectionUsingDFS().test(edges, expected)
         }
     }
+}
 
-    private fun RedundantConnection.test(edges: Array<IntArray>, expected: IntArray) {
-        val actual = findRedundantConnection(edges)
-        assertArrayEquals(expected, actual)
-    }
+private fun RedundantConnection.test(edges: Array<IntArray>, expected: IntArray) {
+    val actual = findRedundantConnection(edges)
+    assertArrayEquals(expected, actual)
 }
