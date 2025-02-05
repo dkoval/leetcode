@@ -29,12 +29,13 @@ public interface CheckIfOneStringSwapCanMakeStringsEqual {
             var count = 0;
             final var mismatches = new int[]{-1, -1};
             for (var i = 0; i < n; i++) {
-                if (s1.charAt(i) != s2.charAt(i)) {
-                    if (++count > 2) {
-                        return false;
-                    }
-                    mismatches[count - 1] = i;
+                if (s1.charAt(i) == s2.charAt(i)) {
+                    continue;
                 }
+                if (++count > 2) {
+                    return false;
+                }
+                mismatches[count - 1] = i;
             }
 
             if (count < 2) {
