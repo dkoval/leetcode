@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.RemoveAllOccurrencesOfSubstring.RemoveAllOccurrencesOfSubstringRev1
+import com.github.dkoval.leetcode.challenge.RemoveAllOccurrencesOfSubstring.RemoveAllOccurrencesOfSubstringRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -35,6 +36,16 @@ class RemoveAllOccurrencesOfSubstringTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return s after removing all occurrences of part`(s: String, part: String, expected: String) {
             RemoveAllOccurrencesOfSubstringRev1().test(s, part, expected)
+        }
+    }
+
+    @Nested
+    inner class RemoveAllOccurrencesOfSubstringRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return s after removing all occurrences of part`(s: String, part: String, expected: String) {
+            RemoveAllOccurrencesOfSubstringRev2().test(s, part, expected)
         }
     }
 }

@@ -63,4 +63,18 @@ public interface RemoveAllOccurrencesOfSubstring {
             return sb.toString();
         }
     }
+
+    class RemoveAllOccurrencesOfSubstringRev2 implements RemoveAllOccurrencesOfSubstring {
+
+        @Override
+        public String removeOccurrences(String s, String part) {
+            final var p = part.length();
+
+            while (s.contains(part)) {
+                final var index = s.indexOf(part);
+                s = s.substring(0, index) + s.substring(index + p);
+            }
+            return s;
+        }
+    }
 }
