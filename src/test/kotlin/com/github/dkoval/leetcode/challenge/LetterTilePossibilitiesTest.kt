@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.LetterTilePossibilities.LetterTilePossibilitiesRev1
+import com.github.dkoval.leetcode.challenge.LetterTilePossibilities.LetterTilePossibilitiesRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -36,6 +37,19 @@ internal class LetterTilePossibilitiesTest {
             expected: Int
         ) {
             LetterTilePossibilitiesRev1().test(tiles, expected)
+        }
+    }
+
+    @Nested
+    inner class LetterTilePossibilitiesRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of possible non-empty sequences of letters you can make`(
+            tiles: String,
+            expected: Int
+        ) {
+            LetterTilePossibilitiesRev2().test(tiles, expected)
         }
     }
 }
