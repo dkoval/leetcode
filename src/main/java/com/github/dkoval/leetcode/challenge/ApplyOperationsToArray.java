@@ -57,4 +57,34 @@ public interface ApplyOperationsToArray {
             return nums;
         }
     }
+
+    class ApplyOperationsToArrayRev2 implements ApplyOperationsToArray {
+
+        @Override
+        public int[] applyOperations(int[] nums) {
+            final var n = nums.length;
+
+            for (var i = 0; i < n - 1; i++) {
+                if (nums[i] == nums[i + 1]) {
+                    nums[i] *= 2;
+                    nums[i + 1] = 0;
+                }
+            }
+
+            var left = 0; // index of the leftmost zero
+            for (var right = 0; right < n; right++) {
+                while (left < right && nums[left] != 0) {
+                    left++;
+                }
+
+                if (nums[right] != 0) {
+                    var tmp = nums[left];
+                    nums[left] = nums[right];
+                    nums[right] = tmp;
+                }
+            }
+
+            return nums;
+        }
+    }
 }
