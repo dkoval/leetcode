@@ -39,19 +39,19 @@ public interface ApplyOperationsToArray {
                 }
             }
 
-            var zeroIndex = 0;
-            while (zeroIndex < n && nums[zeroIndex] != 0) {
-                zeroIndex++;
+            var left = 0; // index of the leftmost zero
+            while (left < n && nums[left] != 0) {
+                left++;
             }
 
-            var i = zeroIndex + 1;
-            while (i < n) {
-                if (nums[i] != 0) {
-                    nums[zeroIndex] = nums[i];
-                    nums[i] = 0;
-                    zeroIndex++;
+            var right = left + 1;
+            while (right < n) {
+                if (nums[right] != 0) {
+                    nums[left] = nums[right];
+                    nums[right] = 0;
+                    left++;
                 }
-                i++;
+                right++;
             }
 
             return nums;
