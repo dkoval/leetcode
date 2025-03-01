@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.ApplyOperationsToArray.ApplyOperationsToArrayRev1
-import com.github.dkoval.leetcode.challenge.ApplyOperationsToArray.ApplyOperationsToArrayRev2
+import com.github.dkoval.leetcode.challenge.ApplyOperationsToArray.*
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -50,6 +49,19 @@ internal class ApplyOperationsToArrayTest {
             expected: IntArray
         ) {
             ApplyOperationsToArrayRev2().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class ApplyOperationsToArrayRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the final array after performing all operations`(
+            nums: IntArray,
+            expected: IntArray
+        ) {
+            ApplyOperationsToArrayRev3().test(nums, expected)
         }
     }
 }
