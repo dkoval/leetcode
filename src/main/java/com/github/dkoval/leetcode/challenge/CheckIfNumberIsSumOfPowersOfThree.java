@@ -21,8 +21,6 @@ public interface CheckIfNumberIsSumOfPowersOfThree {
         public boolean checkPowersOfThree(int n) {
             // idea: convert n to base 3 and check if it contains only 1s and 0s
             while (n > 0) {
-                // to be able to represent n in base 3 system,
-                // digits should be either 0 or 1
                 if (n % 3 == 2) {
                     return false;
                 }
