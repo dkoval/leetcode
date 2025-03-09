@@ -56,4 +56,30 @@ public interface AlternatingGroups2 {
             return count;
         }
     }
+
+    class AlternatingGroups2Rev2 implements AlternatingGroups2 {
+
+        @Override
+        public int numberOfAlternatingGroups(int[] colors, int k) {
+            final var n = colors.length;
+
+            // If the starting index is (n - 1) we want to
+            // take (k - 1) firsts elements to form a group of size k.
+            var count = 0;
+            var streak = 1;
+            for (var right = 1; right < n + k - 1; right++) {
+                if (colors[right % n] != colors[(right - 1) % n]) {
+                    streak++;
+                } else {
+                    // elements aren't alternating, hence reset the steak
+                    streak = 1;
+                }
+
+                if (streak >= k) {
+                    count++;
+                }
+            }
+            return count;
+        }
+    }
 }

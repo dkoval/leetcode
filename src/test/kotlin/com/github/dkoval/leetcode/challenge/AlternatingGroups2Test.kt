@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.AlternatingGroups2.AlternatingGroups2Rev1
+import com.github.dkoval.leetcode.challenge.AlternatingGroups2.AlternatingGroups2Rev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -41,6 +42,16 @@ internal class AlternatingGroups2Test {
         fun `should return the number of alternating groups`(colors: IntArray, k: Int, expected: Int) {
             AlternatingGroups2Rev1().test(colors, k, expected)
 
+        }
+    }
+
+    @Nested
+    inner class AlternatingGroups2Rev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of alternating groups`(colors: IntArray, k: Int, expected: Int) {
+            AlternatingGroups2Rev2().test(colors, k, expected)
         }
     }
 }
