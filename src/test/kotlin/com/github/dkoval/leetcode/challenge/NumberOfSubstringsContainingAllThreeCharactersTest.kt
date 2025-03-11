@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.NumberOfSubstringsContainingAllThreeCharacters.NumberOfSubstringsContainingAllThreeCharactersRev1
-import com.github.dkoval.leetcode.challenge.NumberOfSubstringsContainingAllThreeCharacters.NumberOfSubstringsContainingAllThreeCharactersRev2
+import com.github.dkoval.leetcode.challenge.NumberOfSubstringsContainingAllThreeCharacters.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -45,6 +44,19 @@ class NumberOfSubstringsContainingAllThreeCharactersTest {
             expected: Int
         ) {
             NumberOfSubstringsContainingAllThreeCharactersRev2().test(s, expected)
+        }
+    }
+
+    @Nested
+    inner class NumberOfSubstringsContainingAllThreeCharactersRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of substrings that contain all three characters a, b and c`(
+            s: String,
+            expected: Int
+        ) {
+            NumberOfSubstringsContainingAllThreeCharactersRev3().test(s, expected)
         }
     }
 }

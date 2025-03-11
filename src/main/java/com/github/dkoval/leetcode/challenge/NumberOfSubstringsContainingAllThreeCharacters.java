@@ -62,7 +62,7 @@ public interface NumberOfSubstringsContainingAllThreeCharacters {
                 counts[s.charAt(right) - 'a']++;
 
                 // shrink the window as much as possible
-                while (isValidWindow(counts)) {
+                while (counts[0] > 0 && counts[1] > 0 && counts[2] > 0) {
                     total += n - right;
                     counts[s.charAt(left) - 'a']--;
                     left++;
@@ -70,14 +70,26 @@ public interface NumberOfSubstringsContainingAllThreeCharacters {
             }
             return total;
         }
+    }
 
-        private boolean isValidWindow(int[] counts) {
-            for (var count : counts) {
-                if (count == 0) {
-                    return false;
+    class NumberOfSubstringsContainingAllThreeCharactersRev3 implements NumberOfSubstringsContainingAllThreeCharacters {
+
+        @Override
+        public int numberOfSubstrings(String s) {
+            final var n = s.length();
+
+            // last seen indices of a, b and c
+            final var last = new int[]{-1, -1, -1};
+
+            var total = 0;
+            for (var i = 0; i < n; i++) {
+                last[s.charAt(i) - 'a'] = i;
+                if (last[0] >= 0 && last[1] >= 0 && last[2] >= 0) {
+                    // degree of freedom = min(last) + 1
+                    total += Math.min(last[0], Math.min(last[1], last[2])) + 1;
                 }
             }
-            return true;
+            return total;
         }
     }
 }
