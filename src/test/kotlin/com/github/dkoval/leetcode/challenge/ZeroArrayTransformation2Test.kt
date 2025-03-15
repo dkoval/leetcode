@@ -50,7 +50,7 @@ internal class ZeroArrayTransformation2Test {
     }
 }
 
-fun ZeroArrayTransformation2.test(arr: IntArray, operations: Array<IntArray>, expected: Int) {
+private fun ZeroArrayTransformation2.test(arr: IntArray, operations: Array<IntArray>, expected: Int) {
     val actual = minZeroArray(arr, operations)
     assertEquals(expected, actual)
 }

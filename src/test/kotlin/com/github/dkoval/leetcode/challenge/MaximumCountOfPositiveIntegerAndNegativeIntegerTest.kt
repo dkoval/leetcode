@@ -44,7 +44,7 @@ internal class MaximumCountOfPositiveIntegerAndNegativeIntegerTest {
     }
 }
 
-fun MaximumCountOfPositiveIntegerAndNegativeInteger.test(nums: IntArray, expected: Int) {
+private fun MaximumCountOfPositiveIntegerAndNegativeInteger.test(nums: IntArray, expected: Int) {
     val actual = maximumCount(nums)
     assertEquals(expected, actual)
 }
