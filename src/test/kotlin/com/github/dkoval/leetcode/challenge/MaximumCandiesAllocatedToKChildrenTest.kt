@@ -53,7 +53,7 @@ internal class MaximumCandiesAllocatedToKChildrenTest {
     }
 }
 
-fun MaximumCandiesAllocatedToKChildren.test(candies: IntArray, k: Long, expected: Int) {
+private fun MaximumCandiesAllocatedToKChildren.test(candies: IntArray, k: Long, expected: Int) {
     val actual = maximumCandies(candies, k)
     assertEquals(expected, actual)
 }
