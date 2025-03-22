@@ -1,6 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.FindAllPossibleRecipesFromGiven.FindAllPossibleRecipesFromGivenRev1
+import com.github.dkoval.leetcode.challenge.FindAllPossibleRecipesFromGivenSupplies.FindAllPossibleRecipesFromGivenSuppliesRev1
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
 import java.util.stream.Stream
 
-internal class FindAllPossibleRecipesFromGivenTest {
+internal class FindAllPossibleRecipesFromGivenSuppliesTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
@@ -68,7 +68,7 @@ internal class FindAllPossibleRecipesFromGivenTest {
     }
 
     @Nested
-    inner class FindAllPossibleRecipesFromGivenTest {
+    inner class FindAllPossibleRecipesFromGivenSuppliesTest {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -78,12 +78,12 @@ internal class FindAllPossibleRecipesFromGivenTest {
             supplies: Array<String>,
             expected: Array<String>
         ) {
-            FindAllPossibleRecipesFromGivenRev1().test(recipes, ingredients, supplies, expected)
+            FindAllPossibleRecipesFromGivenSuppliesRev1().test(recipes, ingredients, supplies, expected)
         }
     }
 }
 
-private fun FindAllPossibleRecipesFromGiven.test(
+private fun FindAllPossibleRecipesFromGivenSupplies.test(
     recipes: Array<String>,
     ingredients: List<List<String>>,
     supplies: Array<String>,

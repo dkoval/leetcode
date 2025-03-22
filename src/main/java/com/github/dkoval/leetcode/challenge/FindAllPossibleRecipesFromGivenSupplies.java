@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <a href="https://leetcode.com/problems/find-all-possible-recipes-from-given-supplies/">Find All Possible Recipes from Given</a>
+ * <a href="https://leetcode.com/problems/find-all-possible-recipes-from-given-supplies/">Find All Possible Recipes from Given Supplies</a>
  * <p>
  * You have information about n different recipes. You are given a string array recipes and a 2D string array ingredients.
  * The ith recipe has the name recipes[i], and you can create it if you have all the needed ingredients from ingredients[i].
@@ -30,11 +30,11 @@ import java.util.Map;
  *  <li>Each ingredients[i] does not contain any duplicate values.</li>
  * </ul>
  */
-public interface FindAllPossibleRecipesFromGiven {
+public interface FindAllPossibleRecipesFromGivenSupplies {
 
     List<String> findAllRecipes(String[] recipes, List<List<String>> ingredients, String[] supplies);
 
-    class FindAllPossibleRecipesFromGivenRev1 implements FindAllPossibleRecipesFromGiven {
+    class FindAllPossibleRecipesFromGivenSuppliesRev1 implements FindAllPossibleRecipesFromGivenSupplies {
 
         @Override
         public List<String> findAllRecipes(String[] recipes, List<List<String>> ingredients, String[] supplies) {
