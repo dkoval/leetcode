@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.problems;
 
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * <a href="https://leetcode.com/problems/partition-equal-subset-sum/">Partition Equal Subset Sum</a>
@@ -23,30 +22,31 @@ public interface PartitionEqualSubsetSum {
 
         @Override
         public boolean canPartition(int[] nums) {
-            int sum = 0;
-            for (int x : nums) {
-                sum += x;
+            var total = 0;
+            for (var x : nums) {
+                total += x;
             }
 
-            if (sum % 2 != 0) {
+            if (total % 2 != 0) {
                 return false;
             }
 
+            final var target = total / 2;
+
             // seen sums
-            int target = sum / 2;
-            Set<Integer> sums = new HashSet<>();
+            final var sums = new HashSet<Integer>();
             sums.add(0);
 
+            // generate sums of all possible subsets
             for (int x : nums) {
-                Set<Integer> newSums = new HashSet<>();
-                for (int s : sums) {
-                    if (x + s == target) {
+                final var newSums = new HashSet<Integer>();
+                for (var sum : sums) {
+                    if (x + sum == target) {
                         return true;
                     }
-                    newSums.add(s);
-                    newSums.add(x + s);
+                    newSums.add(x + sum);
                 }
-                sums = newSums;
+                sums.addAll(newSums);
             }
             return false;
         }
