@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MinimumNumberOfOperationsToMakeElementsInArrayDistinct.MinimumNumberOfOperationsToMakeElementsInArrayDistinctRev1
+import com.github.dkoval.leetcode.challenge.MinimumNumberOfOperationsToMakeElementsInArrayDistinct.MinimumNumberOfOperationsToMakeElementsInArrayDistinctRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -44,6 +45,19 @@ internal class MinimumNumberOfOperationsToMakeElementsInArrayDistinctTest {
             expected: Int
         ) {
             MinimumNumberOfOperationsToMakeElementsInArrayDistinctRev1().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class MinimumNumberOfOperationsToMakeElementsInArrayDistinctRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum number of operations to make all elements in the array distinct`(
+            nums: IntArray,
+            expected: Int
+        ) {
+            MinimumNumberOfOperationsToMakeElementsInArrayDistinctRev2().test(nums, expected)
         }
     }
 }

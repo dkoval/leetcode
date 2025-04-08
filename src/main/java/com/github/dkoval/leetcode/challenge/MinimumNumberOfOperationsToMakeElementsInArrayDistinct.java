@@ -45,4 +45,30 @@ public interface MinimumNumberOfOperationsToMakeElementsInArrayDistinct {
             return count;
         }
     }
+
+    class MinimumNumberOfOperationsToMakeElementsInArrayDistinctRev2 implements MinimumNumberOfOperationsToMakeElementsInArrayDistinct {
+
+        @Override
+        public int minimumOperations(int[] nums) {
+            final var n = nums.length;
+
+            final var indices = new HashMap<Integer, Integer>();
+            var count = 0;
+            var start = 0;
+            for (var i = 0; i < n && start < n; i++) {
+                if (indices.containsKey(nums[i])) {
+                    final var seenAt = indices.get(nums[i]);
+                    if (start <= seenAt) {
+                        final var dist = seenAt - start + 1;
+                        // round_up(x / y) = (x + y - 1) / y
+                        final var deletes = (dist + 2) / 3;
+                        count += deletes;
+                        start += deletes * 3;
+                    }
+                }
+                indices.put(nums[i], i);
+            }
+            return count;
+        }
+    }
 }
