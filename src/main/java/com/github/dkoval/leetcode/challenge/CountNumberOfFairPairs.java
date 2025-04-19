@@ -58,7 +58,7 @@ public interface CountNumberOfFairPairs {
                     continue;
                 }
 
-                // for a fixed nums[i], the number of nums[j] to make a valid pair with is  (right - left + 1)
+                // for a fixed nums[i], the number of nums[j] to make a valid pair with is (right - left + 1)
                 count += right - left + 1;
             }
             return count;
@@ -72,13 +72,13 @@ public interface CountNumberOfFairPairs {
             int right = end;
             while (left < right) {
                 int mid = left + (right - left) / 2;
-                if (nums[mid] < target) {
-                    // mid can't be the answer
-                    left = mid + 1;
-                } else {
+                if (nums[mid] >= target) {
                     // mid may be the answer;
                     // check if there's a better option to the left of mid
                     right = mid;
+                } else {
+                    // mid can't be the answer
+                    left = mid + 1;
                 }
             }
             return (nums[left] >= target) ? left : -1;
@@ -92,13 +92,13 @@ public interface CountNumberOfFairPairs {
             int right = end;
             while (left < right) {
                 int mid = left + (right - left + 1) / 2;
-                if (nums[mid] > target) {
-                    // mid can't be the answer
-                    right = mid - 1;
-                } else {
+                if (nums[mid] <= target) {
                     // mid may be the answer;
                     // check if there's a better option to the right of mid
                     left = mid;
+                } else {
+                    // mid can't be the answer
+                    right = mid - 1;
                 }
             }
             return (nums[left] <= target) ? left : end + 1;
