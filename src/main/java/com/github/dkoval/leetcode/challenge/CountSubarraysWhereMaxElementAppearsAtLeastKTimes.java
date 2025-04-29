@@ -25,47 +25,33 @@ public interface CountSubarraysWhereMaxElementAppearsAtLeastKTimes {
 
         @Override
         public long countSubarrays(int[] nums, int k) {
-            int n = nums.length;
+            final var n = nums.length;
 
-            int max = Integer.MIN_VALUE;
-            int count = 0;
-            for (int x : nums) {
-                if (x > max) {
-                    max = x;
-                    count++;
-                } else if (x == max) {
-                    count++;
-                }
-            }
-
-            if (count < k) {
-                return 0;
+            var max = Integer.MIN_VALUE;
+            for (var x : nums) {
+                max = Math.max(max, x);
             }
 
             // sliding window
-            count = 0;
-            long ans = 0;
-            int left = 0;
+            var count = 0;
+            var left = 0;
+            var total = 0L;
             for (int x : nums) {
                 if (x == max) {
                     count++;
                 }
 
-                if (count < k) {
-                    continue;
-                }
-
-                // shrink the window from the left to make it the smallest possible containing exactly k max elements
-                while (nums[left] != max || count > k) {
+                // shrink the window from the left to make it the smallest possible containing at least k max elements
+                while (count >= k) {
                     if (nums[left] == max) {
                         count--;
                     }
                     left++;
                 }
-                // all subarrays starting at index in [0, left] range and ending at nums[right] contain <= k max elements
-                ans += left + 1;
+                // all subarrays starting at index in [0, left] range and ending at nums[right] are valid
+                total += left;
             }
-            return ans;
+            return total;
         }
     }
 }
