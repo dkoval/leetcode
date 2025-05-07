@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.BuildArrayFromPermutation.BuildArrayFromPermutationRev1
+import com.github.dkoval.leetcode.challenge.BuildArrayFromPermutation.BuildArrayFromPermutationRev2
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -27,12 +28,22 @@ internal class BuildArrayFromPermutationTest {
     }
 
     @Nested
-    inner class BuildArrayFromPermutationTest {
+    inner class BuildArrayFromPermutationRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should build array from permutation`(nums: IntArray, expected: IntArray) {
-            BuildArrayFromPermutationRev1().test(nums, expected)
+            BuildArrayFromPermutationRev1().test(nums.clone(), expected)
+        }
+    }
+
+    @Nested
+    inner class BuildArrayFromPermutationRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should build array from permutation with O(1) space`(nums: IntArray, expected: IntArray) {
+            BuildArrayFromPermutationRev2().test(nums.clone(), expected)
         }
     }
 }

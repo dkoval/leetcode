@@ -33,4 +33,28 @@ public interface BuildArrayFromPermutation {
             return ans;
         }
     }
+
+    // O(1) space complexity solution
+    class BuildArrayFromPermutationRev2 implements BuildArrayFromPermutation {
+
+        @Override
+        public int[] buildArray(int[] nums) {
+            final int n = nums.length;
+
+            // First pass: encode both original and new values in the same array
+            // Store nums[i] + n * nums[nums[i]] at each position
+            for (int i = 0; i < n; i++) {
+                // nums[i] is stored as a remainder when divided by n
+                // nums[nums[i]] is stored as quotient when divided by n
+                nums[i] += n * (nums[nums[i]] % n);
+            }
+
+            // Second pass: extract the new values
+            for (int i = 0; i < n; i++) {
+                nums[i] /= n;
+            }
+
+            return nums;
+        }
+    }
 }
