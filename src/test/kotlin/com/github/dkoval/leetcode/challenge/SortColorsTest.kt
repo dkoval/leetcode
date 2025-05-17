@@ -72,9 +72,9 @@ internal class SortColorsTest {
             SortColorsUsingDutchFlagAlgorithm.test(nums, expected)
         }
     }
+}
 
-    private fun SortColors.test(nums: IntArray, expected: IntArray) {
-        sortColors(nums)
-        assertArrayEquals(expected, nums)
-    }
+private fun SortColors.test(nums: IntArray, expected: IntArray) {
+    sortColors(nums)
+    assertArrayEquals(expected, nums)
 }
