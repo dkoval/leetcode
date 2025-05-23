@@ -51,4 +51,32 @@ public interface ZeroArrayTransformation1 {
             return true;
         }
     }
+
+    class ZeroArrayTransformation1Rev2 implements ZeroArrayTransformation1 {
+
+        @Override
+        public boolean isZeroArray(int[] nums, int[][] queries) {
+            final var n = nums.length;
+
+            final var diffs = new int[n + 1];
+            for (var query : queries) {
+                final var l = query[0];
+                final var r = query[1];
+                diffs[l] += 1;
+                diffs[r + 1] -= 1;
+            }
+
+            if (nums[0] > diffs[0]) {
+                return false;
+            }
+
+            for (var i = 1; i < n; i++) {
+                diffs[i] += diffs[i - 1];
+                if (nums[i] > diffs[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
 }

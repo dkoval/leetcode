@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.ZeroArrayTransformation1.ZeroArrayTransformation1Rev1
+import com.github.dkoval.leetcode.challenge.ZeroArrayTransformation1.ZeroArrayTransformation1Rev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -44,6 +45,20 @@ internal class ZeroArrayTransformation1Test {
             expected: Boolean
         ) {
             ZeroArrayTransformation1Rev1().test(nums, queries, expected)
+        }
+    }
+
+    @Nested
+    inner class ZeroArrayTransformation1Rev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should check if it is possible to transform nums into a Zero Array after processing all the queries sequentially`(
+            nums: IntArray,
+            queries: Array<IntArray>,
+            expected: Boolean
+        ) {
+            ZeroArrayTransformation1Rev2().test(nums, queries, expected)
         }
     }
 }
