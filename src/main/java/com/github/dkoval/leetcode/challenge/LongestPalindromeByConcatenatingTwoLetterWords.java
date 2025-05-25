@@ -70,4 +70,35 @@ public interface LongestPalindromeByConcatenatingTwoLetterWords {
             return pairs * 2 * 2 + extra;
         }
     }
+
+    class LongestPalindromeByConcatenatingTwoLetterWordsRev2 implements LongestPalindromeByConcatenatingTwoLetterWords {
+
+        @Override
+        public int longestPalindrome(String[] words) {
+            final var counts = new HashMap<String, Integer>();
+            for (var word : words) {
+                counts.put(word, counts.getOrDefault(word, 0) + 1);
+            }
+
+            var length = 0;
+            var hasExtra = false;
+            for (String s : counts.keySet()) {
+                // c1 < c2 check prevents double counting, for example:
+                // words[i] = "ab", words[j] = "ba"
+                // "ba" is reverse("ab") and "ab" is reverse("ba")
+                if (s.charAt(0) < s.charAt(1)) {
+                    final var rs = new StringBuilder(s).reverse().toString();
+                    final var count1 = counts.get(s);
+                    final var count2 = counts.getOrDefault(rs, 0);
+                    length += Math.min(count1, count2) * 4;
+                } else if (s.charAt(0) == s.charAt(1)) {
+                    final var count = counts.get(s);
+                    // count / 2 is the number of pairs like "xx"
+                    length += count / 2 * 4;
+                    hasExtra |= (count % 2) != 0;
+                }
+            }
+            return length + (hasExtra ? 2 : 0);
+        }
+    }
 }

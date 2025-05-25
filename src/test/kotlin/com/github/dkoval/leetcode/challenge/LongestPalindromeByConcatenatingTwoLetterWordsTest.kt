@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.LongestPalindromeByConcatenatingTwoLetterWords.LongestPalindromeByConcatenatingTwoLetterWordsRev1
+import com.github.dkoval.leetcode.challenge.LongestPalindromeByConcatenatingTwoLetterWords.LongestPalindromeByConcatenatingTwoLetterWordsRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -26,6 +27,69 @@ internal class LongestPalindromeByConcatenatingTwoLetterWordsTest {
             Arguments.of(
                 arrayOf("cc", "ll", "xx"),
                 2
+            ),
+            Arguments.of(
+                arrayOf(
+                    "zb",
+                    "bb",
+                    "zy",
+                    "bz",
+                    "yb",
+                    "yz",
+                    "zz",
+                    "zy",
+                    "zb",
+                    "zz",
+                    "by",
+                    "by",
+                    "bb",
+                    "bz",
+                    "bz",
+                    "yy",
+                    "bz",
+                    "zz",
+                    "bz",
+                    "yy",
+                    "yz",
+                    "yz",
+                    "zz",
+                    "zy",
+                    "by",
+                    "zy",
+                    "bb",
+                    "yz",
+                    "yy",
+                    "by",
+                    "zy",
+                    "yz",
+                    "yy",
+                    "by",
+                    "zz",
+                    "bb",
+                    "yb",
+                    "by",
+                    "yy",
+                    "zb",
+                    "bb",
+                    "yz",
+                    "yb",
+                    "zz",
+                    "by",
+                    "yb",
+                    "zy",
+                    "bb",
+                    "yz",
+                    "zb",
+                    "zy",
+                    "yy",
+                    "bb",
+                    "by",
+                    "yb",
+                    "yb",
+                    "bb",
+                    "bb"
+                ),
+                110
             )
         )
     }
@@ -43,8 +107,21 @@ internal class LongestPalindromeByConcatenatingTwoLetterWordsTest {
         }
     }
 
-    private fun LongestPalindromeByConcatenatingTwoLetterWords.test(words: Array<String>, expected: Int) {
-        val actual = longestPalindrome(words)
-        assertEquals(expected, actual)
+    @Nested
+    inner class LongestPalindromeByConcatenatingTwoLetterWordsRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the length of the longest palindrome that you can create`(
+            words: Array<String>,
+            expected: Int
+        ) {
+            LongestPalindromeByConcatenatingTwoLetterWordsRev2().test(words, expected)
+        }
     }
+}
+
+private fun LongestPalindromeByConcatenatingTwoLetterWords.test(words: Array<String>, expected: Int) {
+    val actual = longestPalindrome(words)
+    assertEquals(expected, actual)
 }
