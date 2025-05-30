@@ -86,4 +86,42 @@ public interface FindClosestNodeToGivenTwoNodes {
             return dists;
         }
     }
+
+    class FindClosestNodeToGivenTwoNodesRev2 implements FindClosestNodeToGivenTwoNodes {
+
+        @Override
+        public int closestMeetingNode(int[] edges, int node1, int node2) {
+            final var n = edges.length;
+
+            final var dists1 = traverse(edges, node1);
+            final var dists2 = traverse(edges, node2);
+
+            var bestValue = Integer.MAX_VALUE;
+            var bestIndex = 0;
+            for (var i = 0; i < n; i++) {
+                final var currMax = Math.max(dists1[i], dists2[i]);
+                if (currMax < bestValue) {
+                    bestValue = currMax;
+                    bestIndex = i;
+                }
+            }
+            return (bestValue != Integer.MAX_VALUE) ? bestIndex : -1;
+        }
+
+        private int[] traverse(int[] edges, int start) {
+            final var n = edges.length;
+
+            final var dists = new int[n];
+            Arrays.fill(dists, Integer.MAX_VALUE);
+
+            var curr = start;
+            var dist = 0;
+            // dists[curr] == Integer.MAX_VALUE checks if curr has not been visited yet to avoid infinite loops
+            while (curr != -1 && dists[curr] == Integer.MAX_VALUE) {
+                dists[curr] = dist++;
+                curr = edges[curr];
+            }
+            return dists;
+        }
+    }
 }

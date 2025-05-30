@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.FindClosestNodeToGivenTwoNodes.FindClosestNodeToGivenTwoNodesRev1
+import com.github.dkoval.leetcode.challenge.FindClosestNodeToGivenTwoNodes.FindClosestNodeToGivenTwoNodesRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -42,6 +43,21 @@ internal class FindClosestNodeToGivenTwoNodesTest {
             expected: Int
         ) {
             FindClosestNodeToGivenTwoNodesRev1().test(edges, node1, node2, expected)
+        }
+    }
+
+    @Nested
+    inner class FindClosestNodeToGivenTwoNodesRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the index of the node that can be reached from both node1 and node2`(
+            edges: IntArray,
+            node1: Int,
+            node2: Int,
+            expected: Int
+        ) {
+            FindClosestNodeToGivenTwoNodesRev2().test(edges, node1, node2, expected)
         }
     }
 }
