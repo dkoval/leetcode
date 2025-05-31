@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
 import java.util.ArrayDeque;
-import java.util.Queue;
 
 /**
  * <a href="https://leetcode.com/problems/snakes-and-ladders/">Snakes and Ladders</a>
@@ -41,27 +40,27 @@ public interface SnakesAndLadders {
 
         @Override
         public int snakesAndLadders(int[][] board) {
-            int n = board.length;
+            final var n = board.length;
 
-            // BFS to find the shortest path from source = 1 to target = n^2
-            Queue<Square> q = new ArrayDeque<>();
-            boolean[][] visited = new boolean[n][n];
+            // BFS
+            final var start = Square.fromLabel(1, n);
 
-            int moves = 0;
-            Square start = Square.fromLabel(1, n);
+            final var q = new ArrayDeque<Square>();
+            final var visited = new boolean[n][n];
             q.offer(start);
             visited[start.row][start.col] = true;
+
+            var moves = 0;
             while (!q.isEmpty()) {
                 // process all squares at the current level
-                int size = q.size();
+                var size = q.size();
                 while (size-- > 0) {
-                    Square curr = q.poll();
+                    final var curr = q.poll();
                     // choose a next destination square with a label in the range [curr + 1, min(curr + 6, n^2)]
-                    for (int x = curr.x + 1; x <= Math.min(curr.x + 6, n * n); x++) {
-                        // convert label to (row, col) coordinates on the board
-                        Square next = Square.fromLabel(x, n);
-
-                        // If next has a snake or ladder, you must move to the destination of that snake or ladder. Otherwise, you move to next.
+                    for (var x = curr.x + 1; x <= Math.min(curr.x + 6, n * n); x++) {
+                        // If next has a snake or ladder, you must move to the destination of that snake or ladder.
+                        // Otherwise, you move to next.
+                        var next = Square.fromLabel(x, n);
                         if (board[next.row][next.col] != -1) {
                             next = Square.fromLabel(board[next.row][next.col], n);
                         }
@@ -81,22 +80,14 @@ public interface SnakesAndLadders {
             return -1;
         }
 
-        private static class Square {
-            final int row;
-            final int col;
-            final int x;
+        record Square(int row, int col, int x) {
 
-            Square(int row, int col, int x) {
-                this.row = row;
-                this.col = col;
-                this.x = x;
-            }
-
+            // convert label x to (row, col) coordinates on the board
             static Square fromLabel(int x, int n) {
-                int d = (x - 1) / n;
-                int r = (x - 1) % n;
-                int row = n - 1 - d;
-                int col = (d % 2 == 0) ? r : n - 1 - r;
+                final var r = (x - 1) / n;
+                final var c = (x - 1) % n;
+                final var row = n - 1 - r;
+                final var col = (r % 2 == 0) ? c : n - 1 - c;
                 return new Square(row, col, x);
             }
         }
