@@ -129,4 +129,54 @@ public interface LexicographicallySmallestEquivalentString {
             return sb.toString();
         }
     }
+
+    class LexicographicallySmallestEquivalentStringRev3 implements LexicographicallySmallestEquivalentString {
+
+        @Override
+        public String smallestEquivalentString(String s1, String s2, String baseStr) {
+            final var uf = new UnionFind();
+            for (var i = 0; i < s1.length(); i++) {
+                uf.union(s1.charAt(i) - 'a', s2.charAt(i) - 'a');
+            }
+
+            final var sb = new StringBuilder();
+            for (var i = 0; i < baseStr.length(); i++) {
+                final var c = (char) (uf.find(baseStr.charAt(i) - 'a') + 'a');
+                sb.append(c);
+            }
+            return sb.toString();
+        }
+
+        static class UnionFind {
+            // parent[i] is the parent of i
+            final int[] parent = new int[26];
+
+            UnionFind() {
+                for (var i = 0; i < 26; i++) {
+                    parent[i] = i;
+                }
+            }
+
+            int find(int x) {
+                if (parent[x] != x) {
+                    // path compression
+                    parent[x] = find(parent[x]);
+                }
+                return parent[x];
+            }
+
+            void union(int x, int y) {
+                final var px = find(x);
+                final var py = find(y);
+                if (px == py) {
+                    return;
+                }
+
+                // choose lexicographically smaller character as the root
+                final var p = Math.min(px, py);
+                final var c = Math.max(px, py);
+                parent[c] = p;
+            }
+        }
+    }
 }

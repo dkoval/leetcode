@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.LexicographicallySmallestEquivalentString.LexicographicallySmallestEquivalentStringRev1
-import com.github.dkoval.leetcode.challenge.LexicographicallySmallestEquivalentString.LexicographicallySmallestEquivalentStringRev2
+import com.github.dkoval.leetcode.challenge.LexicographicallySmallestEquivalentString.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -79,13 +78,23 @@ internal class LexicographicallySmallestEquivalentStringTest {
         }
     }
 
-    private fun LexicographicallySmallestEquivalentString.test(
-        s1: String,
-        s2: String,
-        baseStr: String,
-        expected: String
-    ) {
-        val actual = smallestEquivalentString(s1, s2, baseStr)
-        assertEquals(expected, actual)
+    @Nested
+    inner class LexicographicallySmallestEquivalentStringRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the lexicographically smallest equivalent string of baseStr by using the equivalency information from s1 and s2`(
+            s1: String,
+            s2: String,
+            baseStr: String,
+            expected: String
+        ) {
+            LexicographicallySmallestEquivalentStringRev3().test(s1, s2, baseStr, expected)
+        }
     }
+}
+
+private fun LexicographicallySmallestEquivalentString.test(s1: String, s2: String, baseStr: String, expected: String) {
+    val actual = smallestEquivalentString(s1, s2, baseStr)
+    assertEquals(expected, actual)
 }
