@@ -1,9 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * <a href="https://leetcode.com/problems/lexicographically-minimum-string-after-removing-stars/">Lexicographically Minimum String After Removing Stars</a>
@@ -65,6 +62,42 @@ public interface LexicographicallyMinimumStringAfterRemovingStars {
                 }
             }
             return ans.toString();
+        }
+    }
+
+    class LexicographicallyMinimumStringAfterRemovingStarsRev2 implements LexicographicallyMinimumStringAfterRemovingStars {
+
+        @Override
+        public String clearStars(String s) {
+            final var n = s.length();
+
+            final var heap = new PriorityQueue<CharInfo>((x, y) ->
+                    (x.c != y.c) ? Character.compare(x.c, y.c) : -Integer.compare(x.index, y.index)
+            );
+
+            final var removed = new HashSet<Integer>();
+            for (var i = 0; i < n; i++) {
+                final var c = s.charAt(i);
+                if (c != '*') {
+                    heap.offer(new CharInfo(c, i));
+                } else if (!heap.isEmpty()) {
+                    final var info = heap.poll();
+                    removed.add(info.index);
+                }
+            }
+
+            // construct the final answer
+            final var ans = new StringBuilder();
+            for (var i = 0; i < n; i++) {
+                final var c = s.charAt(i);
+                if (c != '*' && !removed.contains(i)) {
+                    ans.append(c);
+                }
+            }
+            return ans.toString();
+        }
+
+        private record CharInfo(char c, int index) {
         }
     }
 }

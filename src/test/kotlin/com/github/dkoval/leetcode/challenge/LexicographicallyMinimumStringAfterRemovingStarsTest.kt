@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.LexicographicallyMinimumStringAfterRemovingStars.LexicographicallyMinimumStringAfterRemovingStarsRev1
+import com.github.dkoval.leetcode.challenge.LexicographicallyMinimumStringAfterRemovingStars.LexicographicallyMinimumStringAfterRemovingStarsRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -32,9 +33,22 @@ internal class LexicographicallyMinimumStringAfterRemovingStarsTest {
             LexicographicallyMinimumStringAfterRemovingStarsRev1().test(s, expected)
         }
     }
+
+    @Nested
+    inner class LexicographicallyMinimumStringAfterRemovingStarsRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the lexicographically smallest resulting string after removing all 'star' characters`(
+            s: String,
+            expected: String
+        ) {
+            LexicographicallyMinimumStringAfterRemovingStarsRev2().test(s, expected)
+        }
+    }
 }
 
-private fun LexicographicallyMinimumStringAfterRemovingStarsRev1.test(s: String, expected: String) {
+private fun LexicographicallyMinimumStringAfterRemovingStars.test(s: String, expected: String) {
     val actual = clearStars(s)
     assertEquals(expected, actual)
 }
