@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.LexicographicalNumbers.LexicographicalNumbersRev1
+import com.github.dkoval.leetcode.challenge.LexicographicalNumbers.LexicographicalNumbersRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -233,6 +234,19 @@ internal class LexicographicalNumbersTest {
             expected: List<Int>
         ) {
             LexicographicalNumbersRev1().test(n, expected)
+        }
+    }
+
+    @Nested
+    inner class LexicographicalNumbersRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return all the numbers in the range 1 to n sorted in lexicographical order`(
+            n: Int,
+            expected: List<Int>
+        ) {
+            LexicographicalNumbersRev2().test(n, expected)
         }
     }
 }

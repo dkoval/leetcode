@@ -39,4 +39,31 @@ public interface LexicographicalNumbers {
             return ans;
         }
     }
+
+    class LexicographicalNumbersRev2 implements LexicographicalNumbers {
+
+        @Override
+        public List<Integer> lexicalOrder(int n) {
+            final var ans = new ArrayList<Integer>();
+            for (var i = 1; i < 10 && ans.size() < n; i++) {
+                calc(i, n, ans);
+            }
+            return ans;
+        }
+
+        private void calc(int x, int n, List<Integer> ans) {
+            if (ans.size() > n) {
+                return;
+            }
+
+            ans.add(x);
+            for (var i = 0; i < 10; i++) {
+                if (x * 10 + i <= n) {
+                    calc(x * 10 + i, n, ans);
+                } else {
+                    break;
+                }
+            }
+        }
+    }
 }
