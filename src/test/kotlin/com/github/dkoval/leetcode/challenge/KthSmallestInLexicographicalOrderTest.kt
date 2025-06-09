@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.KthSmallestInLexicographicalOrder.KthSmallestInLexicographicalOrderRev2
 import com.github.dkoval.leetcode.challenge.KthSmallestInLexicographicalOrder.KthSmallestInLexicographicalOrderTLE
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -18,6 +19,7 @@ internal class KthSmallestInLexicographicalOrderTest {
             Arguments.of(13, 2, 10),
             Arguments.of(1, 1, 1),
             Arguments.of(100, 10, 17),
+            Arguments.of(10000, 10000, 9999),
             Arguments.of(681692778, 351251360, 416126219)
         )
     }
@@ -33,6 +35,20 @@ internal class KthSmallestInLexicographicalOrderTest {
             expected: Int
         ) {
             KthSmallestInLexicographicalOrderTLE().test(n, k, expected)
+        }
+    }
+
+    @Nested
+    inner class KthSmallestInLexicographicalOrderRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the kth lexicographically smallest integer in the range from 1 to n`(
+            n: Int,
+            k: Int,
+            expected: Int
+        ) {
+            KthSmallestInLexicographicalOrderRev2().test(n, k, expected)
         }
     }
 }
