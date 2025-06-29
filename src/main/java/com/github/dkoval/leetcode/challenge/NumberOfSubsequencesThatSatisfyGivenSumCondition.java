@@ -25,23 +25,28 @@ public interface NumberOfSubsequencesThatSatisfyGivenSumCondition {
 
     class NumberOfSubsequencesThatSatisfyGivenSumConditionRev1 implements NumberOfSubsequencesThatSatisfyGivenSumCondition {
 
-        @Override
-        public int numSubseq(int[] nums, int target) {
-            // idea: 2-pointers algorithm
-            int n = nums.length;
-            Arrays.sort(nums);
-
-            // pre-compute 2^x to avoid TLE
+        private static int[] pow2(int n) {
             int[] pow2 = new int[n];
             pow2[0] = 1;
             for (int i = 1; i < n; i++) {
                 pow2[i] = pow2[i - 1] * 2;
                 pow2[i] %= MOD;
             }
+            return pow2;
+        }
 
-            int count = 0;
-            int left = 0;
-            int right = n - 1;
+        @Override
+        public int numSubseq(int[] nums, int target) {
+            // idea: 2-pointers algorithm
+            final var n = nums.length;
+            Arrays.sort(nums);
+
+            // pre-compute 2^x to avoid TLE
+            int[] pow2 = pow2(n);
+
+            var count = 0;
+            var left = 0;
+            var right = n - 1;
             while (left <= right) {
                 while (left <= right && nums[left] + nums[right] > target) {
                     right--;
@@ -51,9 +56,9 @@ public interface NumberOfSubsequencesThatSatisfyGivenSumCondition {
                     break;
                 }
 
-                // nums[left] is ALWAYS included in a subsequence we can using
-                // [nums[left] : nums[right]] numbers
-                // there're 2^(right - left) subsequences we can make from [..., nums[right]] numbers
+                // nums[left] is ALWAYS included in a subsequence
+                // we can use [nums[left] : nums[right]] numbers
+                // there are 2^(right - left) subsequences we can make from [..., nums[right]] numbers
                 count += pow2[right - left];
                 count %= MOD;
                 left++;
