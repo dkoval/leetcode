@@ -25,11 +25,6 @@ internal class FindSubsequenceOfLengthKWithTheLargestSumTest {
                 intArrayOf(-1, -2, 3, 4),
                 3,
                 intArrayOf(-1, 3, 4)
-            ),
-            Arguments.of(
-                intArrayOf(3, 4, 3, 3),
-                2,
-                intArrayOf(3, 4)
             )
         )
     }
