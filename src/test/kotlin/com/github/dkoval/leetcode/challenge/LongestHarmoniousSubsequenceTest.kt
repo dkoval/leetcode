@@ -1,15 +1,20 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.LongestHarmoniousSubsequence.LongestHarmoniousSubsequenceRev1
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import java.util.stream.Stream
 
 internal class LongestHarmoniousSubsequenceTest {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(1, 3, 2, 2, 5, 2, 3, 7),
                 5
@@ -25,10 +30,18 @@ internal class LongestHarmoniousSubsequenceTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should find the longest harmonious subsequence`(nums: IntArray, expected: Int) {
-        val actual = LongestHarmoniousSubsequence().findLHS(nums)
-        assertEquals(expected, actual)
+    @Nested
+    inner class LongestHarmoniousSubsequenceRev1Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the longest harmonious subsequence`(nums: IntArray, expected: Int) {
+            LongestHarmoniousSubsequenceRev1().test(nums, expected)
+        }
     }
+}
+
+private fun LongestHarmoniousSubsequence.test(nums: IntArray, expected: Int) {
+    val actual = findLHS(nums)
+    assertEquals(expected, actual)
 }
