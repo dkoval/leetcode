@@ -17,17 +17,39 @@ import com.github.dkoval.leetcode.ListNode;
  *  <li>Each node's value is either 0 or 1.</li>
  * </ul>
  */
-public class ConvertBinaryNumberInLinkedListToInteger {
+public interface ConvertBinaryNumberInLinkedListToInteger {
+
+    int getDecimalValue(ListNode head);
 
     // O(N) time | O(1) space
-    public int getDecimalValue(ListNode head) {
-        int x = 0;
-        ListNode curr = head;
-        while (curr != null) {
-            int digit = curr.val;
-            x = x * 2 + digit;
-            curr = curr.next;
+    class ConvertBinaryNumberInLinkedListToIntegerRev1 implements ConvertBinaryNumberInLinkedListToInteger {
+
+        @Override
+        public int getDecimalValue(ListNode head) {
+            int x = 0;
+            ListNode curr = head;
+            while (curr != null) {
+                int digit = curr.val;
+                x = x * 2 + digit;
+                curr = curr.next;
+            }
+            return x;
         }
-        return x;
+    }
+
+    // O(N) time | O(1) space
+    class ConvertBinaryNumberInLinkedListToIntegerRev2 implements ConvertBinaryNumberInLinkedListToInteger {
+
+        @Override
+        public int getDecimalValue(ListNode head) {
+            var curr = head;
+            var x = 0;
+            while (curr != null) {
+                x <<= 1;
+                x |= curr.val;
+                curr = curr.next;
+            }
+            return x;
+        }
     }
 }
