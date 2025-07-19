@@ -35,11 +35,12 @@ public interface RemoveSubFoldersFromFilesystem {
 
         @Override
         public List<String> removeSubfolders(String[] folder) {
-            int n = folder.length;
+            final var n = folder.length;
+
             Arrays.sort(folder);
 
-            List<String> ans = new ArrayList<>();
-            int i = 0;
+            final var ans = new ArrayList<String>();
+            var i = 0;
             while (i < n) {
                 ans.add(folder[i]);
                 // skip all subfolders of folder[i]
