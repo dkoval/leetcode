@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,6 +49,28 @@ public interface RemoveSubFoldersFromFilesystem {
                 }
                 // proceed to the next unique folder
                 i++;
+            }
+            return ans;
+        }
+    }
+
+    class RemoveSubFoldersFromFilesystemRev2 implements RemoveSubFoldersFromFilesystem {
+
+        @Override
+        public List<String> removeSubfolders(String[] folder) {
+            Arrays.sort(folder);
+
+            final var stack = new ArrayDeque<String>();
+            for (var f : folder) {
+                if (stack.isEmpty() || !f.startsWith(stack.peek())) {
+                    stack.push(f + "/");
+                }
+            }
+
+            final var ans = new ArrayList<String>();
+            while (!stack.isEmpty()) {
+                final var f = stack.pop();
+                ans.add(f.substring(0, f.length() - 1));
             }
             return ans;
         }

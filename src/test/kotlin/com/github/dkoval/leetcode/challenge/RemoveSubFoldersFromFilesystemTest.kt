@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.RemoveSubFoldersFromFilesystem.RemoveSubFoldersFromFilesystemRev1
+import com.github.dkoval.leetcode.challenge.RemoveSubFoldersFromFilesystem.RemoveSubFoldersFromFilesystemRev2
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -40,6 +41,19 @@ internal class RemoveSubFoldersFromFilesystemTest {
             expected: List<String>
         ) {
             RemoveSubFoldersFromFilesystemRev1().test(folder, expected)
+        }
+    }
+
+    @Nested
+    inner class RemoveSubFoldersFromFilesystemRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the folders after removing all sub-folders in those folders`(
+            folder: Array<String>,
+            expected: List<String>
+        ) {
+            RemoveSubFoldersFromFilesystemRev2().test(folder, expected)
         }
     }
 }
