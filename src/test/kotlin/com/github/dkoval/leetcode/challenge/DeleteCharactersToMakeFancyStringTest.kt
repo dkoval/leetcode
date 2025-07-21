@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.DeleteCharactersToMakeFancyString.DeleteCharactersToMakeFancyStringRev1
+import com.github.dkoval.leetcode.challenge.DeleteCharactersToMakeFancyString.DeleteCharactersToMakeFancyStringRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -28,6 +29,16 @@ internal class DeleteCharactersToMakeFancyStringTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the final string after the deletion`(s: String, expected: String) {
             DeleteCharactersToMakeFancyStringRev1().test(s, expected)
+        }
+    }
+
+    @Nested
+    inner class DeleteCharactersToMakeFancyStringRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the final string after the deletion`(s: String, expected: String) {
+            DeleteCharactersToMakeFancyStringRev2().test(s, expected)
         }
     }
 }

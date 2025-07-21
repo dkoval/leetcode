@@ -23,19 +23,48 @@ public interface DeleteCharactersToMakeFancyString {
 
         @Override
         public String makeFancyString(String s) {
-            int n = s.length();
+            final var n = s.length();
 
             if (n < 3) {
                 return s;
             }
 
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < n; i++) {
+            final var sb = new StringBuilder();
+            for (var i = 0; i < n; i++) {
                 char c = s.charAt(i);
                 if (sb.length() >= 2 && sb.charAt(sb.length() - 1) == c && sb.charAt(sb.length() - 2) == c) {
                     continue;
                 }
                 sb.append(c);
+            }
+            return sb.toString();
+        }
+    }
+
+    class DeleteCharactersToMakeFancyStringRev2 implements DeleteCharactersToMakeFancyString {
+
+        @Override
+        public String makeFancyString(String s) {
+            final var n = s.length();
+
+            if (n < 3) {
+                return s;
+            }
+
+            final var sb = new StringBuilder();
+            var last = '#';
+            var repeats = 0;
+            for (var i = 0; i < n; i++) {
+                if (s.charAt(i) == last) {
+                    repeats++;
+                } else {
+                    last = s.charAt(i);
+                    repeats = 1;
+                }
+
+                if (repeats < 3) {
+                    sb.append(s.charAt(i));
+                }
             }
             return sb.toString();
         }
