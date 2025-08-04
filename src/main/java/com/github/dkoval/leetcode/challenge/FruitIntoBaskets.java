@@ -52,7 +52,7 @@ public interface FruitIntoBaskets {
                     }
                 }
 
-                // a new type of fruit discovered, empty on of the baskets
+                // a new type of fruit discovered, empty one of the baskets
                 if (!matches) {
                     count = i - Math.min(baskets[0], baskets[1]);
                     baskets[0] = Math.max(baskets[0], baskets[1]);
