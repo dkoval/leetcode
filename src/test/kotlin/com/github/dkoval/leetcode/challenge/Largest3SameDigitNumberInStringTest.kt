@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.Largest3SameDigitNumberInString.Largest3SameDigitNumberInStringRev1
+import com.github.dkoval.leetcode.challenge.Largest3SameDigitNumberInString.Largest3SameDigitNumberInStringRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -40,6 +41,19 @@ internal class Largest3SameDigitNumberInStringTest {
             expected: String
         ) {
             Largest3SameDigitNumberInStringRev1().test(num, expected)
+        }
+    }
+
+    @Nested
+    inner class Largest3SameDigitNumberInStringRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum good integer as a string or an empty string if no such integer exists`(
+            num: String,
+            expected: String
+        ) {
+            Largest3SameDigitNumberInStringRev2().test(num, expected)
         }
     }
 }

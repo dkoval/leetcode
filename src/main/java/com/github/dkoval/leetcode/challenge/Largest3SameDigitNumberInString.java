@@ -47,4 +47,30 @@ public interface Largest3SameDigitNumberInString {
             return "";
         }
     }
+
+    // O(N) time | O(1) space
+    class Largest3SameDigitNumberInStringRev2 implements Largest3SameDigitNumberInString {
+
+        @Override
+        public String largestGoodInteger(String num) {
+            final var n = num.length();
+            var best = -1;
+            for (var left = 0; left <= n - 3; left++) {
+                var found = true;
+                for (var right = left + 1; right < left + 3; right++) {
+                    if (num.charAt(right) != num.charAt(left)) {
+                        found = false;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    continue;
+                }
+
+                best = Math.max(best, num.charAt(left) - '0');
+            }
+            return (best == -1) ? "" : String.valueOf(best).repeat(3);
+        }
+    }
 }
