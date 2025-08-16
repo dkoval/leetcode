@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.Maximum69Number.Maximum69NumberRev1
+import com.github.dkoval.leetcode.challenge.Maximum69Number.Maximum69NumberRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -31,8 +32,18 @@ internal class Maximum69NumberTest {
         }
     }
 
-    private fun Maximum69Number.test(num: Int, expected: Int) {
-        val actual = maximum69Number(num)
-        assertEquals(expected, actual)
+    @Nested
+    inner class Maximum69NumberRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum number you can get by changing at most one digit`(num: Int, expected: Int) {
+            Maximum69NumberRev2().test(num, expected)
+        }
     }
+}
+
+private fun Maximum69Number.test(num: Int, expected: Int) {
+    val actual = maximum69Number(num)
+    assertEquals(expected, actual)
 }

@@ -36,4 +36,25 @@ public interface Maximum69Number {
             return Integer.parseInt(ans.toString());
         }
     }
+
+    class Maximum69NumberRev2 implements Maximum69Number {
+
+        @Override
+        public int maximum69Number(int num) {
+            final var digits = Integer.toString(num).toCharArray();
+
+            var changed = false;
+            var x = 0;
+            for (var digit : digits) {
+                x *= 10;
+                var d = digit - '0';
+                if (d == 6 && !changed) {
+                    d = 9;
+                    changed = true;
+                }
+                x += d;
+            }
+            return x;
+        }
+    }
 }
