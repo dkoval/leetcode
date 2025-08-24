@@ -43,4 +43,34 @@ public interface LongestSubarrayOf1sAfterDeletingOneElement {
             return Math.max(best - 1, 0);
         }
     }
+
+    // O(N) time | O(1) space
+    class LongestSubarrayOf1sAfterDeletingOneElementRev2 implements LongestSubarrayOf1sAfterDeletingOneElement {
+
+        @Override
+        public int longestSubarray(int[] nums) {
+            final var n = nums.length;
+
+            // idea: sliding window
+            var best = 0;
+            var zeros = 0;
+            var left = 0;
+            for (var right = 0; right < n; right++) {
+                if (nums[right] == 0) {
+                    zeros++;
+                }
+
+                // shrink the window
+                while (zeros > 1) {
+                    if (nums[left] == 0) {
+                        zeros--;
+                    }
+                    left++;
+                }
+
+                best = Math.max(best, right - left);
+            }
+            return best;
+        }
+    }
 }

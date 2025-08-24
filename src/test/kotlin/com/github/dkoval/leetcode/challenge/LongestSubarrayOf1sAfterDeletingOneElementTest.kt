@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.LongestSubarrayOf1sAfterDeletingOneElement.LongestSubarrayOf1sAfterDeletingOneElementRev1
+import com.github.dkoval.leetcode.challenge.LongestSubarrayOf1sAfterDeletingOneElement.LongestSubarrayOf1sAfterDeletingOneElementRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -52,6 +53,19 @@ internal class LongestSubarrayOf1sAfterDeletingOneElementTest {
             expected: Int
         ) {
             LongestSubarrayOf1sAfterDeletingOneElementRev1().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class LongestSubarrayOf1sAfterDeletingOneElementRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the size of the longest non-empty subarray containing only 1's in the resulting array`(
+            nums: IntArray,
+            expected: Int
+        ) {
+            LongestSubarrayOf1sAfterDeletingOneElementRev2().test(nums, expected)
         }
     }
 }
