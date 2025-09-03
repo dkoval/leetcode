@@ -49,7 +49,6 @@ public interface MaximumAveragePassRatio {
             var ans = 0.0;
             while (!maxHeap.isEmpty()) {
                 final var curr = maxHeap.poll();
-                System.out.println(curr);
                 ans += (double) curr.pass / curr.total;
             }
 
