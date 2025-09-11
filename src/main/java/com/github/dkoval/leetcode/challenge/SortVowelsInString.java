@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -37,10 +36,11 @@ public interface SortVowelsInString {
 
         @Override
         public String sortVowels(String s) {
-            int n = s.length();
-            List<Character> usedVowels = new ArrayList<>();
+            final var n = s.length();
+
+            final var usedVowels = new ArrayList<Character>();
             for (int i = 0; i < n; i++) {
-                char c = s.charAt(i);
+                final var c = s.charAt(i);
                 if (VOWELS.contains(c)) {
                     usedVowels.add(c);
                 }
@@ -48,11 +48,11 @@ public interface SortVowelsInString {
 
             usedVowels.sort(Character::compare);
 
-            int k = 0;
-            StringBuilder sb = new StringBuilder();
+            var index = 0;
+            final var sb = new StringBuilder();
             for (int i = 0; i < n; i++) {
-                char c = s.charAt(i);
-                sb.append(VOWELS.contains(c) ? usedVowels.get(k++) : c);
+                final var c = s.charAt(i);
+                sb.append(VOWELS.contains(c) ? usedVowels.get(index++) : c);
             }
             return sb.toString();
         }
