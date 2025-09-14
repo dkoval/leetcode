@@ -1,12 +1,11 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/march-leetcoding-challenge-2021/591/week-4-march-22nd-march-28th/3681/">Vowel Spellchecker</a>
+ * <a href="https://leetcode.com/problems/vowel-spellchecker/">Vowel Spellchecker</a>
  * <p>
  * Given a wordlist, we want to implement a spellchecker that converts a query word into a correct word.
  * <p>
@@ -38,69 +37,78 @@ import java.util.Set;
  * </ul>
  * <p>
  * Given some queries, return a list of words answer, where answer[i] is the correct word for query = queries[i].
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= wordlist.length, queries.length <= 5000</li>
+ *  <li>1 <= wordlist[i].length, queries[i].length <= 7</li>
+ *  <li>wordlist[i] and queries[i] consist only of only English letters.</li>
+ * </ul>
  */
-public class VowelSpellchecker {
-    private static final Set<Character> LOWERCASE_VOWELS = new HashSet<>();
+public interface VowelSpellchecker {
 
-    static {
-        for (char c : "aeiou".toCharArray()) {
-            LOWERCASE_VOWELS.add(c);
+    String[] spellchecker(String[] wordlist, String[] queries);
+
+    class VowelSpellcheckerRev1 implements VowelSpellchecker {
+
+        @Override
+        public String[] spellchecker(String[] wordlist, String[] queries) {
+            // preprocess the "wordlist"
+            final var words = new HashSet<>(Arrays.asList(wordlist));
+            // aims at matching a word up to capitalization
+            final var caps = new HashMap<String, String>();
+            // aims at matching a word up to vowels error
+            final var vows = new HashMap<String, String>();
+            for (var word : wordlist) {
+                // store the first match only
+                var key = word.toLowerCase();
+                if (!caps.containsKey(key)) {
+                    caps.put(key, word);
+                }
+
+                key = maskVowels(word);
+                if (!vows.containsKey(key)) {
+                    vows.put(key, word);
+                }
+            }
+
+            // process the "queries"
+            final var ans = new String[queries.length];
+            for (var i = 0; i < queries.length; i++) {
+                // matches the same word
+                if (words.contains(queries[i])) {
+                    ans[i] = queries[i];
+                    continue;
+                }
+
+                // matches a word up to capitalization
+                var q = queries[i].toLowerCase();
+                if (caps.containsKey(q)) {
+                    ans[i] = caps.get(q);
+                    continue;
+                }
+
+                // matches a word up to vowels error
+                q = maskVowels(queries[i]);
+                if (vows.containsKey(q)) {
+                    ans[i] = vows.get(q);
+                    continue;
+                }
+
+                // no match by default
+                ans[i] = "";
+            }
+            return ans;
         }
-    }
 
-    public String[] spellchecker(String[] wordlist, String[] queries) {
-        Set<String> wordSet = new HashSet<>();
-        Map<String, String> capitalizationLookup = new HashMap<>();
-        Map<String, String> vowelLookup = new HashMap<>();
-
-        for (String word : wordlist) {
-            wordSet.add(word);
-
-            String key = capitalizationLookupKey(word);
-            if (!capitalizationLookup.containsKey(key)) {
-                capitalizationLookup.put(key, word);
+        private String maskVowels(String word) {
+            word = word.toLowerCase();
+            final var sb = new StringBuilder();
+            for (var i = 0; i < word.length(); i++) {
+                final var c = word.charAt(i);
+                sb.append("aeiou".indexOf(c) != -1 ? "*" : c);
             }
-
-            key = vowelLookupKey(word);
-            if (!vowelLookup.containsKey(key)) {
-                vowelLookup.put(key, word);
-            }
+            return sb.toString();
         }
-
-        String[] result = new String[queries.length];
-        for (int i = 0; i < result.length; i++) {
-            String word = queries[i];
-            if (wordSet.contains(word)) {
-                result[i] = word;
-                continue;
-            }
-
-            String key = capitalizationLookupKey(word);
-            if (capitalizationLookup.containsKey(key)) {
-                result[i] = capitalizationLookup.get(key);
-                continue;
-            }
-
-            key = vowelLookupKey(word);
-            if (vowelLookup.containsKey(key)) {
-                result[i] = vowelLookup.get(key);
-                continue;
-            }
-
-            result[i] = "";
-        }
-        return result;
-    }
-
-    private String capitalizationLookupKey(String word) {
-        return word.toLowerCase();
-    }
-
-    private String vowelLookupKey(String word) {
-        StringBuilder sb = new StringBuilder();
-        for (char c : word.toLowerCase().toCharArray()) {
-            sb.append(LOWERCASE_VOWELS.contains(c) ? '*' : c);
-        }
-        return sb.toString();
     }
 }
