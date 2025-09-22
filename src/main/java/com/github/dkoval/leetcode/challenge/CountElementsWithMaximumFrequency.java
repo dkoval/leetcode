@@ -73,4 +73,25 @@ public interface CountElementsWithMaximumFrequency {
             return maxFreq * count;
         }
     }
+
+    class CountElementsWithMaximumFrequencyRev3 implements CountElementsWithMaximumFrequency {
+
+        @Override
+        public int maxFrequencyElements(int[] nums) {
+            final var freqs = new int[101];
+
+            var bestFreq = 0;
+            for (var x : nums) {
+                bestFreq = Math.max(bestFreq, ++freqs[x]);
+            }
+
+            var count = 0;
+            for (var x : nums) {
+                if (freqs[x] == bestFreq) {
+                    count++;
+                }
+            }
+            return count;
+        }
+    }
 }
