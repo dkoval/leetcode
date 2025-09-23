@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.CompareVersionNumbers.CompareVersionNumbersRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -48,12 +49,22 @@ internal class CompareVersionNumbersTest {
     }
 
     @Nested
-    inner class CompareVersionNumbersUsingTokenizationTest {
+    inner class CompareVersionNumbersRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should compare version`(version1: String, version2: String, expected: Int) {
-            CompareVersionNumbersUsingTokenization.test(version1, version2, expected)
+            CompareVersionNumbersRev1.test(version1, version2, expected)
+        }
+    }
+
+    @Nested
+    inner class CompareVersionNumbersRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should compare version`(version1: String, version2: String, expected: Int) {
+            CompareVersionNumbersRev2().test(version1, version2, expected)
         }
     }
 
@@ -66,9 +77,9 @@ internal class CompareVersionNumbersTest {
             CompareVersionNumbersOldSchool().test(version1, version2, expected)
         }
     }
+}
 
-    private fun CompareVersionNumbers.test(version1: String, version2: String, expected: Int) {
-        val actual = compareVersion(version1, version2)
-        assertEquals(expected, actual)
-    }
+private fun CompareVersionNumbers.test(version1: String, version2: String, expected: Int) {
+    val actual = compareVersion(version1, version2)
+    assertEquals(expected, actual)
 }
