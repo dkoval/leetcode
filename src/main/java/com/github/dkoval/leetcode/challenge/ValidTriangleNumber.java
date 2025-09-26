@@ -28,23 +28,24 @@ public interface ValidTriangleNumber {
             // 2. a + c > b
             // 3. b + c > a
             // Assuming a <= b <= c, we only need to check whether a + b > c
-            int n = nums.length;
+            final var n = nums.length;
             Arrays.sort(nums);
 
-            int count = 0;
-            for (int i = n - 1; i >= 2; i--) {
-                int l = 0;
-                int r = i - 1;
-                while (l < r) {
-                    if (nums[l] + nums[r] > nums[i]) {
-                        // since nums[] is sorted in asc order, inequality x + nums[r] > nums[i]
-                        // holds true for all x in nums[l : r - 1].
-                        // The total number of (l, r) pairs that satisfy inequality nums[l] + nums[r] > nums[i]
-                        // equals to (r - 1) - l + 1 = r - l
-                        count += r - l;
-                        r--;
+            var count = 0;
+            for (var k = n - 1; k >= 2; k--) {
+                // a = nums[i], b = nums[j], c = nums[k]
+                var i = 0;
+                var j = k - 1;
+                while (i < j) {
+                    if (nums[i] + nums[j] > nums[k]) {
+                        // since nums[] is sorted in asc order,
+                        // inequality a + nums[j] > nums[k] holds true for all a's in nums[i : j - 1].
+                        //                  ^ = b     ^ = c
+                        // The total number of (i, j) pairs that satisfy the inequality = (j - 1) - i + 1 = j - i
+                        count += j - i;
+                        j--;
                     } else {
-                        l++;
+                        i++;
                     }
                 }
             }
