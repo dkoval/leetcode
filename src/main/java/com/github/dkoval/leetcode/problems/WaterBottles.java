@@ -24,16 +24,16 @@ public interface WaterBottles {
 
         @Override
         public int numWaterBottles(int numBottles, int numExchange) {
-            int count = numBottles;
-            int numEmptyBottles = numBottles;
-            while (numEmptyBottles >= numExchange) {
-                int numRefilledBottles = numEmptyBottles / numExchange;
-                count += numRefilledBottles;
+            var total = numBottles;
+            var emptyBottles = numBottles;
+            while (emptyBottles >= numExchange) {
+                final var fullBottles = emptyBottles / numExchange;
+                total += fullBottles;
                 // prepare for the next iteration
-                numEmptyBottles %= numExchange;
-                numEmptyBottles += numRefilledBottles;
+                emptyBottles %= numExchange;
+                emptyBottles += fullBottles;
             }
-            return count;
+            return total;
         }
     }
 
@@ -41,17 +41,17 @@ public interface WaterBottles {
 
         @Override
         public int numWaterBottles(int numBottles, int numExchange) {
-            int ans = 0;
-            int numEmpty = 0;
+            var total = 0;
+            var numEmpty = 0;
             while (numBottles > 0) {
                 // drink all full water bottles
-                ans += numBottles;
+                total += numBottles;
                 numEmpty += numBottles;
                 // exchange empty water bottles
                 numBottles = numEmpty / numExchange;
                 numEmpty %= numExchange;
             }
-            return ans;
+            return total;
         }
     }
 }
