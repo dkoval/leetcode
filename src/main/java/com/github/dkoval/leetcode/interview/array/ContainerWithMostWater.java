@@ -3,17 +3,27 @@ package com.github.dkoval.leetcode.interview.array;
 /**
  * <a href="https://leetcode.com/problems/container-with-most-water/">Container With Most Water</a>
  * <p>
- * Given n non-negative integers a1, a2, ..., an , where each represents a point at coordinate (i, ai).
- * n vertical lines are drawn such that the two endpoints of the line i is at (i, ai) and (i, 0).
- * Find two lines, which, together with the x-axis forms a container, such that the container contains the most water.
+ * You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of
+ * the ith line are (i, 0) and (i, height[i]).
+ * <p>
+ * Find two lines that together with the x-axis form a container, such that the container contains the most water.
+ * <p>
+ * Return the maximum amount of water a container can store.
  * <p>
  * Notice that you may not slant the container.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>n == height.length</li>
+ *  <li>2 <= n <= 10^5</li>
+ *  <li>0 <= height[i] <= 10^4</li>
+ * </ul>
  */
-public abstract class ContainerWithMostWater {
+public interface ContainerWithMostWater {
 
-    public abstract int maxArea(int[] height);
+    int maxArea(int[] height);
 
-    public static class ContainerWithMostWaterBruteForce extends ContainerWithMostWater {
+    class ContainerWithMostWaterBruteForce implements ContainerWithMostWater {
 
         @Override
         public int maxArea(int[] height) {
@@ -28,20 +38,24 @@ public abstract class ContainerWithMostWater {
         }
     }
 
-    public static class ContainerWithMostWaterTwoPointers extends ContainerWithMostWater {
+    class ContainerWithMostWaterTwoPointers implements ContainerWithMostWater {
 
         @Override
         public int maxArea(int[] height) {
-            int maxArea = 0;
-            int start = 0, end = height.length - 1;
-            while (start < end) {
-                int area = (end - start) * Math.min(height[start], height[end]);
-                maxArea = Math.max(maxArea, area);
-                // move the pointer pointing to the shorter height
-                if (height[start] < height[end]) {
-                    start++;
+            final var n = height.length;
+
+            var maxArea = 0;
+            var left = 0;
+            var right = n - 1;
+            while (left < right) {
+                final var h = Math.min(height[left], height[right]);
+                final var w = right - left;
+                maxArea = Math.max(maxArea, h * w);
+                // move the pointer pointing to smaller height
+                if (height[left] < height[right]) {
+                    left++;
                 } else {
-                    end--;
+                    right--;
                 }
             }
             return maxArea;

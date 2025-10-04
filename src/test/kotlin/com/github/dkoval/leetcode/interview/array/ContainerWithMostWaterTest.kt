@@ -54,9 +54,9 @@ internal class ContainerWithMostWaterTest {
             ContainerWithMostWaterTwoPointers().test(height, expected)
         }
     }
+}
 
-    private fun ContainerWithMostWater.test(height: IntArray, expected: Int) {
-        val actual = maxArea(height)
-        assertEquals(expected, actual)
-    }
+private fun ContainerWithMostWater.test(height: IntArray, expected: Int) {
+    val actual = maxArea(height)
+    assertEquals(expected, actual)
 }
