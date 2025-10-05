@@ -77,8 +77,8 @@ public interface PacificAtlanticWaterFlow {
 
             visited[row][col] = true;
             for (var d : DIRS) {
-                int nextRow = row + d[0];
-                int nextCol = col + d[1];
+                final var nextRow = row + d[0];
+                final var nextCol = col + d[1];
 
                 // check boundaries
                 if (nextRow < 0 || nextRow >= m || nextCol < 0 || nextCol >= n) {
