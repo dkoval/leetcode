@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.SwimInRisingWater.SwimInRisingWaterDFSWithBinarySearch
+import com.github.dkoval.leetcode.challenge.SwimInRisingWater.SwimInRisingWaterDFSWithBinarySearchRev1
+import com.github.dkoval.leetcode.challenge.SwimInRisingWater.SwimInRisingWaterDFSWithBinarySearchRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -31,12 +32,19 @@ class SwimInRisingWaterTest {
                     intArrayOf(10, 9, 8, 7, 6)
                 ),
                 16
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(3, 2),
+                    intArrayOf(0, 1)
+                ),
+                3
             )
         )
     }
 
     @Nested
-    inner class SwimInRisingWaterDFSWithBinarySearchTest {
+    inner class SwimInRisingWaterDFSWithBinarySearchRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -44,12 +52,25 @@ class SwimInRisingWaterTest {
             grid: Array<IntArray>,
             expected: Int
         ) {
-            SwimInRisingWaterDFSWithBinarySearch().test(grid, expected)
+            SwimInRisingWaterDFSWithBinarySearchRev1().test(grid, expected)
         }
     }
 
-    private fun SwimInRisingWater.test(grid: Array<IntArray>, expected: Int) {
-        val actual = swimInWater(grid)
-        assertEquals(expected, actual)
+    @Nested
+    inner class SwimInRisingWaterDFSWithBinarySearchRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the least time until you can reach the bottom right square`(
+            grid: Array<IntArray>,
+            expected: Int
+        ) {
+            SwimInRisingWaterDFSWithBinarySearchRev2().test(grid, expected)
+        }
     }
+}
+
+private fun SwimInRisingWater.test(grid: Array<IntArray>, expected: Int) {
+    val actual = swimInWater(grid)
+    assertEquals(expected, actual)
 }
