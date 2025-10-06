@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.SwimInRisingWater.SwimInRisingWaterDFSWithBinarySearchRev1
-import com.github.dkoval.leetcode.challenge.SwimInRisingWater.SwimInRisingWaterDFSWithBinarySearchRev2
+import com.github.dkoval.leetcode.challenge.SwimInRisingWater.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -66,6 +65,19 @@ class SwimInRisingWaterTest {
             expected: Int
         ) {
             SwimInRisingWaterDFSWithBinarySearchRev2().test(grid, expected)
+        }
+    }
+
+    @Nested
+    inner class SwimInRisingWaterDijkstraRev1Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the least time until you can reach the bottom right square`(
+            grid: Array<IntArray>,
+            expected: Int
+        ) {
+            SwimInRisingWaterDijkstraRev1().test(grid, expected)
         }
     }
 }

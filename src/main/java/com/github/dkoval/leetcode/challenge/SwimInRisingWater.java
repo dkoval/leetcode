@@ -1,5 +1,8 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
 /**
  * <a href="https://leetcode.com/problems/swim-in-rising-water/">Swim in Rising Water (Hard)</a>
  * <p>
@@ -136,6 +139,51 @@ public interface SwimInRisingWater {
                 }
             }
             return false;
+        }
+    }
+
+    class SwimInRisingWaterDijkstraRev1 implements SwimInRisingWater {
+
+        // up, down, left, right
+        private static final int[][] DIRS = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+        @Override
+        public int swimInWater(int[][] grid) {
+            final var n = grid.length;
+
+            // Dijkstra's shortest path algorithm
+            final var minHeap = new PriorityQueue<>(Comparator.comparingInt(Node::time));
+            final var visited = new boolean[n][n];
+            minHeap.offer(new Node(0, 0, grid[0][0]));
+            while (!minHeap.isEmpty()) {
+                final var curr = minHeap.poll();
+
+                visited[curr.row][curr.col] = true;
+                if (curr.row == n - 1 && curr.col == n - 1) {
+                    return curr.time;
+                }
+
+                // explore neighbors
+                for (var d : DIRS) {
+                    final var nextRow = curr.row + d[0];
+                    final var nextCol = curr.col + d[1];
+                    // out of bounds?
+                    if (nextRow < 0 || nextRow >= n || nextCol < 0 || nextCol >= n) {
+                        continue;
+                    }
+                    // already visited?
+                    if (visited[nextRow][nextCol]) {
+                        continue;
+                    }
+                    // transition to the next cell
+                    final var nextTime = Math.max(curr.time, grid[nextRow][nextCol]);
+                    minHeap.offer(new Node(nextRow, nextCol, nextTime));
+                }
+            }
+            return n * n - 1;
+        }
+
+        private record Node(int row, int col, int time) {
         }
     }
 }
