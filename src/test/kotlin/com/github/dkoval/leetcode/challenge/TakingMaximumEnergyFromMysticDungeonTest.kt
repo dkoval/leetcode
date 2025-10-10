@@ -22,7 +22,7 @@ internal class TakingMaximumEnergyFromMysticDungeonTest {
                 3
             ),
             Arguments.of(
-                intArrayOf(2, -3, -1),
+                intArrayOf(-2, -3, -1),
                 2,
                 -1
             )
