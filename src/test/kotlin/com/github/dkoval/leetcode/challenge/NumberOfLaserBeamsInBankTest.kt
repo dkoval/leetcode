@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.NumberOfLaserBeamsInBank.NumberOfLaserBeamsInBankRev1
+import com.github.dkoval.leetcode.challenge.NumberOfLaserBeamsInBank.NumberOfLaserBeamsInBankRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -42,6 +43,16 @@ internal class NumberOfLaserBeamsInBankTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the total number of laser beams in the bank`(bank: Array<String>, expected: Int) {
             NumberOfLaserBeamsInBankRev1().test(bank, expected)
+        }
+    }
+
+    @Nested
+    inner class NumberOfLaserBeamsInBankRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the total number of laser beams in the bank`(bank: Array<String>, expected: Int) {
+            NumberOfLaserBeamsInBankRev2().test(bank, expected)
         }
     }
 }

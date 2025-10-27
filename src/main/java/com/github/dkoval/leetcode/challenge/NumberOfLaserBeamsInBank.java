@@ -1,5 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.ArrayList;
+
 /**
  * <a href="https://leetcode.com/problems/number-of-laser-beams-in-a-bank/">Number of Laser Beams in a Bank</a>
  * <p>
@@ -51,6 +53,36 @@ public interface NumberOfLaserBeamsInBank {
                     total += prev * curr;
                     prev = curr;
                 }
+            }
+            return total;
+        }
+    }
+
+    class NumberOfLaserBeamsInBankRev2 implements NumberOfLaserBeamsInBank {
+
+        @Override
+        public int numberOfBeams(String[] bank) {
+            final var n = bank.length;
+
+            // count the number of devices on each row
+            final var devices = new ArrayList<Integer>();
+            for (var row : bank) {
+                var count = 0;
+                for (var col = 0; col < row.length(); col++) {
+                    if (row.charAt(col) == '1') {
+                        count++;
+                    }
+                }
+
+                // skip rows with no devices
+                if (count > 0) {
+                    devices.add(count);
+                }
+            }
+
+            var total = 0;
+            for (var i = 0; i < devices.size() - 1; i++) {
+                total += devices.get(i) * devices.get(i + 1);
             }
             return total;
         }
