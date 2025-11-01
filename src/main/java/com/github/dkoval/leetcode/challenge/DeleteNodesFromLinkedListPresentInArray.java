@@ -3,7 +3,6 @@ package com.github.dkoval.leetcode.challenge;
 import com.github.dkoval.leetcode.ListNode;
 
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * <a href="https://leetcode.com/problems/delete-nodes-from-linked-list-present-in-array/">Delete Nodes From Linked List Present in Array</a>
@@ -29,15 +28,15 @@ public interface DeleteNodesFromLinkedListPresentInArray {
 
         @Override
         public ListNode modifiedList(int[] nums, ListNode head) {
-            Set<Integer> uniq = new HashSet<>();
-            for (int x : nums) {
+            final var uniq = new HashSet<Integer>();
+            for (var x : nums) {
                 uniq.add(x);
             }
 
-            ListNode curr = head;
+            var curr = head;
             ListNode prev = null;
             while (curr != null) {
-                ListNode next = curr.next;
+                final var next = curr.next;
                 if (uniq.contains(curr.val)) {
                     // remove current node
                     if (prev != null) {
