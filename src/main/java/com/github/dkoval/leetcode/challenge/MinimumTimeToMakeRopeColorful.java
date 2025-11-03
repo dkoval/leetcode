@@ -57,25 +57,25 @@ public interface MinimumTimeToMakeRopeColorful {
 
         @Override
         public int minCost(String colors, int[] neededTime) {
-            int n = colors.length();
+            final var n = colors.length();
 
-            int cost = 0;
-            int last = 0;
-            for (int i = 1; i < n; i++) {
-                if (colors.charAt(i) == colors.charAt(last)) {
-                    if (neededTime[i] < neededTime[last]) {
+            var total = 0;
+            var prevColorIdx = 0;
+            for (var i = 1; i < n; i++) {
+                if (colors.charAt(prevColorIdx) == colors.charAt(i)) {
+                    if (neededTime[i] < neededTime[prevColorIdx]) {
                         // remove the current balloon
-                        cost += neededTime[i];
+                        total += neededTime[i];
                     } else {
-                        // remove the last balloon
-                        cost += neededTime[last];
-                        last = i;
+                        // remove the previous balloon
+                        total += neededTime[prevColorIdx];
+                        prevColorIdx = i;
                     }
                 } else {
-                    last = i;
+                    prevColorIdx = i;
                 }
             }
-            return cost;
+            return total;
         }
     }
 }
