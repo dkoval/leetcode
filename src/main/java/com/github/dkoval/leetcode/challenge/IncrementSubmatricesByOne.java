@@ -28,7 +28,7 @@ public interface IncrementSubmatricesByOne {
 
         @Override
         public int[][] rangeAddQueries(int n, int[][] queries) {
-            // idea: process rows and columns independently
+            // idea: difference array technique extended to 2D arrays
             final var ans = new int[n][n];
             for (var query : queries) {
                 final var row1 = query[0];
@@ -36,17 +36,16 @@ public interface IncrementSubmatricesByOne {
                 final var row2 = query[2];
                 final var col2 = query[3];
 
-                // process columns
                 for (var row = row1; row <= row2; row++) {
+                    // difference array technique
                     ans[row][col1]++;
                     if (col2 + 1 < n) {
-                        // handle double counting
                         ans[row][col2 + 1]--;
                     }
                 }
             }
 
-            // process rows
+            // restore the final matrix from the difference array
             for (var row = 0; row < n; row++) {
                 for (var col = 1; col < n; col++) {
                     ans[row][col] += ans[row][col - 1];
