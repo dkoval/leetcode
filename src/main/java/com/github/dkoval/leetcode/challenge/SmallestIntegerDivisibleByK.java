@@ -67,4 +67,28 @@ public interface SmallestIntegerDivisibleByK {
             return -1;
         }
     }
+
+    // O(K) time | O(K) space
+    class SmallestIntegerDivisibleByKRev3 implements SmallestIntegerDivisibleByK {
+
+        @Override
+        public int smallestRepunitDivByK(int k) {
+            // 111 = 11 * 10 + 1
+            // idea: we only need to store remainders modulo k
+            var n = 1;
+            var length = 1;
+            var seen = new boolean[k];
+            while (n % k != 0) {
+                n *= 10;
+                n += 1;
+                n %= k;
+                length++;
+                if (seen[n]) {
+                    return -1;
+                }
+                seen[n] = true;
+            }
+            return length;
+        }
+    }
 }

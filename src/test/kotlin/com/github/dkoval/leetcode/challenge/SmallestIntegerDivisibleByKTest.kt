@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.SmallestIntegerDivisibleByK.SmallestIntegerDivisibleByKCheckingLoop
-import com.github.dkoval.leetcode.challenge.SmallestIntegerDivisibleByK.SmallestIntegerDivisibleByKPigeonholePrinciple
+import com.github.dkoval.leetcode.challenge.SmallestIntegerDivisibleByK.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -48,8 +47,21 @@ internal class SmallestIntegerDivisibleByKTest {
         }
     }
 
-    private fun SmallestIntegerDivisibleByK.test(k: Int, expected: Int) {
-        val actual = smallestRepunitDivByK(k)
-        assertEquals(expected, actual)
+    @Nested
+    inner class SmallestIntegerDivisibleByKRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the length of the smallest positive integer n such that n is divisible by k, and n only contains the digit 1`(
+            k: Int,
+            expected: Int
+        ) {
+            SmallestIntegerDivisibleByKRev3().test(k, expected)
+        }
     }
+}
+
+private fun SmallestIntegerDivisibleByK.test(k: Int, expected: Int) {
+    val actual = smallestRepunitDivByK(k)
+    assertEquals(expected, actual)
 }
