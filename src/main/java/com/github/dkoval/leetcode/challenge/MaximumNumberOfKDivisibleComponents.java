@@ -63,7 +63,6 @@ public interface MaximumNumberOfKDivisibleComponents {
             for (var neighbor : adj.getOrDefault(node, List.of())) {
                 if (neighbor != parent) {
                     total += traverse(adj, values, neighbor, node, listener);
-                    ;
                 }
             }
 
