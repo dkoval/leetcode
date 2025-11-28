@@ -50,12 +50,13 @@ public interface MaximumNumberOfKDivisibleComponents {
 
             // idea: if a is divisible by k, and b is divisible by k, then
             // (a + b) is also divisible by k
+            // count the number of subtrees whose sum of node values is divisible by k
             final var count = new int[]{0};
             traverse(adj, values, 0, -1, total -> count[0] += (total % k == 0) ? 1 : 0);
             return count[0];
         }
 
-        // returns the sum of the values of the nodes in a component with the root at "node"
+        // returns the sum of node values in a subtree with the root at "node"
         private long traverse(Map<Integer, List<Integer>> adj, int[] values, int node, int parent, Consumer<Long> listener) {
             // the "parent" parameter is used here to prevent going backwards
             var total = 0L;
