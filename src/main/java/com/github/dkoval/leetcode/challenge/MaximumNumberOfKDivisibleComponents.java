@@ -52,7 +52,6 @@ public interface MaximumNumberOfKDivisibleComponents {
             // (a + b) is also divisible by k
             final var count = new int[]{0};
             traverse(adj, values, 0, -1, sumOfValues -> count[0] += (sumOfValues % k == 0) ? 1 : 0);
-            // adding 1 to the total count because 0 is always divisible by k
             return count[0] + 1;
         }
 
