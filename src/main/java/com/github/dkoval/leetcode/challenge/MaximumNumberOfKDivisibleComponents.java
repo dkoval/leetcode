@@ -51,8 +51,8 @@ public interface MaximumNumberOfKDivisibleComponents {
             // idea: if a is divisible by k, and b is divisible by k, then
             // (a + b) is also divisible by k
             final var count = new int[]{0};
-            traverse(adj, values, 0, -1, sumOfValues -> count[0] += (sumOfValues % k == 0) ? 1 : 0);
-            return count[0] + 1;
+            traverse(adj, values, 0, -1, total -> count[0] += (total % k == 0) ? 1 : 0);
+            return count[0];
         }
 
         // returns the sum of the values of the nodes in a component with the root at "node"
@@ -62,11 +62,12 @@ public interface MaximumNumberOfKDivisibleComponents {
             total += values[node];
             for (var neighbor : adj.getOrDefault(node, List.of())) {
                 if (neighbor != parent) {
-                    final var sumOfValues = traverse(adj, values, neighbor, node, listener);
-                    listener.accept(sumOfValues);
-                    total += sumOfValues;
+                    total += traverse(adj, values, neighbor, node, listener);
+                    ;
                 }
             }
+
+            listener.accept(total);
             return total;
         }
     }
