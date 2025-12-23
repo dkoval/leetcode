@@ -59,4 +59,31 @@ public interface TwoBestNonOverlappingEvents {
         private record EventInfo(int endedAt, int value) {
         }
     }
+
+    class TwoBestNonOverlappingEventsRev2 implements TwoBestNonOverlappingEvents {
+
+        @Override
+        public int maxTwoEvents(int[][] events) {
+            // sort events by the startTime
+            Arrays.sort(events, Comparator.comparingInt(it -> it[0]));
+
+            // sort events by the endTime
+            final var minHeap = new PriorityQueue<Event>(Comparator.comparingInt(it -> it.endedAt));
+
+            var best = 0;
+            var prevBest = 0;
+            for (var event : events) {
+                // check all events ending before the current one
+                while (!minHeap.isEmpty() && minHeap.peek().endedAt < event[0]) {
+                    prevBest = Math.max(prevBest, minHeap.poll().value);
+                }
+                minHeap.offer(new Event(event[1], event[2]));
+                best = Math.max(best, prevBest + event[2]);
+            }
+            return best;
+        }
+
+        record Event(int endedAt, int value) {
+        }
+    }
 }

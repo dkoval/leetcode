@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.TwoBestNonOverlappingEvents.TwoBestNonOverlappingEventsRev1
+import com.github.dkoval.leetcode.challenge.TwoBestNonOverlappingEvents.TwoBestNonOverlappingEventsRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -43,7 +44,7 @@ internal class TwoBestNonOverlappingEventsTest {
     }
 
     @Nested
-    inner class TwoBestNonOverlappingEventsTestRev1 {
+    inner class TwoBestNonOverlappingEventsRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
@@ -52,6 +53,19 @@ internal class TwoBestNonOverlappingEventsTest {
             expected: Int
         ) {
             TwoBestNonOverlappingEventsRev1().test(events, expected)
+        }
+    }
+
+    @Nested
+    inner class TwoBestNonOverlappingEventsRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum sum of at most two non-overlapping events`(
+            events: Array<IntArray>,
+            expected: Int
+        ) {
+            TwoBestNonOverlappingEventsRev2().test(events, expected)
         }
     }
 }
