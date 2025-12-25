@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
 import java.util.Arrays;
+import java.util.PriorityQueue;
 
 /**
  * <a href="https://leetcode.com/problems/maximize-happiness-of-selected-children/">Maximize Happiness of Selected Children</a>
@@ -45,6 +46,31 @@ public interface MaximizeHappinessOfSelectedChildren {
                     break;
                 }
                 penalty++;
+            }
+            return total;
+        }
+    }
+
+    // O((N + K) * logK) time | O(K) space
+    class MaximizeHappinessOfSelectedChildrenRev2 implements MaximizeHappinessOfSelectedChildren {
+
+        @Override
+        public long maximumHappinessSum(int[] happiness, int k) {
+            // find k largest elements
+            final var minHeap = new PriorityQueue<Integer>();
+            for (var x : happiness) {
+                minHeap.offer(x);
+                if (minHeap.size() > k) {
+                    minHeap.poll();
+                }
+            }
+
+            var total = 0L;
+            var penalty = k - 1;
+            while (!minHeap.isEmpty()) {
+                final var curr = minHeap.poll();
+                total += Math.max(curr - penalty, 0);
+                penalty--;
             }
             return total;
         }

@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MaximizeHappinessOfSelectedChildren.MaximizeHappinessOfSelectedChildrenRev1
+import com.github.dkoval.leetcode.challenge.MaximizeHappinessOfSelectedChildren.MaximizeHappinessOfSelectedChildrenRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -100,6 +101,20 @@ internal class MaximizeHappinessOfSelectedChildrenTest {
             expected: Long
         ) {
             MaximizeHappinessOfSelectedChildrenRev1().test(happiness, k, expected)
+        }
+    }
+
+    @Nested
+    inner class MaximizeHappinessOfSelectedChildrenRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum sum of the happiness values of the selected children you can achieve by selecting k children`(
+            happiness: IntArray,
+            k: Int,
+            expected: Long
+        ) {
+            MaximizeHappinessOfSelectedChildrenRev2().test(happiness, k, expected)
         }
     }
 }
