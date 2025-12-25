@@ -31,18 +31,22 @@ public interface MaximizeHappinessOfSelectedChildren {
 
         @Override
         public long maximumHappinessSum(int[] happiness, int k) {
-            int n = happiness.length;
+            final var n = happiness.length;
 
             // greedy
             Arrays.sort(happiness);
 
-            long ans = 0;
-            int penalty = 0;
-            for (int i = n - 1; i >= n - k; i--) {
-                ans += Math.max(happiness[i] - penalty, 0);
+            var total = 0L;
+            var penalty = 0;
+            for (var i = n - 1; i >= n - k; i--) {
+                final var curr = Math.max(happiness[i] - penalty, 0);
+                total += curr;
+                if (curr == 0) {
+                    break;
+                }
                 penalty++;
             }
-            return ans;
+            return total;
         }
     }
 }
