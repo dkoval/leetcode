@@ -119,7 +119,7 @@ public interface MinimumPenaltyForShop {
         public int bestClosingTime(String customers) {
             final var n = customers.length();
 
-            // shop is closed hour 0
+            // shop is closed at hour 0
             var bestHourToClose = 0;
             var currPenalty = 0;
             for (var i = 0; i < n; i++) {
