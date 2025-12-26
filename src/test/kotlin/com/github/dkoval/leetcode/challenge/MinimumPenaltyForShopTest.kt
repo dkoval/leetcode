@@ -59,6 +59,19 @@ internal class MinimumPenaltyForShopTest {
             MinimumPenaltyForShopRev3().test(customers, expected)
         }
     }
+
+    @Nested
+    inner class MinimumPenaltyForShopRev4Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the earliest hour at which the shop must be closed to incur a minimum penalty`(
+            customers: String,
+            expected: Int
+        ) {
+            MinimumPenaltyForShopRev4().test(customers, expected)
+        }
+    }
 }
 
 private fun MinimumPenaltyForShop.test(customers: String, expected: Int) {
