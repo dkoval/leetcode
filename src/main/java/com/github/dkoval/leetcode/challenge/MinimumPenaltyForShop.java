@@ -32,34 +32,40 @@ public interface MinimumPenaltyForShop {
 
         @Override
         public int bestClosingTime(String customers) {
-            int n = customers.length();
-
             // idea: prefix sum
-            int[] yes = new int[n];
-            int[] no = new int[n];
-            for (int i = 0; i < n; i++) {
-                char c = customers.charAt(i);
-                yes[i] = (i > 0 ? yes[i - 1] : 0) + (c == 'Y' ? 1 : 0);
-                no[i] = (i > 0 ? no[i - 1] : 0) + (c == 'N' ? 1 : 0);
+            final var n = customers.length();
+
+            final var yes = new int[n];
+            final var no = new int[n];
+
+            yes[0] = match(customers, 0, 'Y');
+            no[0] = match(customers, 0, 'N');
+            for (var i = 1; i < n; i++) {
+                yes[i] = yes[i - 1] + match(customers, i, 'Y');
+                no[i] = no[i - 1] + match(customers, i, 'N');
             }
 
-            int bestPenalty = Integer.MAX_VALUE;
-            int bestClosingHour = -1;
-            for (int i = 0; i < n; i++) {
-                int penalty = 0;
-                penalty += yes[n - 1] - (i > 0 ? yes[i - 1] : 0);
+            // shop closes at the i-th hour
+            var bestPenalty = n;
+            var bestHourToClose = n;
+            for (var i = 0; i < n; i++) {
+                var penalty = 0;
+                // shop is open until i-th hour but no customers come
                 penalty += (i > 0) ? no[i - 1] : 0;
+                // shop is closed from i-th hour but customers come
+                penalty += yes[n - 1] - (i > 0 ? yes[i - 1] : 0);
+
+                // minimize the penalty
                 if (penalty < bestPenalty) {
                     bestPenalty = penalty;
-                    bestClosingHour = i;
+                    bestHourToClose = i;
                 }
             }
+            return (no[n - 1] < bestPenalty) ? n : bestHourToClose;
+        }
 
-            // handle n-th hour
-            if (no[n - 1] < bestPenalty) {
-                return n;
-            }
-            return bestClosingHour;
+        private int match(String customers, int index, char c) {
+            return customers.charAt(index) == c ? 1 : 0;
         }
     }
 
