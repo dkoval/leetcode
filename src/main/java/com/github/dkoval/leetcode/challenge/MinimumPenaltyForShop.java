@@ -153,6 +153,7 @@ public interface MinimumPenaltyForShop {
         public int bestClosingTime(String customers) {
             final var n = customers.length();
 
+            // for each hour the shop is open, consider
             var leftPenalty = 0; // count of N's
             var rightPenalty = 0; // count of Y's
             for (var i = 0; i < n; i++) {
