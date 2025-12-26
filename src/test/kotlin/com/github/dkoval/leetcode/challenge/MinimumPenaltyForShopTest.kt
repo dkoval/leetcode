@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.MinimumPenaltyForShop.MinimumPenaltyForShopRev1
-import com.github.dkoval.leetcode.challenge.MinimumPenaltyForShop.MinimumPenaltyForShopRev2
+import com.github.dkoval.leetcode.challenge.MinimumPenaltyForShop.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -45,6 +44,19 @@ internal class MinimumPenaltyForShopTest {
             expected: Int
         ) {
             MinimumPenaltyForShopRev2().test(customers, expected)
+        }
+    }
+
+    @Nested
+    inner class MinimumPenaltyForShopRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the earliest hour at which the shop must be closed to incur a minimum penalty`(
+            customers: String,
+            expected: Int
+        ) {
+            MinimumPenaltyForShopRev3().test(customers, expected)
         }
     }
 }

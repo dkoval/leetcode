@@ -111,4 +111,41 @@ public interface MinimumPenaltyForShop {
             return minHour;
         }
     }
+
+    // O(N) time | O(1) space
+    class MinimumPenaltyForShopRev3 implements MinimumPenaltyForShop {
+
+        @Override
+        public int bestClosingTime(String customers) {
+            final var n = customers.length();
+
+            var yes = 0;
+            var no = 0;
+            for (var i = 0; i < n; i++) {
+                if (customers.charAt(i) == 'Y') {
+                    yes++;
+                } else {
+                    no++;
+                }
+            }
+
+            // shop is open at the i-th hour
+            var bestHourToClose = 0;
+            var currPenalty = yes;
+            var bestPenalty = currPenalty;
+            for (var i = 0; i < n; i++) {
+                if (customers.charAt(i) == 'Y') {
+                    currPenalty--;
+                } else {
+                    currPenalty++;
+                }
+
+                if (currPenalty < bestPenalty) {
+                    currPenalty = bestPenalty;
+                    bestHourToClose = i + 1;
+                }
+            }
+            return bestHourToClose;
+        }
+    }
 }
