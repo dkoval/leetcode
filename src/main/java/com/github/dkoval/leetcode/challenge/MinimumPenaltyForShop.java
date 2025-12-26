@@ -120,12 +120,9 @@ public interface MinimumPenaltyForShop {
             final var n = customers.length();
 
             var yes = 0;
-            var no = 0;
             for (var i = 0; i < n; i++) {
                 if (customers.charAt(i) == 'Y') {
                     yes++;
-                } else {
-                    no++;
                 }
             }
 
