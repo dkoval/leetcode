@@ -119,16 +119,16 @@ public interface MinimumPenaltyForShop {
         public int bestClosingTime(String customers) {
             final var n = customers.length();
 
-            var yes = 0;
+            // shop is closed hour 0
+            var bestHourToClose = 0;
+            var currPenalty = 0;
             for (var i = 0; i < n; i++) {
                 if (customers.charAt(i) == 'Y') {
-                    yes++;
+                    currPenalty++;
                 }
             }
 
-            // shop is open at the i-th hour
-            var bestHourToClose = 0;
-            var currPenalty = yes;
+            // the shop is open at the i-th hour
             var bestPenalty = currPenalty;
             for (var i = 0; i < n; i++) {
                 if (customers.charAt(i) == 'Y') {
@@ -165,7 +165,7 @@ public interface MinimumPenaltyForShop {
             var minPenalty = leftPenalty + rightPenalty;
             var bestHourToClose = 0;
 
-            // shop is open at the i-th hour
+            // the shop is open at the i-th hour
             for (var i = 0; i < n; i++) {
                 if (customers.charAt(i) == 'Y') {
                     rightPenalty--;
