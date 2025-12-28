@@ -73,7 +73,7 @@ public interface MeetingRooms3 {
                     occupied.offer(new MeetingRoom(end, room));
                     counts[room]++;
                 } else {
-                    // delay the meeting until the "earliest" room becomes available
+                    // delay the meeting until the "earliest" currently occupied room becomes available
                     final var curr = occupied.poll();
                     occupied.offer(new MeetingRoom(curr.availableAt + duration, curr.room));
                     counts[curr.room]++;
