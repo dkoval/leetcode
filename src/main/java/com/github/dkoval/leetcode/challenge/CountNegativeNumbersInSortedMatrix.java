@@ -48,9 +48,12 @@ public interface CountNegativeNumbersInSortedMatrix {
             int col = n - 1;
             while (row < m && col >= 0) {
                 if (grid[row][col] < 0) {
+                    // since the matrix is sorted in non-increasing order both row-wise and column-wise,
+                    // all numbers in the same colum are also negative, hence count them all
                     count += m - row;
                     col--;
                 } else {
+                    // move to the next row in the search for a negative number
                     row++;
                 }
             }
