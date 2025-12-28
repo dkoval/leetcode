@@ -30,6 +30,15 @@ internal class CountNegativeNumbersInSortedMatrixTest {
                     intArrayOf(1, 0)
                 ),
                 0
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(3, 2),
+                    intArrayOf(-3, -3),
+                    intArrayOf(-3, -3),
+                    intArrayOf(-3, -3)
+                ),
+                6
             )
         )
     }
@@ -61,6 +70,16 @@ internal class CountNegativeNumbersInSortedMatrixTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the number of negative numbers in grid`(grid: Array<IntArray>, expected: Int) {
             CountNegativeNumbersInSortedMatrixRev3().test(grid, expected)
+        }
+    }
+
+    @Nested
+    inner class CountNegativeNumbersInSortedMatrixRev4Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of negative numbers in grid`(grid: Array<IntArray>, expected: Int) {
+            CountNegativeNumbersInSortedMatrixRev4().test(grid, expected)
         }
     }
 }

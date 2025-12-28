@@ -85,4 +85,38 @@ public interface CountNegativeNumbersInSortedMatrix {
             return count;
         }
     }
+
+    // O(m + n) time | O(1) space
+    class CountNegativeNumbersInSortedMatrixRev4 implements CountNegativeNumbersInSortedMatrix {
+
+        @Override
+        public int countNegatives(int[][] grid) {
+            final var m = grid.length;
+            final var n = grid[0].length;
+
+            // going left to right, find the very 1st negative number in the 0-th row (binary search)
+            var left = 0;
+            var right = n;
+            while (left < right) {
+                final var mid = left + (right - left) / 2;
+                if (grid[0][mid] < 0) {
+                    right = mid;
+                } else {
+                    left = mid + 1;
+                }
+            }
+
+            // process remaining rows
+            var count = 0;
+            var col = left - 1; // all numbers to the right are negative
+            for (var row = 0; row < m; row++) {
+                // expand the frontier to the left
+                while (col >= 0 && grid[row][col] < 0) {
+                    col--;
+                }
+                count += n - col - 1;
+            }
+            return count;
+        }
+    }
 }
