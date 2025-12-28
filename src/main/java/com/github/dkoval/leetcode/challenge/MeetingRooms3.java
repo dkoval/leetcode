@@ -49,8 +49,10 @@ public interface MeetingRooms3 {
                 available.offer(i);
             }
 
-            final var used = new PriorityQueue<MeetingRoom>(
-                    (a, b) -> a.availableAt != b.availableAt ? Long.compare(a.availableAt, b.availableAt) : Integer.compare(a.room, b.room)
+            final var occupied = new PriorityQueue<MeetingRoom>(
+                    (a, b) -> a.availableAt != b.availableAt
+                            ? Long.compare(a.availableAt, b.availableAt)
+                            : Integer.compare(a.room, b.room)
             );
 
             // counts[i] - how many times the i-th room got booked
@@ -61,19 +63,19 @@ public interface MeetingRooms3 {
                 final var duration = end - start;
 
                 // finish the past meetings and make rooms available again
-                while (!used.isEmpty() && used.peek().availableAt <= start) {
-                    final var curr = used.poll();
+                while (!occupied.isEmpty() && occupied.peek().availableAt <= start) {
+                    final var curr = occupied.poll();
                     available.offer(curr.room);
                 }
 
                 if (!available.isEmpty()) {
                     final var room = available.poll();
-                    used.offer(new MeetingRoom(end, room));
+                    occupied.offer(new MeetingRoom(end, room));
                     counts[room]++;
                 } else {
-                    // delay the meeting until a room becomes available
-                    final var curr = used.poll();
-                    used.offer(new MeetingRoom(curr.availableAt + duration, curr.room));
+                    // delay the meeting until the "earliest" room becomes available
+                    final var curr = occupied.poll();
+                    occupied.offer(new MeetingRoom(curr.availableAt + duration, curr.room));
                     counts[curr.room]++;
                 }
             }
