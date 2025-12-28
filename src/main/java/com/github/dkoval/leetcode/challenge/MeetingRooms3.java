@@ -3,7 +3,6 @@ package com.github.dkoval.leetcode.challenge;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
-import java.util.Queue;
 
 /**
  * <a href="https://leetcode.com/problems/meeting-rooms-iii/">Meeting Rooms III (Hard)</a>
@@ -42,58 +41,53 @@ public interface MeetingRooms3 {
 
         @Override
         public int mostBooked(int n, int[][] meetings) {
-            // sort meetings by their start time
+            // sort meetings by the start time
             Arrays.sort(meetings, Comparator.comparingInt(it -> it[0]));
 
-            Queue<Integer> availableRooms = new PriorityQueue<>();
-            for (int i = 0; i < n; i++) {
-                availableRooms.offer(i);
+            final var available = new PriorityQueue<Integer>();
+            for (var i = 0; i < n; i++) {
+                available.offer(i);
             }
 
-            Queue<Room> bookedRooms = new PriorityQueue<>((room1, room2) ->
-                    room1.availableAt == room2.availableAt
-                            ? Integer.compare(room1.id, room2.id)
-                            : Long.compare(room1.availableAt, room2.availableAt)
+            final var used = new PriorityQueue<MeetingRoom>(
+                    (a, b) -> a.availableAt != b.availableAt ? Long.compare(a.availableAt, b.availableAt) : Integer.compare(a.room, b.room)
             );
 
-            int[] counts = new int[n];
-            for (int[] meeting : meetings) {
-                // do we have any available rooms at the time i-th meeting starts?
-                while (!bookedRooms.isEmpty() && bookedRooms.peek().availableAt <= meeting[0]) {
-                    Room room = bookedRooms.poll();
-                    availableRooms.offer(room.id);
+            // counts[i] - how many times the i-th room got booked
+            final var counts = new int[n];
+            for (var meeting : meetings) {
+                final var start = meeting[0];
+                final var end = meeting[1];
+                final var duration = end - start;
+
+                // finish the past meetings and make rooms available again
+                while (!used.isEmpty() && used.peek().availableAt <= start) {
+                    final var curr = used.poll();
+                    available.offer(curr.room);
                 }
 
-                if (!availableRooms.isEmpty()) {
-                    int room = availableRooms.poll();
-                    bookedRooms.offer(new Room(room, meeting[1]));
+                if (!available.isEmpty()) {
+                    final var room = available.poll();
+                    used.offer(new MeetingRoom(end, room));
                     counts[room]++;
                 } else {
-                    // there are no rooms available, delay the meeting
-                    Room room = bookedRooms.poll();
-                    room.availableAt += meeting[1] - meeting[0];
-                    bookedRooms.offer(room);
-                    counts[room.id]++;
+                    // delay the meeting until a room becomes available
+                    final var curr = used.poll();
+                    used.offer(new MeetingRoom(curr.availableAt + duration, curr.room));
+                    counts[curr.room]++;
                 }
             }
 
-            int mostBookedRoom = 0;
-            for (int i = 0; i < n; i++) {
-                if (counts[i] > counts[mostBookedRoom]) {
-                    mostBookedRoom = i;
+            var bestRoom = 0;
+            for (var i = 1; i < n; i++) {
+                if (counts[bestRoom] < counts[i]) {
+                    bestRoom = i;
                 }
             }
-            return mostBookedRoom;
+            return bestRoom;
         }
 
-        private static class Room {
-            final int id;
-            long availableAt;
-
-            Room(int id, long availableAt) {
-                this.id = id;
-                this.availableAt = availableAt;
-            }
+        record MeetingRoom(long availableAt, int room) {
         }
     }
 }
