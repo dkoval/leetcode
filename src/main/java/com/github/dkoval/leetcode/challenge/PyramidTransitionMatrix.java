@@ -94,7 +94,7 @@ public interface PyramidTransitionMatrix {
             }
 
             final var seen = new HashSet<String>();
-            return solve(patterns, seen, bottom, "", 1);
+            return solve(patterns, seen, bottom, "", 0);
         }
 
         private boolean solve(Map<String, List<Character>> patterns, Set<String> seen, String prevRow, String currRow, int index) {
@@ -105,15 +105,16 @@ public interface PyramidTransitionMatrix {
                 return true;
             }
 
-            if (index >= n) {
+            // done with the current row?
+            if (index >= n - 1) {
                 if (seen.contains(currRow)) {
                     return false;
                 }
                 seen.add(currRow);
-                return solve(patterns, seen, currRow, "", 1);
+                return solve(patterns, seen, currRow, "", 0);
             }
 
-            final var key = prevRow.substring(index - 1, index + 1);
+            final var key = prevRow.substring(index, index + 2);
             for (var x : patterns.getOrDefault(key, List.of())) {
                 if (solve(patterns, seen, prevRow, currRow + x, index + 1)) {
                     return true;
