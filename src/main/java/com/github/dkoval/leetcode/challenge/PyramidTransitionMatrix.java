@@ -138,10 +138,10 @@ public interface PyramidTransitionMatrix {
             }
 
             final var seen = new HashSet<String>();
-            return solve(patterns, seen, bottom, new StringBuilder(), 0);
+            return solve(patterns, seen, bottom, new StringBuilder());
         }
 
-        private boolean solve(Map<String, List<Character>> patterns, Set<String> seen, String prevRow, StringBuilder currRow, int index) {
+        private boolean solve(Map<String, List<Character>> patterns, Set<String> seen, String prevRow, StringBuilder currRow) {
             final var n = prevRow.length();
 
             // base case
@@ -149,20 +149,23 @@ public interface PyramidTransitionMatrix {
                 return true;
             }
 
+            final var index = currRow.length();
+
+            // done with the current row?
             if (index >= n - 1) {
                 final var curr = currRow.toString();
                 if (seen.contains(curr)) {
                     return false;
                 }
                 seen.add(curr);
-                return solve(patterns, seen, curr, new StringBuilder(), 0);
+                return solve(patterns, seen, curr, new StringBuilder());
             }
 
 
             final var key = prevRow.substring(index, index + 2);
             for (var x : patterns.getOrDefault(key, List.of())) {
                 currRow.append(x);
-                if (solve(patterns, seen, prevRow, currRow, index + 1)) {
+                if (solve(patterns, seen, prevRow, currRow)) {
                     return true;
                 }
                 // backtrack
