@@ -1,9 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <a href="https://leetcode.com/problems/pyramid-transition-matrix/">Pyramid Transition Matrix</a>
@@ -78,6 +75,49 @@ public interface PyramidTransitionMatrix {
                 }
                 // backtrack
                 currRow[index] = '#';
+            }
+            return false;
+        }
+    }
+
+    class PyramidTransitionMatrixRev2 implements PyramidTransitionMatrix {
+
+        @Override
+        public boolean pyramidTransition(String bottom, List<String> allowed) {
+            final var n = bottom.length();
+
+            final var patterns = new HashMap<String, List<Character>>();
+            for (var s : allowed) {
+                final var key = s.substring(0, 2);
+                final var val = s.charAt(2);
+                patterns.computeIfAbsent(key, __ -> new ArrayList<>()).add(val);
+            }
+
+            final var seen = new HashSet<String>();
+            return solve(patterns, seen, bottom, "", 1);
+        }
+
+        private boolean solve(Map<String, List<Character>> patterns, Set<String> seen, String prevRow, String currRow, int index) {
+            final var n = prevRow.length();
+
+            // base case
+            if (n == 1) {
+                return true;
+            }
+
+            if (index >= n) {
+                if (seen.contains(currRow)) {
+                    return false;
+                }
+                seen.add(currRow);
+                return solve(patterns, seen, currRow, "", 1);
+            }
+
+            final var key = prevRow.substring(index - 1, index + 1);
+            for (var x : patterns.getOrDefault(key, List.of())) {
+                if (solve(patterns, seen, prevRow, currRow + x, index + 1)) {
+                    return true;
+                }
             }
             return false;
         }
