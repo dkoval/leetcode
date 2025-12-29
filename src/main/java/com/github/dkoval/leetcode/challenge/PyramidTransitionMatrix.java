@@ -123,4 +123,52 @@ public interface PyramidTransitionMatrix {
             return false;
         }
     }
+
+    class PyramidTransitionMatrixRev3 implements PyramidTransitionMatrix {
+
+        @Override
+        public boolean pyramidTransition(String bottom, List<String> allowed) {
+            final var n = bottom.length();
+
+            final var patterns = new HashMap<String, List<Character>>();
+            for (var s : allowed) {
+                final var key = s.substring(0, 2);
+                final var val = s.charAt(2);
+                patterns.computeIfAbsent(key, __ -> new ArrayList<>()).add(val);
+            }
+
+            final var seen = new HashSet<String>();
+            return solve(patterns, seen, bottom, new StringBuilder(), 0);
+        }
+
+        private boolean solve(Map<String, List<Character>> patterns, Set<String> seen, String prevRow, StringBuilder currRow, int index) {
+            final var n = prevRow.length();
+
+            // base case
+            if (n == 1) {
+                return true;
+            }
+
+            if (index >= n - 1) {
+                final var curr = currRow.toString();
+                if (seen.contains(curr)) {
+                    return false;
+                }
+                seen.add(curr);
+                return solve(patterns, seen, curr, new StringBuilder(), 0);
+            }
+
+
+            final var key = prevRow.substring(index, index + 2);
+            for (var x : patterns.getOrDefault(key, List.of())) {
+                currRow.append(x);
+                if (solve(patterns, seen, prevRow, currRow, index + 1)) {
+                    return true;
+                }
+                // backtrack
+                currRow.deleteCharAt(currRow.length() - 1);
+            }
+            return false;
+        }
+    }
 }

@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.PyramidTransitionMatrix.PyramidTransitionMatrixRev1
-import com.github.dkoval.leetcode.challenge.PyramidTransitionMatrix.PyramidTransitionMatrixRev2
+import com.github.dkoval.leetcode.challenge.PyramidTransitionMatrix.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -54,6 +53,20 @@ internal class PyramidTransitionMatrixTest {
             expected: Boolean
         ) {
             PyramidTransitionMatrixRev2().test(bottom, allowed, expected)
+        }
+    }
+
+    @Nested
+    inner class PyramidTransitionMatrixRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should check f you can build the pyramid all the way to the top`(
+            bottom: String,
+            allowed: List<String>,
+            expected: Boolean
+        ) {
+            PyramidTransitionMatrixRev3().test(bottom, allowed, expected)
         }
     }
 }
