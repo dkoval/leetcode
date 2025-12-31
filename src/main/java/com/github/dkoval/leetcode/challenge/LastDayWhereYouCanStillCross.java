@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
 import java.util.ArrayDeque;
-import java.util.Queue;
 
 /**
  * <a href="https://leetcode.com/problems/last-day-where-you-can-still-cross/">Last Day Where You Can Still Cross</a>
@@ -29,14 +28,14 @@ public interface LastDayWhereYouCanStillCross {
 
         @Override
         public int latestDayToCross(int row, int col, int[][] cells) {
-            // Q: Is it possible to walk from top to the bottom on the i-th day?
-            // TTT...T|FFF...F
+            // is possible to walk from top to the bottom on the i-th day?
+            // TTT...TFFF...F
             //       ^ answer (upper boundary)
             // Idea: binary search
-            int left = 0;
-            int right = row * col;
+            var left = 0;
+            var right = row * col;
             while (left < right) {
-                int mid = left + (right - left + 1) / 2;
+                final var mid = left + (right - left + 1) / 2;
                 if (good(row, col, cells, mid)) {
                     // mid might be the answer;
                     // check if there's a better option to the right of it
@@ -49,16 +48,22 @@ public interface LastDayWhereYouCanStillCross {
         }
 
         private boolean good(int row, int col, int[][] cells, int day) {
-            int[][] grid = new int[row + 1][col + 1];
-            for (int d = 0; d < day; d++) {
-                int r = cells[d][0];
-                int c = cells[d][1];
+            final var grid = new int[row + 1][col + 1];
+            for (var d = 0; d < day; d++) {
+                final var r = cells[d][0];
+                final var c = cells[d][1];
                 grid[r][c] = 1;
             }
+            return pathExists(grid);
+        }
 
-            // multi-source BFS
-            Queue<Cell> q = new ArrayDeque<>();
-            for (int c = 1; c <= col; c++) {
+        private boolean pathExists(int[][] grid) {
+            final var numRows = grid.length - 1;
+            final var numCols = grid[0].length - 1;
+
+            // multi-source BFS: start with land cells in the 1st row
+            final var q = new ArrayDeque<Cell>();
+            for (var c = 1; c <= numCols; c++) {
                 if (grid[1][c] == 0) {
                     q.offer(new Cell(1, c));
                     grid[1][c] = 2; // mark as visited
@@ -66,12 +71,12 @@ public interface LastDayWhereYouCanStillCross {
             }
 
             while (!q.isEmpty()) {
-                Cell curr = q.poll();
-                for (int[] d : DIRS) {
-                    int nextRow = curr.row + d[0];
-                    int nextCol = curr.col + d[1];
+                final var curr = q.poll();
+                for (var d : DIRS) {
+                    final var nextRow = curr.row + d[0];
+                    final var nextCol = curr.col + d[1];
 
-                    if (nextRow < 1 || nextRow > row || nextCol < 1 || nextCol > col) {
+                    if (nextRow < 1 || nextRow > numRows || nextCol < 1 || nextCol > numCols) {
                         continue;
                     }
 
@@ -79,7 +84,7 @@ public interface LastDayWhereYouCanStillCross {
                         continue;
                     }
 
-                    if (nextRow == row) {
+                    if (nextRow == numRows) {
                         return true;
                     }
 
@@ -90,14 +95,7 @@ public interface LastDayWhereYouCanStillCross {
             return false;
         }
 
-        private static class Cell {
-            final int row;
-            final int col;
-
-            Cell(int row, int col) {
-                this.row = row;
-                this.col = col;
-            }
+        private record Cell(int row, int col) {
         }
     }
 }
