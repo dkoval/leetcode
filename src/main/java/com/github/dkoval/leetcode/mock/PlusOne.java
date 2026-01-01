@@ -48,11 +48,9 @@ public interface PlusOne {
         public int[] plusOne(int[] digits) {
             final var n = digits.length;
 
-            digits[n - 1] += 1;
-            var carry = digits[n - 1] / 10;
-            digits[n - 1] %= 10;
-
-            for (var i = n - 2; i >= 0 && carry > 0; i--) {
+            var carry = 0;
+            digits[n - 1]++;
+            for (var i = n - 1; i >= 0; i--) {
                 digits[i] += carry;
                 carry = digits[i] / 10;
                 digits[i] %= 10;
@@ -60,9 +58,9 @@ public interface PlusOne {
 
             var ans = digits;
             if (carry > 0) {
+                // ans = [1, 0, ..., 0]
                 ans = new int[n + 1];
                 ans[0] = carry;
-                System.arraycopy(digits, 0, ans, 1, n);
             }
             return ans;
         }
