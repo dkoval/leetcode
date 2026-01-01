@@ -1,6 +1,8 @@
 package com.github.dkoval.leetcode.interview.array
 
-import com.github.dkoval.leetcode.mock.PlusOneJava
+import com.github.dkoval.leetcode.mock.PlusOne
+import com.github.dkoval.leetcode.mock.PlusOne.PlusOneJavaRev1
+import com.github.dkoval.leetcode.mock.PlusOne.PlusOneJavaRev2
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -35,17 +37,27 @@ internal class PlusOneTest {
     }
 
     @Nested
-    inner class PlusOneJavaTest {
+    inner class PlusOneJavaRev1Test {
 
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should compute plus one to the integer`(digits: IntArray, expected: IntArray) {
-            PlusOneJava().test(digits, expected)
+            PlusOneJavaRev1().test(digits, expected)
         }
     }
 
-    private fun PlusOne.test(digits: IntArray, expected: IntArray) {
-        val actual = plusOne(digits)
-        assertArrayEquals(expected, actual)
+    @Nested
+    inner class PlusOneJavaRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should compute plus one to the integer`(digits: IntArray, expected: IntArray) {
+            PlusOneJavaRev2().test(digits, expected)
+        }
     }
+}
+
+private fun PlusOne.test(digits: IntArray, expected: IntArray) {
+    val actual = plusOne(digits)
+    assertArrayEquals(expected, actual)
 }
