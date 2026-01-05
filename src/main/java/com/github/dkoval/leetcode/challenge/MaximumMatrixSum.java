@@ -1,5 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.Arrays;
+
 /**
  * <a href="https://leetcode.com/problems/maximum-matrix-sum/">Maximum Matrix Sum</a>
  * <p>
@@ -47,6 +49,38 @@ public interface MaximumMatrixSum {
                 }
             }
             return (negCount % 2 == 0) ? sum : sum - smallest - smallest;
+        }
+    }
+
+    // O(M * N * log(M * N) time | O(M * N) space
+    class MaximumMatrixSumRev2 implements MaximumMatrixSum {
+
+        @Override
+        public long maxMatrixSum(int[][] matrix) {
+            final var m = matrix.length;
+            final var n = matrix[0].length;
+
+            final var nums = new int[m * n];
+            for (var i = 0; i < nums.length; i++) {
+                final var row = i / n;
+                final var col = i % n;
+                nums[i] = matrix[row][col];
+            }
+
+            Arrays.sort(nums);
+
+            for (var i = 0; i < nums.length; i += 2) {
+                if (i + 1 < nums.length && -nums[i] + -nums[i + 1] > nums[i] + nums[i + 1]) {
+                    nums[i] = -nums[i];
+                    nums[i + 1] = -nums[i + 1];
+                }
+            }
+
+            var sum = 0L;
+            for (var x : nums) {
+                sum += x;
+            }
+            return sum;
         }
     }
 }

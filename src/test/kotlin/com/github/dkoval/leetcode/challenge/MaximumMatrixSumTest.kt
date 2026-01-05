@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MaximumMatrixSum.MaximumMatrixSumRev1
+import com.github.dkoval.leetcode.challenge.MaximumMatrixSum.MaximumMatrixSumRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -43,6 +44,19 @@ internal class MaximumMatrixSumTest {
             expected: Long
         ) {
             MaximumMatrixSumRev1().test(matrix, expected)
+        }
+    }
+
+    @Nested
+    inner class MaximumMatrixSumRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum sum of the matrix's elements using the operation`(
+            matrix: Array<IntArray>,
+            expected: Long
+        ) {
+            MaximumMatrixSumRev2().test(matrix, expected)
         }
     }
 }
