@@ -33,16 +33,17 @@ public interface MaximumMatrixSum {
             // ---
             // Observation #2. If the number of negative numbers in the matrix is uneven, to maximize the
             // sum, we want to make the smallest abs(matrix[i][j]) negative.
-            long sum = 0L;
-            int smallest = Integer.MAX_VALUE;
-            int negCount = 0;
-            for (int[] row : matrix) {
-                for (int x : row) {
-                    sum += Math.abs(x);
-                    smallest = Math.min(smallest, Math.abs(x));
+            var sum = 0L;
+            var smallest = Integer.MAX_VALUE;
+            var negCount = 0;
+            for (var row : matrix) {
+                for (var x : row) {
                     if (x < 0) {
                         negCount++;
                     }
+                    final var value = Math.abs(x);
+                    sum += value;
+                    smallest = Math.min(smallest, value);
                 }
             }
             return (negCount % 2 == 0) ? sum : sum - smallest - smallest;
