@@ -3,7 +3,6 @@ package com.github.dkoval.leetcode.challenge;
 import com.github.dkoval.leetcode.TreeNode;
 
 import java.util.ArrayDeque;
-import java.util.Queue;
 
 /**
  * <a href="https://leetcode.com/problems/maximum-level-sum-of-a-binary-tree/">Maximum Level Sum of a Binary Tree</a>
@@ -27,12 +26,12 @@ public interface MaximumLevelSumOfBinaryTree {
 
         @Override
         public int maxLevelSum(TreeNode root) {
-            int bestLevel = 1;
-            int bestSum = Integer.MIN_VALUE;
+            var bestLevel = 1;
+            var bestSum = Integer.MIN_VALUE;
 
             // BFS
-            int currLevel = 1;
-            Queue<TreeNode> q = new ArrayDeque<>();
+            var currLevel = 1;
+            final var q = new ArrayDeque<TreeNode>();
             q.offer(root);
             while (!q.isEmpty()) {
                 int currSum = 0;
