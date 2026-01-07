@@ -2,6 +2,8 @@ package com.github.dkoval.leetcode.challenge;
 
 import com.github.dkoval.leetcode.TreeNode;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -19,38 +21,103 @@ import java.util.function.Consumer;
  *  <li>1 <= Node.val <= 10^4</li>
  * </ul>
  */
-public class MaximumProductOfSplittedBinaryTree {
+public interface MaximumProductOfSplittedBinaryTree {
 
-    private static final int MOD = 1000_000_007;
+    int MOD = 1000_000_007;
 
-    private static class TreeInfo {
-        final long treeSum;
-        long maxProduct = Long.MIN_VALUE;
+    int maxProduct(TreeNode root);
 
-        TreeInfo(long treeSum) {
-            this.treeSum = treeSum;
+    // O(N) time | O(H) space, where
+    // N is the total number of nodes in the binary tree,
+    // H is the height of the tree
+    class MaximumProductOfSplittedBinaryTreeRev1 implements MaximumProductOfSplittedBinaryTree {
+
+        public int maxProduct(TreeNode root) {
+            // 1st pass computes the sum of the entire tree
+            long treeSum = sum(root, (subtreeSum) -> { /* nothing to do */ });
+            TreeInfo info = new TreeInfo(treeSum);
+
+            // 2nd pass computes the maximum product of the sums of the two subtrees
+            sum(root, (subtreeSum) -> info.maxProduct = Math.max(info.maxProduct, subtreeSum * (info.treeSum - subtreeSum)));
+
+            return (int) (info.maxProduct % MOD);
+        }
+
+        private long sum(TreeNode node, Consumer<Long> doWithSubtreeSum) {
+            if (node == null) {
+                return 0;
+            }
+
+            long subtreeSum = node.val + sum(node.left, doWithSubtreeSum) + sum(node.right, doWithSubtreeSum);
+            doWithSubtreeSum.accept(subtreeSum);
+            return subtreeSum;
+        }
+
+        private static class TreeInfo {
+            final long treeSum;
+            long maxProduct = Long.MIN_VALUE;
+
+            TreeInfo(long treeSum) {
+                this.treeSum = treeSum;
+            }
         }
     }
 
-    // O(N) time | O(H) space, where N is the total number of nodes in the binary tree, H is the height of the tree
-    public int maxProduct(TreeNode root) {
-        // 1st pass computes the sum of the entire tree
-        long treeSum = sum(root, (subtreeSum) -> { /* nothing to do */ });
-        TreeInfo info = new TreeInfo(treeSum);
+    class MaximumProductOfSplittedBinaryTreeRev2 implements MaximumProductOfSplittedBinaryTree {
 
-        // 2nd pass computes the maximum product of the sums of the two subtrees
-        sum(root, (subtreeSum) -> info.maxProduct = Math.max(info.maxProduct, subtreeSum * (info.treeSum - subtreeSum)));
+        @Override
+        public int maxProduct(TreeNode root) {
+            final var sums = new HashMap<TreeNode, Long>();
+            final var totalSum = sum(root, sums);
 
-        return (int) (info.maxProduct % MOD);
-    }
-
-    private long sum(TreeNode node, Consumer<Long> doWithSubtreeSum) {
-        if (node == null) {
-            return 0;
+            final var best = traverse(root, totalSum, sums);
+            return (int) (best % MOD);
         }
 
-        long subtreeSum = node.val + sum(node.left, doWithSubtreeSum) + sum(node.right, doWithSubtreeSum);
-        doWithSubtreeSum.accept(subtreeSum);
-        return subtreeSum;
+        private long sum(TreeNode node, Map<TreeNode, Long> sums) {
+            if (node == null) {
+                return 0L;
+            }
+
+            // already solved?
+            if (sums.containsKey(node)) {
+                return sums.get(node);
+            }
+
+            var sum = (long) node.val;
+            sum += sum(node.left, sums);
+            sum += sum(node.right, sums);
+
+            // cache and return the result
+            sums.put(node, sum);
+            return sum;
+        }
+
+        private long traverse(TreeNode node, long totalSum, Map<TreeNode, Long> sums) {
+            // pre-order traversal
+            if (node == null) {
+                return Long.MIN_VALUE;
+            }
+
+            var best = Long.MIN_VALUE;
+
+            // option #1: remove left edge
+            final var leftSum = sum(node.left, sums);
+            best = Math.max(best, product(totalSum, leftSum));
+
+            // option #2: remove right edgt
+            final var rightSum = sum(node.right, sums);
+            best = Math.max(best, product(totalSum, rightSum));
+
+            best = Math.max(best, traverse(node.left, totalSum, sums));
+            best = Math.max(best, traverse(node.right, totalSum, sums));
+            return best;
+        }
+
+        private long product(long totalSum, long subtreeSum) {
+            var product = subtreeSum;
+            product *= (totalSum - subtreeSum);
+            return product;
+        }
     }
 }
