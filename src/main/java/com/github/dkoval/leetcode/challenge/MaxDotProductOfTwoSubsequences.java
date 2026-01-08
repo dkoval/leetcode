@@ -26,17 +26,17 @@ public interface MaxDotProductOfTwoSubsequences {
 
         @Override
         public int maxDotProduct(int[] nums1, int[] nums2) {
-            int n1 = nums1.length;
-            int n2 = nums2.length;
+            final var n1 = nums1.length;
+            final var n2 = nums2.length;
 
             // DP top-down
-            Integer[][][] dp = new Integer[n1][n2][2];
+            final var dp = new Integer[n1][n2][2];
             return calculate(nums1, nums2, 0, 0, false, dp);
         }
 
         private int calculate(int[] nums1, int[] nums2, int i1, int i2, boolean used, Integer[][][] dp) {
-            int n1 = nums1.length;
-            int n2 = nums2.length;
+            final var n1 = nums1.length;
+            final var n2 = nums2.length;
 
             if (i1 == n1 || i2 == n2) {
                 return used ? 0 : Integer.MIN_VALUE;
@@ -47,7 +47,7 @@ public interface MaxDotProductOfTwoSubsequences {
                 return dp[i1][i2][used ? 1 : 0];
             }
 
-            int best = Integer.MIN_VALUE;
+            var best = Integer.MIN_VALUE;
 
             // option #1: take both nums1[i1] and nums2[i2]
             best = Math.max(best, nums1[i1] * nums2[i2] + calculate(nums1, nums2, i1 + 1, i2 + 1, true, dp));
