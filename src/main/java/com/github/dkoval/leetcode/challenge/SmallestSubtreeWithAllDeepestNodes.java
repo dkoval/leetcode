@@ -52,4 +52,34 @@ public interface SmallestSubtreeWithAllDeepestNodes {
             return 1 + Math.max(height(node.left), height(node.right));
         }
     }
+
+    // O(N) time | O(N) space
+    class SmallestSubtreeWithAllDeepestNodesRev2 implements SmallestSubtreeWithAllDeepestNodes {
+
+        @Override
+        public TreeNode subtreeWithAllDeepest(TreeNode root) {
+            // idea: post-order traversal
+            return traverse(root).answer;
+        }
+
+        private Result traverse(TreeNode node) {
+            if (node == null) {
+                return new Result(0, null);
+            }
+
+            final var left = traverse(node.left);
+            final var right = traverse(node.right);
+
+            if (left.depth == right.depth) {
+                return new Result(1 + left.depth, node);
+            } else if (left.depth > right.depth) {
+                return new Result(1 + left.depth, left.answer);
+            } else {
+                return new Result(1 + right.depth, right.answer);
+            }
+        }
+
+        private record Result(int depth, TreeNode answer) {
+        }
+    }
 }
