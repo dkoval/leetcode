@@ -20,53 +20,56 @@ public interface MinimumASCIIDeleteSumForTwoStrings {
 
         @Override
         public int minimumDeleteSum(String s1, String s2) {
-            int n1 = s1.length();
-            int n2 = s2.length();
+            final var n1 = s1.length();
+            final var n2 = s2.length();
 
             // DP top-down
-            Integer[][] dp = new Integer[n1 + 1][n2 + 1];
+            final var dp = new Integer[n1 + 1][n2 + 1];
             return calculate(s1, s2, 0, 0, dp);
         }
 
-        // returns the answer considering suffixes s1[i:] and s2[j:]
-        private int calculate(String s1, String s2, int i, int j, Integer[][] dp) {
-            int n1 = s1.length();
-            int n2 = s2.length();
+        // returns the answer considering suffixes s1[index1:] and s2[index2:]
+        private int calculate(String s1, String s2, int index1, int index2, Integer[][] dp) {
+            final var n1 = s1.length();
+            final var n2 = s2.length();
 
-            if (i == n1 && j == n2) {
+            // base case
+            if (index1 == n1 && index2 == n2) {
                 // nothing to do
                 return 0;
             }
 
             // already solved?
-            if (dp[i][j] != null) {
-                return dp[i][j];
+            if (dp[index1][index2] != null) {
+                return dp[index1][index2];
             }
 
-            if (i == n1) {
-                // delete rest of s2[j:]
-                return dp[i][j] = s2.charAt(j) + calculate(s1, s2, i, j + 1, dp);
+            // corner case #1
+            if (index1 == n1) {
+                // delete rest of s2[index2:]
+                return dp[index1][index2] = s2.charAt(index2) + calculate(s1, s2, index1, index2 + 1, dp);
             }
 
-            if (j == n2) {
-                // delete rest of s1[i:]
-                return dp[i][j] = s1.charAt(i) + calculate(s1, s2, i + 1, j, dp);
+            // corner case #2
+            if (index2 == n2) {
+                // delete rest of s1[index1:]
+                return dp[index1][index2] = s1.charAt(index1) + calculate(s1, s2, index1 + 1, index2, dp);
             }
 
-            int best = Integer.MAX_VALUE;
-            if (s1.charAt(i) == s2.charAt(j)) {
-                // nothing to delete, calculate the answer for prefixes s1[i + 1 :] and s2[j + 1 :]
-                best = Math.min(best, calculate(s1, s2, i + 1, j + 1, dp));
+            var best = Integer.MAX_VALUE;
+            if (s1.charAt(index1) == s2.charAt(index2)) {
+                // nothing to delete, calculate the answer for prefixes s1[index1 + 1 :] and s2[index2 + 1 :]
+                best = Math.min(best, calculate(s1, s2, index1 + 1, index2 + 1, dp));
             } else {
-                // option #1: delete s1[i] only
-                best = Math.min(best, s1.charAt(i) + calculate(s1, s2, i + 1, j, dp));
+                // option #1: delete s1[index1] only
+                best = Math.min(best, s1.charAt(index1) + calculate(s1, s2, index1 + 1, index2, dp));
 
-                // option #2: delete s2[j] only
-                best = Math.min(best, s2.charAt(j) + calculate(s1, s2, i, j + 1, dp));
+                // option #2: delete s2[index2] only
+                best = Math.min(best, s2.charAt(index2) + calculate(s1, s2, index1, index2 + 1, dp));
             }
 
             // cache and return the answer
-            return dp[i][j] = best;
+            return dp[index1][index2] = best;
         }
     }
 }
