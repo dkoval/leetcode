@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MinimizeMaximumPairSumInArray.MinimizeMaximumPairSumInArrayRev1
+import com.github.dkoval.leetcode.challenge.MinimizeMaximumPairSumInArray.MinimizeMaximumPairSumInArrayRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -40,6 +41,19 @@ internal class MinimizeMaximumPairSumInArrayTest {
             expected: Int
         ) {
             MinimizeMaximumPairSumInArrayRev1().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class MinimizeMaximumPairSumInArrayRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimized maximum pair sum after optimally pairing up the elements`(
+            nums: IntArray,
+            expected: Int
+        ) {
+            MinimizeMaximumPairSumInArrayRev2().test(nums, expected)
         }
     }
 }

@@ -44,4 +44,22 @@ public interface MinimizeMaximumPairSumInArray {
             return best;
         }
     }
+
+    class MinimizeMaximumPairSumInArrayRev2 implements MinimizeMaximumPairSumInArray {
+
+        @Override
+        public int minPairSum(int[] nums) {
+            final var n = nums.length;
+
+            // sorted array allows us to minimize the result
+            Arrays.sort(nums);
+
+            var best = -1;
+            for (var i = 0; i < n / 2; i++) {
+                // pair the i-th smallest element with the i-th largest
+                best = Math.max(best, nums[i] + nums[n - i - 1]);
+            }
+            return best;
+        }
+    }
 }
