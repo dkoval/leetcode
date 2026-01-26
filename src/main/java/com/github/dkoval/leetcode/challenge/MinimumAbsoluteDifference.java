@@ -22,26 +22,56 @@ import java.util.List;
  *  <li>-10^6 <= arr[i] <= 10^6</li>
  * </ul>
  */
-public class MinimumAbsoluteDifference {
+public interface MinimumAbsoluteDifference {
+
+    List<List<Integer>> minimumAbsDifference(int[] arr);
 
     // O(N*logN) time | O(1) extra space
-    public List<List<Integer>> minimumAbsDifference(int[] arr) {
-        int n = arr.length;
-        Arrays.sort(arr);
+    class MinimumAbsoluteDifferenceRev1 implements MinimumAbsoluteDifference {
 
-        // 1st pass - find the minimum absolute difference
-        int minDiff = arr[1] - arr[0];
-        for (int i = 2; i < n; i++) {
-            minDiff = Math.min(minDiff, arr[i] - arr[i - 1]);
-        }
+        @Override
+        public List<List<Integer>> minimumAbsDifference(int[] arr) {
+            int n = arr.length;
+            Arrays.sort(arr);
 
-        // 2nd pass - collect all pairs of elements with the minimum absolute difference
-        List<List<Integer>> ans = new ArrayList<>();
-        for (int i = 1; i < n; i++) {
-            if (arr[i] - arr[i - 1] == minDiff) {
-                ans.add(Arrays.asList(arr[i - 1], arr[i]));
+            // 1st pass - find the minimum absolute difference
+            int minDiff = arr[1] - arr[0];
+            for (int i = 2; i < n; i++) {
+                minDiff = Math.min(minDiff, arr[i] - arr[i - 1]);
             }
+
+            // 2nd pass - collect all pairs of elements with the minimum absolute difference
+            List<List<Integer>> ans = new ArrayList<>();
+            for (int i = 1; i < n; i++) {
+                if (arr[i] - arr[i - 1] == minDiff) {
+                    ans.add(Arrays.asList(arr[i - 1], arr[i]));
+                }
+            }
+            return ans;
         }
-        return ans;
+    }
+
+    class MinimumAbsoluteDifferenceRev2 implements MinimumAbsoluteDifference {
+
+        @Override
+        public List<List<Integer>> minimumAbsDifference(int[] arr) {
+            final var n = arr.length;
+
+            Arrays.sort(arr);
+
+            var minDiff = Integer.MAX_VALUE;
+            for (var i = 0; i < n - 1; i++) {
+                minDiff = Math.min(minDiff, Math.abs(arr[i] - arr[i + 1]));
+            }
+
+            final var ans = new ArrayList<List<Integer>>();
+            for (var i = 0; i < n - 1; i++) {
+                final var diff = Math.abs(arr[i] - arr[i + 1]);
+                if (diff == minDiff) {
+                    ans.add(List.of(arr[i], arr[i + 1]));
+                }
+            }
+            return ans;
+        }
     }
 }
