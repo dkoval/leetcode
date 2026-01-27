@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.0.20"
+    kotlin("jvm") version "2.3.0"
     jacoco
 }
 
@@ -8,9 +8,9 @@ repositories {
 }
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.3")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.3")
-    testImplementation("org.assertj:assertj-core:3.26.3")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.14.2")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.14.2")
+    testImplementation("org.assertj:assertj-core:3.27.7")
 }
 
 kotlin {
@@ -36,9 +36,5 @@ tasks {
             xml.required.set(true)
             html.required.set(true)
         }
-    }
-
-    wrapper {
-        gradleVersion = "8.10"
     }
 }
