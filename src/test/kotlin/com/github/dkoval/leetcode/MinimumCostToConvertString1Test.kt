@@ -2,6 +2,7 @@ package com.github.dkoval.leetcode
 
 import com.github.dkoval.leetcode.challenge.MinimumCostToConvertString1
 import com.github.dkoval.leetcode.challenge.MinimumCostToConvertString1.MinimumCostToConvertString1Rev1
+import com.github.dkoval.leetcode.challenge.MinimumCostToConvertString1.MinimumCostToConvertString1Rev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -70,6 +71,23 @@ internal class MinimumCostToConvertString1Test {
             expected: Long
         ) {
             MinimumCostToConvertString1Rev1().test(source, target, original, changed, costs, expected)
+        }
+    }
+
+    @Nested
+    inner class MinimumCostToConvertString1Rev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum cost to convert the string source to the string target using any number of operations`(
+            source: String,
+            target: String,
+            original: CharArray,
+            changed: CharArray,
+            costs: IntArray,
+            expected: Long
+        ) {
+            MinimumCostToConvertString1Rev2().test(source, target, original, changed, costs, expected)
         }
     }
 }

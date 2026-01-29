@@ -1,6 +1,8 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.Arrays;
+import java.util.*;
+
+import static java.util.Collections.emptyList;
 
 /**
  * <a href="https://leetcode.com/problems/minimum-cost-to-convert-string-i/">Minimum Cost to Convert String I</a>
@@ -83,6 +85,61 @@ public interface MinimumCostToConvertString1 {
                 }
             }
             return dist;
+        }
+    }
+
+    class MinimumCostToConvertString1Rev2 implements MinimumCostToConvertString1 {
+
+        @Override
+        public long minimumCost(String source, String target, char[] original, char[] changed, int[] cost) {
+            final var adj = new HashMap<Integer, List<Node>>();
+            for (var i = 0; i < original.length; i++) {
+                adj.computeIfAbsent(original[i] - 'a', __ -> new ArrayList<>()).add(new Node(changed[i] - 'a', cost[i]));
+            }
+
+            // precompute: dist[i][i] is the minimum cost to get from i to j
+            final var dist = new int[ALPHABET][ALPHABET];
+            for (var i = 0; i < 26; i++) {
+                dist[i] = dijkstra(adj, i);
+            }
+
+            var total = 0L;
+            for (var i = 0; i < source.length(); i++) {
+                var x = source.charAt(i) - 'a';
+                var y = target.charAt(i) - 'a';
+
+                if (dist[x][y] == Integer.MAX_VALUE) {
+                    return -1;
+                }
+
+                total += dist[x][y];
+            }
+            return total;
+        }
+
+        // dist[i] is the minimum cost to get from source to i
+        private int[] dijkstra(Map<Integer, List<Node>> adj, int source) {
+            final var q = new PriorityQueue<>(Comparator.comparingInt(Node::cost));
+
+            final var dist = new int[ALPHABET];
+            Arrays.fill(dist, Integer.MAX_VALUE);
+
+            q.offer(new Node(source, 0));
+            dist[source] = 0;
+            while (!q.isEmpty()) {
+                final var node = q.poll();
+                for (var neighbor : adj.getOrDefault(node.id, emptyList())) {
+                    final var totalCost = node.cost + neighbor.cost;
+                    if (totalCost < dist[neighbor.id]) {
+                        dist[neighbor.id] = totalCost;
+                        q.offer(new Node(neighbor.id, totalCost));
+                    }
+                }
+            }
+            return dist;
+        }
+
+        private record Node(int id, int cost) {
         }
     }
 }
