@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.DivideArrayIntoSubarraysWithMinimumCost1.DivideArrayIntoSubarraysWithMinimumCost1Rev1
+import com.github.dkoval.leetcode.challenge.DivideArrayIntoSubarraysWithMinimumCost1.DivideArrayIntoSubarraysWithMinimumCost1Rev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -42,6 +43,16 @@ internal class DivideArrayIntoSubarraysWithMinimumCost1Test {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the minimum possible sum of the cost of these subarrays`(nums: IntArray, expected: Int) {
             DivideArrayIntoSubarraysWithMinimumCost1Rev1().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class DivideArrayIntoSubarraysWithMinimumCost2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum possible sum of the cost of these subarrays`(nums: IntArray, expected: Int) {
+            DivideArrayIntoSubarraysWithMinimumCost1Rev2().test(nums, expected)
         }
     }
 }

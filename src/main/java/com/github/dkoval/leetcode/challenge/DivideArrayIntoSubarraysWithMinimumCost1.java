@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
@@ -47,6 +48,30 @@ public interface DivideArrayIntoSubarraysWithMinimumCost1 {
                 total += maxHeap.poll();
             }
             return total;
+        }
+    }
+
+    class DivideArrayIntoSubarraysWithMinimumCost1Rev2 implements DivideArrayIntoSubarraysWithMinimumCost1 {
+
+        @Override
+        public int minimumCost(int[] nums) {
+            final var n = nums.length;
+
+            var total = nums[0];
+
+            // find 2 smallest elements in nums[1:]
+            // precondition: smallest[0] <= smallest[1]
+            var smallest = new int[2];
+            Arrays.fill(smallest, Integer.MAX_VALUE);
+            for (var i = 1; i < n; i++) {
+                if (nums[i] < smallest[0]) {
+                    smallest[1] = smallest[0];
+                    smallest[0] = nums[i];
+                } else if (nums[i] < smallest[1]) {
+                    smallest[1] = nums[i];
+                }
+            }
+            return total + smallest[0] + smallest[1];
         }
     }
 }
