@@ -52,34 +52,33 @@ public interface BalancedBinaryTree {
         // Space complexity: O(N). The recursion stack may go up to O(N) if the tree is unbalanced.
         @Override
         public boolean isBalanced(TreeNode root) {
-            return checkIfBalancedAndComputeHeight(root).isBalanced;
+            final var ans = traverse(root);
+            return ans.balanced;
         }
 
-        private record Answer(boolean isBalanced, int height) {
+        private Answer traverse(TreeNode node) {
+            if (node == null) {
+                return new Answer(true, 0);
+            }
 
-            static final Answer NOT_BALANCED = new Answer(false, -1);
+            // post-order traversal
+            final var left = traverse(node.left);
+            if (!left.balanced) {
+                return Answer.NO;
+            }
+
+            final var right = traverse(node.right);
+            if (!right.balanced) {
+                return Answer.NO;
+            }
+
+            final var diff = Math.abs(left.height - right.height);
+            return new Answer(diff <= 1, 1 + Math.max(left.height, right.height));
         }
 
-        private Answer checkIfBalancedAndComputeHeight(TreeNode root) {
-            if (root == null) {
-                return new Answer(true, -1);
-            }
+        private record Answer(boolean balanced, int height) {
 
-            Answer left = checkIfBalancedAndComputeHeight(root.left);
-            if (!left.isBalanced) {
-                return Answer.NOT_BALANCED;
-            }
-
-            Answer right = checkIfBalancedAndComputeHeight(root.right);
-            if (!right.isBalanced) {
-                return Answer.NOT_BALANCED;
-            }
-
-            if (Math.abs(left.height - right.height) > 1) {
-                return Answer.NOT_BALANCED;
-            }
-
-            return new Answer(true, 1 + Math.max(left.height, right.height));
+            static final Answer NO = new Answer(false, -1);
         }
     }
 }
