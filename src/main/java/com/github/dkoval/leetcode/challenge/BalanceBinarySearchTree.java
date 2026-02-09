@@ -28,18 +28,25 @@ public interface BalanceBinarySearchTree {
 
         @Override
         public TreeNode balanceBST(TreeNode root) {
-            List<TreeNode> inorder = traverse(root, new ArrayList<>());
-            return createBalancedBST(inorder, 0, inorder.size() - 1);
+            final var nodes = traverseInOrder(root);
+            return createBalancedBST(nodes, 0, nodes.size() - 1);
         }
 
-        private List<TreeNode> traverse(TreeNode node, List<TreeNode> nodes) {
-            if (node != null) {
-                // inorder traversal
-                traverse(node.left, nodes);
-                nodes.add(node);
-                traverse(node.right, nodes);
+        private List<TreeNode> traverseInOrder(TreeNode root) {
+            // in-order traversal of a BST visits nodes in asc order of their values
+            final var res = new ArrayList<TreeNode>();
+            inorder(root, res);
+            return res;
+        }
+
+        private void inorder(TreeNode node, List<TreeNode> res) {
+            if (node == null) {
+                return;
             }
-            return nodes;
+
+            inorder(node.left, res);
+            res.add(node);
+            inorder(node.right, res);
         }
 
         private TreeNode createBalancedBST(List<TreeNode> nodes, int left, int right) {
@@ -47,8 +54,8 @@ public interface BalanceBinarySearchTree {
                 return null;
             }
 
-            int mid = left + (right - left) / 2;
-            TreeNode root = nodes.get(mid);
+            final var mid = left + (right - left) / 2;
+            final var root = nodes.get(mid);
             root.left = createBalancedBST(nodes, left, mid - 1);
             root.right = createBalancedBST(nodes, mid + 1, right);
             return root;
