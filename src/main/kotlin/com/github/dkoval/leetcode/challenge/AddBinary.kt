@@ -2,15 +2,9 @@ package com.github.dkoval.leetcode.challenge
 
 import kotlin.math.max
 
-/**
- * [Add Binary](https://leetcode.com/explore/challenge/card/july-leetcoding-challenge/546/week-3-july-15th-july-21st/3395/)
- *
- * Given two binary strings, return their sum (also a binary string).
- * The input strings are both non-empty and contains only characters 1 or 0.
- */
-object AddBinary {
+object AddBinaryRev1 : AddBinary {
 
-    fun addBinary(a: String, b: String): String {
+    override fun addBinary(a: String, b: String): String {
         val result = StringBuilder()
         var carry = 0
         for (i in 0 until max(a.length, b.length)) {
