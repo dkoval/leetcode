@@ -53,24 +53,16 @@ public interface CountBinarySubstrings {
         public int countBinarySubstrings(String s) {
             final var n = s.length();
 
-
             var total = 0;
             var counts = new int[2];
             var current = '#';
             for (var i = 0; i < n; i++) {
-                if (current == '#' || s.charAt(i) == current) {
-                    if (current == '#') {
-                        current = s.charAt(i);
-                    }
+                if (s.charAt(i) == current) {
                     counts[s.charAt(i) - '0']++;
                     continue;
                 }
 
-                // at this stage, at least 2 groups of 0's and 1's exist
-                if (counts[0] > 0 && counts[1] > 0) {
-                    total += Math.min(counts[0], counts[1]);
-                }
-
+                total += Math.min(counts[0], counts[1]);
                 current = s.charAt(i);
                 counts[s.charAt(i) - '0'] = 1;
             }
