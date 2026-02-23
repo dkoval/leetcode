@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/march-leetcoding-challenge-2021/589/week-2-march-8th-march-14th/3669/">Check If a String Contains All Binary Codes of Size K</a>
+ * <a href="https://leetcode.com/problems/check-if-a-string-contains-all-binary-codes-of-size-k/">Check If a String Contains All Binary Codes of Size K</a>
  * <p>
  * Given a binary string s and an integer k.
  * <p>
@@ -55,7 +55,7 @@ public interface CheckIfStringContainsAllBinaryCodesOfSizeK {
         }
     }
 
-        class CheckIfStringContainsAllBinaryCodesOfSizeKAccepted implements CheckIfStringContainsAllBinaryCodesOfSizeK {
+    class CheckIfStringContainsAllBinaryCodesOfSizeKAccepted implements CheckIfStringContainsAllBinaryCodesOfSizeK {
 
         public boolean hasAllCodes(String s, int k) {
             // Sliding window: for each i in [0, N - k], where N is the length of string s,
@@ -73,6 +73,23 @@ public interface CheckIfStringContainsAllBinaryCodesOfSizeK {
                 }
             }
             return seen.size() == need;
+        }
+    }
+
+    class CheckIfStringContainsAllBinaryCodesOfSizeKRev2 implements CheckIfStringContainsAllBinaryCodesOfSizeK {
+
+        @Override
+        public boolean hasAllCodes(String s, int k) {
+            final var n = s.length();
+
+            // generate all possible substrings of length k
+            final var substrs = new HashSet<>();
+            for (var start = 0; start <= n - k; start++) {
+                substrs.add(s.substring(start, start + k));
+            }
+
+            // the total number of such substrings should be 2^k
+            return substrs.size() == (1 << k);
         }
     }
 

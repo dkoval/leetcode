@@ -77,6 +77,20 @@ internal class CheckIfStringContainsAllBinaryCodesOfSizeKTest {
     }
 
     @Nested
+    inner class CheckIfStringContainsAllBinaryCodesOfSizeKRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return True if every binary code of length k is a substring of s`(
+            s: String,
+            k: Int,
+            expected: Boolean
+        ) {
+            CheckIfStringContainsAllBinaryCodesOfSizeKRev2().test(s, k, expected)
+        }
+    }
+
+    @Nested
     inner class CheckIfStringContainsAllBinaryCodesOptimizedTest {
 
 
@@ -90,9 +104,9 @@ internal class CheckIfStringContainsAllBinaryCodesOfSizeKTest {
             CheckIfStringContainsAllBinaryCodesOptimized().test(s, k, expected)
         }
     }
+}
 
-    private fun CheckIfStringContainsAllBinaryCodesOfSizeK.test(s: String, k: Int, expected: Boolean) {
-        val actual = hasAllCodes(s, k)
-        assertEquals(expected, actual)
-    }
+private fun CheckIfStringContainsAllBinaryCodesOfSizeK.test(s: String, k: Int, expected: Boolean) {
+    val actual = hasAllCodes(s, k)
+    assertEquals(expected, actual)
 }
