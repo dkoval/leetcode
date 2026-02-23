@@ -86,10 +86,12 @@ public interface CheckIfStringContainsAllBinaryCodesOfSizeK {
             final var substrs = new HashSet<>();
             for (var start = 0; start <= n - k; start++) {
                 substrs.add(s.substring(start, start + k));
+                // the total number of such substrings must be 2^k
+                if (substrs.size() == (1 << k)) {
+                    return true;
+                }
             }
-
-            // the total number of such substrings should be 2^k
-            return substrs.size() == (1 << k);
+            return false;
         }
     }
 
