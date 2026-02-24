@@ -24,7 +24,7 @@ public interface SumOfRootToLeafBinaryNumbers {
 
     int sumRootToLeaf(TreeNode root);
 
-    class SumOfRootToLeafBinaryNumbersRev2 implements SumOfRootToLeafBinaryNumbersRev1 {
+    class SumOfRootToLeafBinaryNumbersRev2 implements SumOfRootToLeafBinaryNumbers {
 
         @Override
         public int sumRootToLeaf(TreeNode root) {
