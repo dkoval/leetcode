@@ -45,4 +45,32 @@ public interface NumberOfStepsToReduceNumberInBinaryRepresentationToOne {
             return steps + carry;
         }
     }
+
+    class NumberOfStepsToReduceNumberInBinaryRepresentationToOneRev2 implements NumberOfStepsToReduceNumberInBinaryRepresentationToOne {
+
+        @Override
+        public int numSteps(String s) {
+            final var n = s.length();
+
+            var count = 0;
+            var carry = 0;
+            for (var i = n - 1; i > 0; i--) {
+                var digit = s.charAt(i) - '0';
+                digit += carry;
+                carry = digit / 2;
+                digit %= 2;
+                if (digit == 1) {
+                    carry++;
+                    count++;
+                }
+                count++;
+            }
+
+            if (carry > 0) {
+                count++;
+            }
+
+            return count;
+        }
+    }
 }

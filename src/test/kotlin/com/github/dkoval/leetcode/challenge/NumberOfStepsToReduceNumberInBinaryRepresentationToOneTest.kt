@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.NumberOfStepsToReduceNumberInBinaryRepresentationToOne.NumberOfStepsToReduceNumberInBinaryRepresentationToOneRev1
+import com.github.dkoval.leetcode.challenge.NumberOfStepsToReduceNumberInBinaryRepresentationToOne.NumberOfStepsToReduceNumberInBinaryRepresentationToOneRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -30,6 +31,16 @@ internal class NumberOfStepsToReduceNumberInBinaryRepresentationToOneTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the number of steps to reduce it to 1`(s: String, expected: Int) {
             NumberOfStepsToReduceNumberInBinaryRepresentationToOneRev1().test(s, expected)
+        }
+    }
+
+    @Nested
+    inner class NumberOfStepsToReduceNumberInBinaryRepresentationToOneRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of steps to reduce it to 1`(s: String, expected: Int) {
+            NumberOfStepsToReduceNumberInBinaryRepresentationToOneRev2().test(s, expected)
         }
     }
 }
