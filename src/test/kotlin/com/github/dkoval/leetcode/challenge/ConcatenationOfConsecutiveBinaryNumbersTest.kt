@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.ConcatenationOfConsecutiveBinaryNumbers.ConcatenationOfConsecutiveBinaryNumbersRev1
+import com.github.dkoval.leetcode.challenge.ConcatenationOfConsecutiveBinaryNumbers.ConcatenationOfConsecutiveBinaryNumbersRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -35,8 +36,21 @@ internal class ConcatenationOfConsecutiveBinaryNumbersTest {
         }
     }
 
-    private fun ConcatenationOfConsecutiveBinaryNumbers.test(n: Int, expected: Int) {
-        val actual = concatenatedBinary(n)
-        assertEquals(expected, actual)
+    @Nested
+    inner class ConcatenationOfConsecutiveBinaryNumbersRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the decimal value of the binary string formed by concatenating the binary representations of 1 to n in order`(
+            n: Int,
+            expected: Int
+        ) {
+            ConcatenationOfConsecutiveBinaryNumbersRev2().test(n, expected)
+        }
     }
+}
+
+private fun ConcatenationOfConsecutiveBinaryNumbers.test(n: Int, expected: Int) {
+    val actual = concatenatedBinary(n)
+    assertEquals(expected, actual)
 }
