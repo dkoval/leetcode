@@ -19,6 +19,12 @@ package com.github.dkoval.leetcode.challenge;
  *  <li>S4 = "011100110110001"</li>
  * </ul>
  * Return the kth bit in Sn. It is guaranteed that k is valid for the given n.
+ * <p>
+ * Constraints:
+ * <ul>
+ *  <li>1 <= n <= 20</li>
+ *  <li>1 <= k <= 2^n - 1</li>
+ * </ul>
  */
 public interface FindKthBitInNthBinaryString {
 
@@ -29,14 +35,14 @@ public interface FindKthBitInNthBinaryString {
         @Override
         public char findKthBit(int n, int k) {
             // idea: simulation
-            StringBuilder s = new StringBuilder("0");
+            final var s = new StringBuilder("0");
             while (n-- > 0) {
-                // reverse(invert(Si - 1))
-                StringBuilder suffix = new StringBuilder();
+                // reverse(invert(S[i - 1]))
+                final var suffix = new StringBuilder();
                 for (int i = s.length() - 1; i >= 0; i--) {
                     suffix.append(s.charAt(i) == '0' ? '1' : '0');
                 }
-                // Si = Si - 1 + "1" + reverse(invert(Si - 1)) for i > 1
+                // S[i] = S[i - 1] + "1" + reverse(invert(S[i - 1])) for i > 1
                 s.append('1').append(suffix);
             }
             return s.charAt(k - 1);
