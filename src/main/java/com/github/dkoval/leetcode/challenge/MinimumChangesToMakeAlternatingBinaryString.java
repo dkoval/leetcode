@@ -43,4 +43,27 @@ public interface MinimumChangesToMakeAlternatingBinaryString {
             return count;
         }
     }
+
+    class MinimumChangesToMakeAlternatingBinaryStringRev2 implements MinimumChangesToMakeAlternatingBinaryString {
+
+        @Override
+        public int minOperations(String s) {
+            return Math.min(countFlips(s, '0'), countFlips(s, '1'));
+        }
+
+        private int countFlips(String s, char first) {
+            final var n = s.length();
+
+            var count = 0;
+            var curr = first - '0';
+            for (var i = 0; i < n; i++) {
+                final var bit = s.charAt(i) - '0';
+                if (curr != bit) {
+                    count++;
+                }
+                curr = (curr + 1) % 2;
+            }
+            return count;
+        }
+    }
 }
