@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * <a href="https://leetcode.com/problems/find-unique-binary-string/">Find Unique Binary String</a>
@@ -27,18 +26,18 @@ public interface FindUniqueBinaryString {
 
         @Override
         public String findDifferentBinaryString(String[] nums) {
-            int n = nums.length;
+            final var n = nums.length;
 
-            Set<Integer> available = new HashSet<>();
+            final var available = new HashSet<Integer>();
             for (String x : nums) {
                 available.add(toBinaryNumber(x));
             }
 
-            // With n bits we can code 2^n = (1 << n) numbers:
+            // With n bits we can encode 2 ^ n = (1 << n) numbers:
             // 00...0
             // 00...1
             // 11...1
-            for (int x = 0; x < (1 << n); x++) {
+            for (var x = 0; x < (1 << n); x++) {
                 if (!available.contains(x)) {
                     return toBinaryString(x, n);
                 }
@@ -47,8 +46,8 @@ public interface FindUniqueBinaryString {
         }
 
         private int toBinaryNumber(String s) {
-            int x = 0;
-            for (int i = 0; i < s.length(); i++) {
+            var x = 0;
+            for (var i = 0; i < s.length(); i++) {
                 x *= 2;
                 x += s.charAt(i) - '0';
             }
@@ -56,7 +55,7 @@ public interface FindUniqueBinaryString {
         }
 
         private String toBinaryString(int x, int length) {
-            StringBuilder sb = new StringBuilder();
+            final var sb = new StringBuilder();
             while (x > 0) {
                 sb.append(x % 2);
                 x /= 2;
