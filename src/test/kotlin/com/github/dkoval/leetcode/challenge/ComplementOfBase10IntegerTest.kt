@@ -2,7 +2,6 @@ package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.ComplementOfBase10Integer.ComplementOfBase10IntegerRev1
 import com.github.dkoval.leetcode.challenge.ComplementOfBase10Integer.ComplementOfBase10IntegerRev2
-import com.github.dkoval.leetcode.challenge.NumberComplement.findComplement
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -51,6 +50,6 @@ internal class ComplementOfBase10IntegerTest {
 }
 
 private fun ComplementOfBase10Integer.test(n: Int, expected: Int) {
-    val actual = findComplement(n)
+    val actual = bitwiseComplement(n)
     assertEquals(expected, actual)
 }
