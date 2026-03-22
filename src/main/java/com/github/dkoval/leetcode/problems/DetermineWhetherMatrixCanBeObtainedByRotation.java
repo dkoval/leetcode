@@ -15,52 +15,58 @@ import java.util.Arrays;
  *  <li>mat[i][j] and target[i][j] are either 0 or 1</li>
  * </ul>
  */
-public class DetermineWhetherMatrixCanBeObtainedByRotation {
+public interface DetermineWhetherMatrixCanBeObtainedByRotation {
 
-    public boolean findRotation(int[][] mat, int[][] target) {
-        for (int t = 1; t <= 4; t++) {
-            mat = rotate90Clockwise(mat);
-            if (same(mat, target)) {
-                return true;
+    boolean findRotation(int[][] mat, int[][] target);
+
+    class DetermineWhetherMatrixCanBeObtainedByRotationRev1 implements DetermineWhetherMatrixCanBeObtainedByRotation {
+
+        @Override
+        public boolean findRotation(int[][] mat, int[][] target) {
+            for (var t = 1; t <= 4; t++) {
+                final var actual = rotate90Clockwise(mat);
+                if (arrayEquals(actual, target)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private int[][] rotate90Clockwise(int[][] mat) {
+            final var n = mat.length;
+            transpose(mat);
+            for (var row = 0; row < n; row++) {
+                // reverse each row
+                var left = 0;
+                var right = n - 1;
+                while (left < right) {
+                    var tmp = mat[row][left];
+                    mat[row][left++] = mat[row][right];
+                    mat[row][right--] = tmp;
+                }
+            }
+            return mat;
+        }
+
+        private void transpose(int[][] mat) {
+            final var n = mat.length;
+            for (var row = 0; row < n; row++) {
+                for (int col = 0; col < row; col++) {
+                    var tmp = mat[row][col];
+                    mat[row][col] = mat[col][row];
+                    mat[col][row] = tmp;
+                }
             }
         }
-        return false;
-    }
 
-    private void transpose(int[][] mat) {
-        int n = mat.length;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < i; j++) {
-                int tmp = mat[i][j];
-                mat[i][j] = mat[j][i];
-                mat[j][i] = tmp;
+        private boolean arrayEquals(int[][] actual, int[][] expected) {
+            final var n = actual.length;
+            for (int row = 0; row < n; row++) {
+                if (!Arrays.equals(actual[row], expected[row])) {
+                    return false;
+                }
             }
+            return true;
         }
-    }
-
-    private int[][] rotate90Clockwise(int[][] mat) {
-        transpose(mat);
-        int n = mat.length;
-        for (int i = 0; i < n; i++) {
-            // reverse each row
-            int l = 0;
-            int r = n - 1;
-            while (l < r) {
-                int tmp = mat[i][l];
-                mat[i][l++] = mat[i][r];
-                mat[i][r--] = tmp;
-            }
-        }
-        return mat;
-    }
-
-    private boolean same(int[][] source, int[][] target) {
-        int n = source.length;
-        for (int i = 0; i < n; i++) {
-            if (!Arrays.equals(source[i], target[i])) {
-                return false;
-            }
-        }
-        return true;
     }
 }
