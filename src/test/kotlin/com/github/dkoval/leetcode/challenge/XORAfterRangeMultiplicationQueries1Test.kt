@@ -32,7 +32,7 @@ internal class XORAfterRangeMultiplicationQueries1Test {
                     intArrayOf(1, 4, 2, 3),
                     intArrayOf(0, 2, 1, 2)
                 ),
-                4
+                31
             )
         )
     }
