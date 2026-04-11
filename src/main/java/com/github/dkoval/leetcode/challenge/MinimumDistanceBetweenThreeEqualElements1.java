@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -49,7 +48,6 @@ public interface MinimumDistanceBetweenThreeEqualElements1 {
                 return Integer.MAX_VALUE;
             }
 
-            Collections.sort(group);
             var best = Integer.MAX_VALUE;
             for (var i = 0; i <= group.size() - 3; i++) {
                 best = Math.min(best, distance(group.get(i), group.get(i + 1), group.get(i + 2)));
