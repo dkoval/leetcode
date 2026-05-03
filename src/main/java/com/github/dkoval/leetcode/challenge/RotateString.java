@@ -62,4 +62,24 @@ public interface RotateString {
             return false;
         }
     }
+
+    class RotateStringRev3 implements RotateString {
+
+        @Override
+        public boolean rotateString(String s, String goal) {
+            if (s.length() != goal.length()) {
+                return false;
+            }
+
+            var n = s.length();
+            var current = s;
+            while (n-- >= 0) {
+                if (current.equals(goal)) {
+                    return true;
+                }
+                current = current.substring(1) + current.charAt(0);
+            }
+            return false;
+        }
+    }
 }
