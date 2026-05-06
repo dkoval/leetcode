@@ -29,12 +29,13 @@ package com.github.dkoval.leetcode.challenge;
  */
 public interface RotatingBox {
 
+    char STONE = '#';
+    char OBSTACLE = '*';
+    char EMPTY = '.';
+
     char[][] rotateTheBox(char[][] box);
 
     class RotatingBoxRev1 implements RotatingBox {
-        private static final char STONE = '#';
-        private static final char OBSTACLE = '*';
-        private static final char EMPTY = '.';
 
         private static char[][] rotate(char[][] box) {
             int m = box.length;
@@ -74,6 +75,44 @@ public interface RotatingBox {
                 }
             }
             return rotatedBox;
+        }
+    }
+
+    class RotatingBoxRev2 implements RotatingBox {
+
+        @Override
+        public char[][] rotateTheBox(char[][] boxGrid) {
+            final var m = boxGrid.length;
+            final var n = boxGrid[0].length;
+
+            for (var row = 0; row < m; row++) {
+                // for each row, let the gravity do its thing
+                var emptyCol = n - 1;
+                for (var col = n - 1; col >= 0; col--) {
+                    if (boxGrid[row][col] == STONE) {
+                        // move the stone to the rightmost empty cell
+                        boxGrid[row][col] = EMPTY;
+                        boxGrid[row][emptyCol] = STONE;
+                        emptyCol--;
+                    } else if (boxGrid[row][col] == OBSTACLE) {
+                        emptyCol = col - 1;
+                    }
+                }
+            }
+            return rotateClockwise(boxGrid);
+        }
+
+        private char[][] rotateClockwise(char[][] boxGrid) {
+            final var m = boxGrid.length;
+            final var n = boxGrid[0].length;
+
+            final var res = new char[n][m];
+            for (var row = 0; row < m; row++) {
+                for (var col = 0; col < n; col++) {
+                    res[col][m - row - 1] = boxGrid[row][col];
+                }
+            }
+            return res;
         }
     }
 }

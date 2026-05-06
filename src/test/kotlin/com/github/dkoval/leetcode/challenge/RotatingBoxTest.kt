@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.RotatingBox.RotatingBoxRev1
+import com.github.dkoval.leetcode.challenge.RotatingBox.RotatingBoxRev2
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -62,6 +63,16 @@ internal class RotatingBoxTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should matrix representing the box after the rotation`(box: Array<CharArray>, expected: Array<CharArray>) {
             RotatingBoxRev1().test(box, expected)
+        }
+    }
+
+    @Nested
+    inner class RotatingBoxRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should matrix representing the box after the rotation`(box: Array<CharArray>, expected: Array<CharArray>) {
+            RotatingBoxRev2().test(box, expected)
         }
     }
 }
