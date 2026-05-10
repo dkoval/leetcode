@@ -81,4 +81,25 @@ public interface MaximumNumberOfJumpsToReachLastIndex {
             return dp[n - 1];
         }
     }
+
+    class MaximumNumberOfJumpsToReachLastIndexRev3 implements MaximumNumberOfJumpsToReachLastIndex {
+
+        @Override
+        public int maximumJumps(int[] nums, int target) {
+            final var n = nums.length;
+
+            final var dp = new int[n];
+            Arrays.fill(dp, -1);
+            dp[n - 1] = 0;
+
+            for (var i = n - 2; i >= 0; i--) {
+                for (var j = i + 1; j < n; j++) {
+                    if (dp[j] != -1 && Math.abs(nums[j] - nums[i]) <= target) {
+                        dp[i] = Math.max(dp[i], 1 + dp[j]);
+                    }
+                }
+            }
+            return dp[0];
+        }
+    }
 }
