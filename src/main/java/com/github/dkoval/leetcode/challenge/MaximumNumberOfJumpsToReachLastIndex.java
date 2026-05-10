@@ -47,13 +47,13 @@ public interface MaximumNumberOfJumpsToReachLastIndex {
                 return dp[index];
             }
 
-            var count = 0;
+            var count = Integer.MIN_VALUE;
             for (var j = index + 1; j < n; j++) {
                 if (Math.abs(nums[j] - nums[index]) <= target) {
                     count = Math.max(count, 1 + calc(nums, target, j, dp));
                 }
             }
-            return dp[index] = (count > 0) ? count : Integer.MIN_VALUE;
+            return dp[index] = count;
         }
     }
 }
