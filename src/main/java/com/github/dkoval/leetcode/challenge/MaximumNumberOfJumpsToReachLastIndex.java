@@ -1,5 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
+import java.util.Arrays;
+
 /**
  * <a href="https://leetcode.com/problems/maximum-number-of-jumps-to-reach-the-last-index/">Maximum Number of Jumps to Reach the Last Index</a>
  * <p>
@@ -24,6 +26,7 @@ public interface MaximumNumberOfJumpsToReachLastIndex {
 
     int maximumJumps(int[] nums, int target);
 
+    // O(n^2) time | O(n) space
     class MaximumNumberOfJumpsToReachLastIndexRev1 implements MaximumNumberOfJumpsToReachLastIndex {
 
         @Override
@@ -54,6 +57,28 @@ public interface MaximumNumberOfJumpsToReachLastIndex {
                 }
             }
             return dp[index] = count;
+        }
+    }
+
+    // O(n^2) time | O(n) space
+    class MaximumNumberOfJumpsToReachLastIndexRev2 implements MaximumNumberOfJumpsToReachLastIndex {
+
+        @Override
+        public int maximumJumps(int[] nums, int target) {
+            final var n = nums.length;
+
+            final var dp = new int[n];
+            Arrays.fill(dp, -1);
+            dp[0] = 0;
+
+            for (var j = 0; j < n; j++) {
+                for (var i = 0; i < j; i++) {
+                    if (dp[i] != -1 && Math.abs(nums[j] - nums[i]) <= target) {
+                        dp[j] = Math.max(dp[j], 1 + dp[i]);
+                    }
+                }
+            }
+            return dp[n - 1];
         }
     }
 }

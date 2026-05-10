@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MaximumNumberOfJumpsToReachLastIndex.MaximumNumberOfJumpsToReachLastIndexRev1
+import com.github.dkoval.leetcode.challenge.MaximumNumberOfJumpsToReachLastIndex.MaximumNumberOfJumpsToReachLastIndexRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -48,6 +49,20 @@ internal class MaximumNumberOfJumpsToReachLastIndexTest {
             expected: Int
         ) {
             MaximumNumberOfJumpsToReachLastIndexRev1().test(nums, start, expected)
+        }
+    }
+
+    @Nested
+    inner class MaximumNumberOfJumpsToReachLastIndexRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum number of jumps to reach the last index`(
+            nums: IntArray,
+            start: Int,
+            expected: Int
+        ) {
+            MaximumNumberOfJumpsToReachLastIndexRev2().test(nums, start, expected)
         }
     }
 }
