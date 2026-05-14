@@ -43,4 +43,26 @@ public interface CheckIfArrayIsGood {
             return (nums[n - 1] == nums[n - 2]) && (nums[n - 1] == n - 1);
         }
     }
+
+    class CheckIfArrayIsGoodRev2 implements CheckIfArrayIsGood {
+
+        @Override
+        public boolean isGood(int[] nums) {
+            final var n = nums.length;
+
+            Arrays.sort(nums);
+
+            var expected = 1;
+            for (var i = 0; i < n; i++) {
+                if (nums[i] != expected) {
+                    return false;
+                }
+
+                if (i < n - 2) {
+                    expected++;
+                }
+            }
+            return nums[n - 1] == n - 1;
+        }
+    }
 }

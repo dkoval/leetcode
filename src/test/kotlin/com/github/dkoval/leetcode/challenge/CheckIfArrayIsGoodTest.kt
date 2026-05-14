@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.CheckIfArrayIsGood.CheckIfArrayIsGoodRev1
+import com.github.dkoval.leetcode.challenge.CheckIfArrayIsGood.CheckIfArrayIsGoodRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -57,6 +58,16 @@ internal class CheckIfArrayIsGoodTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return true if the array is good or false otherwise`(nums: IntArray, expected: Boolean) {
             CheckIfArrayIsGoodRev1().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class CheckIfArrayIsGoodRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return true if the array is good or false otherwise`(nums: IntArray, expected: Boolean) {
+            CheckIfArrayIsGoodRev2().test(nums, expected)
         }
     }
 }
