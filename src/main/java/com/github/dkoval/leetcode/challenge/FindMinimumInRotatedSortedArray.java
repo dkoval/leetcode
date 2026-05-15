@@ -68,4 +68,28 @@ public interface FindMinimumInRotatedSortedArray {
             return nums[left];
         }
     }
+
+    class FindMinimumInRotatedSortedArrayRev3 implements FindMinimumInRotatedSortedArray {
+
+        @Override
+        public int findMin(int[] nums) {
+            final var n = nums.length;
+
+            var left = 0;
+            var right = n - 1;
+            while (left < right) {
+                var mid = left + (right - left) / 2;
+                if (nums[mid] > nums[n - 1]) {
+                    // we're in the 1st half of the array;
+                    // mid is not the answer
+                    left = mid + 1;
+                } else {
+                    // we're in the 2nd half of the array;
+                    // mid might be the answer, check if there is a better option to the left of it
+                    right = mid;
+                }
+            }
+            return nums[left];
+        }
+    }
 }

@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.FindMinimumInRotatedSortedArray.FindMinimumInRotatedSortedArrayRev1
-import com.github.dkoval.leetcode.challenge.FindMinimumInRotatedSortedArray.FindMinimumInRotatedSortedArrayRev2
+import com.github.dkoval.leetcode.challenge.FindMinimumInRotatedSortedArray.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -9,7 +8,6 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
-import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.support.ParameterDeclarations
 import java.util.stream.Stream
 
@@ -84,6 +82,19 @@ internal class FindMinimumInRotatedSortedArrayTest {
             expected: Int
         ) {
             FindMinimumInRotatedSortedArrayRev2().test(nums, expected)
+        }
+    }
+
+    @Nested
+    inner class FindMinimumInRotatedSortedArrayRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should find the minimum element in rotated sorted array with no duplicates allowed`(
+            nums: IntArray,
+            expected: Int
+        ) {
+            FindMinimumInRotatedSortedArrayRev3().test(nums, expected)
         }
     }
 }
