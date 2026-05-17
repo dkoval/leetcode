@@ -26,7 +26,7 @@ public interface JumpGame3 {
     class JumpGame3DFS implements JumpGame3 {
 
         public boolean canReach(int[] arr, int start) {
-            int n = arr.length;
+            final var n = arr.length;
             return dfs(arr, start, new boolean[n]);
         }
 
@@ -52,14 +52,14 @@ public interface JumpGame3 {
 
         @Override
         public boolean canReach(int[] arr, int start) {
-            int n = arr.length;
+            final var n = arr.length;
 
             // BFS
-            Queue<Integer> q = new ArrayDeque<>();
-            boolean[] visited = new boolean[n];
+            final var q = new ArrayDeque<Integer>();
+            final var visited = new boolean[n];
             enqueue(q, start, n, visited);
             while (!q.isEmpty()) {
-                int i = q.poll();
+                final var i = q.poll();
                 if (arr[i] == 0) {
                     return true;
                 }
