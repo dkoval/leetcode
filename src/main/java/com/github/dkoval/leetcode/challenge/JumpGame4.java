@@ -23,59 +23,63 @@ import java.util.*;
  *  <li>-10^8 <= arr[i] <= 10^8</li>
  * </ul>
  */
-public class JumpGame4 {
+public interface JumpGame4 {
 
-    public int minJumps(int[] arr) {
-        int n = arr.length;
-        if (n <= 1) {
-            return 0;
-        }
+    int minJumps(int[] arr);
 
-        // groups indices having the same arr[i] value
-        Map<Integer, List<Integer>> groups = new HashMap<>();
-        for (int i = 0; i < n; i++) {
-            groups.computeIfAbsent(arr[i], __ -> new ArrayList<>()).add(i);
-        }
+    class JumpGame4BFS implements JumpGame4 {
 
-        // BFS
-        Queue<Integer> q = new ArrayDeque<>();
-        boolean[] visited = new boolean[n];
-        q.offer(0);
-        visited[0] = true;
+        @Override
+        public int minJumps(int[] arr) {
+            final var n = arr.length;
 
-        int numSteps = 0;
-        while (!q.isEmpty()) {
-            int size = q.size();
-            while (size-- > 0) {
-                int i = q.poll();
-                if (i == n - 1) {
-                    return numSteps;
-                }
-
-                // add adjacent indices to the queue
-                if (i - 1 >= 0 && !visited[i - 1]) {
-                    q.offer(i - 1);
-                    visited[i - 1] = true;
-                }
-
-                if (i + 1 < n && !visited[i + 1]) {
-                    q.offer(i + 1);
-                    visited[i + 1] = true;
-                }
-
-                if (groups.containsKey(arr[i])) {
-                    List<Integer> indices = groups.get(arr[i]);
-                    for (int j : indices) {
-                        if (!visited[j]) {
-                            q.offer(j);
-                            visited[j] = true;
-                        }
-                    }
-                    groups.remove(arr[i]);
-                }
+            if (n <= 1) {
+                return 0;
             }
-            numSteps++;
+
+            // arr[i] -> indices
+            final var groups = new HashMap<Integer, List<Integer>>();
+            for (int i = 0; i < n; i++) {
+                groups.computeIfAbsent(arr[i], __ -> new ArrayList<>()).add(i);
+            }
+
+            // BFS
+            final var q = new ArrayDeque<Integer>();
+            final var visited = new boolean[n];
+            enqueue(q, 0, visited);
+
+            var steps = 0;
+            while (!q.isEmpty()) {
+                var size = q.size();
+                while (size-- > 0) {
+                    final var i = q.poll();
+
+                    if (i == n - 1) {
+                        return steps;
+                    }
+
+                    enqueue(q, i - 1, visited);
+                    enqueue(q, i + 1, visited);
+
+                    if (groups.containsKey(arr[i])) {
+                        final var indices = groups.get(arr[i]);
+                        for (var j : indices) {
+                            enqueue(q, j, visited);
+                        }
+                        groups.remove(arr[i]);
+                    }
+                }
+                steps++;
+            }
+            return -1;
         }
-        return -1;
+
+        private void enqueue(Queue<Integer> q, int i, boolean[] visited) {
+            final var n = visited.length;
+            if (i >= 0 && i < n && !visited[i]) {
+                q.offer(i);
+                visited[i] = true;
+            }
+        }
     }
 }

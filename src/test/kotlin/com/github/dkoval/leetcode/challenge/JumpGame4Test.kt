@@ -1,15 +1,24 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.JumpGame4.JumpGame4BFS
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.provider.ArgumentsSource
+import org.junit.jupiter.params.support.ParameterDeclarations
+import java.util.stream.Stream
 
 internal class JumpGame4Test {
 
-    companion object {
-        @JvmStatic
-        fun input(): List<Arguments> = listOf(
+    class InputArgumentsProvider : ArgumentsProvider {
+
+        override fun provideArguments(
+            parameters: ParameterDeclarations,
+            context: ExtensionContext
+        ): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(100, -23, -23, 404, 100, 23, 23, 23, 3, 404),
                 3
@@ -33,10 +42,21 @@ internal class JumpGame4Test {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("input")
-    fun `should return the minimum number of steps to reach the last index of the array`(arr: IntArray, expected: Int) {
-        val actual = JumpGame4().minJumps(arr)
-        assertEquals(expected, actual)
+    @Nested
+    inner class JumpGame4BFSTest {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum number of steps to reach the last index of the array`(
+            arr: IntArray,
+            expected: Int
+        ) {
+            JumpGame4BFS().test(arr, expected)
+        }
     }
+}
+
+private fun JumpGame4.test(arr: IntArray, expected: Int) {
+    val actual = minJumps(arr)
+    assertEquals(expected, actual)
 }
