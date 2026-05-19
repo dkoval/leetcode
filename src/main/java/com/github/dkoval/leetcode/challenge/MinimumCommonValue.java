@@ -43,4 +43,27 @@ public interface MinimumCommonValue {
             return -1;
         }
     }
+
+    // O(min(N1, N2)) time | O(1) space
+    class MinimumCommonValueRev2 implements MinimumCommonValue {
+
+        @Override
+        public int getCommon(int[] nums1, int[] nums2) {
+            final var n1 = nums1.length;
+            final var n2 = nums2.length;
+
+            var i1 = 0;
+            var i2 = 0;
+            while (i1 < n1 && i2 < n2) {
+                if (nums1[i1] < nums2[i2]) {
+                    i1++;
+                } else if (nums2[i2] < nums1[i1]) {
+                    i2++;
+                } else {
+                    return nums1[i1];
+                }
+            }
+            return -1;
+        }
+    }
 }

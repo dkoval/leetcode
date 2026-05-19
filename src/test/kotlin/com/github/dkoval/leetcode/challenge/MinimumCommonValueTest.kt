@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MinimumCommonValue.MinimumCommonValueRev1
+import com.github.dkoval.leetcode.challenge.MinimumCommonValue.MinimumCommonValueRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -35,6 +36,16 @@ internal class MinimumCommonValueTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the minimum integer common to both arrays`(nums1: IntArray, nums2: IntArray, expected: Int) {
             MinimumCommonValueRev1().test(nums1, nums2, expected)
+        }
+    }
+
+    @Nested
+    inner class MinimumCommonValueRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum integer common to both arrays`(nums1: IntArray, nums2: IntArray, expected: Int) {
+            MinimumCommonValueRev2().test(nums1, nums2, expected)
         }
     }
 }
