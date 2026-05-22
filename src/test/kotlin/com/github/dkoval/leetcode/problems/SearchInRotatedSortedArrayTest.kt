@@ -85,8 +85,22 @@ internal class SearchInRotatedSortedArrayTest {
         }
     }
 
-    private fun SearchInRotatedSortedArray.test(nums: IntArray, target: Int, expected: Int) {
-        val actual = search(nums, target)
-        assertEquals(expected, actual)
+    @Nested
+    inner class SearchInRotatedSortedArrayRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the index of target after the possible rotation of nums array`(
+            nums: IntArray,
+            target: Int,
+            expected: Int
+        ) {
+            SearchInRotatedSortedArrayRev3().test(nums, target, expected)
+        }
     }
+}
+
+private fun SearchInRotatedSortedArray.test(nums: IntArray, target: Int, expected: Int) {
+    val actual = search(nums, target)
+    assertEquals(expected, actual)
 }

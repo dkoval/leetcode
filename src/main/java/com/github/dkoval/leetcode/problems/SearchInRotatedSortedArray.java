@@ -152,4 +152,54 @@ public interface SearchInRotatedSortedArray {
             return -1;
         }
     }
+
+    class SearchInRotatedSortedArrayRev3 implements SearchInRotatedSortedArray {
+
+        @Override
+        public int search(int[] nums, int target) {
+            final var n = nums.length;
+
+            // step 1: run binary search to find the "inflation point"
+            final var k = findInflationPoint(nums);
+
+            // step 2: run binary search to find the "target" value
+            if (target >= nums[k] && target <= nums[n - 1]) {
+                return binarySearch(nums, k, n - 1, target);
+            }
+
+            if (k - 1 >= 0 && target >= nums[0] && target <= nums[k - 1]) {
+                return binarySearch(nums, 0, k - 1, target);
+            }
+
+            return -1;
+        }
+
+        private int findInflationPoint(int[] nums) {
+            var left = 0;
+            var right = nums.length - 1;
+            while (left < right) {
+                final var mid = left + (right - left) / 2;
+                if (nums[mid] < nums[0]) {
+                    right = mid;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            return left;
+        }
+
+        private int binarySearch(int[] nums, int left, int right, int target) {
+            while (left <= right) {
+                final var mid = left + (right - left) / 2;
+                if (nums[mid] < target) {
+                    left = mid + 1;
+                } else if (nums[mid] > target) {
+                    right = mid - 1;
+                } else {
+                    return mid;
+                }
+            }
+            return -1;
+        }
+    }
 }
