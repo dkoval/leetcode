@@ -84,4 +84,51 @@ public interface JumpGame5 {
             return dp[index] = best;
         }
     }
+
+    class JumpGame5Rev2 implements JumpGame5 {
+
+        @Override
+        public int maxJumps(int[] arr, int d) {
+            final var n = arr.length;
+
+            final var dp = new int[n];
+            Arrays.fill(dp, -1);
+
+            // try every possible starting index
+            var best = 1;
+            for (var i = 0; i < n; i++) {
+                best = Math.max(best, dfs(arr, d, i, dp));
+            }
+            return best;
+        }
+
+        private int dfs(int[] arr, int d, int i, int[] dp) {
+            final var n = arr.length;
+
+            // already solved?
+            if (dp[i] >= 0) {
+                return dp[i];
+            }
+
+            var best = 1;
+
+            // go right from index i
+            for (var j = i + 1; j <= Math.min(i + d, n - 1); j++) {
+                if (arr[j] >= arr[i]) {
+                    break;
+                }
+                best = Math.max(best, 1 + dfs(arr, d, j, dp));
+            }
+
+            // go left from index i
+            for (var j = i - 1; j >= Math.max(i - d, 0); j--) {
+                if (arr[j] >= arr[i]) {
+                    break;
+                }
+                best = Math.max(best, 1 + dfs(arr, d, j, dp));
+            }
+
+            return dp[i] = best;
+        }
+    }
 }

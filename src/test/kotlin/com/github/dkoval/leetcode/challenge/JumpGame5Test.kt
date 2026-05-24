@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.JumpGame5.JumpGame5Rev1
+import com.github.dkoval.leetcode.challenge.JumpGame5.JumpGame5Rev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -48,6 +49,20 @@ internal class JumpGame5Test {
             expected: Int
         ) {
             JumpGame5Rev1().test(arr, d, expected)
+        }
+    }
+
+    @Nested
+    inner class JumpGame5Rev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum number of indices you can visit`(
+            arr: IntArray,
+            d: Int,
+            expected: Int
+        ) {
+            JumpGame5Rev2().test(arr, d, expected)
         }
     }
 }
