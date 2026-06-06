@@ -40,4 +40,27 @@ public interface LeftAndRightSumDifferences {
             return res;
         }
     }
+
+    class LeftAndRightSumDifferencesRev2 implements LeftAndRightSumDifferences {
+
+        @Override
+        public int[] leftRightDifference(int[] nums) {
+            final var n = nums.length;
+
+            final var leftSum = new int[n];
+            for (var i = 1; i < n; i++) {
+                leftSum[i] = leftSum[i - 1] + nums[i - 1];
+            }
+
+            final var res = new int[n];
+            res[n - 1] = leftSum[n - 1];
+
+            var rightSum = 0;
+            for (var i = n - 2; i >= 0; i--) {
+                rightSum = rightSum + nums[i + 1];
+                res[i] = Math.abs(leftSum[i] - rightSum);
+            }
+            return res;
+        }
+    }
 }
