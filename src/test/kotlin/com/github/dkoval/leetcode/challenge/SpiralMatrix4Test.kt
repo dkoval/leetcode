@@ -19,7 +19,7 @@ internal class SpiralMatrix4Test {
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 3, 5,
-                ListNode.singlyLinkedList(3, 0, 2, 6, 8, 1, 7, 9, 4, 2, 5, 5, 0),
+                ListNode.singlyLinkedListOf(3, 0, 2, 6, 8, 1, 7, 9, 4, 2, 5, 5, 0),
                 arrayOf(
                     intArrayOf(3, 0, 2, 6, 8),
                     intArrayOf(5, 0, -1, -1, 1),
@@ -28,7 +28,7 @@ internal class SpiralMatrix4Test {
             ),
             Arguments.of(
                 1, 4,
-                ListNode.singlyLinkedList(0, 1, 2),
+                ListNode.singlyLinkedListOf(0, 1, 2),
                 arrayOf(
                     intArrayOf(0, 1, 2, -1)
                 )

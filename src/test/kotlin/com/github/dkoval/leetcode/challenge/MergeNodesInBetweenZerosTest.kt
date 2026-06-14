@@ -18,12 +18,12 @@ internal class MergeNodesInBetweenZerosTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.singlyLinkedList(0, 3, 1, 0, 4, 5, 2, 0),
-                ListNode.singlyLinkedList(4, 11)
+                ListNode.singlyLinkedListOf(0, 3, 1, 0, 4, 5, 2, 0),
+                ListNode.singlyLinkedListOf(4, 11)
             ),
             Arguments.of(
-                ListNode.singlyLinkedList(0, 1, 0, 3, 0, 2, 2, 0),
-                ListNode.singlyLinkedList(1, 3, 4)
+                ListNode.singlyLinkedListOf(0, 1, 0, 3, 0, 2, 2, 0),
+                ListNode.singlyLinkedListOf(1, 3, 4)
             )
         )
     }

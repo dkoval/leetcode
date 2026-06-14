@@ -20,15 +20,15 @@ class PalindromeLinkedListTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.singlyLinkedList(1, 2, 2, 1),
+                ListNode.singlyLinkedListOf(1, 2, 2, 1),
                 true
             ),
             Arguments.of(
-                ListNode.singlyLinkedList(1, 2),
+                ListNode.singlyLinkedListOf(1, 2),
                 false
             ),
             Arguments.of(
-                ListNode.singlyLinkedList(1, 2, 3, 2, 1),
+                ListNode.singlyLinkedListOf(1, 2, 3, 2, 1),
                 true
             )
         )

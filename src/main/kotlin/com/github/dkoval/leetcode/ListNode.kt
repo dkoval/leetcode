@@ -7,7 +7,7 @@ class ListNode @JvmOverloads constructor(
     @JvmField var next: ListNode? = null
 ) {
     companion object {
-        fun singlyLinkedList(vararg nums: Int): ListNode? {
+        fun singlyLinkedListOf(vararg nums: Int): ListNode? {
             if (nums.isEmpty()) {
                 return null
             }

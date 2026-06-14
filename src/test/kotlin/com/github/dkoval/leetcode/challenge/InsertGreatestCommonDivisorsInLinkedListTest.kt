@@ -19,12 +19,12 @@ internal class InsertGreatestCommonDivisorsInLinkedListTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.singlyLinkedList(18, 6, 10, 3),
-                ListNode.singlyLinkedList(18, 6, 6, 2, 10, 1, 3)
+                ListNode.singlyLinkedListOf(18, 6, 10, 3),
+                ListNode.singlyLinkedListOf(18, 6, 6, 2, 10, 1, 3)
             ),
             Arguments.of(
-                ListNode.singlyLinkedList(7),
-                ListNode.singlyLinkedList(7)
+                ListNode.singlyLinkedListOf(7),
+                ListNode.singlyLinkedListOf(7)
             )
         )
     }

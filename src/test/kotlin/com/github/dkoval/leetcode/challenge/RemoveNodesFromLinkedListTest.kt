@@ -18,12 +18,12 @@ internal class RemoveNodesFromLinkedListTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.singlyLinkedList(5, 2, 13, 3, 8),
-                ListNode.singlyLinkedList(13, 8)
+                ListNode.singlyLinkedListOf(5, 2, 13, 3, 8),
+                ListNode.singlyLinkedListOf(13, 8)
             ),
             Arguments.of(
-                ListNode.singlyLinkedList(1, 1, 1, 1),
-                ListNode.singlyLinkedList(1, 1, 1, 1)
+                ListNode.singlyLinkedListOf(1, 1, 1, 1),
+                ListNode.singlyLinkedListOf(1, 1, 1, 1)
             )
         )
     }

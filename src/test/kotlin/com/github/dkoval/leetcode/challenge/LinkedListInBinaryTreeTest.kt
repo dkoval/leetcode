@@ -18,7 +18,7 @@ internal class LinkedListInBinaryTreeTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.singlyLinkedList(4, 2, 8),
+                ListNode.singlyLinkedListOf(4, 2, 8),
                 TreeNode(1) {
                     left = TreeNode(4) {
                         right = TreeNode(2) {
@@ -38,7 +38,7 @@ internal class LinkedListInBinaryTreeTest {
                 true
             ),
             Arguments.of(
-                ListNode.singlyLinkedList(1, 4, 2, 6),
+                ListNode.singlyLinkedListOf(1, 4, 2, 6),
                 TreeNode(1) {
                     left = TreeNode(4) {
                         right = TreeNode(2) {
@@ -58,7 +58,7 @@ internal class LinkedListInBinaryTreeTest {
                 true
             ),
             Arguments.of(
-                ListNode.singlyLinkedList(1, 4, 2, 6, 8),
+                ListNode.singlyLinkedListOf(1, 4, 2, 6, 8),
                 TreeNode(1) {
                     left = TreeNode(4) {
                         right = TreeNode(2) {

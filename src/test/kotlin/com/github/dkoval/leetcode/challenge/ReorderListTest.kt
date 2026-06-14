@@ -19,24 +19,24 @@ internal class ReorderListTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.singlyLinkedList(1),
-                ListNode.singlyLinkedList(1)
+                ListNode.singlyLinkedListOf(1),
+                ListNode.singlyLinkedListOf(1)
             ),
             Arguments.of(
-                ListNode.singlyLinkedList(1, 2),
-                ListNode.singlyLinkedList(1, 2)
+                ListNode.singlyLinkedListOf(1, 2),
+                ListNode.singlyLinkedListOf(1, 2)
             ),
             Arguments.of(
-                ListNode.singlyLinkedList(1, 2, 3),
-                ListNode.singlyLinkedList(1, 3, 2)
+                ListNode.singlyLinkedListOf(1, 2, 3),
+                ListNode.singlyLinkedListOf(1, 3, 2)
             ),
             Arguments.of(
-                ListNode.singlyLinkedList(1, 2, 3, 4),
-                ListNode.singlyLinkedList(1, 4, 2, 3)
+                ListNode.singlyLinkedListOf(1, 2, 3, 4),
+                ListNode.singlyLinkedListOf(1, 4, 2, 3)
             ),
             Arguments.of(
-                ListNode.singlyLinkedList(1, 2, 3, 4, 5),
-                ListNode.singlyLinkedList(1, 5, 2, 4, 3)
+                ListNode.singlyLinkedListOf(1, 2, 3, 4, 5),
+                ListNode.singlyLinkedListOf(1, 5, 2, 4, 3)
             )
         )
     }
