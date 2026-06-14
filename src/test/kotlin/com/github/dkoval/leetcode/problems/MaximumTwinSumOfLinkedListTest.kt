@@ -1,8 +1,7 @@
 package com.github.dkoval.leetcode.problems
 
 import com.github.dkoval.leetcode.ListNode
-import com.github.dkoval.leetcode.problems.MaximumTwinSumOfLinkedList.MaximumTwinSumOfLinkedListByReversingSecondHalf
-import com.github.dkoval.leetcode.problems.MaximumTwinSumOfLinkedList.MaximumTwinSumOfLinkedListUsingExtraSpace
+import com.github.dkoval.leetcode.problems.MaximumTwinSumOfLinkedList.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -18,9 +17,9 @@ internal class MaximumTwinSumOfLinkedListTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode(5).apply {
-                    next = ListNode(4).apply {
-                        next = ListNode(2).apply {
+                ListNode(5) {
+                    next = ListNode(4) {
+                        next = ListNode(2) {
                             next = ListNode(1)
                         }
                     }
@@ -28,9 +27,9 @@ internal class MaximumTwinSumOfLinkedListTest {
                 6
             ),
             Arguments.of(
-                ListNode(4).apply {
-                    next = ListNode(2).apply {
-                        next = ListNode(2).apply {
+                ListNode(4) {
+                    next = ListNode(2) {
+                        next = ListNode(2) {
                             next = ListNode(3)
                         }
                     }
@@ -38,7 +37,7 @@ internal class MaximumTwinSumOfLinkedListTest {
                 7
             ),
             Arguments.of(
-                ListNode(1).apply {
+                ListNode(1) {
                     next = ListNode(100000)
                 },
                 100001
@@ -66,8 +65,18 @@ internal class MaximumTwinSumOfLinkedListTest {
         }
     }
 
-    private fun MaximumTwinSumOfLinkedList.test(head: ListNode, expected: Int) {
-        val actual = pairSum(head)
-        assertEquals(expected, actual)
+    @Nested
+    inner class MaximumTwinSumOfLinkedListByReversingSecondHalfRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should  return the maximum twin sum of the linked list`(head: ListNode, expected: Int) {
+            MaximumTwinSumOfLinkedListByReversingSecondHalfRev2().test(head, expected)
+        }
     }
+}
+
+private fun MaximumTwinSumOfLinkedList.test(head: ListNode, expected: Int) {
+    val actual = pairSum(head)
+    assertEquals(expected, actual)
 }

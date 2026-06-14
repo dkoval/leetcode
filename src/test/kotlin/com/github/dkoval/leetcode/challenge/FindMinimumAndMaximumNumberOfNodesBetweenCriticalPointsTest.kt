@@ -17,15 +17,15 @@ internal class FindMinimumAndMaximumNumberOfNodesBetweenCriticalPointsTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.headOf(3, 1),
+                ListNode.singlyLinkedList(3, 1),
                 intArrayOf(-1, -1)
             ),
             Arguments.of(
-                ListNode.headOf(5, 3, 1, 2, 5, 1, 2),
+                ListNode.singlyLinkedList(5, 3, 1, 2, 5, 1, 2),
                 intArrayOf(1, 3)
             ),
             Arguments.of(
-                ListNode.headOf(1, 3, 2, 2, 3, 2, 2, 2, 7),
+                ListNode.singlyLinkedList(1, 3, 2, 2, 3, 2, 2, 2, 7),
                 intArrayOf(3, 3)
             ),
         )

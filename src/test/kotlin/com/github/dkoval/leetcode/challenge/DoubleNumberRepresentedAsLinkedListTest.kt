@@ -18,12 +18,12 @@ internal class DoubleNumberRepresentedAsLinkedListTest {
 
         override fun provideArguments(conext: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.headOf(1, 8, 9),
-                ListNode.headOf(3, 7, 8)
+                ListNode.singlyLinkedList(1, 8, 9),
+                ListNode.singlyLinkedList(3, 7, 8)
             ),
             Arguments.of(
-                ListNode.headOf(9, 9, 9),
-                ListNode.headOf(1, 9, 9, 8)
+                ListNode.singlyLinkedList(9, 9, 9),
+                ListNode.singlyLinkedList(1, 9, 9, 8)
             )
         )
     }

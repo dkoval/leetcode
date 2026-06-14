@@ -18,18 +18,18 @@ internal class MergeInBetweenLinkedListsTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.headOf(10, 1, 13, 6, 9, 5),
+                ListNode.singlyLinkedList(10, 1, 13, 6, 9, 5),
                 3,
                 4,
-                ListNode.headOf(1000000, 1000001, 1000002),
-                ListNode.headOf(10, 1, 13, 1000000, 1000001, 1000002, 5)
+                ListNode.singlyLinkedList(1000000, 1000001, 1000002),
+                ListNode.singlyLinkedList(10, 1, 13, 1000000, 1000001, 1000002, 5)
             ),
             Arguments.of(
-                ListNode.headOf(0, 1, 2, 3, 4, 5, 6),
+                ListNode.singlyLinkedList(0, 1, 2, 3, 4, 5, 6),
                 2,
                 5,
-                ListNode.headOf(1000000, 1000001, 1000002, 1000003, 1000004),
-                ListNode.headOf(0, 1, 1000000, 1000001, 1000002, 1000003, 1000004, 6)
+                ListNode.singlyLinkedList(1000000, 1000001, 1000002, 1000003, 1000004),
+                ListNode.singlyLinkedList(0, 1, 1000000, 1000001, 1000002, 1000003, 1000004, 6)
             )
         )
     }

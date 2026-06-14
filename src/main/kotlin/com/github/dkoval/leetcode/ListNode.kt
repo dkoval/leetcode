@@ -7,7 +7,7 @@ class ListNode @JvmOverloads constructor(
     @JvmField var next: ListNode? = null
 ) {
     companion object {
-        fun headOf(vararg nums: Int): ListNode? {
+        fun singlyLinkedList(vararg nums: Int): ListNode? {
             if (nums.isEmpty()) {
                 return null
             }
@@ -22,6 +22,8 @@ class ListNode @JvmOverloads constructor(
         }
     }
 }
+
+fun ListNode(`val`: Int, block: ListNode.() -> Unit): ListNode = ListNode(`val`).apply(block)
 
 fun ListNode?.equalsTo(that: ListNode?): Boolean {
     var curr1 = this

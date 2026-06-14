@@ -19,18 +19,18 @@ internal class DeleteNodesFromLinkedListPresentInArrayTest {
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(1, 2, 3),
-                ListNode.headOf(1, 2, 3, 4, 5),
-                ListNode.headOf(4, 5)
+                ListNode.singlyLinkedList(1, 2, 3, 4, 5),
+                ListNode.singlyLinkedList(4, 5)
             ),
             Arguments.of(
                 intArrayOf(1),
-                ListNode.headOf(1, 2, 1, 2, 1, 2),
-                ListNode.headOf(2, 2, 2)
+                ListNode.singlyLinkedList(1, 2, 1, 2, 1, 2),
+                ListNode.singlyLinkedList(2, 2, 2)
             ),
             Arguments.of(
                 intArrayOf(5),
-                ListNode.headOf(1, 2, 3, 4),
-                ListNode.headOf(1, 2, 3, 4)
+                ListNode.singlyLinkedList(1, 2, 3, 4),
+                ListNode.singlyLinkedList(1, 2, 3, 4)
             )
         )
     }

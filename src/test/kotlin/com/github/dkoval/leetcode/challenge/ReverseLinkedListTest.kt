@@ -19,12 +19,12 @@ internal class ReverseLinkedListTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.headOf(1, 2, 3, 4, 5),
-                ListNode.headOf(5, 4, 3, 2, 1)
+                ListNode.singlyLinkedList(1, 2, 3, 4, 5),
+                ListNode.singlyLinkedList(5, 4, 3, 2, 1)
             ),
             Arguments.of(
-                ListNode.headOf(1, 2),
-                ListNode.headOf(2, 1)
+                ListNode.singlyLinkedList(1, 2),
+                ListNode.singlyLinkedList(2, 1)
             ),
             Arguments.of(
                 null,
