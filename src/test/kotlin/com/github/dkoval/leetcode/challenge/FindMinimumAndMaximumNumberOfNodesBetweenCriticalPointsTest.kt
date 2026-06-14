@@ -2,6 +2,7 @@ package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.challenge.FindMinimumAndMaximumNumberOfNodesBetweenCriticalPoints.FindMinimumAndMaximumNumberOfNodesBetweenCriticalPointsRev1
+import com.github.dkoval.leetcode.singlyLinkedListOf
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -17,15 +18,15 @@ internal class FindMinimumAndMaximumNumberOfNodesBetweenCriticalPointsTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.singlyLinkedListOf(3, 1),
+                singlyLinkedListOf(3, 1),
                 intArrayOf(-1, -1)
             ),
             Arguments.of(
-                ListNode.singlyLinkedListOf(5, 3, 1, 2, 5, 1, 2),
+                singlyLinkedListOf(5, 3, 1, 2, 5, 1, 2),
                 intArrayOf(1, 3)
             ),
             Arguments.of(
-                ListNode.singlyLinkedListOf(1, 3, 2, 2, 3, 2, 2, 2, 7),
+                singlyLinkedListOf(1, 3, 2, 2, 3, 2, 2, 2, 7),
                 intArrayOf(3, 3)
             ),
         )

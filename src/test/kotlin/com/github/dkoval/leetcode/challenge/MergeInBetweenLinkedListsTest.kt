@@ -3,6 +3,7 @@ package com.github.dkoval.leetcode.challenge
 import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.challenge.MergeInBetweenLinkedLists.MergeInBetweenLinkedListsRev1
 import com.github.dkoval.leetcode.equalsTo
+import com.github.dkoval.leetcode.singlyLinkedListOf
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -18,18 +19,18 @@ internal class MergeInBetweenLinkedListsTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.singlyLinkedListOf(10, 1, 13, 6, 9, 5),
+                singlyLinkedListOf(10, 1, 13, 6, 9, 5),
                 3,
                 4,
-                ListNode.singlyLinkedListOf(1000000, 1000001, 1000002),
-                ListNode.singlyLinkedListOf(10, 1, 13, 1000000, 1000001, 1000002, 5)
+                singlyLinkedListOf(1000000, 1000001, 1000002),
+                singlyLinkedListOf(10, 1, 13, 1000000, 1000001, 1000002, 5)
             ),
             Arguments.of(
-                ListNode.singlyLinkedListOf(0, 1, 2, 3, 4, 5, 6),
+                singlyLinkedListOf(0, 1, 2, 3, 4, 5, 6),
                 2,
                 5,
-                ListNode.singlyLinkedListOf(1000000, 1000001, 1000002, 1000003, 1000004),
-                ListNode.singlyLinkedListOf(0, 1, 1000000, 1000001, 1000002, 1000003, 1000004, 6)
+                singlyLinkedListOf(1000000, 1000001, 1000002, 1000003, 1000004),
+                singlyLinkedListOf(0, 1, 1000000, 1000001, 1000002, 1000003, 1000004, 6)
             )
         )
     }

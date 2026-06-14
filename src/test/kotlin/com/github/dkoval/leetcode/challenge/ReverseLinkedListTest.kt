@@ -4,6 +4,7 @@ import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.challenge.ReverseLinkedList.ReverseLinkedListIterative
 import com.github.dkoval.leetcode.challenge.ReverseLinkedList.ReverseLinkedListRecursive
 import com.github.dkoval.leetcode.equalsTo
+import com.github.dkoval.leetcode.singlyLinkedListOf
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -19,12 +20,12 @@ internal class ReverseLinkedListTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.singlyLinkedListOf(1, 2, 3, 4, 5),
-                ListNode.singlyLinkedListOf(5, 4, 3, 2, 1)
+                singlyLinkedListOf(1, 2, 3, 4, 5),
+                singlyLinkedListOf(5, 4, 3, 2, 1)
             ),
             Arguments.of(
-                ListNode.singlyLinkedListOf(1, 2),
-                ListNode.singlyLinkedListOf(2, 1)
+                singlyLinkedListOf(1, 2),
+                singlyLinkedListOf(2, 1)
             ),
             Arguments.of(
                 null,

@@ -2,28 +2,13 @@ package com.github.dkoval.leetcode
 
 import java.util.*
 
+@Suppress("EqualsOrHashCode")
 class ListNode @JvmOverloads constructor(
     @JvmField var `val`: Int,
     @JvmField var next: ListNode? = null
 ) {
-    companion object {
-        fun singlyLinkedListOf(vararg nums: Int): ListNode? {
-            if (nums.isEmpty()) {
-                return null
-            }
-
-            val dummy = ListNode(42)
-            var curr = dummy
-            for (x in nums) {
-                curr.next = ListNode(x)
-                curr = curr.next!!
-            }
-            return dummy.next
-        }
-    }
+    override fun equals(other: Any?): Boolean = other is ListNode && equalsTo(other)
 }
-
-fun ListNode(`val`: Int, block: ListNode.() -> Unit): ListNode = ListNode(`val`).apply(block)
 
 fun ListNode?.equalsTo(that: ListNode?): Boolean {
     var curr1 = this
@@ -58,3 +43,19 @@ fun ListNode?.dump(): List<Int> {
     }
     return dump
 }
+
+fun singlyLinkedListOf(vararg nums: Int): ListNode? {
+    if (nums.isEmpty()) {
+        return null
+    }
+
+    val dummy = ListNode(42)
+    var curr = dummy
+    for (x in nums) {
+        curr.next = ListNode(x)
+        curr = curr.next!!
+    }
+    return dummy.next
+}
+
+fun ListNode(`val`: Int, block: ListNode.() -> Unit): ListNode = ListNode(`val`).apply(block)

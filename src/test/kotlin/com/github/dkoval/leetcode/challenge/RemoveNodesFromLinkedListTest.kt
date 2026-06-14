@@ -3,6 +3,7 @@ package com.github.dkoval.leetcode.challenge
 import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.challenge.RemoveNodesFromLinkedList.RemoveNodesFromLinkedListRev1
 import com.github.dkoval.leetcode.equalsTo
+import com.github.dkoval.leetcode.singlyLinkedListOf
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -18,12 +19,12 @@ internal class RemoveNodesFromLinkedListTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.singlyLinkedListOf(5, 2, 13, 3, 8),
-                ListNode.singlyLinkedListOf(13, 8)
+                singlyLinkedListOf(5, 2, 13, 3, 8),
+                singlyLinkedListOf(13, 8)
             ),
             Arguments.of(
-                ListNode.singlyLinkedListOf(1, 1, 1, 1),
-                ListNode.singlyLinkedListOf(1, 1, 1, 1)
+                singlyLinkedListOf(1, 1, 1, 1),
+                singlyLinkedListOf(1, 1, 1, 1)
             )
         )
     }

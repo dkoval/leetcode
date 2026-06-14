@@ -5,6 +5,7 @@ import com.github.dkoval.leetcode.challenge.PalindromeLinkedList.PalindromeLinke
 import com.github.dkoval.leetcode.challenge.PalindromeLinkedList.PalindromeLinkedListUsingExtraSpace
 import com.github.dkoval.leetcode.interview.linkedlist.PalindromeLinkedListBreakAndReverseSecondHalf
 import com.github.dkoval.leetcode.interview.linkedlist.PalindromeLinkedListUsingExtraSpaceKt
+import com.github.dkoval.leetcode.singlyLinkedListOf
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -20,15 +21,15 @@ class PalindromeLinkedListTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.singlyLinkedListOf(1, 2, 2, 1),
+                singlyLinkedListOf(1, 2, 2, 1),
                 true
             ),
             Arguments.of(
-                ListNode.singlyLinkedListOf(1, 2),
+                singlyLinkedListOf(1, 2),
                 false
             ),
             Arguments.of(
-                ListNode.singlyLinkedListOf(1, 2, 3, 2, 1),
+                singlyLinkedListOf(1, 2, 3, 2, 1),
                 true
             )
         )

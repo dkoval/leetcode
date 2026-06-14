@@ -3,6 +3,7 @@ package com.github.dkoval.leetcode.challenge
 import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.TreeNode
 import com.github.dkoval.leetcode.challenge.LinkedListInBinaryTree.LinkedListInBinaryTreeRev1
+import com.github.dkoval.leetcode.singlyLinkedListOf
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -18,7 +19,7 @@ internal class LinkedListInBinaryTreeTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.singlyLinkedListOf(4, 2, 8),
+                singlyLinkedListOf(4, 2, 8),
                 TreeNode(1) {
                     left = TreeNode(4) {
                         right = TreeNode(2) {
@@ -38,7 +39,7 @@ internal class LinkedListInBinaryTreeTest {
                 true
             ),
             Arguments.of(
-                ListNode.singlyLinkedListOf(1, 4, 2, 6),
+                singlyLinkedListOf(1, 4, 2, 6),
                 TreeNode(1) {
                     left = TreeNode(4) {
                         right = TreeNode(2) {
@@ -58,7 +59,7 @@ internal class LinkedListInBinaryTreeTest {
                 true
             ),
             Arguments.of(
-                ListNode.singlyLinkedListOf(1, 4, 2, 6, 8),
+                singlyLinkedListOf(1, 4, 2, 6, 8),
                 TreeNode(1) {
                     left = TreeNode(4) {
                         right = TreeNode(2) {

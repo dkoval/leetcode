@@ -3,6 +3,7 @@ package com.github.dkoval.leetcode.challenge
 import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.challenge.MergeNodesInBetweenZeros.MergeNodesInBetweenZerosRev1
 import com.github.dkoval.leetcode.equalsTo
+import com.github.dkoval.leetcode.singlyLinkedListOf
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -18,12 +19,12 @@ internal class MergeNodesInBetweenZerosTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.singlyLinkedListOf(0, 3, 1, 0, 4, 5, 2, 0),
-                ListNode.singlyLinkedListOf(4, 11)
+                singlyLinkedListOf(0, 3, 1, 0, 4, 5, 2, 0),
+                singlyLinkedListOf(4, 11)
             ),
             Arguments.of(
-                ListNode.singlyLinkedListOf(0, 1, 0, 3, 0, 2, 2, 0),
-                ListNode.singlyLinkedListOf(1, 3, 4)
+                singlyLinkedListOf(0, 1, 0, 3, 0, 2, 2, 0),
+                singlyLinkedListOf(1, 3, 4)
             )
         )
     }

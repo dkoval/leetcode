@@ -4,6 +4,7 @@ import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.equalsTo
 import com.github.dkoval.leetcode.problems.ReorderList
 import com.github.dkoval.leetcode.problems.ReorderList.*
+import com.github.dkoval.leetcode.singlyLinkedListOf
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -19,24 +20,24 @@ internal class ReorderListTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.singlyLinkedListOf(1),
-                ListNode.singlyLinkedListOf(1)
+                singlyLinkedListOf(1),
+                singlyLinkedListOf(1)
             ),
             Arguments.of(
-                ListNode.singlyLinkedListOf(1, 2),
-                ListNode.singlyLinkedListOf(1, 2)
+                singlyLinkedListOf(1, 2),
+                singlyLinkedListOf(1, 2)
             ),
             Arguments.of(
-                ListNode.singlyLinkedListOf(1, 2, 3),
-                ListNode.singlyLinkedListOf(1, 3, 2)
+                singlyLinkedListOf(1, 2, 3),
+                singlyLinkedListOf(1, 3, 2)
             ),
             Arguments.of(
-                ListNode.singlyLinkedListOf(1, 2, 3, 4),
-                ListNode.singlyLinkedListOf(1, 4, 2, 3)
+                singlyLinkedListOf(1, 2, 3, 4),
+                singlyLinkedListOf(1, 4, 2, 3)
             ),
             Arguments.of(
-                ListNode.singlyLinkedListOf(1, 2, 3, 4, 5),
-                ListNode.singlyLinkedListOf(1, 5, 2, 4, 3)
+                singlyLinkedListOf(1, 2, 3, 4, 5),
+                singlyLinkedListOf(1, 5, 2, 4, 3)
             )
         )
     }

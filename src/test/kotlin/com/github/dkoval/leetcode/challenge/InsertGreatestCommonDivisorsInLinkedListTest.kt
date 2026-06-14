@@ -4,6 +4,7 @@ import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.challenge.InsertGreatestCommonDivisorsInLinkedList.InsertGreatestCommonDivisorsInLinkedListRev1
 import com.github.dkoval.leetcode.challenge.InsertGreatestCommonDivisorsInLinkedList.InsertGreatestCommonDivisorsInLinkedListRev2
 import com.github.dkoval.leetcode.equalsTo
+import com.github.dkoval.leetcode.singlyLinkedListOf
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -19,12 +20,12 @@ internal class InsertGreatestCommonDivisorsInLinkedListTest {
 
         override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.singlyLinkedListOf(18, 6, 10, 3),
-                ListNode.singlyLinkedListOf(18, 6, 6, 2, 10, 1, 3)
+                singlyLinkedListOf(18, 6, 10, 3),
+                singlyLinkedListOf(18, 6, 6, 2, 10, 1, 3)
             ),
             Arguments.of(
-                ListNode.singlyLinkedListOf(7),
-                ListNode.singlyLinkedListOf(7)
+                singlyLinkedListOf(7),
+                singlyLinkedListOf(7)
             )
         )
     }

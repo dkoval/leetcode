@@ -3,6 +3,7 @@ package com.github.dkoval.leetcode.challenge
 import com.github.dkoval.leetcode.ListNode
 import com.github.dkoval.leetcode.challenge.DoubleNumberRepresentedAsLinkedList.DoubleNumberRepresentedAsLinkedListRev1
 import com.github.dkoval.leetcode.equalsTo
+import com.github.dkoval.leetcode.singlyLinkedListOf
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -18,12 +19,12 @@ internal class DoubleNumberRepresentedAsLinkedListTest {
 
         override fun provideArguments(conext: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
-                ListNode.singlyLinkedListOf(1, 8, 9),
-                ListNode.singlyLinkedListOf(3, 7, 8)
+                singlyLinkedListOf(1, 8, 9),
+                singlyLinkedListOf(3, 7, 8)
             ),
             Arguments.of(
-                ListNode.singlyLinkedListOf(9, 9, 9),
-                ListNode.singlyLinkedListOf(1, 9, 9, 8)
+                singlyLinkedListOf(9, 9, 9),
+                singlyLinkedListOf(1, 9, 9, 8)
             )
         )
     }
