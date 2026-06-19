@@ -36,4 +36,20 @@ public interface FindHighestAltitude {
             return best;
         }
     }
+
+    class FindHighestAltitudeRev2 implements FindHighestAltitude {
+
+        @Override
+        public int largestAltitude(int[] gain) {
+            final var n = gain.length;
+
+            var best = 0;
+            var altitude = 0;
+            for (var x : gain) {
+                altitude += x;
+                best = Math.max(best, altitude);
+            }
+            return best;
+        }
+    }
 }

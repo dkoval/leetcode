@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.FindHighestAltitude.FindHighestAltitudeRev1
+import com.github.dkoval.leetcode.challenge.FindHighestAltitude.FindHighestAltitudeRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -33,6 +34,16 @@ internal class FindHighestAltitudeTest {
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the highest altitude of a point`(gain: IntArray, expected: Int) {
             FindHighestAltitudeRev1().test(gain, expected)
+        }
+    }
+
+    @Nested
+    inner class FindHighestAltitudeRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the highest altitude of a point`(gain: IntArray, expected: Int) {
+            FindHighestAltitudeRev2().test(gain, expected)
         }
     }
 }
