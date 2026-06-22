@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/september-leetcoding-challenge-2021/637/week-2-september-8th-september-14th/3973/">Maximum Number of Balloons</a>
+ * <a href="https://leetcode.com/problems/maximum-number-of-balloons/">Maximum Number of Balloons</a>
  * <p>
  * Given a string text, you want to use the characters of text to form as many instances of the word "balloon" as possible.
  * <p>
@@ -79,6 +79,37 @@ public interface MaximumNumberOfBalloons {
                 total = Math.min(total, frequency);
             }
             return total;
+        }
+    }
+
+    class MaximumNumberOfBalloonsRev3 implements MaximumNumberOfBalloons {
+
+        @Override
+        public int maxNumberOfBalloons(String text) {
+            final var target = frequencies("balloon");
+            final var actual = frequencies(text);
+
+            var count = Integer.MAX_VALUE;
+            for (var i = 0; i < 26; i++) {
+                if (target[i] == 0) {
+                    continue;
+                }
+
+                if (actual[i] == 0) {
+                    return 0;
+                }
+
+                count = Math.min(count, actual[i] / target[i]);
+            }
+            return count;
+        }
+
+        private int[] frequencies(String text) {
+            final var freq = new int[26];
+            for (var i = 0; i < text.length(); i++) {
+                freq[text.charAt(i) - 'a']++;
+            }
+            return freq;
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
-import com.github.dkoval.leetcode.challenge.MaximumNumberOfBalloons.MaximumNumberOfBalloonsUsingSingleMap
-import com.github.dkoval.leetcode.challenge.MaximumNumberOfBalloons.MaximumNumberOfBalloonsUsingTwoMaps
+import com.github.dkoval.leetcode.challenge.MaximumNumberOfBalloons.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -48,8 +47,21 @@ internal class MaximumNumberOfBalloonsTest {
         }
     }
 
-    private fun MaximumNumberOfBalloons.test(text: String, expected: Int) {
-        val actual = maxNumberOfBalloons(text)
-        assertEquals(expected, actual)
+    @Nested
+    inner class MaximumNumberOfBalloonsRev3Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum number of instances of the word 'balloon' that can be formed`(
+            text: String,
+            expected: Int
+        ) {
+            MaximumNumberOfBalloonsRev3().test(text, expected)
+        }
     }
+}
+
+private fun MaximumNumberOfBalloons.test(text: String, expected: Int) {
+    val actual = maxNumberOfBalloons(text)
+    assertEquals(expected, actual)
 }
