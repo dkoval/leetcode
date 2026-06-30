@@ -92,4 +92,28 @@ public interface NumberOfSubstringsContainingAllThreeCharacters {
             return total;
         }
     }
+
+    class NumberOfSubstringsContainingAllThreeCharactersRev4 implements NumberOfSubstringsContainingAllThreeCharacters {
+
+        @Override
+        public int numberOfSubstrings(String s) {
+            final var n = s.length();
+
+            // sliding window
+            var freq = new int[3];
+            var total = 0;
+            var left = 0;
+            for (var right = 0; right < n; right++) {
+                freq[s.charAt(right) - 'a']++;
+                // shrink [left ... right] window so that it doesn't have full "abc"
+                while (freq[0] > 0 && freq[1] > 0 && freq[2] > 0) {
+                    freq[s.charAt(left) - 'a']--;
+                    left++;
+                }
+                // degree of freedom: if we include chars to the left, we get a full "abc"
+                total += left;
+            }
+            return total;
+        }
+    }
 }

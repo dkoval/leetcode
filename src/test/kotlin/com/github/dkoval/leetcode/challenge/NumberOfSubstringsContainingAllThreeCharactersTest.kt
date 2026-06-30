@@ -59,6 +59,19 @@ class NumberOfSubstringsContainingAllThreeCharactersTest {
             NumberOfSubstringsContainingAllThreeCharactersRev3().test(s, expected)
         }
     }
+
+    @Nested
+    inner class NumberOfSubstringsContainingAllThreeCharactersRev4Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of substrings that contain all three characters a, b and c`(
+            s: String,
+            expected: Int
+        ) {
+            NumberOfSubstringsContainingAllThreeCharactersRev4().test(s, expected)
+        }
+    }
 }
 
 private fun NumberOfSubstringsContainingAllThreeCharacters.test(s: String, expected: Int) {
