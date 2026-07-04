@@ -2,6 +2,8 @@ package com.github.dkoval.leetcode.challenge;
 
 import java.util.*;
 
+import static java.util.Collections.emptyList;
+
 /**
  * <a href="https://leetcode.com/problems/minimum-score-of-a-path-between-two-cities/">Minimum Score of a Path Between Two Cities</a>
  * <p>
@@ -41,40 +43,33 @@ public interface MinimumScoreOfPathBetweenTwoCities {
 
         @Override
         public int minScore(int n, int[][] roads) {
-            Map<Integer, List<City>> adj = new HashMap<>();
-            for (int[] road : roads) {
-                adj.computeIfAbsent(road[0], __ -> new ArrayList<>()).add(new City(road[1], road[2]));
-                adj.computeIfAbsent(road[1], __ -> new ArrayList<>()).add(new City(road[0], road[2]));
+            final var adj = new HashMap<Integer, List<City>>();
+            for (var road : roads) {
+                adj.computeIfAbsent(road[0], _ -> new ArrayList<>()).add(new City(road[1], road[2]));
+                adj.computeIfAbsent(road[1], _ -> new ArrayList<>()).add(new City(road[0], road[2]));
             }
 
             // BFS
-            Queue<Integer> q = new ArrayDeque<>();
-            boolean[] visited = new boolean[n + 1];
+            final var q = new ArrayDeque<Integer>();
+            final var visited = new boolean[n + 1];
             q.offer(1);
             visited[1] = true;
-            int best = Integer.MAX_VALUE;
+            var best = Integer.MAX_VALUE;
             while (!q.isEmpty()) {
-                int u = q.poll();
-                for (City neighbor : adj.getOrDefault(u, Collections.emptyList())) {
+                final var curr = q.poll();
+                for (var neighbor : adj.getOrDefault(curr, emptyList())) {
+                    // NOTE. Updating `best` within the above IF statement will yield a wrong result on certain test cases.
+                    best = Math.min(best, neighbor.dist);
                     if (!visited[neighbor.id]) {
                         q.offer(neighbor.id);
                         visited[neighbor.id] = true;
                     }
-                    // NOTE. Updating `best` within the above IF statement will yield a wrong result on certain test cases.
-                    best = Math.min(best, neighbor.dist);
                 }
             }
             return best;
         }
 
-        private static class City {
-            final int id;
-            final int dist;
-
-            City(int id, int dist) {
-                this.id = id;
-                this.dist = dist;
-            }
+        private record City(int id, int dist) {
         }
     }
 
@@ -83,21 +78,21 @@ public interface MinimumScoreOfPathBetweenTwoCities {
 
         @Override
         public int minScore(int n, int[][] roads) {
-            Map<Integer, List<City>> adj = new HashMap<>();
+            final var adj = new HashMap<Integer, List<City>>();
             for (int[] road : roads) {
-                adj.computeIfAbsent(road[0], __ -> new ArrayList<>()).add(new City(road[1], road[2]));
-                adj.computeIfAbsent(road[1], __ -> new ArrayList<>()).add(new City(road[0], road[2]));
+                adj.computeIfAbsent(road[0], _ -> new ArrayList<>()).add(new City(road[1], road[2]));
+                adj.computeIfAbsent(road[1], _ -> new ArrayList<>()).add(new City(road[0], road[2]));
             }
 
-            int[] best = {Integer.MAX_VALUE};
-            boolean[] visited = new boolean[n + 1];
+            final var best = new int[]{Integer.MAX_VALUE};
+            final var visited = new boolean[n + 1];
             dfs(adj, 1, visited, best);
             return best[0];
         }
 
         private void dfs(Map<Integer, List<City>> adj, int curr, boolean[] visited, int[] best) {
             visited[curr] = true;
-            for (City neighbor : adj.getOrDefault(curr, Collections.emptyList())) {
+            for (City neighbor : adj.getOrDefault(curr, emptyList())) {
                 best[0] = Math.min(best[0], neighbor.dist);
                 if (!visited[neighbor.id]) {
                     dfs(adj, neighbor.id, visited, best);
@@ -105,14 +100,7 @@ public interface MinimumScoreOfPathBetweenTwoCities {
             }
         }
 
-        private static class City {
-            final int id;
-            final int dist;
-
-            City(int id, int dist) {
-                this.id = id;
-                this.dist = dist;
-            }
+        private record City(int id, int dist) {
         }
     }
 }
