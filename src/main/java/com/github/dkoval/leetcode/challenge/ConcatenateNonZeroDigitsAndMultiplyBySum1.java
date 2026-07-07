@@ -45,4 +45,24 @@ public interface ConcatenateNonZeroDigitsAndMultiplyBySum1 {
             return x * sum;
         }
     }
+
+    class ConcatenateNonZeroDigitsAndMultiplyBySum1Rev2 implements ConcatenateNonZeroDigitsAndMultiplyBySum1 {
+
+        @Override
+        public long sumAndMultiply(int n) {
+            var x = 0;
+            var sum = 0;
+            var pow10 = 1;
+            while (n > 0) {
+                var digit = n % 10;
+                sum += digit;
+                if (digit > 0) {
+                    x += digit * pow10;
+                    pow10 *= 10;
+                }
+                n /= 10;
+            }
+            return (long) x * sum;
+        }
+    }
 }
