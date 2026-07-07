@@ -1,19 +1,5 @@
 package com.github.dkoval.leetcode.challenge
 
-/**
- * [Remove Covered Intervals](https://leetcode.com/explore/challenge/card/october-leetcoding-challenge/559/week-1-october-1st-october-7th/3483/)
- *
- * Given a list of intervals, remove all intervals that are covered by another interval in the list.
- *
- * Interval ```[a,b)``` is covered by interval ```[c,d)``` if and only if ```c <= a``` and ```b <= d```.
- *
- * After doing so, return the number of remaining intervals.
- */
-interface RemoveCoveredIntervals {
-
-    fun removeCoveredIntervals(intervals: Array<IntArray>): Int
-}
-
 // Time complexity: O(N^2), space complexity: O(1)
 object RemoveCoveredIntervalsBruteForceKt : RemoveCoveredIntervals {
 

@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.RemoveCoveredIntervals.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -83,6 +84,7 @@ internal class RemoveCoveredIntervalsTest {
 
     @Nested
     inner class RemoveCoveredIntervalsInNLogNTimeKtTest {
+
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the number of remaining intervals after covered intervals were removed`(
@@ -95,6 +97,7 @@ internal class RemoveCoveredIntervalsTest {
 
     @Nested
     inner class RemoveCoveredIntervalsInNLogNTimeJavaTest {
+
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should return the number of remaining intervals after covered intervals were removed`(
@@ -105,8 +108,21 @@ internal class RemoveCoveredIntervalsTest {
         }
     }
 
-    private fun RemoveCoveredIntervals.test(intervals: Array<IntArray>, expected: Int) {
-        val actual = removeCoveredIntervals(intervals)
-        assertEquals(expected, actual)
+    @Nested
+    inner class RemoveCoveredIntervalsRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of remaining intervals after covered intervals were removed`(
+            intervals: Array<IntArray>,
+            expected: Int
+        ) {
+            RemoveCoveredIntervalsRev2().test(intervals, expected)
+        }
     }
+}
+
+private fun RemoveCoveredIntervals.test(intervals: Array<IntArray>, expected: Int) {
+    val actual = removeCoveredIntervals(intervals)
+    assertEquals(expected, actual)
 }
