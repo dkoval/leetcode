@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.CountNumberOfCompleteComponents.CountNumberOfCompleteComponentsRev1
+import com.github.dkoval.leetcode.challenge.CountNumberOfCompleteComponents.CountNumberOfCompleteComponentsRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -50,6 +51,20 @@ internal class CountNumberOfCompleteComponentsTest {
             expected: Int
         ) {
             CountNumberOfCompleteComponentsRev1().test(n, edges, expected)
+        }
+    }
+
+    @Nested
+    inner class CountNumberOfCompleteComponentsRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of complete connected components of the graph`(
+            n: Int,
+            edges: Array<IntArray>,
+            expected: Int
+        ) {
+            CountNumberOfCompleteComponentsRev2().test(n, edges, expected)
         }
     }
 }

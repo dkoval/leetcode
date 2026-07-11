@@ -1,8 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <a href="https://leetcode.com/problems/count-the-number-of-complete-components/">Count the Number of Complete Components</a>
@@ -105,6 +103,60 @@ public interface CountNumberOfCompleteComponents {
                 // num pairs = C(n, 2) = n * (n - 1) / 2;
                 return numVertices * (numVertices - 1) / 2 == numEdges;
             }
+        }
+    }
+
+    class CountNumberOfCompleteComponentsRev2 implements CountNumberOfCompleteComponents {
+
+        @Override
+        public int countCompleteComponents(int n, int[][] edges) {
+            var adj = new HashMap<Integer, Set<Integer>>();
+            for (var edge : edges) {
+                adj.computeIfAbsent(edge[0], _ -> new HashSet<>()).add(edge[1]);
+                adj.computeIfAbsent(edge[1], _ -> new HashSet<>()).add(edge[0]);
+            }
+
+            var count = 0;
+            var visited = new boolean[n];
+            for (var i = 0; i < n; i++) {
+                if (visited[i]) {
+                    continue;
+                }
+
+                var component = traverse(adj, i, visited);
+                if (complete(component, adj)) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        private List<Integer> traverse(Map<Integer, Set<Integer>> adj, int source, boolean[] visited) {
+            return dfs(adj, source, visited, new ArrayList<>());
+        }
+
+        private List<Integer> dfs(Map<Integer, Set<Integer>> adj, int node, boolean[] visited, List<Integer> result) {
+            visited[node] = true;
+            result.add(node);
+            for (var neighbor : adj.getOrDefault(node, Set.of())) {
+                if (!visited[neighbor]) {
+                    dfs(adj, neighbor, visited, result);
+                }
+            }
+            return result;
+        }
+
+        private boolean complete(List<Integer> component, Map<Integer, Set<Integer>> adj) {
+            for (var i = 0; i < component.size() - 1; i++) {
+                for (var j = i + 1; j < component.size(); j++) {
+                    var u = component.get(i);
+                    var v = component.get(j);
+                    if (!adj.containsKey(u) || !adj.get(u).contains(v)) {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
     }
 }
