@@ -28,18 +28,18 @@ public interface RankTransformOfArray {
 
         @Override
         public int[] arrayRankTransform(int[] arr) {
-            int n = arr.length;
+            final var n = arr.length;
 
-            IndexedValue[] items = new IndexedValue[n];
-            for (int i = 0; i < n; i++) {
+            final var items = new IndexedValue[n];
+            for (var i = 0; i < n; i++) {
                 items[i] = new IndexedValue(i, arr[i]);
             }
 
-            Arrays.sort(items, Comparator.comparingInt(it -> it.value));
+            Arrays.sort(items, Comparator.comparingInt(IndexedValue::value));
 
-            int rank = 1;
-            int[] ans = new int[n];
-            for (int i = 0; i < n; i++) {
+            var rank = 1;
+            final var ans = new int[n];
+            for (var i = 0; i < n; i++) {
                 if (i > 0 && items[i].value > items[i - 1].value) {
                     rank++;
                 }
