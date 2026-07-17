@@ -1,20 +1,5 @@
 package com.github.dkoval.leetcode.challenge
 
-/**
- * [Sequential Digits](https://leetcode.com/explore/challenge/card/september-leetcoding-challenge/556/week-3-september-15th-september-21st/3465/)
- *
- * An integer has sequential digits if and only if each digit in the number is one more than the previous digit.
- *
- * Return a sorted list of all the integers in the range ```[low, high]``` inclusive that have sequential digits.
- *
- * Constraints:
- * - 10 <= low <= high <= 10^9
- */
-interface SequentialDigits {
-
-    fun sequentialDigits(low: Int, high: Int): List<Int>
-}
-
 object SequentialDigitsIter : SequentialDigits {
 
     // Time complexity: O(9*log10(high)), space complexity: O(log10(high))

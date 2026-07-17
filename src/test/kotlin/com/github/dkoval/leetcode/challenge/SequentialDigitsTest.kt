@@ -1,5 +1,6 @@
 package com.github.dkoval.leetcode.challenge
 
+import com.github.dkoval.leetcode.challenge.SequentialDigits.SequentialDigitsRev4
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -83,8 +84,22 @@ internal class SequentialDigitsTest {
         }
     }
 
-    private fun SequentialDigits.test(low: Int, high: Int, expected: List<Int>) {
-        val actual = sequentialDigits(low, high)
-        assertEquals(expected, actual)
+    @Nested
+    inner class SequentialDigitsRev4Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return a sorted list of all the integers in the low to high range  inclusive that have sequential digits`(
+            low: Int,
+            high: Int,
+            expected: List<Int>
+        ) {
+            SequentialDigitsRev4().test(low, high, expected)
+        }
     }
+}
+
+private fun SequentialDigits.test(low: Int, high: Int, expected: List<Int>) {
+    val actual = sequentialDigits(low, high)
+    assertEquals(expected, actual)
 }
