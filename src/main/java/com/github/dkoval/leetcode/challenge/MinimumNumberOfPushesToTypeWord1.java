@@ -44,9 +44,14 @@ public interface MinimumNumberOfPushesToTypeWord1 {
                     continue;
                 }
 
-                unique++;
+                // variant 1:
                 // round_up(x / y) = (x + y - 1) / y = (x - 1) / y + 1
+                unique++;
                 var pushes = (unique - 1) / 8 + 1;
+
+                // variant 2:
+                // var pushes = (unique++ / 8) + 1;
+
                 total += count * pushes;
             }
             return total;
