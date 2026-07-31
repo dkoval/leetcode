@@ -32,34 +32,28 @@ public interface MinimumNumberOfPushesToTypeWord2 {
     // (ALPHA * log ALPHA) time | O(ALPHA) space
     class MinimumNumberOfPushesToTypeWord2Rev1 implements MinimumNumberOfPushesToTypeWord2 {
 
-        private static final int ALPHABET_SIZE = 26;
-
         @Override
         public int minimumPushes(String word) {
-            int n = word.length();
+            final var n = word.length();
 
-            int[] frequencies = new int[ALPHABET_SIZE];
-            for (int i = 0; i < n; i++) {
-                char c = word.charAt(i);
-                frequencies[c - 'a']++;
+            final var counts = new int[26];
+            for (var i = 0; i < n; i++) {
+                counts[word.charAt(i) - 'a']++;
             }
 
-            Arrays.sort(frequencies);
+            Arrays.sort(counts);
 
-            int total = 0;
-            int pushes = 1;
-            int keys = 0;
-            for (int i = ALPHABET_SIZE - 1; i >= 0; i--) {
-                if (frequencies[i] == 0) {
+            var total = 0;
+            var unique = 0;
+            for (var i = 25; i >= 0; i--) {
+                if (counts[i] == 0) {
                     continue;
                 }
 
-                total += pushes * frequencies[i];
-                keys++;
-                keys %= 8; // 2..9
-                if (keys == 0) {
-                    pushes++;
-                }
+                unique++;
+                // round_up(x / y) = (x + y - 1) / y = (x - 1) / y + 1
+                var pushes = (unique - 1) / 8 + 1;
+                total += pushes * counts[i];
             }
             return total;
         }
