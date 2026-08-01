@@ -55,10 +55,10 @@ public interface PredictWinner {
 
         @Override
         public boolean predictTheWinner(int[] nums) {
-            int n = nums.length;
+            final var n = nums.length;
+
             // DP top-down
-            Integer[][] dp = new Integer[n][n];
-            return maxDiff(nums, 0, n - 1, dp) >= 0;
+            return maxDiff(nums, 0, n - 1, new Integer[n][n]) >= 0;
         }
 
         private int maxDiff(int[] nums, int left, int right, Integer[][] dp) {
@@ -74,14 +74,13 @@ public interface PredictWinner {
             // idea: minimax, game theory
 
             // option #1: player X chooses nums[left]
-            int scoreDiff1 = nums[left] - maxDiff(nums, left + 1, right, dp);
+            var diff1 = nums[left] - maxDiff(nums, left + 1, right, dp);
 
             // option #2: player X chooses nums[right]
-            int scoreDiff2 = nums[right] - maxDiff(nums, left, right - 1, dp);
+            var diff2 = nums[right] - maxDiff(nums, left, right - 1, dp);
 
             // cache and return the answer
-            int best = Math.max(scoreDiff1, scoreDiff2);
-            return dp[left][right] = best;
+            return dp[left][right] = Math.max(diff1, diff2);
         }
     }
 }
