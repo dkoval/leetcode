@@ -1,7 +1,7 @@
 package com.github.dkoval.leetcode.challenge;
 
 /**
- * <a href="https://leetcode.com/explore/featured/card/october-leetcoding-challenge/562/week-4-october-22nd-october-28th/3507/">Stone Game IV</a>
+ * <a href="https://leetcode.com/problems/stone-game-iv/">Stone Game IV</a>
  * <p>
  * Alice and Bob take turns playing a game, with Alice starting first.
  * <p>
@@ -12,24 +12,26 @@ package com.github.dkoval.leetcode.challenge;
  * <p>
  * Given a positive integer n. Return True if and only if Alice wins the game otherwise return False,
  * assuming both players play optimally.
+ * <p>
+ * Constraints:
+ * <p>
+ * 1 <= n <= 10^5
  */
-public abstract class StoneGame4 {
+public interface StoneGame4 {
 
-    public abstract boolean winnerSquareGame(int n);
+    boolean winnerSquareGame(int n);
 
     // Time complexity: O(N^1.5)
     // Space complexity: O(N)
-    public static class StoneGame4DPTopDown extends StoneGame4 {
+    class StoneGame4DPTopDown implements StoneGame4 {
 
         @Override
         public boolean winnerSquareGame(int n) {
             // DP top-down
-            Boolean[] dp = new Boolean[n + 1];
-            doWinnerSquareGame(n, dp);
-            return dp[n];
+            return calc(n, new Boolean[n + 1]);
         }
 
-        private boolean doWinnerSquareGame(int n, Boolean[] dp) {
+        private boolean calc(int n, Boolean[] dp) {
             // base case
             if (n == 0) {
                 return false;
@@ -40,29 +42,29 @@ public abstract class StoneGame4 {
                 return dp[n];
             }
 
-            boolean aliceWins = false;
-            for (int i = 1; i * i <= n; i++) {
+            var aliceWins = false;
+            for (var i = 1; i * i <= n; i++) {
                 // Now, it's Bob's turn. If Bob loses, Alice wins.
-                if (!doWinnerSquareGame(n - i * i, dp)) {
+                if (!calc(n - i * i, dp)) {
                     aliceWins = true;
                     break;
                 }
             }
 
-            dp[n] = aliceWins;
-            return aliceWins;
+            // cache and return the result
+            return dp[n] = aliceWins;
         }
     }
 
     // Time complexity: O(N^1.5)
     // Space complexity: O(N)
-    public static class StoneGame4DPBottomUp extends StoneGame4 {
+    class StoneGame4DPBottomUp implements StoneGame4 {
 
         @Override
         public boolean winnerSquareGame(int n) {
-            boolean[] dp = new boolean[n + 1];
-            for (int i = 1; i <= n; i++) {
-                for (int j = 1; j * j <= i; j++) {
+            final var dp = new boolean[n + 1];
+            for (var i = 1; i <= n; i++) {
+                for (var j = 1; j * j <= i; j++) {
                     // Simulate Bob's turns. If Bob loses, Alice wins.
                     if (!dp[i - j * j]) {
                         dp[i] = true;

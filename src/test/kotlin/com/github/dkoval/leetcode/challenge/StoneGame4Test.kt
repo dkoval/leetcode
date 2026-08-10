@@ -49,9 +49,9 @@ internal class StoneGame4Test {
             StoneGame4DPBottomUp().test(n, expected)
         }
     }
+}
 
-    private fun StoneGame4.test(n: Int, expected: Boolean) {
-        val actual = winnerSquareGame(n)
-        assertEquals(expected, actual)
-    }
+private fun StoneGame4.test(n: Int, expected: Boolean) {
+    val actual = winnerSquareGame(n)
+    assertEquals(expected, actual)
 }
