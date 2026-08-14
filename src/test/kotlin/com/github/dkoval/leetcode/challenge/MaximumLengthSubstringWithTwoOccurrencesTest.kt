@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.MaximumLengthSubstringWithTwoOccurrences.MaximumLengthSubstringWithTwoOccurrencesRev1
+import com.github.dkoval.leetcode.challenge.MaximumLengthSubstringWithTwoOccurrences.MaximumLengthSubstringWithTwoOccurrencesRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -40,6 +41,19 @@ internal class MaximumLengthSubstringWithTwoOccurrencesTest {
             expected: Int
         ) {
             MaximumLengthSubstringWithTwoOccurrencesRev1().test(s, expected)
+        }
+    }
+
+    @Nested
+    inner class MaximumLengthSubstringWithTwoOccurrencesRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the maximum length of a substring such that it contains at most two occurrences of each character`(
+            s: String,
+            expected: Int
+        ) {
+            MaximumLengthSubstringWithTwoOccurrencesRev2().test(s, expected)
         }
     }
 }

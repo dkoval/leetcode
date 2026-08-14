@@ -15,6 +15,7 @@ public interface MaximumLengthSubstringWithTwoOccurrences {
 
     int maximumLengthSubstring(String s);
 
+    // O(N^2) time | O(1) space
     class MaximumLengthSubstringWithTwoOccurrencesRev1 implements MaximumLengthSubstringWithTwoOccurrences {
 
         @Override
@@ -32,6 +33,40 @@ public interface MaximumLengthSubstringWithTwoOccurrences {
                 }
             }
             return best;
+        }
+    }
+
+    // O(N) time | O(1) space
+    class MaximumLengthSubstringWithTwoOccurrencesRev2 implements MaximumLengthSubstringWithTwoOccurrences {
+
+        @Override
+        public int maximumLengthSubstring(String s) {
+            final var n = s.length();
+
+            // idea: sliding window
+            var best = 0;
+            var counts = new int[26];
+            // expand the window to the right
+            var left = 0;
+            for (var right = 0; right < n; right++) {
+                counts[s.charAt(right) - 'a']++;
+                // shrink the window to maintain the constraint
+                while (!isGood(counts)) {
+                    counts[s.charAt(left) - 'a']--;
+                    left++;
+                }
+                best = Math.max(best, right - left + 1);
+            }
+            return best;
+        }
+
+        private boolean isGood(int[] counts) {
+            for (var count : counts) {
+                if (count > 2) {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
