@@ -44,22 +44,9 @@ public interface FindLargestAlmostMissingInteger {
                 return maxThatOccursExactlyOnce(freqs);
             }
 
-            final var x = freqs.get(nums[0]);
-            final var y = freqs.get(nums[n - 1]);
-
-            if (x == y && x == 1) {
-                return Math.max(nums[0], nums[n - 1]);
-            }
-
-            if (x == 1 && y > 1) {
-                return nums[0];
-            }
-
-            if (y == 1 && x > 1) {
-                return nums[n - 1];
-            }
-
-            return -1;
+            final var first = (freqs.get(nums[0]) == 1) ? nums[0] : -1;
+            final var last = (freqs.get(nums[n - 1]) == 1) ? nums[n - 1] : -1;
+            return Math.max(first, last);
         }
 
         private int maxOf(int[] nums) {
