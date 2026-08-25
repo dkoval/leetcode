@@ -64,4 +64,22 @@ public interface SmallestMissingMultipleOfK {
             return missing;
         }
     }
+
+    class SmallestMissingMultipleOfKRev3 implements SmallestMissingMultipleOfK {
+
+        @Override
+        public int missingMultiple(int[] nums, int k) {
+            // 1 <= nums[i] <= 100
+            var uniq = new boolean[101 + k];
+            for (var x : nums) {
+                uniq[x] = true;
+            }
+
+            for (var missing = k; ; missing += k) {
+                if (!uniq[missing]) {
+                    return missing;
+                }
+            }
+        }
+    }
 }
