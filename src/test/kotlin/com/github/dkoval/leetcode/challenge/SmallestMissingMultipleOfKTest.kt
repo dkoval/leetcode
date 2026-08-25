@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.SmallestMissingMultipleOfK.SmallestMissingMultipleOfKRev1
+import com.github.dkoval.leetcode.challenge.SmallestMissingMultipleOfK.SmallestMissingMultipleOfKRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -42,6 +43,20 @@ internal class SmallestMissingMultipleOfKTest {
             expected: Int
         ) {
             SmallestMissingMultipleOfKRev1().test(nums, k, expected)
+        }
+    }
+
+    @Nested
+    inner class SmallestMissingMultipleOfKRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the smallest positive multiple of k that is missing from nums`(
+            nums: IntArray,
+            k: Int,
+            expected: Int
+        ) {
+            SmallestMissingMultipleOfKRev2().test(nums, k, expected)
         }
     }
 }
