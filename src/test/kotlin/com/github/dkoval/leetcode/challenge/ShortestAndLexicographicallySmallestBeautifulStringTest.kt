@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.ShortestAndLexicographicallySmallestBeautifulString.ShortestAndLexicographicallySmallestBeautifulStringRev1
+import com.github.dkoval.leetcode.challenge.ShortestAndLexicographicallySmallestBeautifulString.ShortestAndLexicographicallySmallestBeautifulStringRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -39,6 +40,20 @@ internal class ShortestAndLexicographicallySmallestBeautifulStringTest {
             expected: String
         ) {
             ShortestAndLexicographicallySmallestBeautifulStringRev1().test(s, k, expected)
+        }
+    }
+
+    @Nested
+    inner class ShortestAndLexicographicallySmallestBeautifulStringRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the lexicographically smallest beautiful substring of string s`(
+            s: String,
+            k: Int,
+            expected: String
+        ) {
+            ShortestAndLexicographicallySmallestBeautifulStringRev2().test(s, k, expected)
         }
     }
 }

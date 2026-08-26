@@ -72,4 +72,48 @@ public interface ShortestAndLexicographicallySmallestBeautifulString {
             return s.substring(left);
         }
     }
+
+    class ShortestAndLexicographicallySmallestBeautifulStringRev2 implements ShortestAndLexicographicallySmallestBeautifulString {
+
+        @Override
+        public String shortestBeautifulSubstring(String s, int k) {
+            final var n = s.length();
+
+            var best = "";
+            var left = 0;
+            var count = 0;
+            for (var right = 0; right < n; right++) {
+                count += s.charAt(right) - '0';
+                if (count < k) {
+                    continue;
+                }
+
+                // strip leading 0's from s[left:right] substring
+                while (left <= right && s.charAt(left) == '0') {
+                    left++;
+                }
+
+                best = smallest(best, s.substring(left, right + 1));
+
+                // adjust the left boundary
+                while (left <= right && count == k) {
+                    count -= s.charAt(left) - '0';
+                    left++;
+                }
+            }
+            return best;
+        }
+
+        private String smallest(String current, String candidate) {
+            if (current.isEmpty()) {
+                return candidate;
+            }
+
+            if (candidate.length() != current.length()) {
+                return (candidate.length() < current.length()) ? candidate : current;
+            }
+
+            return (candidate.compareTo(current) < 0) ? candidate : current;
+        }
+    }
 }
