@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.SmallestStableIndex1.SmallestStableIndex1Rev1
+import com.github.dkoval.leetcode.challenge.SmallestStableIndex1.SmallestStableIndex1Rev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -48,6 +49,20 @@ internal class SmallestStableIndex1Test {
             expected: Int
         ) {
             SmallestStableIndex1Rev1().test(nums, k, expected)
+        }
+    }
+
+    @Nested
+    inner class SmallestStableIndex1Rev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the smallest stable index of the given array nums`(
+            nums: IntArray,
+            k: Int,
+            expected: Int
+        ) {
+            SmallestStableIndex1Rev2().test(nums, k, expected)
         }
     }
 }

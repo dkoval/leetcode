@@ -49,4 +49,27 @@ public interface SmallestStableIndex1 {
             return -1;
         }
     }
+
+    class SmallestStableIndex1Rev2 implements SmallestStableIndex1 {
+
+        @Override
+        public int firstStableIndex(int[] nums, int k) {
+            final var n = nums.length;
+
+            final var min = new int[n];
+            min[n - 1] = nums[n - 1];
+            for (var i = n - 2; i >= 0; i--) {
+                min[i] = Math.min(nums[i], min[i + 1]);
+            }
+
+            var max = Integer.MIN_VALUE;
+            for (var i = 0; i < n; i++) {
+                max = Math.max(max, nums[i]);
+                if (max - min[i] <= k) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+    }
 }
