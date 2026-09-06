@@ -1,14 +1,16 @@
 package com.github.dkoval.leetcode.challenge;
 
 /**
- * <a href="https://leetcode.com/explore/challenge/card/september-leetcoding-challenge-2021/638/week-3-september-15th-september-21st/3980/">Distinct Subsequences</a>
+ * <a href="https://leetcode.com/problems/distinct-subsequences/">Distinct Subsequences</a>
  * <p>
  * Given two strings s and t, return the number of distinct subsequences of s which equals t.
  * <p>
- * A string's subsequence is a new string formed from the original string by deleting some (can be none) of the characters
- * without disturbing the remaining characters' relative positions. (i.e., "ACE" is a subsequence of "ABCDE" while "AEC" is not).
- * <p>
- * It is guaranteed the answer fits on a 32-bit signed integer.
+ * The test cases are generated so that the answer fits on a 32-bit signed integer.
+ * Constraints:
+ * <ul>
+ *  <li>1 <= s.length, t.length <= 1000</li>
+ *  <li>s and t consist of English letters</li>
+ * </ul>
  */
 public interface DistinctSubsequences {
 
@@ -38,7 +40,7 @@ public interface DistinctSubsequences {
             for (int i = 1; i <= n; i++) {
                 for (int j = 1; j <= m; j++) {
                     if (s.charAt(i - 1) != t.charAt(j - 1)) {
-                        // skip s[i], therefore the result doesn't change
+                        // skip s[i], therefore, the result doesn't change
                         dp[i][j] = dp[i - 1][j];
                     } else {
                         // case #1 skip only i-th character from s (maybe there's another s[i] to the right of i that matches t[j])
@@ -60,12 +62,15 @@ public interface DistinctSubsequences {
             // DP: top-down with memoization
             int n = s.length();
             int m = t.length();
+
             Integer[][] memo = new Integer[n][m];
             return count(s, t, 0, 0, memo);
         }
+
         // i denotes s[i:] suffix
         // j denotes t[j:] suffix
         private int count(String s, String t, int i, int j, Integer[][] memo) {
+            // base cases
             if (j == t.length()) {
                 return 1;
             }
@@ -74,6 +79,7 @@ public interface DistinctSubsequences {
                 return 0;
             }
 
+            // already solved?
             if (memo[i][j] != null) {
                 return memo[i][j];
             }
@@ -85,8 +91,8 @@ public interface DistinctSubsequences {
                 count += count(s, t, i + 1, j + 1, memo);
             }
 
-            memo[i][j] = count;
-            return count;
+            // cache and return the result
+            return memo[i][j] = count;
         }
     }
 }
