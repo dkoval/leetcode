@@ -28,36 +28,32 @@ public interface CountNodesEqualToAverageOfSubtree {
 
         @Override
         public int averageOfSubtree(TreeNode root) {
-            int[] ans = {0};
-            dfs(root, ans);
+            final var ans = new int[]{0};
+            traverse(root, ans);
             return ans[0];
         }
 
-        private TreeInfo dfs(TreeNode root, int[] ans) {
-            if (root == null) {
+        private TreeInfo traverse(TreeNode node, int[] ans) {
+            if (node == null) {
                 return new TreeInfo(0, 0);
             }
 
             // post-order traversal
-            TreeInfo left = dfs(root.left, ans);
-            TreeInfo right = dfs(root.right, ans);
+            final var left = traverse(node.left, ans);
+            final var right = traverse(node.right, ans);
 
-            int sum = left.sum + right.sum + root.val;
-            int count = left.count + right.count + 1;
-            if (sum / count == root.val) {
+            final var sum = left.sum + right.sum + node.val;
+            final var count = left.count + right.count + 1;
+            if (sum / count == node.val) {
                 ans[0]++;
             }
             return new TreeInfo(sum, count);
         }
 
-        private static class TreeInfo {
-            final int sum;
-            final int count;
-
-            TreeInfo(int sum, int count) {
-                this.sum = sum;
-                this.count = count;
-            }
+        private record TreeInfo(
+                int sum,
+                int count
+        ) {
         }
     }
 }
