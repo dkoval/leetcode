@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.ImageOverlap.ImageOverlapRev1
+import com.github.dkoval.leetcode.challenge.ImageOverlap.ImageOverlapRev2
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -45,6 +46,23 @@ internal class ImageOverlapTest {
                     intArrayOf(0)
                 ),
                 0
+            ),
+            Arguments.of(
+                arrayOf(
+                    intArrayOf(0, 0, 0, 0, 1),
+                    intArrayOf(0, 0, 0, 0, 0),
+                    intArrayOf(0, 0, 0, 0, 0),
+                    intArrayOf(0, 0, 0, 0, 0),
+                    intArrayOf(0, 0, 0, 0, 0)
+                ),
+                arrayOf(
+                    intArrayOf(0, 0, 0, 0, 0),
+                    intArrayOf(0, 0, 0, 0, 0),
+                    intArrayOf(0, 0, 0, 0, 0),
+                    intArrayOf(0, 0, 0, 0, 0),
+                    intArrayOf(1, 0, 0, 0, 0)
+                ),
+                1
             )
         )
     }
@@ -65,12 +83,12 @@ internal class ImageOverlapTest {
         @ParameterizedTest
         @ArgumentsSource(InputArgumentsProvider::class)
         fun `should find the largest possible overlap`(img1: Array<IntArray>, img2: Array<IntArray>, expected: Int) {
-            ImageOverlapRev2.test(img1, img2, expected)
+            ImageOverlapRev2().test(img1, img2, expected)
         }
     }
+}
 
-    private fun ImageOverlap.test(img1: Array<IntArray>, img2: Array<IntArray>, expected: Int) {
-        val actual = largestOverlap(img1, img2)
-        assertEquals(expected, actual)
-    }
+private fun ImageOverlap.test(img1: Array<IntArray>, img2: Array<IntArray>, expected: Int) {
+    val actual = largestOverlap(img1, img2)
+    assertEquals(expected, actual)
 }

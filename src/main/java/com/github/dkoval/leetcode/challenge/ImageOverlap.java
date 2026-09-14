@@ -65,4 +65,42 @@ public interface ImageOverlap {
             return best;
         }
     }
+
+    class ImageOverlapRev2 implements ImageOverlap {
+
+        @Override
+        public int largestOverlap(int[][] img1, int[][] img2) {
+            final var m = img1.length;
+            final var n = img1[0].length;
+
+            // dx and dy represent the shift of img2 relative to img1
+            var best = 0;
+            for (var dx = -(m - 1); dx < m; dx++) {
+                for (var dy = -(n - 1); dy < n; dy++) {
+                    var count = overlap(img1, img2, dx, dy);
+                    best = Math.max(best, count);
+                }
+            }
+            return best;
+        }
+
+        private int overlap(int[][] a, int[][] b, int dx, int dy) {
+            final var m = a.length;
+            final var n = a[0].length;
+
+            var count = 0;
+            for (var x = Math.max(dx, 0); x < m; x++) {
+                for (var y = Math.max(dy, 0); y < n; y++) {
+                    var nx = x - dx;
+                    var ny = y - dy;
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                        if (a[x][y] == 1 && b[nx][ny] == 1) {
+                            count++;
+                        }
+                    }
+                }
+            }
+            return count;
+        }
+    }
 }
