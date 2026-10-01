@@ -1,6 +1,8 @@
 package com.github.dkoval.leetcode.problems;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * <a href="https://leetcode.com/problems/valid-parentheses/">Valid Parentheses</a>
@@ -19,31 +21,46 @@ import java.util.*;
  *  <li>s consists of parentheses only '()[]{}'.</li>
  * </ul>
  */
-public class ValidParentheses {
-    private static final Set<Character> open = new HashSet<>();
-    private static final Map<Character, Character> matching = new HashMap<>();
+public interface ValidParentheses {
 
-    static {
-        matching.put(')', '(');
-        matching.put('}', '{');
-        matching.put(']', '[');
-        open.addAll(matching.values());
-    }
+    boolean isValid(String s);
 
-    public boolean isValid(String s) {
-        int n = s.length();
-        Deque<Character> stack = new ArrayDeque<>();
-        for (int i = 0; i < n; i++) {
-            char c = s.charAt(i);
-            if (open.contains(c)) {
-                stack.push(c);
-            } else {
-                if (stack.isEmpty() || stack.peek() != matching.get(c)) {
-                    return false;
-                }
-                stack.pop();
-            }
+    class ValidParenthesesRev1 implements ValidParentheses {
+
+        private static final Set<Character> OPEN_BRACKETS = Set.of('(', '{', '[');
+
+        // close bracket -> open bracket
+        private static final Map<Character, Character> MATCHING_BRACKETS = Map.of(
+                ')', '(',
+                '}', '{',
+                ']', '['
+        );
+
+        private static boolean isOpenBracket(char c) {
+            return OPEN_BRACKETS.contains(c);
         }
-        return stack.isEmpty();
+
+        private static char getMatchingOpenBracket(char c) {
+            return MATCHING_BRACKETS.get(c);
+        }
+
+        @Override
+        public boolean isValid(String s) {
+            final var n = s.length();
+
+            final var stack = new ArrayDeque<Character>();
+            for (var i = 0; i < n; i++) {
+                final var c = s.charAt(i);
+                if (isOpenBracket(c)) {
+                    stack.push(c);
+                } else {
+                    final var openBracket = getMatchingOpenBracket(c);
+                    if (stack.isEmpty() || stack.pop() != openBracket) {
+                        return false;
+                    }
+                }
+            }
+            return stack.isEmpty();
+        }
     }
 }
