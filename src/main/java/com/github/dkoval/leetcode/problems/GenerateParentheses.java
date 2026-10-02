@@ -7,34 +7,45 @@ import java.util.List;
  * <a href="https://leetcode.com/problems/generate-parentheses/">Generate Parentheses</a>
  * <p>
  * Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+ * <p>
+ * Constraints:
+ * <p>
+ * 1 <= n <= 8
  */
-public class GenerateParentheses {
+public interface GenerateParentheses {
 
-    public List<String> generateParenthesis(int n) {
-        List<String> result = new ArrayList<>();
-        generateParenthesis(n, n, new StringBuilder(), result);
-        return result;
-    }
+    List<String> generateParenthesis(int n);
 
-    private void generateParenthesis(int numOpen, int numClose, StringBuilder prefix, List<String> result) {
-        // base case
-        if (numOpen == 0 && numClose == 0) {
-            result.add(prefix.toString());
-            return;
+    class GenerateParenthesesRev1 implements GenerateParentheses {
+
+        @Override
+
+        public List<String> generateParenthesis(int n) {
+            List<String> res = new ArrayList<>();
+            generate(n, n, new StringBuilder(), res);
+            return res;
         }
 
-        // include '(' if there are any
-        if (numOpen > 0) {
-            prefix.append('(');
-            generateParenthesis(numOpen - 1, numClose, prefix, result);
-            prefix.deleteCharAt(prefix.length() - 1); // backtrack
-        }
+        private void generate(int open, int close, StringBuilder current, List<String> res) {
+            // base case
+            if (open == 0 && close == 0) {
+                res.add(current.toString());
+                return;
+            }
 
-        // include ')' IFF there is >= 1 '(' placed before
-        if (numClose > numOpen) {
-            prefix.append(')');
-            generateParenthesis(numOpen, numClose - 1, prefix, result);
-            prefix.deleteCharAt(prefix.length() - 1); // backtrack
+            // option 1: include '('
+            if (open > 0) {
+                current.append('(');
+                generate(open - 1, close, current, res);
+                current.deleteCharAt(current.length() - 1); // backtrack
+            }
+
+            // option 2: include ')' IFF there at least 1 '(' placed before
+            if (close > open) {
+                current.append(')');
+                generate(open, close - 1, current, res);
+                current.deleteCharAt(current.length() - 1); // backtrack
+            }
         }
     }
 }
