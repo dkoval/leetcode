@@ -14,7 +14,7 @@ internal class NumberOfZeroFilledSubarraysTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(1, 3, 0, 0, 2, 0, 0, 4),
                 6L

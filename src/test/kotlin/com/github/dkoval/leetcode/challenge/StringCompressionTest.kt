@@ -14,7 +14,7 @@ internal class StringCompressionTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 charArrayOf('a', 'a', 'b', 'b', 'c', 'c', 'c'),
                 charArrayOf('a', '2', 'b', '2', 'c', '3')
