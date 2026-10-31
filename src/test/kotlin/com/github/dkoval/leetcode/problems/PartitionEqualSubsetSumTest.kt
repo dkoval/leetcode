@@ -14,7 +14,7 @@ internal class PartitionEqualSubsetSumTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(1, 5, 11, 5),
                 // The array can be partitioned as [1, 5, 5] and [11]

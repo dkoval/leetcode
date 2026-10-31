@@ -15,7 +15,7 @@ internal class RussianDollEnvelopesTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(p0: ExtensionContext?): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(p0: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 arrayOf(
                     intArrayOf(5, 4),

@@ -14,7 +14,7 @@ internal class ApplyOperationsToArrayTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext): Stream<out Arguments?>? = Stream.of(
+        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
             Arguments.of(
                 intArrayOf(1, 2, 2, 1, 1, 0),
                 intArrayOf(1, 4, 2, 0, 0, 0)

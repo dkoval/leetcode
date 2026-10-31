@@ -19,7 +19,7 @@ internal class DivideArrayIntoSubarraysWithMinimumCost1Test {
 
         override fun provideArguments(
             parameters: ParameterDeclarations,
-            context: ExtensionContext?
+            context: ExtensionContext
         ): Stream<out Arguments> = Stream.of(
             arguments(
                 intArrayOf(1, 2, 3, 12),
