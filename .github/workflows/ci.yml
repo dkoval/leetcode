@@ -22,7 +22,7 @@ jobs:
           distribution: 'temurin'
           java-version-file: .java-version
 
-      # Configure Gradle for optimal use in GiHub Actions, including caching of downloaded dependencies.
+      # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
       # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
@@ -36,6 +36,7 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   dependency-graph:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
       contents: write
