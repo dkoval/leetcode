@@ -111,4 +111,46 @@ public interface TwistedMirrorPathCount {
             return 0;
         }
     }
+
+    class TwistedMirrorPathCountRev2 implements TwistedMirrorPathCount {
+
+        @Override
+        public int uniquePaths(int[][] grid) {
+            final var m = grid.length;
+            final var n = grid[0].length;
+
+            // DP bottom-up
+            // right[row][col] -> number of valid paths from (row, col) to (m - 1, n - 1) if (row, col) was entered moving right
+            // down[row][col] -> number of valid paths from (row, col) to (m - 1, n - 1) if (row, col) was entered moving down
+            // an extra row and column of zeros stand for moves out of bounds
+            final var right = new int[m + 1][n + 1];
+            final var down = new int[m + 1][n + 1];
+
+            // base case
+            right[m - 1][n - 1] = 1;
+            down[m - 1][n - 1] = 1;
+
+            for (var row = m - 1; row >= 0; row--) {
+                for (var col = n - 1; col >= 0; col--) {
+                    if (row == m - 1 && col == n - 1) {
+                        continue;
+                    }
+
+                    if (grid[row][col] == 1) {
+                        // case 1: hit a mirror, change direction
+                        right[row][col] = down[row + 1][col];
+                        down[row][col] = right[row][col + 1];
+                    } else {
+                        // case 2: hit an empty cell
+                        final var total = (right[row][col + 1] + down[row + 1][col]) % MOD;
+                        right[row][col] = total;
+                        down[row][col] = total;
+                    }
+                }
+            }
+
+            // (0, 0) is never a mirror, so the initial direction doesn't matter
+            return right[0][0];
+        }
+    }
 }

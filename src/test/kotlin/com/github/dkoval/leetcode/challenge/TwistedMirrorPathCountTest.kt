@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.TwistedMirrorPathCount.TwistedMirrorPathCountRev1
+import com.github.dkoval.leetcode.challenge.TwistedMirrorPathCount.TwistedMirrorPathCountRev2
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -55,6 +56,19 @@ internal class TwistedMirrorPathCountTest {
             expected: Int
         ) {
             TwistedMirrorPathCountRev1().test(grid, expected)
+        }
+    }
+
+    @Nested
+    inner class TwistedMirrorPathCountRev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the number of unique valid paths from (0, 0) to (m - 1, n - 1)`(
+            grid: Array<IntArray>,
+            expected: Int
+        ) {
+            TwistedMirrorPathCountRev2().test(grid, expected)
         }
     }
 }
