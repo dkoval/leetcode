@@ -8,13 +8,17 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
+import org.junit.jupiter.params.support.ParameterDeclarations
 import java.util.stream.Stream
 
 internal class AddDigitsTest {
 
     class InputArgumentsProvider : ArgumentsProvider {
 
-        override fun provideArguments(context: ExtensionContext): Stream<out Arguments> = Stream.of(
+        override fun provideArguments(
+            parameters: ParameterDeclarations,
+            context: ExtensionContext
+        ): Stream<out Arguments> = Stream.of(
             Arguments.of(38, 2), // 3 + 8 = 11, 1 + 1 = 2
             Arguments.of(283, 4) // 2 + 8 + 3 = 13, 1 + 3 = 4
         )
