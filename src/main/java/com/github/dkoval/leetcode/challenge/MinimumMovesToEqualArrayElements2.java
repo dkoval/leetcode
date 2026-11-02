@@ -47,7 +47,7 @@ public interface MinimumMovesToEqualArrayElements2 {
 
     class MinimumMovesToEqualArrayElements2ByFindingMedian implements MinimumMovesToEqualArrayElements2 {
 
-        // O(NlogN) time | O(1) space
+        // O(NlogN) time | O(N) space (for sorting)
         @Override
         public int minMoves2(int[] nums) {
             final var n = nums.length;
@@ -58,10 +58,6 @@ public interface MinimumMovesToEqualArrayElements2 {
 
             // Step #2: find the middle element of sorted array
             var median = nums[n / 2];
-            if (n % 2 == 0) {
-                median += nums[n / 2 - 1];
-                median /= 2;
-            }
 
             // Step #3: calculate number of steps to make elements equal to the median
             var total = 0;
@@ -75,16 +71,17 @@ public interface MinimumMovesToEqualArrayElements2 {
     // Resource: https://www.youtube.com/watch?v=FGgL5QxZLno
     class MinimumMovesToEqualArrayElements2UsingTwoPointers implements MinimumMovesToEqualArrayElements2 {
 
-        // O(NlogN) time | O(1) space
+        // O(NlogN) time | O(N) space (for sorting)
         @Override
         public int minMoves2(int[] nums) {
             Arrays.sort(nums);
-            int numsSteps = 0;
-            int l = 0, r = nums.length - 1;
+            var total = 0;
+            var l = 0;
+            var r = nums.length - 1;
             while (l < r) {
-                numsSteps += nums[r--] - nums[l++];
+                total += nums[r--] - nums[l++];
             }
-            return numsSteps;
+            return total;
         }
     }
 }
