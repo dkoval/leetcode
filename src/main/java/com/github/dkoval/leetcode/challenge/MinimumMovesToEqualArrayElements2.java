@@ -50,20 +50,25 @@ public interface MinimumMovesToEqualArrayElements2 {
         // O(NlogN) time | O(1) space
         @Override
         public int minMoves2(int[] nums) {
+            final var n = nums.length;
+
             // Idea: find the central point in nums[] from which each other point is nearer, i.e. median
             // Step #1: sort the input array
             Arrays.sort(nums);
 
             // Step #2: find the middle element of sorted array
-            int n = nums.length, mid = n / 2;
-            int median = (n % 2 == 0) ? (nums[mid] + nums[mid - 1]) / 2 : nums[mid];
+            var median = nums[n / 2];
+            if (n % 2 == 0) {
+                median += nums[n / 2 - 1];
+                median /= 2;
+            }
 
             // Step #3: calculate number of steps to make elements equal to the median
-            int numSteps = 0;
-            for (int num : nums) {
-                numSteps += Math.abs(num - median);
+            var total = 0;
+            for (var x : nums) {
+                total += Math.abs(x - median);
             }
-            return numSteps;
+            return total;
         }
     }
 
