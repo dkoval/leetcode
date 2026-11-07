@@ -7,13 +7,13 @@
 [![License: MIT-0](https://img.shields.io/badge/license-MIT--0-blue)](LICENSE)
 
 Solutions to 1,300+ [LeetCode](https://leetcode.com/) algorithmic problems in Java and Kotlin, each one backed by tests.
-Written for anyone studying data structures and algorithms.
+Written for anyone studying data structures and algorithms or preparing for a coding interview.
 
 ## How to read a solution
 
-Every problem is a single interface named after the problem. Its Javadoc carries the problem statement, a link to
+Most problems are a single interface named after the problem. Its Javadoc carries the problem statement, a link to
 LeetCode and the constraints. Nested classes `Rev1`, `Rev2`, … are alternative approaches to the same problem, and
-many of them note their time and space complexity.
+many of them note their time and space complexity, e.g. `// O(N) time | O(1) space`.
 
 ```java
 /**
@@ -33,8 +33,11 @@ public interface ProcessTasksUsingServers {
 }
 ```
 
-Each solution has a Kotlin test next to it under `src/test`, written as a parameterized
-JUnit test with AssertJ assertions. Read the test cases to see the example inputs.
+Older solutions are plain classes, and an alternative approach may live in its own file with a suffix such as `DP`
+or `BottomUp` (e.g. `UniquePathsDPBottomUp`).
+
+Nearly every solution has a matching `<ProblemName>Test` under `src/test`, mostly a parameterized JUnit 5+ test written
+in Kotlin. Its test cases list inputs with expected outputs, so it is a good place to start reading.
 
 ## Finding a solution
 
