@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #0d1117; --fg: #e6edf3; --muted: #8b949e; --line: #30363d; --java: #f0883e; --kotlin: #a371f7; --ok: #3fb950; }
+  * { margin: 0; box-sizing: border-box; }
+  html, body { width: 1280px; height: 640px; background: var(--bg); overflow: hidden; }
+  body {
+    position: relative; isolation: isolate; font-family: Geist, system-ui, sans-serif; color: var(--fg); -webkit-font-smoothing: antialiased;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.07);
+    background:
+      /* the search, as light: Kotlin purple from the top-right, through magenta, landing as a Java-orange "found" pool under node 11 */
+      radial-gradient(22% 34% at 86% 12%, rgba(127,82,255,.24), transparent 70%),
+      radial-gradient(28% 70% at 100% 55%, rgba(210,95,200,.18), transparent 70%),
+      radial-gradient(12% 18% at 82% 75%, rgba(255,140,70,.28), rgba(240,100,120,.10) 45%, transparent 75%),
+      radial-gradient(20% 30% at 90% 95%, rgba(229,104,122,.06), transparent 70%),
+      /* halo on the tree, kept violet-pink so it never turns brown */
+      radial-gradient(30% 44% at 75% 45%, rgba(200,130,240,.18), rgba(140,100,255,.10) 50%, transparent 78%),
+      /* cool fill across the text side */
+      radial-gradient(60% 80% at 30% 10%, rgba(130,160,220,.10), transparent 70%),
+      linear-gradient(180deg, #10141d 0%, #0c0f16 100%);
+  }
+  /* lit graph paper around the tree only */
+  body::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background-image:
+      linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+    background-size: 40px 40px; background-position: -1px -1px;
+    -webkit-mask-image: radial-gradient(30% 48% at 75% 47%, #000 0%, rgba(0,0,0,.4) 50%, transparent 100%);
+  }
+  /* grain + light vignette */
+  body::after {
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(120% 120% at 40% 35%, transparent 60%, rgba(0,0,0,.14) 100%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .035 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  .copy { position: absolute; left: 88px; top: 0; bottom: 0; width: 600px; display: flex; flex-direction: column; justify-content: center; }
+  .repo { font-family: "Geist Mono", monospace; font-size: 30px; color: #9da7b3; letter-spacing: -0.01em; }
+  .repo b { color: var(--fg); font-weight: 500; }
+  .repo .sl { color: #6e7681; margin: 0 .3em; }
+  h1 { font-size: 106px; font-weight: 700; letter-spacing: -0.032em; line-height: .98; margin: 44px 0 0 -4px; }
+  .sub { font-size: 34px; font-weight: 500; color: #9da7b3; letter-spacing: -0.01em; margin-top: 30px; white-space: nowrap; }
+  .sub .j, .sub .k, .sub .t { font-weight: 600; }
+  .sub .j { color: var(--java); } .sub .k { color: #b18cff; } .sub .amp { opacity: .8; } .sub .t { color: var(--ok); }
+  .tile {
+    display: inline-block; width: 42px; height: 42px; border-radius: 10.5px;
+    vertical-align: -10px; margin: 0 10px 0 6px;
+    background: linear-gradient(#eef1f5, #dfe4ea);
+    box-shadow: 0 0 0 1px rgba(0,0,0,.6);
+  }
+  .tile img { display: block; width: 42px; height: 42px; }
+  .tile.jv img { padding: 4px; }
+  .tile.kt img { padding: 8.5px; }
+  svg { position: absolute; inset: 0; }
+  .e { stroke: #4b5260; stroke-width: 1.25; }
+  .e.hot { stroke: url(#g); stroke-width: 3; filter: url(#glow); }
+  .n circle { fill: #11161d; stroke: #4b5260; stroke-width: 1.25; }
+  .n text { font: 500 16px "Geist Mono", monospace; fill: #e6edf3; opacity: .65; text-anchor: middle; dominant-baseline: central; }
+  .n.hot circle { stroke: var(--kotlin); fill: #1d1535; stroke-width: 2.5; }
+  .n.hot text, .n.hit text { opacity: 1; }
+  .n.l3 text { font-size: 14px; }
+  .n.hot text { fill: var(--fg); }
+  .n.hit circle { fill: var(--java); stroke: #ffb27a; filter: url(#glow2); }
+  .n.hit text { fill: #0d1117; font-weight: 600; font-size: 16px; }
+  .cap { font: 400 18px "Geist Mono", monospace; fill: #9da7b3; text-anchor: middle; }
+  .cap tspan { fill: var(--java); }
+</style>
+</head>
+<body>
+  <svg width="1280" height="640" viewBox="0 0 1280 640">
+    <defs>
+      <linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a371f7"/><stop offset="1" stop-color="#f0883e"/></linearGradient>
+      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <filter id="glow2" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+<line x1="776.6" y1="364" x2="746.0" y2="480" class="e"/>
+<line x1="776.6" y1="364" x2="807.1" y2="480" class="e"/>
+<line x1="898.9" y1="364" x2="868.3" y2="480" class="e"/>
+<line x1="898.9" y1="364" x2="929.4" y2="480" class="e"/>
+<line x1="837.7" y1="248" x2="776.6" y2="364" class="e"/>
+<line x1="837.7" y1="248" x2="898.9" y2="364" class="e"/>
+<line x1="1021.1" y1="364" x2="990.6" y2="480" class="e"/>
+<line x1="1021.1" y1="364" x2="1051.7" y2="480" class="e hot"/>
+<line x1="1143.4" y1="364" x2="1112.9" y2="480" class="e"/>
+<line x1="1143.4" y1="364" x2="1174.0" y2="480" class="e"/>
+<line x1="1082.3" y1="248" x2="1021.1" y2="364" class="e hot"/>
+<line x1="1082.3" y1="248" x2="1143.4" y2="364" class="e"/>
+<line x1="960.0" y1="132" x2="837.7" y2="248" class="e"/>
+<line x1="960.0" y1="132" x2="1082.3" y2="248" class="e hot"/>
+<g class="n hot l0"><circle cx="960.0" cy="132" r="18"/><text x="960.0" y="132">8</text></g>
+<g class="n l1"><circle cx="837.7" cy="248" r="18"/><text x="837.7" y="248">4</text></g>
+<g class="n l2"><circle cx="776.6" cy="364" r="18"/><text x="776.6" y="364">2</text></g>
+<g class="n l3"><circle cx="746.0" cy="480" r="15"/><text x="746.0" y="480">1</text></g>
+<g class="n l3"><circle cx="807.1" cy="480" r="15"/><text x="807.1" y="480">3</text></g>
+<g class="n l2"><circle cx="898.9" cy="364" r="18"/><text x="898.9" y="364">6</text></g>
+<g class="n l3"><circle cx="868.3" cy="480" r="15"/><text x="868.3" y="480">5</text></g>
+<g class="n l3"><circle cx="929.4" cy="480" r="15"/><text x="929.4" y="480">7</text></g>
+<g class="n hot l1"><circle cx="1082.3" cy="248" r="18"/><text x="1082.3" y="248">12</text></g>
+<g class="n hot l2"><circle cx="1021.1" cy="364" r="18"/><text x="1021.1" y="364">10</text></g>
+<g class="n l3"><circle cx="990.6" cy="480" r="15"/><text x="990.6" y="480">9</text></g>
+<g class="n hit l3"><circle cx="1051.7" cy="480" r="18"/><text x="1051.7" y="480">11</text></g>
+<g class="n l2"><circle cx="1143.4" cy="364" r="18"/><text x="1143.4" y="364">14</text></g>
+<g class="n l3"><circle cx="1112.9" cy="480" r="15"/><text x="1112.9" y="480">13</text></g>
+<g class="n l3"><circle cx="1174.0" cy="480" r="15"/><text x="1174.0" y="480">15</text></g>
+
+    <text class="cap" x="1051.7" y="532">searchBST(root, <tspan>11</tspan>)</text>
+  </svg>
+  <div class="copy">
+    <div class="repo">dkoval<span class="sl">/</span><b>leetcode</b></div>
+    <h1>LeetCode<br>solutions</h1>
+    <div class="sub">in <span class="tile jv"><img src="java.svg" alt=""></span><span class="j">Java</span> <span class="amp">&amp;</span> <span class="tile kt"><img src="kotlin.svg" alt=""></span><span class="k">Kotlin</span>, with <span class="t">tests</span></div>
+  </div>
+</body>
+</html>
+
