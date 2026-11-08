@@ -6,8 +6,58 @@
 ![Kotlin 2.4](https://img.shields.io/badge/Kotlin-2.4-7F52FF)
 [![License: MIT-0](https://img.shields.io/badge/license-MIT--0-blue)](LICENSE)
 
-Solutions to 1,300+ [LeetCode](https://leetcode.com/) algorithmic problems in Java and Kotlin, each one backed by tests.
+Solutions to 1,300+ [LeetCode](https://leetcode.com/) algorithmic problems in Java and Kotlin, with tests.
 Written for anyone studying data structures and algorithms or preparing for a coding interview.
+
+## Study by pattern
+
+Most interview problems are variations of a handful of patterns. Start with the examples below, then look for the same
+idea in other problems.
+
+```mermaid
+mindmap
+  root((Patterns))
+    Arrays and strings
+      Two pointers
+      Sliding window
+      Prefix sum
+      Binary search
+    Stacks and heaps
+      Monotonic stack
+      Heap
+    Graphs
+      BFS and DFS
+      Topological sort
+      Shortest path
+      Union-find
+    Trees
+      Tree DFS
+      Trie
+    Search and optimisation
+      Backtracking
+      Dynamic programming
+      Greedy
+    Design
+```
+
+| Pattern | Examples |
+|---|---|
+| Two pointers | [Container With Most Water](src/main/java/com/github/dkoval/leetcode/interview/array/ContainerWithMostWater.java), [3Sum](src/main/java/com/github/dkoval/leetcode/problems/ThreeSum.java) |
+| Sliding window | [Longest Substring Without Repeating Characters](src/main/java/com/github/dkoval/leetcode/challenge/LongestSubstringWithoutRepeatingCharacters.java), [Minimum Window Substring](src/main/java/com/github/dkoval/leetcode/challenge/MinimumWindowSubstring.java) |
+| Prefix sum | [Subarray Sum Equals K](src/main/kotlin/com/github/dkoval/leetcode/problems/SubarraySumEqualsK.kt) |
+| Binary search | [Search in Rotated Sorted Array](src/main/java/com/github/dkoval/leetcode/problems/SearchInRotatedSortedArray.java), [Koko Eating Bananas](src/main/java/com/github/dkoval/leetcode/challenge/KokoEatingBananas.java) (search on the answer) |
+| Monotonic stack | [Daily Temperatures](src/main/java/com/github/dkoval/leetcode/challenge/DailyTemperatures.java), [Largest Rectangle in Histogram](src/main/java/com/github/dkoval/leetcode/challenge/LargestRectangleInHistogram.java) |
+| Heap | [Kth Largest Element in an Array](src/main/java/com/github/dkoval/leetcode/problems/KthLargestElementInArray.java), [Top K Frequent Elements](src/main/kotlin/com/github/dkoval/leetcode/challenge/TopKFrequentElements.kt), [Process Tasks Using Servers](src/main/java/com/github/dkoval/leetcode/challenge/ProcessTasksUsingServers.java) (two heaps) |
+| BFS and DFS | [Number of Islands](src/main/java/com/github/dkoval/leetcode/problems/NumberOfIslands.java), [Word Ladder](src/main/java/com/github/dkoval/leetcode/interview/trees/WordLadder.java) |
+| Topological sort / cycle detection | [Course Schedule](src/main/kotlin/com/github/dkoval/leetcode/challenge/CourseSchedule.kt), [Course Schedule II](src/main/kotlin/com/github/dkoval/leetcode/challenge/CourseSchedule2.kt) |
+| Shortest path | [Network Delay Time](src/main/java/com/github/dkoval/leetcode/challenge/NetworkDelayTime.java) (Dijkstra), [Cheapest Flights Within K Stops](src/main/java/com/github/dkoval/leetcode/challenge/CheapestFlightsWithinKStops.java) |
+| Union-find | [Redundant Connection](src/main/java/com/github/dkoval/leetcode/challenge/RedundantConnection.java) |
+| Tree DFS | [Binary Tree Maximum Path Sum](src/main/java/com/github/dkoval/leetcode/interview/trees/BinaryTreeMaximumPathSum.java), [Lowest Common Ancestor of a Binary Tree](src/main/java/com/github/dkoval/leetcode/challenge/LowestCommonAncestorOfBinaryTree.java) |
+| Trie | [Design Add and Search Words Data Structure](src/main/kotlin/com/github/dkoval/leetcode/challenge/AddAndSearchWordDataStructure.kt), [Word Search II](src/main/kotlin/com/github/dkoval/leetcode/challenge/WordSearch2.kt) |
+| Backtracking | [Permutations](src/main/java/com/github/dkoval/leetcode/problems/Permutations.java), [N-Queens](src/main/java/com/github/dkoval/leetcode/challenge/NQueens.java) |
+| Dynamic programming | [Coin Change](src/main/java/com/github/dkoval/leetcode/problems/CoinChange.java), [Longest Increasing Subsequence](src/main/java/com/github/dkoval/leetcode/challenge/LongestIncreasingSubsequence.java), [Edit Distance](src/main/kotlin/com/github/dkoval/leetcode/challenge/EditDistance.kt) |
+| Greedy | [Partition Labels](src/main/kotlin/com/github/dkoval/leetcode/challenge/PartitionLabels.kt), [Gas Station](src/main/kotlin/com/github/dkoval/leetcode/challenge/GasStation.kt) |
+| Design | [LRU Cache](src/main/java/com/github/dkoval/leetcode/problems/LRUCache.java) |
 
 ## How to read a solution
 
