@@ -86,7 +86,7 @@ public interface ProcessTasksUsingServers {
 Older solutions are plain classes, and an alternative approach may live in its own file with a suffix such as `DP`
 or `BottomUp` (e.g. `UniquePathsDPBottomUp`).
 
-Nearly every solution has a matching `<ProblemName>Test` under `src/test`, mostly a parameterized JUnit 5+ test written
+Nearly every solution has a matching `<ProblemName>Test` under `src/test`, mostly a parameterized JUnit test written
 in Kotlin. Its test cases list inputs with expected outputs, so it is a good place to start reading.
 
 ## Finding a solution
