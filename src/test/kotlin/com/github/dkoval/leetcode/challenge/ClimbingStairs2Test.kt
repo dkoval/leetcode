@@ -1,6 +1,7 @@
 package com.github.dkoval.leetcode.challenge
 
 import com.github.dkoval.leetcode.challenge.ClimbingStairs2.ClimbingStairs2Rev1
+import com.github.dkoval.leetcode.challenge.ClimbingStairs2.ClimbingStairs2Rev2
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -47,9 +48,19 @@ internal class ClimbingStairs2Test {
             ClimbingStairs2Rev1().test(n, costs, expected)
         }
     }
+
+    @Nested
+    inner class ClimbingStairs2Rev2Test {
+
+        @ParameterizedTest
+        @ArgumentsSource(InputArgumentsProvider::class)
+        fun `should return the minimum total cost to reach step n`(n: Int, costs: IntArray, expected: Int) {
+            ClimbingStairs2Rev2().test(n, costs, expected)
+        }
+    }
 }
 
-private fun ClimbingStairs2Rev1.test(n: Int, costs: IntArray, expected: Int) {
+private fun ClimbingStairs2.test(n: Int, costs: IntArray, expected: Int) {
     val actual = climbStairs(n, costs)
     assertThat(actual).isEqualTo(expected)
 }

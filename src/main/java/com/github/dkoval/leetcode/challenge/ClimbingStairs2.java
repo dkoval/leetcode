@@ -47,4 +47,39 @@ public interface ClimbingStairs2 {
             return costs[j - 1] + (j - i) * (j - i);
         }
     }
+
+    class ClimbingStairs2Rev2 implements ClimbingStairs2 {
+
+        @Override
+        public int climbStairs(int n, int[] costs) {
+            // DP top-down
+            return calc(n, costs, 0, new Integer[n + 1]);
+        }
+
+        private int calc(int n, int[] costs, int index, Integer[] dp) {
+            // base case
+            if (index >= n) {
+                return 0;
+            }
+
+            // already solved?
+            if (dp[index] != null) {
+                return dp[index];
+            }
+
+            var best = Integer.MAX_VALUE;
+            for (var step = 1; step <= 3; step++) {
+                if (index + step <= n) {
+                    best = Math.min(best, calc(n, costs, index + step, dp) + cost(costs, index, index + step));
+                }
+            }
+
+            // cache and return the result
+            return dp[index] = best;
+        }
+
+        private int cost(int[] costs, int i, int j) {
+            return costs[j - 1] + (j - i) * (j - i);
+        }
+    }
 }
