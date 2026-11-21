@@ -1,9 +1,6 @@
 package com.github.dkoval.leetcode.challenge;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <a href="https://leetcode.com/problems/find-subtree-sizes-after-changes/">Find Subtree Sizes After Changes</a>
@@ -45,7 +42,9 @@ public interface FindSubtreeSizesAfterChanges {
             final var n = parent.length;
 
             var children = childrenOf(parent);
-            dfs(parent, s, children, 0, new HashMap<>());
+            var ancestors = new int[26];
+            Arrays.fill(ancestors, -1);
+            dfs(parent, s, children, 0, ancestors);
 
             // rebuild `children` as `parent` got modified
             children = childrenOf(parent);
@@ -65,27 +64,22 @@ public interface FindSubtreeSizesAfterChanges {
             return children;
         }
 
-        private void dfs(int[] parent, String s, Map<Integer, List<Integer>> children, int node, Map<Character, Integer> ancestors) {
+        private void dfs(int[] parent, String s, Map<Integer, List<Integer>> children, int node, int[] ancestors) {
             final var c = s.charAt(node);
 
-            final var ancestor = ancestors.getOrDefault(c, -1);
+            final var ancestor = ancestors[c - 'a'];
             if (ancestor != -1) {
                 parent[node] = ancestor;
             }
 
             // record the current node as the ancestor for future nodes
-            ancestors.put(c, node);
-
+            ancestors[c - 'a'] = node;
             for (var child : children.getOrDefault(node, List.of())) {
                 dfs(parent, s, children, child, ancestors);
             }
 
             // backtrack
-            if (ancestor != -1) {
-                ancestors.put(c, ancestor);
-            } else {
-                ancestors.remove(c);
-            }
+            ancestors[c - 'a'] = ancestor;
         }
 
         private int sizeOfSubtrees(Map<Integer, List<Integer>> children, int node, int[] res) {
