@@ -72,14 +72,13 @@ public interface FindSubtreeSizesAfterChanges {
                 parent[node] = ancestor;
             }
 
-            // record the current node as the ancestor for future nodes
-            ancestors[c - 'a'] = node;
             for (var child : children.getOrDefault(node, List.of())) {
+                // record the current node as the ancestor for future nodes
+                ancestors[c - 'a'] = node;
                 dfs(parent, s, children, child, ancestors);
+                // backtrack
+                ancestors[c - 'a'] = ancestor;
             }
-
-            // backtrack
-            ancestors[c - 'a'] = ancestor;
         }
 
         private int sizeOfSubtrees(Map<Integer, List<Integer>> children, int node, int[] res) {
